@@ -21,7 +21,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center pt-24 pb-16 lg:pt-28 overflow-hidden bg-[#0B0D10]"
+      className="relative min-h-screen flex items-center pt-24 pb-16 lg:pt-28 overflow-hidden bg-background"
     >
       <Hero onStart={() => setShowJourneys(true)} />
 
@@ -44,21 +44,21 @@ export function HeroSection() {
               transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
               onClick={(e) => e.stopPropagation()}
               className="max-w-[720px] w-full rounded-2xl p-8 lg:p-10"
-              style={{ backgroundColor: "#171B21", border: "1px solid #293038" }}
+              style={{ backgroundColor: "var(--color-bg-surface)", border: "1px solid var(--color-border)" }}
             >
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h2 className="text-xl font-bold mb-1" style={{ color: "#FFFFFF" }}>
+                  <h2 className="text-xl font-bold mb-1" style={{ color: "var(--color-text-primary)" }}>
                     Start Your Project
                   </h2>
-                  <p className="text-sm" style={{ color: "#A5ADB8" }}>
+                  <p className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
                     Choose the path that best describes your situation
                   </p>
                 </div>
                 <button
                   onClick={() => setShowJourneys(false)}
                   className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors hover:bg-white/5"
-                  style={{ border: "1px solid #293038", color: "#A5ADB8" }}
+                  style={{ border: "1px solid var(--color-border)", color: "var(--color-text-secondary)" }}
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -72,20 +72,20 @@ export function HeroSection() {
                       key={journey.title}
                       href={journey.href}
                       onClick={() => setShowJourneys(false)}
-                      className="group flex flex-col gap-3 p-5 rounded-xl transition-all duration-300 hover:border-[#22D3EE]/40"
-                      style={{ border: "1px solid #293038" }}
+                      className="group flex flex-col gap-3 p-5 rounded-xl transition-all duration-300 hover:border-primary/40"
+                      style={{ border: "1px solid var(--color-border)" }}
                     >
                       <div
                         className="w-9 h-9 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
-                        style={{ backgroundColor: "rgba(34,211,238,0.08)" }}
+                        style={{ backgroundColor: "color-mix(in srgb, var(--color-accent-warm) 8%, transparent)" }}
                       >
-                        <Icon className="w-4.5 h-4.5" style={{ color: "#22D3EE" }} />
+                        <Icon className="w-4.5 h-4.5" style={{ color: "var(--color-accent-warm)" }} />
                       </div>
                       <div>
-                        <h3 className="text-sm font-semibold mb-1" style={{ color: "#FFFFFF" }}>
+                        <h3 className="text-sm font-semibold mb-1" style={{ color: "var(--color-text-primary)" }}>
                           {journey.title}
                         </h3>
-                        <p className="text-xs leading-relaxed" style={{ color: "#A5ADB8" }}>
+                        <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
                           {journey.description}
                         </p>
                       </div>

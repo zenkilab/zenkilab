@@ -25,6 +25,8 @@ export function Header() {
       const el = document.getElementById(id);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.location.href = "/" + href; // on a sub page, go home first
       }
     }, 300);
   };
@@ -39,7 +41,7 @@ export function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? "bg-[#0B0D10]/80 backdrop-blur-xl border-b border-[#293038]/60"
+          ? "bg-background/80 backdrop-blur-xl border-b border-border/60"
           : "bg-transparent"
       }`}
     >
@@ -83,7 +85,7 @@ export function Header() {
                 <g className="hex-3d">
                   <path
                     d="M20 2 L36 11 V29 L20 38 L4 29 V11 Z"
-                    stroke="#22D3EE"
+                    stroke="var(--color-accent-primary)"
                     strokeWidth="1.6"
                     fill="none"
                   />
@@ -92,7 +94,7 @@ export function Header() {
                 {/* Inner hexagon — stationary */}
                 <path
                   d="M20 2 L36 11 V29 L20 38 L4 29 V11 Z"
-                  stroke="#FFFFFF"
+                  stroke="var(--color-text-primary)"
                   strokeOpacity="0.12"
                   strokeWidth="1.6"
                   fill="none"
@@ -106,17 +108,19 @@ export function Header() {
                   textAnchor="middle"
                   fontSize="15"
                   fontWeight="800"
-                  fill="#FFFFFF"
-                  fontFamily="var(--font-geist-sans), sans-serif"
+                  fill="var(--color-text-primary)"
+                  fontFamily="var(--font-inter), sans-serif"
                   className="z-3d"
                 >
                   Z
                 </text>
               </svg>
             </div>
-            <span className="text-lg font-extrabold tracking-[0.02em] text-white">
-              ZENKI<span className="text-[#22D3EE]">LAB</span>
-            </span>
+            <svg width="96" height="24" viewBox="0 0 96 24" role="img" aria-label="ZenkiLab" className="overflow-visible">
+                <text x="0" y="18" fontFamily="var(--font-wordmark), sans-serif" fontSize="20" fontWeight="600" letterSpacing="-0.4">
+                  <tspan fill="var(--color-text-primary)">Zenki</tspan><tspan fill="var(--color-accent-primary)">Lab</tspan>
+                </text>
+              </svg>
           </Link>
 
           {/* Desktop Nav */}
@@ -152,7 +156,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="lg:hidden bg-[#0B0D10]/95 backdrop-blur-xl border-b border-[#293038]/60 overflow-hidden"
+            className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-border/60 overflow-hidden"
           >
             <div className="px-6 py-4 space-y-1">
               {navLinks.map((link) => (

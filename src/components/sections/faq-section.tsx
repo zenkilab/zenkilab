@@ -13,7 +13,7 @@ export function FAQSection() {
   };
 
   return (
-    <section id="faq" className="relative py-24 lg:py-28 bg-[#0B0D10] border-t" style={{ borderColor: "#293038" }}>
+    <section id="faq" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
       <div className="max-w-[960px] mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -22,13 +22,13 @@ export function FAQSection() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="mb-14 lg:mb-16"
         >
-          <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "#22D3EE" }}>
+          <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "var(--color-accent-primary)" }}>
             FAQ
           </span>
-          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "#FFFFFF" }}>
+          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "var(--color-text-primary)" }}>
             Questions? We've got answers.
           </h2>
-          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "#A5ADB8" }}>
+          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
             Clear, honest answers about how we work.
           </p>
         </motion.div>
@@ -43,24 +43,24 @@ export function FAQSection() {
               transition={{ duration: 0.4, delay: idx * 0.05, ease: "easeOut" }}
               className={`border rounded-2xl transition-all duration-300 ${
                 openIdx === idx
-                  ? "border-[#22D3EE]/20 bg-[#171B21]"
-                  : "border-[#293038] bg-[#171B21] hover:border-[#323B44]"
+                  ? "border-primary/20 bg-card"
+                  : "border-border bg-card hover:border-[color:var(--color-border-light)]"
               }`}
             >
               <button
                 onClick={() => toggle(idx)}
                 className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
               >
-                <span className="text-base font-semibold pr-4" style={{ color: "#FFFFFF" }}>
+                <span className="text-base font-semibold pr-4" style={{ color: "var(--color-text-primary)" }}>
                   {faq.question}
                 </span>
                 <div
                   className={`w-8 h-8 rounded-lg border flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
                     openIdx === idx
-                      ? "border-[#22D3EE]/30 bg-[rgba(34,211,238,0.08)]"
-                      : "border-[#293038]"
+                      ? "border-primary/30 bg-[color-mix(in srgb, var(--color-accent-primary) 8%, transparent)]"
+                      : "border-border"
                   }`}
-                  style={openIdx === idx ? { color: "#22D3EE" } : { color: "#5F6A76" }}
+                  style={openIdx === idx ? { color: "var(--color-accent-primary)" } : { color: "var(--color-text-tertiary)" }}
                 >
                   {openIdx === idx ? (
                     <Minus className="w-4 h-4" />
@@ -74,7 +74,7 @@ export function FAQSection() {
                   openIdx === idx ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <p className="px-6 pb-5 text-sm leading-relaxed" style={{ color: "#A5ADB8" }}>
+                <p className="px-6 pb-5 text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
                   {faq.answer}
                 </p>
               </div>

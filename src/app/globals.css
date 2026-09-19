@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-plex-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -37,20 +37,22 @@
      ═══════════════════════════════════════════════════════ */
   /* Backgrounds */
   --color-bg-primary: #0B0D10;
-  --color-bg-surface: #171B21;
-  --color-bg-muted: #171B21;
+  --color-bg-surface: #12151A;
+  --color-bg-muted: #181C22;
 
   /* Text */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #A5ADB8;
+  --color-text-primary: #F3F5F7;
+  --color-text-secondary: #8A93A0;
   --color-text-tertiary: #5F6A76;
 
-  /* Accent */
-  --color-accent-primary: #22D3EE;
-  --color-accent-secondary: #67E8F9;
-  --color-accent-glow: rgba(34, 211, 238, 0.08);
-  --color-accent-border: rgba(34, 211, 238, 0.25);
-  --color-accent-hover: rgba(34, 211, 238, 0.12);
+  /* Accent: amber is primary. Gradients always run light to base, never base to dark. */
+  --color-accent-primary: #C49B3C;
+  --color-accent-primary-light: #D9AF52;
+  --color-accent-warm: #22D3EE; /* historical name: holds cyan, restrained secondary (icons, rim accents, hero hologram). Never nav or CTA. */
+  --color-accent-secondary: #D9AF52;
+  --color-accent-glow: rgba(196, 155, 60, 0.08);
+  --color-accent-border: rgba(196, 155, 60, 0.25);
+  --color-accent-hover: rgba(196, 155, 60, 0.12);
 
   /* CTA (Call to Action) */
   --color-cta: #EF4444;
@@ -64,44 +66,44 @@
 
   /* Semantic mappings (shadcn/tailwind compat) */
   --background: #0B0D10;
-  --foreground: #FFFFFF;
-  --card: #171B21;
-  --card-foreground: #FFFFFF;
-  --popover: #171B21;
-  --popover-foreground: #FFFFFF;
-  --primary: #22D3EE;
+  --foreground: #F3F5F7;
+  --card: #12151A;
+  --card-foreground: #F3F5F7;
+  --popover: #12151A;
+  --popover-foreground: #F3F5F7;
+  --primary: #C49B3C;
   --primary-foreground: #0B0D10;
-  --secondary: #171B21;
-  --secondary-foreground: #FFFFFF;
-  --muted: #171B21;
-  --muted-foreground: #A5ADB8;
-  --accent: #22D3EE;
+  --secondary: #181C22;
+  --secondary-foreground: #F3F5F7;
+  --muted: #181C22;
+  --muted-foreground: #8A93A0;
+  --accent: #C49B3C;
   --accent-foreground: #0B0D10;
   --destructive: #EF4444;
   --border: #293038;
   --input: #293038;
-  --ring: #22D3EE;
+  --ring: #C49B3C;
 }
 
 .dark {
   --background: #0B0D10;
-  --foreground: #FFFFFF;
-  --card: #171B21;
-  --card-foreground: #FFFFFF;
-  --popover: #171B21;
-  --popover-foreground: #FFFFFF;
-  --primary: #22D3EE;
+  --foreground: #F3F5F7;
+  --card: #12151A;
+  --card-foreground: #F3F5F7;
+  --popover: #12151A;
+  --popover-foreground: #F3F5F7;
+  --primary: #C49B3C;
   --primary-foreground: #0B0D10;
-  --secondary: #171B21;
-  --secondary-foreground: #FFFFFF;
-  --muted: #171B21;
-  --muted-foreground: #A5ADB8;
-  --accent: #22D3EE;
+  --secondary: #181C22;
+  --secondary-foreground: #F3F5F7;
+  --muted: #181C22;
+  --muted-foreground: #8A93A0;
+  --accent: #C49B3C;
   --accent-foreground: #0B0D10;
   --destructive: #EF4444;
   --border: #293038;
   --input: #293038;
-  --ring: #22D3EE;
+  --ring: #C49B3C;
 }
 
 * {
@@ -111,9 +113,15 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Space Grotesk: H1/H2 statements. Inter: body. IBM Plex Mono: numbers (font-mono). */
+h1,
+h2 {
+  font-family: var(--font-wordmark), sans-serif;
 }
 
 html {
@@ -189,7 +197,7 @@ html {
 /* ── Selection ── */
 
 ::selection {
-  background: rgba(34, 211, 238, 0.25);
+  background: rgba(196, 155, 60, 0.25);
   color: #fff;
 }
 
@@ -427,7 +435,7 @@ html {
 .hero2-bg {
   background:
     radial-gradient(circle at 74% 32%, rgba(34,211,238,0.10), transparent 55%),
-    linear-gradient(150deg, #0B0D10 0%, #171B21 45%, #1A2028 100%);
+    linear-gradient(150deg, #0B0D10 0%, var(--color-bg-surface) 45%, #1A2028 100%);
 }
 
 /* Faint blueprint grid overlay */
