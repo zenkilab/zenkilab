@@ -446,7 +446,7 @@ export function QuoteSection() {
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="p-4 rounded-xl text-sm"
-                style={{ backgroundColor: "color-mix(in srgb, var(--color-cta) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--color-cta) 25%, transparent)", color: "var(--color-cta)" }}
+                style={{ backgroundColor: "color-mix(in srgb, var(--color-danger) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--color-danger) 25%, transparent)", color: "var(--color-danger)" }}
               >
                 {submitError}
               </motion.div>
@@ -456,8 +456,8 @@ export function QuoteSection() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2.5 text-white disabled:opacity-50 disabled:cursor-not-allowed h-[52px] px-8 rounded-xl text-sm font-semibold transition-all duration-300 hover:brightness-110"
-              style={{ backgroundColor: "var(--color-cta)" }}
+              className="inline-flex items-center gap-2.5 text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed h-[52px] px-8 rounded-xl text-sm font-semibold transition-all duration-300 hover:brightness-110"
+              style={{ backgroundColor: "var(--color-accent-primary)" }}
             >
               {isSubmitting ? (
                 <>
@@ -522,11 +522,11 @@ function FieldWrapper({
     <div className="space-y-2">
       <label htmlFor={id} className="text-sm font-semibold flex items-center gap-1" style={{ color: "var(--color-text-primary)" }}>
         {label}
-        {required && <span style={{ color: "var(--color-cta)" }} aria-hidden="true">*</span>}
+        {required && <span style={{ color: "var(--color-danger)" }} aria-hidden="true">*</span>}
       </label>
       {field}
       {error && (
-        <p id={errId} role="alert" className="text-xs mt-1" style={{ color: "var(--color-cta)" }}>{error}</p>
+        <p id={errId} role="alert" className="text-xs mt-1" style={{ color: "var(--color-danger)" }}>{error}</p>
       )}
     </div>
   );

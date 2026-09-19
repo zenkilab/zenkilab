@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { Zap, Sparkles } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -62,23 +63,21 @@ export function HeroText({ onStart }: { onStart: () => void }) {
 
       <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4">
         <button
+          type="button"
           onClick={onStart}
-          className="inline-flex items-center justify-center gap-2 h-[52px] px-8 rounded-full text-base font-semibold text-white transition-transform duration-200 hover:scale-[1.03] w-full sm:w-auto"
-          style={{
-            background: "var(--color-cta)",
-            boxShadow: "0 8px 24px -6px color-mix(in srgb, var(--color-cta) 40%, transparent)",
-          }}
+          className="inline-flex items-center justify-center gap-2 h-[52px] px-8 rounded-xl text-base font-semibold transition-colors duration-200 hover:bg-[color:var(--color-accent-primary-light)] w-full sm:w-auto"
+          style={{ backgroundColor: "var(--color-accent-primary)", color: "var(--color-bg-primary)" }}
         >
-          <Zap className="w-4.5 h-4.5" />
-          Get Started
+          <Zap className="w-4.5 h-4.5" aria-hidden="true" />
+          Start a Project
         </button>
-        <a
-          href="#materials"
-          className="inline-flex items-center justify-center gap-2 h-[52px] px-7 rounded-full text-base font-semibold border transition-colors duration-200 w-full sm:w-auto text-white/90 hover:bg-white/5"
+        <Link
+          href="/store"
+          className="inline-flex items-center justify-center gap-2 h-[52px] px-8 rounded-xl text-base font-semibold border transition-colors duration-200 w-full sm:w-auto text-white/90 hover:bg-white/5"
           style={{ borderColor: "rgba(255,255,255,0.18)" }}
         >
-          Materials
-        </a>
+          Go to Store
+        </Link>
       </div>
     </div>
   );

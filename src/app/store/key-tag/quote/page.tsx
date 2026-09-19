@@ -69,7 +69,7 @@ export default function QuotePage() {
       <div className="text-center">
         <h1 className="text-3xl font-bold">No quote found</h1>
         <p className="mt-3 text-sm text-muted-foreground">Design a key tag first and we will build your quote.</p>
-        <Link href="/store/key-tag" className="mt-6 inline-flex h-11 items-center rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground">Start designing</Link>
+        <Link href="/store/key-tag" className="mt-6 inline-flex h-11 items-center rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground">Start Designing</Link>
       </div>,
     );
 
@@ -95,7 +95,7 @@ export default function QuotePage() {
           We will check your design and message you on WhatsApp at {order.contact.phone}. You have not paid anything.
           Payment happens on delivery or is confirmed over WhatsApp.
         </p>
-        <a href={whatsapp} className="mt-6 inline-flex h-11 items-center rounded-xl border border-border px-6 text-sm font-medium hover:border-primary">Message us on WhatsApp</a>
+        <a href={whatsapp} className="mt-6 inline-flex h-11 items-center rounded-xl border border-border px-6 text-sm font-medium hover:border-primary">Message Us on WhatsApp</a>
       </div>,
     );
 
@@ -134,7 +134,7 @@ export default function QuotePage() {
         </dl>
       </div>
 
-      <p className={`mt-5 text-sm ${expired ? "text-[color:var(--color-cta)]" : "text-muted-foreground"}`}>
+      <p className={`mt-5 text-sm ${expired ? "text-[color:var(--color-danger)]" : "text-muted-foreground"}`}>
         {expired
           ? "This quote has expired. Edit your design to get a fresh one."
           : <>This quote is valid for 24 hours, until <span className="font-mono text-foreground">{new Date(order.expiresAt).toLocaleString()}</span> ({remaining(order.expiresAt - now)} left).</>}
@@ -148,7 +148,7 @@ export default function QuotePage() {
         </p>
       </div>
 
-      {error && <p role="alert" className="mt-4 text-sm text-[color:var(--color-cta)]">{error}</p>}
+      {error && <p role="alert" className="mt-4 text-sm text-[color:var(--color-danger)]">{error}</p>}
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <button
           type="button"
@@ -156,10 +156,10 @@ export default function QuotePage() {
           disabled={busy || expired}
           className="h-12 flex-1 rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-[color:var(--color-accent-primary-light)] disabled:opacity-50"
         >
-          {busy ? "Adding to queue..." : "Confirm and add to print queue (no payment now)"}
+          {busy ? "Adding to queue..." : "Confirm and Add to Print Queue (No Payment Now)"}
         </button>
         <Link href="/store/key-tag" className="inline-flex h-12 items-center justify-center rounded-xl border border-border px-6 text-sm font-medium hover:border-primary">
-          Edit design
+          Edit Design
         </Link>
       </div>
     </>,

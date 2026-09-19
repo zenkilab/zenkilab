@@ -77,7 +77,7 @@ export default function ChibiFigurePage() {
         rel="noopener noreferrer"
         className="mt-8 flex h-14 w-full items-center justify-center rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors duration-300 hover:bg-[color:var(--color-accent-primary-light)] focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
       >
-        {deposit === null ? "Ask for the Large price" : `Pay Deposit (${rs(deposit)})`}
+        {deposit === null ? "Ask for the Large Price" : `Pay Deposit (${rs(deposit)})`}
       </a>
       <p className="mt-3 text-center text-xs" style={muted}>
         Opens WhatsApp with your order filled in. No payment is taken on this website.

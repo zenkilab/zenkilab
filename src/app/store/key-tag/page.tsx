@@ -222,14 +222,14 @@ export default function KeyTagPage() {
                 )}
                 <div className="flex justify-between text-base font-semibold"><dt>Total</dt><dd>{rs(p.total)}</dd></div>
               </dl>
-              {error && <p role="alert" className="text-sm text-[color:var(--color-cta)]">{error}</p>}
+              {error && <p role="alert" className="text-sm text-[color:var(--color-danger)]">{error}</p>}
               <button
                 type="button"
                 onClick={submit}
                 disabled={busy}
                 className="h-12 w-full rounded-xl bg-primary text-sm font-semibold text-primary-foreground transition-colors hover:bg-[color:var(--color-accent-primary-light)] disabled:opacity-60"
               >
-                {busy ? "Preparing your print file..." : "Get my quote"}
+                {busy ? "Preparing your print file..." : "Get My Quote"}
               </button>
               <p className="text-center text-xs text-muted-foreground">No payment now. You review the quote first.</p>
             </section>
