@@ -73,6 +73,8 @@ export default function KeyTagScene({
       <ambientLight intensity={1.1} />
       <directionalLight position={[30, 40, 60]} intensity={2.2} />
       <directionalLight position={[-40, -20, 30]} intensity={0.7} />
+      {/* rim light so the black body reads against the empty background */}
+      <directionalLight position={[60, 30, -25]} intensity={2.4} />
       <Tag config={config} flipped={flipped} />
       <OrbitControls enablePan={false} minDistance={45} maxDistance={120} />
       <Grab apiRef={captureRef} />
