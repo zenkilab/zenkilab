@@ -29,8 +29,8 @@ export const STYLES: Record<
 };
 
 export const COMBOS: Record<ComboId, { label: string; body: string; accent: string; accentName: string }> = {
-  heritage: { label: "Heritage", body: "#15181D", accent: "#C49B3C", accentName: "amber" },
-  precision: { label: "Precision", body: "#15181D", accent: "#22D3EE", accentName: "cyan" },
+  heritage: { label: "Heritage", body: "#15181D", accent: "#F5A623", accentName: "amber" },
+  precision: { label: "Precision", body: "#15181D", accent: "#38C8F5", accentName: "cyan" },
 };
 
 export type KeyTagConfig = {

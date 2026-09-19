@@ -46,18 +46,20 @@
   --color-text-tertiary: #5F6A76;
 
   /* Accent: amber is primary. Gradients always run light to base, never base to dark. */
-  --color-accent-primary: #C49B3C;
-  --color-accent-primary-light: #D9AF52;
-  --color-accent-warm: #22D3EE; /* historical name: holds cyan, restrained secondary (icons, rim accents, hero hologram). Never nav or CTA. */
-  --color-accent-secondary: #D9AF52;
-  --color-accent-glow: rgba(196, 155, 60, 0.08);
-  --color-accent-border: rgba(196, 155, 60, 0.25);
-  --color-accent-hover: rgba(196, 155, 60, 0.12);
+  --color-accent-primary: #F5A623;
+  --color-accent-primary-light: #FFC35C;
+  --color-accent-warm: #38C8F5; /* historical name: holds cyan, restrained secondary (icons, rim accents, hero hologram). Never nav or CTA. */
+  --color-accent-secondary: #FFC35C;
+  --color-accent-glow: rgba(245, 166, 35, 0.08);
+  --color-accent-border: rgba(245, 166, 35, 0.25);
+  --color-accent-hover: rgba(245, 166, 35, 0.12);
 
   /* CTA (Call to Action) */
-  --color-cta: #EF4444;
-  --color-cta-hover: #F87171;
-  --color-cta-glow: rgba(239, 68, 68, 0.5);
+  /* Primary buttons use the amber accent. Red is reserved for errors. */
+  --color-cta: var(--color-accent-primary);
+  --color-cta-hover: var(--color-accent-primary-light);
+  --color-cta-glow: rgba(245, 166, 35, 0.35);
+  --color-danger: #EF4444;
 
   /* Borders & Surfaces */
   --color-border: #293038;
@@ -71,18 +73,18 @@
   --card-foreground: #F3F5F7;
   --popover: #12151A;
   --popover-foreground: #F3F5F7;
-  --primary: #C49B3C;
+  --primary: #F5A623;
   --primary-foreground: #0B0D10;
   --secondary: #181C22;
   --secondary-foreground: #F3F5F7;
   --muted: #181C22;
   --muted-foreground: #8A93A0;
-  --accent: #C49B3C;
+  --accent: #F5A623;
   --accent-foreground: #0B0D10;
   --destructive: #EF4444;
   --border: #293038;
   --input: #293038;
-  --ring: #C49B3C;
+  --ring: #F5A623;
 }
 
 .dark {
@@ -92,18 +94,18 @@
   --card-foreground: #F3F5F7;
   --popover: #12151A;
   --popover-foreground: #F3F5F7;
-  --primary: #C49B3C;
+  --primary: #F5A623;
   --primary-foreground: #0B0D10;
   --secondary: #181C22;
   --secondary-foreground: #F3F5F7;
   --muted: #181C22;
   --muted-foreground: #8A93A0;
-  --accent: #C49B3C;
+  --accent: #F5A623;
   --accent-foreground: #0B0D10;
   --destructive: #EF4444;
   --border: #293038;
   --input: #293038;
-  --ring: #C49B3C;
+  --ring: #F5A623;
 }
 
 * {
@@ -207,7 +209,7 @@ html {
 /* ── Selection ── */
 
 ::selection {
-  background: rgba(196, 155, 60, 0.25);
+  background: rgba(245, 166, 35, 0.25);
   color: #fff;
 }
 

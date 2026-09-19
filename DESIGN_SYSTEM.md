@@ -14,14 +14,16 @@ Single source of truth for the website's design decisions. Update this file when
 | Panel / surface | `--color-bg-surface` | `#12151A` / `#181C22` |
 | Text primary | `--color-text-primary` | `#F3F5F7` |
 | Text muted | `--color-text-secondary` | `#8A93A0` |
-| **Amber — primary, dominant** | `--color-accent-primary` | `#C49B3C` base, `#D9AF52` light |
-| Cyan — restrained secondary | `--color-accent-warm` (legacy token name, holds cyan) | `#22D3EE` |
-| CTA (separate from brand accents) | `--color-cta` | `#EF4444` |
+| **Amber — primary, dominant** | `--color-accent-primary` | `#F5A623` base, `#FFC35C` light |
+| Cyan — restrained secondary | `--color-accent-warm` (legacy token name, holds cyan) | `#38C8F5` |
+| Buttons | `--color-cta` (alias of the amber accent) | `#F5A623`, hover `#FFC35C`, dark text |
+| Errors only | `--color-danger` | `#EF4444` |
 
 **Rules:**
-- Amber leads everywhere: nav, primary buttons, brand mark, primary UI.
+- Amber leads everywhere: nav, primary buttons, brand mark, primary UI. Primary buttons are amber-filled with dark text. Red is reserved for errors and never used on a button.
+- Button labels are Title Case and name the action: "Start a Project", "Go to Store". One label per intent across the page.
 - Cyan is scoped to small precision/tech details only — icons, minor rim accents, the hologram element in the hero. Never primary nav/CTA.
-- Gradients always go **light to base**, e.g. `#D9AF52 → #C49B3C`. Never base to dark (e.g. never `#C49B3C → #8a6f2a`) — that reads muddy, not premium.
+- Gradients always go **light to base**, e.g. `#FFC35C → #F5A623`. Never base to dark (e.g. never `#F5A623 → #A86F10`) — that reads muddy, not premium.
 - Token names in `globals.css` are historical (`--color-accent-warm` holds cyan, not a warm color) — documented with comments in the file, not renamed, to avoid touching ~70 references.
 
 ---
@@ -43,8 +45,8 @@ No em dash characters anywhere in site copy, reads as AI-generated. Use periods,
 ## 3. Logo
 
 **Logomark:** abstract "Z" precision mark — two rings rotating in opposite directions around a fixed white Z.
-- Outer ring: amber `#C49B3C`, opacity 0.45, dashed (`10 8`), rotates counter-clockwise, 10s
-- Inner ring: cyan `#22D3EE`, opacity 0.45, solid, rotates clockwise, 7s
+- Outer ring: amber `#F5A623`, opacity 0.45, dashed (`10 8`), rotates counter-clockwise, 10s
+- Inner ring: cyan `#38C8F5`, opacity 0.45, solid, rotates clockwise, 7s
 - Z: white `#FFFFFF`, stroke-width 3.4, rounded caps/joins, fixed (does not rotate)
 - ViewBox `0 0 40 40`
 

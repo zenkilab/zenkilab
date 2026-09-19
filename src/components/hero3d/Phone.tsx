@@ -53,7 +53,7 @@ export function Phone({
     ctx.fillRect(0, 0, W, H);
 
     // Scanlines
-    ctx.strokeStyle = "rgba(34,211,238,0.04)";
+    ctx.strokeStyle = "rgba(56, 200, 245,0.04)";
     for (let y = 0; y < H; y += 3) {
       ctx.beginPath();
       ctx.moveTo(0, y);
@@ -70,15 +70,15 @@ export function Phone({
     const y3d = H * 0.36;
 
     ctx.font = `bold ${fontSize}px 'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif`;
-    ctx.shadowColor = "#22d3ee";
+    ctx.shadowColor = "#38C8F5";
     ctx.shadowBlur = 80;
-    ctx.fillStyle = "rgba(34,211,238,0.18)";
+    ctx.fillStyle = "rgba(56, 200, 245,0.18)";
     ctx.fillText("3D", cx, y3d);
     ctx.shadowBlur = 40;
-    ctx.fillStyle = "#22d3ee";
+    ctx.fillStyle = "#38C8F5";
     ctx.fillText("3D", cx, y3d);
     ctx.shadowBlur = 12;
-    ctx.fillStyle = "#67e8f9";
+    ctx.fillStyle = "#8FDDFB";
     ctx.fillText("3D", cx, y3d);
     ctx.shadowBlur = 0;
     ctx.fillStyle = "#e0f7ff";
@@ -88,15 +88,15 @@ export function Phone({
     const yPrint = H * 0.68;
 
     ctx.font = `bold ${fontSize}px 'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif`;
-    ctx.shadowColor = "#22d3ee";
+    ctx.shadowColor = "#38C8F5";
     ctx.shadowBlur = 80;
-    ctx.fillStyle = "rgba(34,211,238,0.18)";
+    ctx.fillStyle = "rgba(56, 200, 245,0.18)";
     ctx.fillText("PRINTING", cx, yPrint);
     ctx.shadowBlur = 40;
-    ctx.fillStyle = "#22d3ee";
+    ctx.fillStyle = "#38C8F5";
     ctx.fillText("PRINTING", cx, yPrint);
     ctx.shadowBlur = 12;
-    ctx.fillStyle = "#67e8f9";
+    ctx.fillStyle = "#8FDDFB";
     ctx.fillText("PRINTING", cx, yPrint);
     ctx.shadowBlur = 0;
     ctx.fillStyle = "#e0f7ff";
@@ -158,7 +158,7 @@ export function Phone({
       >
         <planeGeometry args={[pw - bezel * 2, ph - bezel * 2]} />
         <meshBasicMaterial
-          color="#22d3ee"
+          color="#38C8F5"
           transparent
           opacity={0.08}
           blending={THREE.AdditiveBlending}
@@ -170,7 +170,7 @@ export function Phone({
       <mesh position={[0, 0, -ph / 2]}>
         <boxGeometry args={[pw * 0.85, pt * 0.3, 0.012]} />
         <meshBasicMaterial
-          color="#22d3ee"
+          color="#38C8F5"
           transparent
           opacity={0.5}
           blending={THREE.AdditiveBlending}

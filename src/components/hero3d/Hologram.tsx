@@ -75,7 +75,7 @@ export function Hologram({
   const wireframe = useMemo(
     () =>
       new THREE.MeshBasicMaterial({
-        color: "#67e8f9",
+        color: "#8FDDFB",
         wireframe: true,
         transparent: true,
         opacity: isMobile ? 0.12 : 0.72,
@@ -116,7 +116,7 @@ export function Hologram({
       <mesh position={[0, -0.1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <circleGeometry args={[0.42, 40]} />
         <meshBasicMaterial
-          color="#22d3ee"
+          color="#38C8F5"
           transparent
           opacity={isMobile ? 0.017 : 0.08}
           blending={THREE.AdditiveBlending}
@@ -127,7 +127,7 @@ export function Hologram({
       <mesh position={[0, isMobile ? -0.1 : 0.18, 0]} rotation={isMobile ? [0, 0, 0] : [-Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={isMobile ? [0.5, 0.15, 1.2, 32, 1, true] : [0.45, 0.24, 0.5, 32, 1, true]} />
         <meshBasicMaterial
-          color="#22d3ee"
+          color="#38C8F5"
           transparent
           opacity={isMobile ? 0.018 : 0.088}
           blending={THREE.AdditiveBlending}
@@ -164,7 +164,7 @@ export function Hologram({
       <mesh position={[0, 0.35, 0]} rotation={[Math.PI / 2.8, 0, 0]}>
         <torusGeometry args={[0.54, 0.006, 8, 48]} />
         <meshBasicMaterial
-          color="#22d3ee"
+          color="#38C8F5"
           transparent
           opacity={isMobile ? 0.12 : 0.6}
           blending={THREE.AdditiveBlending}

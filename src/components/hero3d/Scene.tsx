@@ -141,9 +141,9 @@ export function Scene({
       {/* Key light — soft white for definition */}
       <directionalLight position={[3, 4, 3]} intensity={0.55} color="#EAEBEC" />
       {/* Amber accent point lights, matching the amber-primary materials. The hologram uses unlit MeshBasicMaterial, so it stays cyan on purpose. */}
-      <pointLight position={[-2, 1.5, 2]} intensity={1.0} color="#C49B3C" distance={7} />
-      <pointLight position={[2, -0.5, 1.8]} intensity={0.7} color="#C49B3C" distance={6} />
-      <pointLight position={[0, -1, 1]} intensity={0.6} color="#C49B3C" distance={5} />
+      <pointLight position={[-2, 1.5, 2]} intensity={1.0} color="#F5A623" distance={7} />
+      <pointLight position={[2, -0.5, 1.8]} intensity={0.7} color="#F5A623" distance={6} />
+      <pointLight position={[0, -1, 1]} intensity={0.6} color="#F5A623" distance={5} />
 
       {(!renderOnly || renderOnly === "printer") && (
         <>

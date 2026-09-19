@@ -112,19 +112,19 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
     [],
   );
   const matGear = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#C49B3C", metalness: 0.35, roughness: 0.7 }),
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.35, roughness: 0.7 }),
     [],
   );
   const matBrass = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#C49B3C", metalness: 0.92, roughness: 0.18 }),
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.92, roughness: 0.18 }),
     [],
   );
   const matAmber = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#C49B3C", metalness: 0.15, roughness: 0.5 }),
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.15, roughness: 0.5 }),
     [],
   );
   const matAmberAccent = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#C49B3C", emissive: "#C49B3C", emissiveIntensity: 0.35, metalness: 0.2, roughness: 0.3 }),
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", emissive: "#F5A623", emissiveIntensity: 0.35, metalness: 0.2, roughness: 0.3 }),
     [],
   );
 
@@ -270,7 +270,7 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
         {/* Bed grid lines — subtle premium detail */}
         <mesh position={[0, 0.105 * S, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[2.2 * S, 2.2 * S]} />
-          <meshBasicMaterial color="#22D3EE" wireframe transparent opacity={0.06} />
+          <meshBasicMaterial color="#38C8F5" wireframe transparent opacity={0.06} />
         </mesh>
 
         {/* Levelling knobs */}
