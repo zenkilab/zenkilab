@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { faqs } from "@/lib/constants";
+import { ScrollFade } from "@/components/ui/scroll-fade";
 
 // A divided list, not a stack of boxes: the questions are peers, none needs elevation.
 export function FAQSection() {
@@ -11,12 +12,14 @@ export function FAQSection() {
   return (
     <section id="faq" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
       <div className="max-w-[960px] mx-auto px-6 lg:px-8">
-        <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "var(--color-text-primary)" }}>
-          Questions? We&apos;ve got answers.
-        </h2>
-        <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
-          Clear, honest answers about how we work.
-        </p>
+        <ScrollFade>
+          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "var(--color-text-primary)" }}>
+            Questions? We&apos;ve got answers.
+          </h2>
+          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+            Clear, honest answers about how we work.
+          </p>
+        </ScrollFade>
 
         <ul className="mt-12 divide-y border-y lg:mt-16" style={{ borderColor: "var(--color-border)" }}>
           {faqs.map((faq, idx) => {

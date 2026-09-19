@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import { contactChannels } from "@/lib/constants";
+import { ScrollFade } from "@/components/ui/scroll-fade";
 
 /* ── Official platform SVG icons (20px, var(--color-accent-primary) fill) ── */
 
@@ -91,16 +92,11 @@ export function ContactSection() {
     <section id="contact" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-24">
-          <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[600px]"
-            style={{ color: "var(--color-text-primary)" }}
-          >
+          <ScrollFade>
+            <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[600px]" style={{ color: "var(--color-text-primary)" }}>
             Let&apos;s make something together.
-          </motion.h2>
+          </h2>
+          </ScrollFade>
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}

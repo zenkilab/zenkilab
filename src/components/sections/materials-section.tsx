@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { Ruler } from "lucide-react";
 import { materials } from "@/lib/constants";
+import { ScrollFade } from "@/components/ui/scroll-fade";
 
 // Selector plus detail panel: six materials are too many for a card grid, and the
 // buyer is comparing, so one panel at a time keeps the numbers readable.
@@ -27,12 +28,14 @@ export function MaterialsSection() {
   return (
     <section id="materials" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
-        <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "var(--color-text-primary)" }}>
-          The right material for your project.
-        </h2>
-        <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
-          We&apos;ll help you choose. From everyday PLA to carbon fibre composites, there&apos;s a material that fits your application.
-        </p>
+        <ScrollFade>
+          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "var(--color-text-primary)" }}>
+            The right material for your project.
+          </h2>
+          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+            We&apos;ll help you choose. From everyday PLA to carbon fibre composites, there&apos;s a material that fits your application.
+          </p>
+        </ScrollFade>
 
         <div className="mt-12 grid gap-8 lg:mt-16 lg:grid-cols-[260px_1fr] lg:gap-16">
           {/* Selector: vertical list on desktop, scroll-snap strip on mobile */}

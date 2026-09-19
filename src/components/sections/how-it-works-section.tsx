@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll } from "framer-motion";
 import { steps } from "@/lib/constants";
+import { ScrollFade } from "@/components/ui/scroll-fade";
 
 // The amber line draws as the section scrolls by, so the order of the four steps
 // reads as a sequence. Gradient runs light to base.
@@ -18,9 +19,11 @@ export function HowItWorksSection() {
   return (
     <section id="how-it-works" className="relative py-24 lg:py-28 border-t" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-bg-surface)" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
-        <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] mb-14 lg:mb-20" style={{ color: "var(--color-text-primary)" }}>
+        <ScrollFade>
+          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] mb-14 lg:mb-20" style={{ color: "var(--color-text-primary)" }}>
           From idea to finished part
         </h2>
+        </ScrollFade>
 
         <div ref={ref} className="relative">
           {/* Desktop track */}

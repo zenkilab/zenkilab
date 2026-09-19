@@ -1,5 +1,6 @@
 "use client";
 
+import { ScrollFade } from "@/components/ui/scroll-fade";
 import { useState, useCallback, useRef, useEffect, useId, isValidElement, cloneElement } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -171,13 +172,7 @@ export function QuoteSection() {
     <section id="quote" ref={sectionRef} className="relative py-24 lg:py-28 border-t" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-bg-surface)" }}>
       <div className="max-w-[960px] mx-auto px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mb-14 lg:mb-16"
-        >
+        <ScrollFade className="mb-14 lg:mb-16">
           <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "var(--color-accent-primary)" }}>
             Start Your Project
           </span>
@@ -188,7 +183,7 @@ export function QuoteSection() {
             Upload your STL files, describe your project, and we'll review
             and respond with a detailed quote within 24 hours.
           </p>
-        </motion.div>
+        </ScrollFade>
 
         {/* Form */}
         {!submitted ? (
