@@ -7,7 +7,7 @@ import { aboutText, trustStats } from "@/lib/constants";
 // desktop while the story scrolls past it. One photo, not a gallery.
 export function AboutSection() {
   return (
-    <section id="about" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
+    <section id="about" className="relative py-24 lg:py-28 border-t" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-bg-surface)" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
           {/* Pinned photo */}
@@ -30,9 +30,6 @@ export function AboutSection() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, ease: "easeOut" }}
             >
-              <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "var(--color-accent-primary)" }}>
-                About the Workshop
-              </span>
               <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1]" style={{ color: "var(--color-text-primary)" }}>
                 {aboutText.heading}
               </h2>
