@@ -56,9 +56,11 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 
 ## 4. Layout Patterns
 
-**Pinned-photo, scrolling-text** (Story section on homepage): one photo stays fixed via `position: sticky` while story paragraphs scroll past beside it. One photo, not a gallery.
+**Depth panel** (About on the homepage, and the model for front page sections): a large photo in a rounded frame that drifts slower than the page and settles as it arrives, a big Space Grotesk heading that moves at its own rate and overlaps the photo edge, and the story fading in behind it. Scroll-linked with Motion `useScroll`, so it follows the visitor in both directions. Static under reduced motion. Section headings elsewhere use the lighter `ScrollFade` (fade in and rise as they travel up the screen).
 
-**Fixed-column crossfade** (Services page, Store listing page): one image column stays in place; its content crossfades between items as the visitor scrolls through or hovers the corresponding text block. Reused across Services and Store because both have the same content shape — several items, each with a description.
+**Stage and index** (Services): one large image with a list of titles beside it. Click, tap, hover or arrow keys change the selection and the image swaps with a soft reveal. Nothing depends on scroll position. This replaced the earlier pinned-pane crossfade and the pinned-photo pattern, both dropped because the active item depended on exactly where scrolling stopped, so the visitor could not control where the pane locked.
+
+**Store listing:** a quiet two-product grid. Large portrait photography, one line of type, one amber link. The photo drifts a few percent on scroll and eases in on hover. No pinning, no cards, no chips.
 
 **Product detail pages (Store):** one large, dramatic, close-up hero image, no thumbnail rail (deliberately removed). Purchase panel on the other side: rating, title, description, trust badges, relevant customization controls, quantity, price, primary action button. Real routing (`/store/[slug]`), not client-state toggling.
 
