@@ -83,7 +83,7 @@ export function ServicesSection() {
                 <div
                   className="absolute inset-x-0 bottom-0 h-16 pointer-events-none z-10"
                   style={{
-                    background: "linear-gradient(to top, var(--color-bg-surface) 0%, rgba(23,27,33,0.6) 50%, transparent 100%)",
+                    background: "linear-gradient(to top, var(--color-bg-surface) 0%, color-mix(in srgb, var(--color-bg-surface) 60%, transparent) 50%, transparent 100%)",
                   }}
                 />
               </div>

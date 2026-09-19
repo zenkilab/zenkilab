@@ -69,7 +69,7 @@ export function GallerySection() {
                 onClick={() => setSelectedProject(project.id)}
               >
                 <div className="aspect-[4/3] flex items-center justify-center" style={{ background: "linear-gradient(135deg, var(--color-bg-surface), var(--color-border))" }}>
-                  <ImageIcon className="w-12 h-12" style={{ color: "#3B4656" }} />
+                  <ImageIcon className="w-12 h-12" style={{ color: "var(--color-border-light)" }} />
                 </div>
 
                 <div className="absolute inset-0 bg-background/0 group-hover:bg-background/60 transition-all duration-400 flex items-center justify-center">
@@ -103,7 +103,7 @@ export function GallerySection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 backdrop-blur-sm flex items-center justify-center p-6"
-            style={{ backgroundColor: "rgba(8,10,14,0.7)" }}
+            style={{ backgroundColor: "color-mix(in srgb, var(--color-bg-primary) 70%, transparent)" }}
             onClick={() => setSelectedProject(null)}
           >
             <motion.div
@@ -116,7 +116,7 @@ export function GallerySection() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="aspect-video flex items-center justify-center" style={{ background: "linear-gradient(135deg, var(--color-bg-surface), var(--color-border))" }}>
-                <ImageIcon className="w-16 h-16" style={{ color: "#3B4656" }} />
+                <ImageIcon className="w-16 h-16" style={{ color: "var(--color-border-light)" }} />
               </div>
               <div className="p-8">
                 <span className="text-[10px] font-semibold tracking-[0.12em] uppercase mb-2 block" style={{ color: "var(--color-accent-primary)" }}>

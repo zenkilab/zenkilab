@@ -34,7 +34,7 @@ export function HeroSection() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-50 backdrop-blur-sm flex items-center justify-center p-6"
-            style={{ backgroundColor: "rgba(8,10,14,0.6)" }}
+            style={{ backgroundColor: "color-mix(in srgb, var(--color-bg-primary) 60%, transparent)" }}
             onClick={() => setShowJourneys(false)}
           >
             <motion.div

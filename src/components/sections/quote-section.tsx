@@ -441,7 +441,7 @@ export function QuoteSection() {
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="p-4 rounded-xl text-sm"
-                style={{ backgroundColor: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.25)", color: "var(--color-cta)" }}
+                style={{ backgroundColor: "color-mix(in srgb, var(--color-cta) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--color-cta) 25%, transparent)", color: "var(--color-cta)" }}
               >
                 {submitError}
               </motion.div>
