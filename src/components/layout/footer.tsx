@@ -34,7 +34,7 @@ export function Footer() {
                 {group.links.map((link) => (
                   <li key={link.label}>
                     <a
-                      href={link.href}
+                      href={link.href.startsWith("#") ? `/${link.href}` : link.href}
                       className="text-sm transition-colors duration-200 hover:text-white"
                       style={{ color: "var(--color-text-secondary)" }}
                     >
@@ -49,49 +49,36 @@ export function Footer() {
 
         {/* Launch phase note */}
         <div className="py-6 border-t" style={{ borderColor: "var(--color-border)" }}>
-          <p className="text-sm text-center" style={{ color: "var(--color-text-tertiary)" }}>
+          <p className="text-sm text-center" style={{ color: "var(--color-text-secondary)" }}>
             Zenki Lab is currently in its launch phase. New features and services are continuously being added as we grow.
           </p>
         </div>
 
-        {/* Coming Soon */}
+        {/* Coming Soon: a plain list, none of these items needs a box */}
         <div className="py-10 border-t" style={{ borderColor: "var(--color-border)" }}>
-          <div className="flex items-center gap-2 mb-6">
-            <Sparkles className="w-4 h-4" style={{ color: "var(--color-accent-warm)" }} />
-            <span className="text-xs font-semibold tracking-[0.15em] uppercase" style={{ color: "var(--color-text-secondary)" }}>
-              Coming Soon
-            </span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <h4 className="mb-6 flex items-center gap-2 text-sm font-semibold text-white/90">
+            <Sparkles className="w-4 h-4" style={{ color: "var(--color-accent-warm)" }} aria-hidden="true" />
+            Coming Soon
+          </h4>
+          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
             {comingSoonFeatures.map((feature) => (
-              <div
-                key={feature.title}
-                className="group p-4 rounded-xl transition-all duration-300"
-                style={{ border: "1px solid var(--color-border)", backgroundColor: "var(--color-bg-surface)" }}
-              >
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center mb-3"
-                  style={{ backgroundColor: "color-mix(in srgb, var(--color-accent-warm) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-accent-warm) 20%, transparent)" }}
-                >
-                  <feature.icon className="w-4 h-4" style={{ color: "var(--color-accent-warm)" }} />
+              <li key={feature.title} className="flex items-start gap-3">
+                <feature.icon className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--color-accent-warm)" }} aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold mb-1 text-white/90">{feature.title}</p>
+                  <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>{feature.description}</p>
                 </div>
-                <h4 className="text-sm font-semibold mb-1 text-white/90">
-                  {feature.title}
-                </h4>
-                <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-tertiary)" }}>
-                  {feature.description}
-                </p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
 
         {/* Bottom */}
         <div className="py-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: "var(--color-border)" }}>
-          <p className="text-xs" style={{ color: "var(--color-text-tertiary)" }}>
+          <p className="text-xs" style={{ color: "var(--color-text-secondary)" }}>
             &copy; {new Date().getFullYear()} Zenki Lab. All rights reserved.
           </p>
-          <p className="text-xs" style={{ color: "var(--color-text-tertiary)" }}>
+          <p className="text-xs" style={{ color: "var(--color-text-secondary)" }}>
             Colombo, Sri Lanka
           </p>
         </div>
