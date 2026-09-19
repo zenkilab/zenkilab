@@ -40,6 +40,7 @@ export const storeItems = [
     cta: "Design your tag",
     image: "/store/key-tag-listing.webp",
     alt: "A black Data Plate key tag with raised amber lettering and rivets",
+    meta: "Made to order",
   },
   {
     id: "chibi-figure",
@@ -52,5 +53,6 @@ export const storeItems = [
     image: "/store/chibi-figure-listing.webp",
     alt: "A white 3D printed chibi figure of a man with glasses on a round base",
     focus: "center 40%",
+    meta: `From ${rs(CHIBI_SIZES[0].price!)}`,
   },
 ];
