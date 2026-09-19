@@ -11,6 +11,7 @@ const navLinks = [
   { label: "Materials", href: "#materials" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
+  { label: "Store", href: "/store" },
 ];
 
 export function Header() {
@@ -19,6 +20,10 @@ export function Header() {
 
   const scrollToSection = (href: string) => {
     setMobileOpen(false);
+    if (href.startsWith("/")) {
+      window.location.href = href;
+      return;
+    }
     const id = href.replace("#", "");
     // Defer scroll until mobile menu finishes closing (250ms animation)
     setTimeout(() => {
