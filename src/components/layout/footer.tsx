@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { footerLinks, comingSoonFeatures } from "@/lib/constants";
 import { Sparkles } from "lucide-react";
+import { Logomark } from "./logomark";
 
 export function Footer() {
   return (
@@ -11,67 +12,7 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2.5 mb-4 group">
-              <div
-                className="overflow-visible"
-                style={{ perspective: "200px", width: 34, height: 34 }}
-              >
-                <svg
-                  width="34"
-                  height="34"
-                  viewBox="0 0 40 40"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <style>
-                    {`
-                      @keyframes footerHex3d {
-                        0%   { transform: rotateY(0deg); }
-                        100% { transform: rotateY(-360deg); }
-                      }
-                      @keyframes footerZ3d {
-                        0%   { transform: rotateY(360deg); }
-                        100% { transform: rotateY(0deg); }
-                      }
-                      .fh-3d {
-                        transform-origin: 20px 20px;
-                        animation: footerHex3d 8s linear infinite;
-                      }
-                      .fz-3d {
-                        transform-origin: 20px 23px;
-                        animation: footerZ3d 8s linear infinite;
-                      }
-                    `}
-                  </style>
-                  <g className="fh-3d">
-                    <path
-                      d="M20 2 L36 11 V29 L20 38 L4 29 V11 Z"
-                      stroke="var(--color-accent-primary)"
-                      strokeWidth="1.6"
-                      fill="none"
-                    />
-                  </g>
-                  <path
-                    d="M20 2 L36 11 V29 L20 38 L4 29 V11 Z"
-                    stroke="var(--color-text-primary)"
-                    strokeOpacity="0.12"
-                    strokeWidth="1.6"
-                    fill="none"
-                    transform="scale(0.78) translate(5.7 5.7)"
-                  />
-                  <text
-                    x="20"
-                    y="26"
-                    textAnchor="middle"
-                    fontSize="15"
-                    fontWeight="800"
-                    fill="var(--color-text-primary)"
-                    fontFamily="var(--font-inter), sans-serif"
-                    className="fz-3d"
-                  >
-                    Z
-                  </text>
-                </svg>
-              </div>
+              <Logomark size={34} />
               <svg width="96" height="24" viewBox="0 0 96 24" role="img" aria-label="ZenkiLab" className="overflow-visible">
                 <text x="0" y="18" fontFamily="var(--font-wordmark), sans-serif" fontSize="20" fontWeight="600" letterSpacing="-0.4">
                   <tspan fill="var(--color-text-primary)">Zenki</tspan><tspan fill="var(--color-accent-primary)">Lab</tspan>

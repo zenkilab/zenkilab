@@ -175,6 +175,16 @@ html {
   100% { transform: translateY(400%); }
 }
 
+/* ── Logomark rings (DESIGN_SYSTEM.md section 3) ── */
+
+@keyframes logo-ccw { to { transform: rotate(-360deg); } }
+@keyframes logo-cw { to { transform: rotate(360deg); } }
+.logo-ring-outer { transform-origin: 20px 20px; animation: logo-ccw 10s linear infinite; }
+.logo-ring-inner { transform-origin: 20px 20px; animation: logo-cw 7s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .logo-ring-outer, .logo-ring-inner { animation: none; }
+}
+
 /* ── Scrollbar ── */
 
 ::-webkit-scrollbar {
