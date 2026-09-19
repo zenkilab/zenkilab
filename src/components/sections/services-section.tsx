@@ -1,21 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { services } from "@/lib/constants";
-import { CrossfadeShowcase } from "@/components/ui/crossfade-showcase";
+import { StageIndex } from "@/components/ui/stage-index";
+import { ScrollFade } from "@/components/ui/scroll-fade";
 
 export function ServicesSection() {
   return (
     <section id="services" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mb-14 lg:mb-16"
-        >
+        <ScrollFade className="mb-14 lg:mb-16">
           <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "var(--color-accent-primary)" }}>
             What We Print
           </span>
@@ -29,10 +23,9 @@ export function ServicesSection() {
             From automotive components to household items and custom gifts. If
             you have a 3D model, we can manufacture it.
           </p>
-        </motion.div>
+        </ScrollFade>
 
-        <CrossfadeShowcase
-          aspect="4 / 3"
+        <StageIndex
           items={services.map((service) => ({
             id: service.title,
             title: service.title,
@@ -42,7 +35,6 @@ export function ServicesSection() {
             cta: "Start a Project",
             image: service.image,
             alt: service.title,
-            icon: service.icon,
           }))}
         />
       </div>
