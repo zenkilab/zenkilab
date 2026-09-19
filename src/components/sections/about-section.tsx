@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { aboutText, trustStats } from "@/lib/constants";
+import { aboutText } from "@/lib/constants";
 
 // Pinned-photo, scrolling-text (DESIGN_SYSTEM.md section 4): the photo sticks on
 // desktop while the story scrolls past it. One photo, not a gallery.
@@ -49,26 +49,6 @@ export function AboutSection() {
               </motion.p>
             ))}
 
-            <div className="grid grid-cols-2 gap-4 mt-12 lg:mt-4">
-              {trustStats.map((stat, idx) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: idx * 0.08, ease: "easeOut" }}
-                  className="rounded-2xl p-6 lg:p-8 text-center transition-all duration-300 hover:shadow-md"
-                  style={{ backgroundColor: "var(--color-bg-surface)", border: "1px solid var(--color-border)" }}
-                >
-                  <span className="text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[-0.02em] block mb-1" style={{ color: "var(--color-text-primary)" }}>
-                    {stat.value}
-                  </span>
-                  <span className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
-                    {stat.label}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
           </div>
         </div>
       </div>

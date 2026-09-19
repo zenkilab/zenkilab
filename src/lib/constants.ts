@@ -435,19 +435,6 @@ export const faqs: FAQ[] = [
   },
 ];
 
-// ── Social Proof / Stats ──────────────────────────────
-export type TrustStat = {
-  label: string;
-  value: string;
-};
-
-export const trustStats: TrustStat[] = [
-  { label: "Materials Available", value: "6" },
-  { label: "Finish Options", value: "4+" },
-  { label: "Years Building", value: "4+" },
-  { label: "Customer Rating", value: "100%" },
-];
-
 // ── About ─────────────────────────────────────────────
 export const aboutText = {
   heading: "A workshop, not a factory.",

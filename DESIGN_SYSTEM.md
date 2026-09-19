@@ -32,7 +32,7 @@ Three-tier system, each font has one job, none of them overlap:
 
 - **Space Grotesk (weight 600/700)**: the wordmark ("Zenki Lab" logo text), and now also H1/H2 headings site-wide. Anywhere the page is making a statement rather than explaining something.
 - **Inter**: body copy, paragraphs, nav links, buttons, form labels. Stays quiet and readable, carries no personality on purpose, that is Space Grotesk's job.
-- **IBM Plex Mono**: prices, stats, specs, anything numeric. Already proven in the quote calculator and the homepage stats strip, unchanged.
+- **IBM Plex Mono**: prices, stats, specs, anything numeric. Used for the Store prices and the quote pages.
 
 This replaces the earlier "wordmark only, don't touch headings" restriction, that was correct while the decision was still open, it is now closed.
 
