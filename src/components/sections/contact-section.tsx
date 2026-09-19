@@ -84,84 +84,74 @@ const channelIcons: Record<string, React.ReactNode> = {
   TikTok: <TikTokIcon />,
 };
 
+// One primary route (WhatsApp) and the rest as quiet links, so there is a single clear action.
 export function ContactSection() {
+  const [primary, ...others] = contactChannels;
   return (
     <section id="contact" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
-      <div className="max-w-[960px] mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mb-14 lg:mb-16"
-        >
-          <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "var(--color-accent-primary)" }}>
-            Contact
-          </span>
-          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[600px]" style={{ color: "var(--color-text-primary)" }}>
-            Let's make something together.
-          </h2>
-        </motion.div>
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-24">
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[600px]"
+            style={{ color: "var(--color-text-primary)" }}
+          >
+            Let&apos;s make something together.
+          </motion.h2>
 
-        {/* Contact Channels */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[640px] mx-auto"
-        >
-          {contactChannels.map((channel, idx) => {
-            const isLast = idx === contactChannels.length - 1;
-            const isOdd = contactChannels.length % 2 === 1;
-            return (
-              <a
-                key={channel.label}
-                href={channel.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`group flex items-center gap-4 p-4 rounded-xl transition-all duration-300 ${isLast && isOdd ? "sm:col-span-2 sm:justify-self-center sm:max-w-[calc(50%-6px)] sm:w-full" : ""}`}
-                style={{ border: "1px solid var(--color-border)", backgroundColor: "var(--color-bg-surface)" }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "color-mix(in srgb, var(--color-accent-warm) 40%, transparent)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--color-border)";
-                }}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <a
+              href={primary.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex min-h-20 items-center gap-4 rounded-2xl p-5 transition-colors duration-300 hover:border-primary motion-reduce:transition-none"
+              style={{ border: "1px solid color-mix(in srgb, var(--color-accent-primary) 45%, transparent)", backgroundColor: "var(--color-bg-surface)" }}
+            >
+              <span
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                style={{ backgroundColor: "color-mix(in srgb, var(--color-accent-warm) 8%, transparent)" }}
               >
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
-                  style={{ backgroundColor: "color-mix(in srgb, var(--color-accent-warm) 8%, transparent)", color: "var(--color-accent-warm)" }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.backgroundColor = "color-mix(in srgb, var(--color-accent-warm) 16%, transparent)";
-                    (e.currentTarget as HTMLDivElement).style.boxShadow = "0 0 12px color-mix(in srgb, var(--color-accent-warm) 20%, transparent)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.backgroundColor = "color-mix(in srgb, var(--color-accent-warm) 8%, transparent)";
-                    (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
-                  }}
-                >
-                  {channelIcons[channel.label] ?? <WhatsAppIcon />}
-                </div>
+                {channelIcons[primary.label] ?? <WhatsAppIcon />}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-base font-semibold" style={{ color: "var(--color-text-primary)" }}>{primary.label}</span>
+                <span className="block truncate font-mono text-sm" style={{ color: "var(--color-text-secondary)" }}>{primary.value}</span>
+              </span>
+              <ExternalLink
+                className="h-5 w-5 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 motion-reduce:transition-none"
+                style={{ color: "var(--color-accent-primary)" }}
+                aria-hidden="true"
+              />
+            </a>
 
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold" style={{ color: "var(--color-text-primary)" }}>
-                    {channel.label}
-                  </p>
-                  <p className="text-xs truncate" style={{ color: "var(--color-text-secondary)" }}>
-                    {channel.value}
-                  </p>
-                </div>
-
-                <div className="ml-auto flex-shrink-0 text-[color:var(--color-text-tertiary)] group-hover:text-[color:var(--color-accent-primary)] transition-colors duration-300">
-                  <ExternalLink className="w-4 h-4" />
-                </div>
-              </a>
-            );
-          })}
-        </motion.div>
-
+            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+              {others.map((channel) => (
+                <li key={channel.label}>
+                  <a
+                    href={channel.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-h-12 items-center gap-3 rounded-xl px-3 py-2 transition-colors duration-200 hover:bg-white/5 motion-reduce:transition-none"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center">{channelIcons[channel.label]}</span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium" style={{ color: "var(--color-text-primary)" }}>{channel.label}</span>
+                      <span className="block truncate text-xs" style={{ color: "var(--color-text-secondary)" }}>{channel.value}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
