@@ -83,13 +83,8 @@ export function buildKeyTag(c: KeyTagConfig, forPrint = false) {
   const z = d.zone;
   push(text(c.text, z.cx, 0, z.w, c.style === "data-plate" ? 12 : 13, 1));
 
-  // Back: provenance always present, branding stamp optional
-  const back: [string, number, number][] =
-    c.style === "data-plate"
-      ? [[`No. ${c.serial}`, 8, 5], ["Made in Kaduwela,", 1.5, 3], ["Sri Lanka", -2.7, 3]]
-      : [["Made in Kaduwela,", 4, 3.4], ["Sri Lanka", 0, 3.4]];
-  if (c.branding) back.push(["zenkilab.com", c.style === "data-plate" ? -8.5 : -5, 2.7]);
-  for (const [s, y, h] of back) push(text(s, z.cx, y, z.w, h, -1));
+  // Back: the zenkilab.com stamp if kept, otherwise blank
+  if (c.branding) push(text("zenkilab.com", z.cx, 0, z.w, 5, -1));
 
   if (c.style === "data-plate") {
     for (const x of [-d.w / 2 + 3, d.w / 2 - 3])

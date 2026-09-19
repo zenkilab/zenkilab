@@ -44,29 +44,27 @@ export default function KeyTagPage() {
   const [combo, setCombo] = useState<ComboId>("heritage");
   const [text, setText] = useState("");
   const [branding, setBranding] = useState(true); // opt-out: pre-checked
-  const [serial, setSerial] = useState("0047");
   const [flipped, setFlipped] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
-  // Restore when the customer came back via Edit, otherwise pick a fresh serial
+  // Restore when the customer came back via Edit
   useEffect(() => {
     try {
       const o: StoredOrder | null = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
       if (o) {
         const c = o.config;
         setContent(c.content); setStyle(c.style); setCombo(c.combo); setText(c.text);
-        setBranding(c.branding); setSerial(c.serial);
+        setBranding(c.branding);
         setName(o.contact.name); setPhone(o.contact.phone);
         return;
       }
     } catch {}
-    setSerial(String(Math.floor(Math.random() * 9000) + 1).padStart(4, "0"));
   }, []);
 
-  const config: KeyTagConfig = { content, style, combo, text, branding, serial };
+  const config: KeyTagConfig = { content, style, combo, text, branding };
   const max = STYLES[style].maxChars;
   const p = priceLines(config);
 
@@ -205,7 +203,7 @@ export default function KeyTagPage() {
                   Keep the zenkilab.com stamp on the back and save <span className="font-mono">{rs(BRANDING_DISCOUNT)}</span>
                 </span>
               </label>
-              <p className="pl-7 text-xs text-muted-foreground">&ldquo;Made in Kaduwela, Sri Lanka&rdquo; is always on the back either way.</p>
+              <p className="pl-7 text-xs text-muted-foreground">Without it, the back is left blank.</p>
             </section>
 
             <section className="space-y-3">

@@ -11,10 +11,10 @@ export type Capture = () => string;
 
 function Tag({ config, flipped }: { config: KeyTagConfig; flipped: boolean }) {
   const group = useRef<THREE.Group>(null);
-  const { style, text, branding, serial, combo } = config;
+  const { style, text, branding, combo } = config;
   const geo = useMemo(
-    () => buildKeyTag({ style, text, branding, serial } as KeyTagConfig),
-    [style, text, branding, serial],
+    () => buildKeyTag({ style, text, branding } as KeyTagConfig),
+    [style, text, branding],
   );
   useEffect(() => () => { geo.body.dispose(); geo.accent.dispose(); }, [geo]);
 

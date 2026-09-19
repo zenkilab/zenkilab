@@ -72,9 +72,8 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 - **Two-tone color system:** black/charcoal body + one accent color, not solid bright colors. Two named combos: "Heritage" (black + amber) and "Precision" (black + cyan).
 - **Content types:** Name or Car Number, selected via toggle — selecting Car Number nudges the style recommendation toward plate-shaped designs.
 - **Character limits, enforced live in the customizer:** ~10 chars for plate-style, ~16 for name-style.
-- **Branding stamp (zenkilab.com on back):** opt-out by default (pre-checked), Rs. 50 discount for keeping it on. Framed positively ("save Rs. 50"), not as a penalty for removing it.
-- **"Made in Kaduwela, Sri Lanka" on the back: always present**, independent of the branding-stamp toggle — treated as provenance information, not marketing.
-- **Design concepts explored** (front + back both matter): Heritage Badge (shield, raised inset panel), Data Plate (rivets, sequential number on back — e.g. "No. 0047"), Coin Medallion (circular, integrated loop instead of a hole), License Plate (light background like a real plate, thin accent border only, minimal back). Final shortlist not yet locked to a specific count — reference the flip-card gallery mockup for all four before deciding which ship.
+- **Front:** only what the customer types. **Back:** the zenkilab.com marketing stamp, or blank without it. The stamp is opt-out by default (pre-checked), Rs. 50 discount for keeping it on. Framed positively ("save Rs. 50"), not as a penalty for removing it.
+- **Design concepts explored** (front + back both matter): Heritage Badge (shield, raised inset panel), Data Plate (rivets), Coin Medallion (circular, integrated loop instead of a hole), License Plate (light background like a real plate, thin accent border only, minimal back). Final shortlist not yet locked to a specific count — reference the flip-card gallery mockup for all four before deciding which ship.
 - Keyring holes across all styles: concentric double-ring detail, echoing the logomark's ring motif.
 
 ---

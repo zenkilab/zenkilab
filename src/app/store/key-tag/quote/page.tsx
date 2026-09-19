@@ -83,8 +83,7 @@ export default function QuotePage() {
     ["Text", c.text],
     ["Colors", `${combo.label}, black and ${combo.accentName}`],
     ["Material", MATERIAL],
-    ["Back", c.style === "data-plate" ? `No. ${c.serial}, Made in Kaduwela, Sri Lanka` : "Made in Kaduwela, Sri Lanka"],
-    ["zenkilab.com stamp", c.branding ? "Kept on the back" : "Removed"],
+    ["Back", c.branding ? "zenkilab.com stamp" : "Blank"],
   ];
 
   if (order.confirmed)

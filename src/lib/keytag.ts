@@ -17,7 +17,7 @@ export const STYLES: Record<
     maxChars: 16,
     // ponytail: placeholder prices, no source in the repo. Confirm before launch.
     basePrice: 900,
-    blurb: "Riveted plate with a serial number on the back.",
+    blurb: "Riveted plate for a name.",
   },
   "license-plate": {
     label: "License Plate",
@@ -39,7 +39,6 @@ export type KeyTagConfig = {
   combo: ComboId;
   text: string;
   branding: boolean;
-  serial: string; // 4 digits, printed on the Data Plate back
 };
 
 export const styleForContent = (c: ContentType): StyleId => (c === "name" ? "data-plate" : "license-plate");
@@ -88,10 +87,9 @@ export function orderSpec(
     `Style: ${STYLES[c.style].label}`,
     `Content type: ${c.content === "name" ? "Name" : "Car Number"}`,
     `Text: "${c.text}"`,
-    c.style === "data-plate" ? `Serial on back: No. ${c.serial}` : null,
     `Color combo: ${combo.label} (black body + ${combo.accentName} accent)`,
     `Material: ${MATERIAL}`,
-    `Back: "Made in Kaduwela, Sri Lanka" (always)`,
+    `Back: ${c.branding ? "zenkilab.com stamp only" : "blank"}`,
     `zenkilab.com stamp: ${c.branding ? "ON (Rs. 50 discount applied)" : "OFF"}`,
     "",
     `Base price: ${rs(p.base)}`,
