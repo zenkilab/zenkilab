@@ -38,7 +38,7 @@ export function AboutSection() {
               alt="Two black 3D printed intake trumpets made at Zenki Lab"
               loading="lazy"
               decoding="async"
-              className="absolute left-0 top-[-12%] h-[124%] w-full object-cover object-[35%_50%]"
+              className="absolute left-0 top-[-12%] h-[124%] w-full object-cover object-[50%_55%]"
               style={reduce ? undefined : { y: imgY, scale: imgScale }}
             />
             <div className="absolute inset-x-0 bottom-0 h-1/2" style={{ background: "linear-gradient(to top, var(--color-bg-surface), transparent)" }} />

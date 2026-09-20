@@ -62,9 +62,13 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 
 **Stage and index** (Services): one large image with a list of titles beside it. Click, tap, hover or arrow keys change the selection and the image swaps with a soft reveal. Nothing depends on scroll position. This replaced the earlier pinned-pane crossfade and the pinned-photo pattern, both dropped because the active item depended on exactly where scrolling stopped, so the visitor could not control where the pane locked.
 
-**Store listing:** a quiet two-product grid. Large portrait photography, one line of type, one amber link. The photo drifts a few percent on scroll and eases in on hover. No pinning, no cards, no chips.
+**Store listing:** a layered intro on turning rings, then one scroll-scrubbed scene per product (`StoreExperience`). Each product sits in a hard circle on the brand rings, and the subject comes out of the circle: the photo is clipped to the circle while a cut-out of the subject (transparent background) is drawn over its edge in exactly the same place. The chibi figure's head rises above the top, the key tag's ends poke out of the sides. Cut-outs live beside the photos as `*-cut.webp`, and `place()` in `src/lib/stage.ts` positions a subject from its pixel box.
 
-**Product detail pages (Store):** one large, dramatic, close-up hero image, no thumbnail rail (deliberately removed). Purchase panel on the other side: rating, title, description, trust badges, relevant customization controls, quantity, price, primary action button. Real routing (`/store/[slug]`), not client-state toggling.
+**Slideshows:** photos change every 3 seconds with a soft crossfade and a slow push-in. The outgoing photo keeps its zoom while it fades and pausing freezes the zoom in place, so nothing snaps. No autoplay under reduced motion, hold on hover and focus, pause button and dots always present.
+
+**Cropping large photos:** always crop on the subject, never a plain centre crop. Product shots are pre-cropped to 4:5 around the subject's bounding box. Landscape photos carry a `focus` (object-position) that keeps the subject in frame.
+
+**Product detail pages (Store):** one large hero (a slideshow of subject-cropped photos, no thumbnail rail, deliberately removed). Purchase panel on the other side: rating, title, description, trust badges, relevant customization controls, quantity, price, primary action button. Real routing (`/store/[slug]`), not client-state toggling.
 
 **Quotation / order confirmation page:** shown after a customer finishes customizing and clicks the primary CTA. Contains: design recap (small thumbnail + summary), itemized spec list, price breakdown as separate line items (not just a final number), a "what happens next" note, a visible quote expiry (e.g. 24 hours), and Confirm + Edit actions. Clarify explicitly whether Confirm collects payment or just locks the order into the queue — don't leave that ambiguous in the UI copy.
 

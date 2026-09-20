@@ -1,5 +1,6 @@
 import { contactChannels } from "@/lib/constants";
 import { rs } from "@/lib/keytag";
+import { place, type StageSlide } from "@/lib/stage";
 
 const wa = contactChannels.find((c) => c.label === "WhatsApp")?.href ?? "https://wa.me/94702100270";
 
@@ -29,6 +30,42 @@ export const chibiMessage = (size: ChibiSize) =>
     ? `Hi Zenki Lab, I would like a Chibi Figure in the ${size.label} size (${size.approx.toLowerCase()}). Could you confirm the price?`
     : `Hi Zenki Lab, I would like a Chibi Figure in the ${size.label} size (${size.approx.toLowerCase()}). Price ${rs(size.price)}, paying the ${rs(chibiDeposit(size.price))} deposit to start.`;
 
+// Subject boxes (pixels) come from the cut-outs. The figure stands about 1.25 circle
+// diameters tall with its base near the bottom of the circle, so the head comes out of the top.
+const CHIBI_SIZE: [number, number] = [1080, 1350];
+const chibiPose = (n: number, bbox: [number, number, number, number], alt: string): StageSlide => ({
+  bg: `/store/chibi-${n}.webp`,
+  cut: `/store/chibi-${n}-cut.webp`,
+  alt,
+  box: place({ size: CHIBI_SIZE, bbox, height: 1.25, bottom: 0.93 }),
+});
+
+export const chibiStage: StageSlide[] = [
+  chibiPose(1, [339, 146, 746, 1231], "Chibi figure of a man with glasses, front view"),
+  chibiPose(2, [335, 146, 749, 1230], "The same figure from the side"),
+  chibiPose(3, [332, 134, 764, 1252], "The same figure from a three-quarter angle"),
+  chibiPose(5, [300, 110, 752, 1295], "The same figure from behind"),
+];
+
+/** Photos for the product page slideshow, each cropped on the subject */
+export const chibiGallery = [
+  { src: "/store/chibi-1.webp", alt: "Chibi figure of a man with glasses, front view" },
+  { src: "/store/chibi-2.webp", alt: "The same figure from the side" },
+  { src: "/store/chibi-3.webp", alt: "The same figure from a three-quarter angle" },
+  { src: "/store/chibi-5.webp", alt: "The same figure from behind" },
+  { src: "/store/chibi-4.webp", alt: "Close-up of the face and glasses" },
+];
+
+const keyTagStage: StageSlide[] = [
+  {
+    bg: "/store/key-tag-listing.webp",
+    cut: "/store/key-tag-cut.webp",
+    alt: "A black Data Plate key tag with raised amber lettering and rivets",
+    // the tag is wider than the circle so its ends come out of the sides
+    box: place({ size: CHIBI_SIZE, bbox: [83, 451, 1048, 1019], width: 1.2, centre: 0.5 }),
+  },
+];
+
 export const storeItems = [
   {
     id: "key-tag",
@@ -38,8 +75,8 @@ export const storeItems = [
     bullets: ["Data Plate", "License Plate", "Heritage or Precision colors"],
     href: "/store/key-tag",
     cta: "Design Your Tag",
-    image: "/store/key-tag-listing.webp",
     alt: "A black Data Plate key tag with raised amber lettering and rivets",
+    stage: keyTagStage,
     meta: "Made to order",
   },
   {
@@ -50,9 +87,8 @@ export const storeItems = [
     bullets: ["About 10 cm or 20 cm", "Approve the model first", "50% deposit to start"],
     href: "/store/chibi-figure",
     cta: "View the Figure",
-    image: "/store/chibi-figure-listing.webp",
     alt: "A white 3D printed chibi figure of a man with glasses on a round base",
-    focus: "center 40%",
+    stage: chibiStage,
     meta: `From ${rs(CHIBI_SIZES[0].price!)}`,
   },
 ];

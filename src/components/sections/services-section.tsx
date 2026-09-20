@@ -35,6 +35,7 @@ export function ServicesSection() {
             cta: "Start a Project",
             image: service.image,
             alt: service.title,
+            focus: service.focus,
           }))}
         />
       </div>

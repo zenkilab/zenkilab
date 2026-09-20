@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { DepthRings } from "./depth-rings";
+import { CircleStage } from "./circle-stage";
+import type { StageSlide } from "@/lib/stage";
 
 export type StoreListItem = {
   id: string;
@@ -13,14 +15,12 @@ export type StoreListItem = {
   bullets?: string[];
   href: string;
   cta: string;
-  image: string;
   alt: string;
-  focus?: string;
+  stage: StageSlide[];
   meta?: string;
 };
 
 const muted = { color: "var(--color-text-secondary)" };
-const frameStyle = { backgroundColor: "var(--color-bg-surface)", border: "1px solid var(--color-border)" };
 
 /** Scroll-linked effects run on desktop only, and never under reduced motion. */
 function useDepth() {
@@ -36,7 +36,7 @@ function useDepth() {
   return !reduce && desktop;
 }
 
-/* ───────────── Intro: layered photos on rings, each layer at its own speed ───────────── */
+/* ───────────── Intro: two circles on turning rings, each layer at its own speed ───────────── */
 
 function Intro({ items }: { items: StoreListItem[] }) {
   const ref = useRef<HTMLElement>(null);
@@ -63,22 +63,12 @@ function Intro({ items }: { items: StoreListItem[] }) {
         <div className="relative mx-auto aspect-[5/6] w-full max-w-[560px] lg:ml-auto lg:mr-0">
           <DepthRings outer={depth ? ringA : undefined} inner={depth ? ringB : undefined} className="pointer-events-none absolute -inset-[14%] h-[128%] w-[128%]" />
 
-          <motion.div className="absolute right-0 top-0 w-[60%]" style={depth ? { y: backY } : undefined}>
-            <Link href={back.href} aria-label={back.title} className="group block">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl transition-colors duration-500 group-hover:border-primary/40 motion-reduce:transition-none" style={frameStyle}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={back.image} alt={back.alt} className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] motion-reduce:transition-none" style={{ objectPosition: back.focus }} />
-              </div>
-            </Link>
+          <motion.div className="absolute right-0 top-[15%] w-[58%]" style={depth ? { y: backY } : undefined}>
+            <CircleStage slides={back.stage.slice(0, 1)} href={back.href} label={back.title} controls={false} />
           </motion.div>
 
-          <motion.div className="absolute bottom-0 left-0 z-10 w-[48%]" style={depth ? { y: frontY } : undefined}>
-            <Link href={front.href} aria-label={front.title} className="group block">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl transition-colors duration-500 group-hover:border-primary/40 motion-reduce:transition-none" style={frameStyle}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={front.image} alt={front.alt} className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] motion-reduce:transition-none" style={{ objectPosition: front.focus }} />
-              </div>
-            </Link>
+          <motion.div className="absolute bottom-[4%] left-[3%] z-10 w-[42%]" style={depth ? { y: frontY } : undefined}>
+            <CircleStage slides={front.stage} href={front.href} label={front.title} controls={false} />
           </motion.div>
         </div>
       </div>
@@ -94,7 +84,6 @@ function Scene({ item, flip }: { item: StoreListItem; flip: boolean }) {
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
   const scale = useTransform(p, [0, 0.3], [0.86, 1]);
-  const imgY = useTransform(p, [0, 1], ["-6%", "6%"]);
   const ringA = useTransform(p, [0, 1], [-35, 45]);
   const ringB = useTransform(p, [0, 1], [40, -50]);
   const titleO = useTransform(p, [0.08, 0.28], [0, 1]);
@@ -107,28 +96,20 @@ function Scene({ item, flip }: { item: StoreListItem; flip: boolean }) {
   const ctaY = useTransform(p, [0.4, 0.6], [24, 0]);
 
   const rise = (o: typeof titleO, y: typeof titleY) => (depth ? { opacity: o, y } : undefined);
+  // The circle's diameter. The subject comes out of the top by about a third of it, so it gets that much room.
+  const d = "min(440px, 50dvh, 78vw)";
 
   return (
     <div ref={ref} className={depth ? "h-[215vh]" : ""}>
       <div className={depth ? "sticky top-0 flex h-[100dvh] items-center pt-16" : "py-16"}>
         <div className="mx-auto grid w-full max-w-[1280px] items-center gap-12 px-6 lg:grid-cols-12 lg:gap-10 lg:px-8">
-          <div className={`relative lg:col-span-6 ${flip ? "lg:order-2" : ""}`}>
-            <DepthRings outer={depth ? ringA : undefined} inner={depth ? ringB : undefined} className="pointer-events-none absolute left-1/2 top-1/2 h-[112%] w-[112%] -translate-x-1/2 -translate-y-1/2" />
-            <motion.div style={depth ? { scale } : undefined} className="relative mx-auto aspect-[4/5] w-full max-w-[520px] lg:h-[min(72dvh,720px)] lg:w-auto lg:max-w-none">
-              <Link href={item.href} aria-label={item.title} className="group block h-full">
-                <div className="relative h-full w-full overflow-hidden rounded-2xl transition-colors duration-500 group-hover:border-primary/40 motion-reduce:transition-none" style={frameStyle}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <motion.img
-                    src={item.image}
-                    alt={item.alt}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute left-0 top-[-8%] h-[116%] w-full object-cover"
-                    style={{ y: depth ? imgY : 0, objectPosition: item.focus }}
-                  />
-                </div>
-              </Link>
-            </motion.div>
+          <div className={`lg:col-span-6 ${flip ? "lg:order-2" : ""}`}>
+            <div className="relative mx-auto" style={{ width: d, marginTop: `calc(${d} * 0.3)` }}>
+              <DepthRings outer={depth ? ringA : undefined} inner={depth ? ringB : undefined} className="pointer-events-none absolute -inset-[16%] h-[132%] w-[132%]" />
+              <motion.div style={depth ? { scale } : undefined} className="relative">
+                <CircleStage slides={item.stage} href={item.href} label={item.title} controls={item.stage.length > 1} />
+              </motion.div>
+            </div>
           </div>
 
           <div className={`relative z-10 lg:col-span-6 ${flip ? "lg:order-1" : ""}`}>
@@ -136,15 +117,15 @@ function Scene({ item, flip }: { item: StoreListItem; flip: boolean }) {
               {item.title}
             </motion.h2>
             {item.meta && (
-              <motion.p style={rise(titleO, titleY)} className="mt-5 font-mono text-lg" >
+              <motion.p style={rise(titleO, titleY)} className="mt-5 font-mono text-lg">
                 <span style={{ color: "var(--color-accent-primary)" }}>{item.meta}</span>
               </motion.p>
             )}
-            <motion.p style={rise(descO, descY)} className="mt-7 max-w-[44ch] text-lg leading-relaxed" >
+            <motion.p style={rise(descO, descY)} className="mt-7 max-w-[44ch] text-lg leading-relaxed">
               <span style={muted}>{item.description}</span>
             </motion.p>
             {item.bullets && item.bullets.length > 0 && (
-              <motion.ul style={rise(listO, listY)} className="mt-6 flex flex-wrap gap-y-1 text-sm" >
+              <motion.ul style={rise(listO, listY)} className="mt-6 flex flex-wrap gap-y-1 text-sm">
                 {item.bullets.map((b) => (
                   <li key={b} className="border-l px-3.5 first:border-l-0 first:pl-0" style={{ borderColor: "var(--color-border)", ...muted }}>
                     {b}

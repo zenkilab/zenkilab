@@ -69,6 +69,8 @@ export type Service = {
   href: string;
   examples: string[];
   image: string;
+  /** CSS object-position that keeps the subject in frame when the photo is cropped */
+  focus?: string;
 };
 
 export const services: Service[] = [
@@ -80,6 +82,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Gauge pods", "Interior trim clips", "Mounting brackets"],
     image: "/services/automotive.jpg",
+    focus: "50% 55%",
   },
   {
     title: "Functional Parts",
@@ -89,6 +92,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Gears & sprockets", "Enclosures", "Clips & fasteners"],
     image: "/services/functional.jpg",
+    focus: "47% 50%",
   },
   {
     title: "Die-cast Modifications",
@@ -98,6 +102,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Wheels & tyres", "Body kits", "Display stands"],
     image: "/services/diecast.jpg",
+    focus: "52% 50%",
   },
   {
     title: "Prototypes",
@@ -107,6 +112,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Product mockups", "Fitment samples", "Engineering checks"],
     image: "/services/prototypes.jpg",
+    focus: "52% 50%",
   },
   {
     title: "Household & Hobby",
@@ -116,6 +122,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Desk organisers", "Planters", "Workshop tools"],
     image: "/services/household.jpg",
+    focus: "55% 50%",
   },
   {
     title: "Custom Gifts",
@@ -125,6 +132,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Bespoke gifts", "Trophies & awards", "Personalised keychains"],
     image: "/services/gifts.jpg",
+    focus: "52% 45%",
   },
 ];
 

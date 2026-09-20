@@ -187,6 +187,13 @@ html {
   .logo-ring-outer, .logo-ring-inner { animation: none; }
 }
 
+/* ── Slideshow push-in: slow zoom on the photo that is showing ── */
+
+@keyframes slideshow-push {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
+}
+
 /* ── Scrollbar ── */
 
 ::-webkit-scrollbar {
