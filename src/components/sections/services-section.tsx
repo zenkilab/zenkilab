@@ -1,138 +1,98 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { services } from "@/lib/constants";
+import { StageIndex } from "@/components/ui/stage-index";
+import { ScrollFade } from "@/components/ui/scroll-fade";
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.06 },
-  },
-};
+/** Stage photos (4:3, subject-centred) and their subject cut-outs sit in /services/stage */
+const stageAsset = (image: string, kind: "bg" | "cut") =>
+  `/services/stage/${image.replace("/services/", "").replace(".jpg", "")}-${kind}.webp`;
 
-const item = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" as const },
-  },
-};
+const items = services.map((service) => ({
+  id: service.title,
+  title: service.title,
+  description: service.description,
+  bullets: service.examples,
+  href: service.href,
+  cta: "Start a Project",
+  bg: stageAsset(service.image, "bg"),
+  cut: stageAsset(service.image, "cut"),
+  alt: service.title,
+}));
+
+// Scroll distance given to each service while the scene is pinned
+const VH_PER_ITEM = 55;
+const NAV = 72; // fixed header height
+
+/**
+ * Pinned on desktop: the whole scene stays on screen while you scroll through it, and scroll
+ * position picks the service (the same position always shows the same service). Clicking a
+ * title or using the arrow keys scrolls to that service's stretch, so scroll and selection
+ * never disagree. On touch devices and with reduced motion nothing is pinned.
+ */
+function ServicesStage() {
+  const reduce = useReducedMotion();
+  const [desktop, setDesktop] = useState(false);
+  const [active, setActive] = useState(0);
+  const track = useRef<HTMLDivElement>(null);
+  const n = items.length;
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    setDesktop(mq.matches);
+    const on = () => setDesktop(mq.matches);
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+
+  const { scrollYProgress } = useScroll({ target: track, offset: ["start start", "end end"] });
+  useMotionValueEvent(scrollYProgress, "change", (v) => setActive(Math.max(0, Math.min(n - 1, Math.floor(v * n)))));
+
+  if (!desktop || reduce) return <StageIndex items={items} />;
+
+  const jump = (i: number) => {
+    const el = track.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    const range = el.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: top + range * ((i + 0.5) / n), behavior: "smooth" });
+  };
+
+  return (
+    <div ref={track} style={{ height: `${n * VH_PER_ITEM + 100}vh` }}>
+      <div className="sticky flex items-center" style={{ top: NAV, height: `calc(100dvh - ${NAV}px)` }}>
+        <div className="w-full">
+          <StageIndex items={items} activeIndex={active} onSelect={jump} />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function ServicesSection() {
   return (
-    <section id="services" className="relative py-24 lg:py-28 bg-[#0B0D10] border-t" style={{ borderColor: "#293038" }}>
+    <section id="services" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mb-14 lg:mb-16"
-        >
-          <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "#22D3EE" }}>
+        <ScrollFade className="mb-14 lg:mb-16">
+          <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "var(--color-accent-primary)" }}>
             What We Print
           </span>
           <h2
             className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]"
-            style={{ color: "#FFFFFF" }}
+            style={{ color: "var(--color-text-primary)" }}
           >
             We print custom parts.
           </h2>
-          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "#A5ADB8" }}>
+          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
             From automotive components to household items and custom gifts. If
             you have a 3D model, we can manufacture it.
           </p>
-        </motion.div>
+        </ScrollFade>
 
-        {/* Grid */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-        >
-          {services.map((service) => (
-            <motion.a
-              key={service.title}
-              href={service.href}
-              variants={item}
-              className="group relative rounded-2xl transition-all duration-300 hover:-translate-y-[2px]"
-              style={{ backgroundColor: "#171B21", border: "1px solid #293038" }}
-            >
-              {/* ── Image container: 16:9, rounded-top, gradient overlay ── */}
-              <div className="relative w-full aspect-video overflow-hidden rounded-t-2xl">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 ease-out"
-                  style={{ transform: "scale(1)" }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.transform = "scale(1.03)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.transform = "scale(1)";
-                  }}
-                />
-                {/* Gradient fade to card surface */}
-                <div
-                  className="absolute inset-x-0 bottom-0 h-16 pointer-events-none z-10"
-                  style={{
-                    background: "linear-gradient(to top, #171B21 0%, rgba(23,27,33,0.6) 50%, transparent 100%)",
-                  }}
-                />
-              </div>
-
-              {/* ── Card content — pulled up to overlap image ── */}
-              <div className="relative p-7 lg:p-8" style={{ marginTop: "-24px" }}>
-                {/* Icon */}
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-5 transition-all duration-300"
-                  style={{ backgroundColor: "rgba(34,211,238,0.08)" }}
-                >
-                  <service.icon className="w-5 h-5 transition-colors duration-300" style={{ color: "#22D3EE" }} />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-base font-semibold mb-2 tracking-[-0.01em]" style={{ color: "#FFFFFF" }}>
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm leading-relaxed mb-4" style={{ color: "#A5ADB8" }}>
-                  {service.description}
-                </p>
-
-                {/* Examples */}
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {service.examples.map((ex) => (
-                    <span
-                      key={ex}
-                      className="text-[11px] px-2 py-0.5 rounded-md"
-                      style={{ backgroundColor: "#171B21", border: "1px solid #293038", color: "#A5ADB8" }}
-                    >
-                      {ex}
-                    </span>
-                  ))}
-                </div>
-
-                {/* CTA */}
-                <span
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-300"
-                  style={{ color: "#22D3EE" }}
-                >
-                  Start a Project
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-300" />
-                </span>
-              </div>
-            </motion.a>
-          ))}
-        </motion.div>
+        <ServicesStage />
       </div>
     </section>
   );

@@ -212,7 +212,7 @@ export function PrinterAnimationSection() {
       {/* Content wrapper */}
       <div className="relative z-10 max-w-[960px] mx-auto px-6 lg:px-12 text-center">
         {/* Section label */}
-        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-[#22D3EE] mb-8 block">
+        <span className="text-xs font-semibold tracking-[0.15em] uppercase text-[color:var(--color-accent-primary)] mb-8 block">
           Build Sequence
         </span>
 
@@ -486,7 +486,7 @@ export function PrinterAnimationSection() {
         </div>
 
         {/* Caption */}
-        <p className="text-sm mt-8 max-w-[440px] mx-auto leading-relaxed" style={{ color: "#A5ADB8" }}>
+        <p className="text-sm mt-8 max-w-[440px] mx-auto leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
           Every project is built layer by layer — precision from the first line
           to the final surface.
         </p>

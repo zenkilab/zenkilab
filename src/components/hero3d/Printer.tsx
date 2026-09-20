@@ -2,6 +2,7 @@
 
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 import type { Group } from "three";
 
@@ -50,11 +51,19 @@ function createGearGeometry(
   return geo;
 }
 
+/** Rounded replacement for boxGeometry. Radius scales with the part's smallest side, smoothness 2 keeps it cheap. */
+function Box({
+  size,
+  ...props
+}: { size: [number, number, number] } & Omit<React.ComponentProps<typeof RoundedBox>, "args" | "radius" | "smoothness">) {
+  return <RoundedBox args={size} radius={Math.min(...size) * 0.28} smoothness={4} {...props} />;
+}
+
 /**
  * Printer
  * ───────
  * Open 2‑pillar 3D printer with premium brand-aligned materials.
- * Rich charcoal frame, pearl-white toolhead, cyan brand accent,
+ * Rich charcoal frame, pearl-white toolhead, amber brand accent,
  * polished chrome rails, and brass nozzle.
  */
 export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps) {
@@ -73,13 +82,13 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
   const pillarX = 1.4 * S;
   const gearMaxThickness = 0.25 * S;
 
-  // ── Premium material palette — Zenki Cyan brand accents ──
+  // ── Premium material palette — Zenki Amber brand accents ──
   const matFrame = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#1E2328", metalness: 0.88, roughness: 0.28 }),
+    () => new THREE.MeshStandardMaterial({ color: "#232930", metalness: 0.7, roughness: 0.36 }),
     [],
   );
   const matFrameAccent = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#15191E", metalness: 0.9, roughness: 0.22 }),
+    () => new THREE.MeshStandardMaterial({ color: "#161A20", metalness: 0.8, roughness: 0.3 }),
     [],
   );
   const matBracket = useMemo(
@@ -87,15 +96,15 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
     [],
   );
   const matToolhead = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#E8E4DE", metalness: 0.08, roughness: 0.45 }),
+    () => new THREE.MeshStandardMaterial({ color: "#D2CEC7", metalness: 0.08, roughness: 0.5 }),
     [],
   );
   const matBedCarrier = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#D5D0C8", metalness: 0.5, roughness: 0.45 }),
+    () => new THREE.MeshStandardMaterial({ color: "#B9B4AB", metalness: 0.5, roughness: 0.45 }),
     [],
   );
   const matPEI = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#E8E4DE", metalness: 0.25, roughness: 0.5 }),
+    () => new THREE.MeshStandardMaterial({ color: "#BFBAB2", metalness: 0.25, roughness: 0.55 }),
     [],
   );
   const matChrome = useMemo(
@@ -103,21 +112,45 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
     [],
   );
   const matGear = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#22D3EE", metalness: 0.05, roughness: 0.7 }),
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.65, roughness: 0.32 }),
     [],
   );
   const matBrass = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#C49B3C", metalness: 0.92, roughness: 0.18 }),
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.92, roughness: 0.18 }),
     [],
   );
-  const matCyan = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#22D3EE", metalness: 0.15, roughness: 0.5 }),
+  const matAmber = useMemo(
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.3, roughness: 0.42 }),
     [],
   );
-  const matCyanAccent = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#22D3EE", emissive: "#22D3EE", emissiveIntensity: 0.35, metalness: 0.2, roughness: 0.3 }),
+  const matAmberAccent = useMemo(
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", emissive: "#F5A623", emissiveIntensity: 0.35, metalness: 0.2, roughness: 0.3 }),
     [],
   );
+
+  // Emissive amber for the light strip and the hot nozzle tip
+  const matAmberGlow = useMemo(
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", emissive: "#F5A623", emissiveIntensity: 1.2, metalness: 0.2, roughness: 0.4 }),
+    [],
+  );
+  const matFlange = useMemo(
+    () => new THREE.MeshStandardMaterial({ color: "#161A20", metalness: 0.8, roughness: 0.3 }),
+    [],
+  );
+  // Soft contact shadow so the printer sits on the scene instead of floating
+  const shadowTex = useMemo(() => {
+    const c = document.createElement("canvas");
+    c.width = 256;
+    c.height = 256;
+    const x = c.getContext("2d")!;
+    const g = x.createRadialGradient(128, 128, 10, 128, 128, 128);
+    g.addColorStop(0, "rgba(0,0,0,0.6)");
+    g.addColorStop(0.6, "rgba(0,0,0,0.25)");
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    x.fillStyle = g;
+    x.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(c);
+  }, []);
 
   // ── Pre‑generated gear geometries ──
   const geoGear1 = useMemo(
@@ -193,19 +226,16 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
 
   return (
     <group ref={rigRef} position={position}>
+      {/* Soft contact shadow */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.004, 0]}>
+        <planeGeometry args={[baseWidth * 1.9, baseDepth * 1.9]} />
+        <meshBasicMaterial map={shadowTex} transparent depthWrite={false} />
+      </mesh>
       {/* ═══ BASE FRAME — Y-Rails ═══ */}
-      <mesh position={[-1.4 * S, 0.1 * S, 0]} material={matFrame} castShadow>
-        <boxGeometry args={[0.2 * S, 0.2 * S, baseDepth]} />
-      </mesh>
-      <mesh position={[1.4 * S, 0.1 * S, 0]} material={matFrame} castShadow>
-        <boxGeometry args={[0.2 * S, 0.2 * S, baseDepth]} />
-      </mesh>
-      <mesh position={[0, 0.1 * S, baseDepth / 2]} material={matFrame} castShadow>
-        <boxGeometry args={[baseWidth, 0.2 * S, 0.2 * S]} />
-      </mesh>
-      <mesh position={[0, 0.1 * S, -baseDepth / 2]} material={matFrame} castShadow>
-        <boxGeometry args={[baseWidth, 0.2 * S, 0.2 * S]} />
-      </mesh>
+      <Box size={[0.2 * S, 0.2 * S, baseDepth]} position={[-1.4 * S, 0.1 * S, 0]} material={matFrame} castShadow />
+      <Box size={[0.2 * S, 0.2 * S, baseDepth]} position={[1.4 * S, 0.1 * S, 0]} material={matFrame} castShadow />
+      <Box size={[baseWidth, 0.2 * S, 0.2 * S]} position={[0, 0.1 * S, baseDepth / 2]} material={matFrame} castShadow />
+      <Box size={[baseWidth, 0.2 * S, 0.2 * S]} position={[0, 0.1 * S, -baseDepth / 2]} material={matFrame} castShadow />
 
       {/* Y linear rods — chrome */}
       <mesh
@@ -224,37 +254,17 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
       </mesh>
 
       {/* ═══ VERTICAL PILLARS & TOP CROSSBAR ═══ */}
-      <mesh
-        position={[-pillarX, pillarHeight / 2 + 0.2 * S, 0]}
-        material={matFrame}
-        castShadow
-      >
-        <boxGeometry args={[0.2 * S, pillarHeight, 0.2 * S]} />
-      </mesh>
-      <mesh
-        position={[pillarX, pillarHeight / 2 + 0.2 * S, 0]}
-        material={matFrame}
-        castShadow
-      >
-        <boxGeometry args={[0.2 * S, pillarHeight, 0.2 * S]} />
-      </mesh>
-      <mesh
-        position={[0, pillarHeight + 0.2 * S, 0]}
-        material={matFrameAccent}
-        castShadow
-      >
-        <boxGeometry args={[baseWidth + 0.2 * S, 0.2 * S, 0.2 * S]} />
-      </mesh>
+      <Box size={[0.2 * S, pillarHeight, 0.2 * S]} position={[-pillarX, pillarHeight / 2 + 0.2 * S, 0]} material={matFrame} castShadow />
+      <Box size={[0.2 * S, pillarHeight, 0.2 * S]} position={[pillarX, pillarHeight / 2 + 0.2 * S, 0]} material={matFrame} castShadow />
+      <Box size={[baseWidth + 0.2 * S, 0.2 * S, 0.2 * S]} position={[0, pillarHeight + 0.2 * S, 0]} material={matFrameAccent} castShadow />
+      {/* Amber light strip along the front of the crossbar */}
+      <Box size={[baseWidth * 0.78, 0.022 * S, 0.012 * S]} position={[0, pillarHeight + 0.2 * S, 0.1 * S + 0.004]} material={matAmberGlow} />
 
       {/* Corner brackets — dark */}
       {([-pillarX, pillarX] as number[]).map((xPos) => (
         <group key={`brackets-${xPos}`}>
-          <mesh position={[xPos, pillarHeight + 0.2 * S, 0]} material={matBracket}>
-            <boxGeometry args={[0.35 * S, 0.35 * S, 0.35 * S]} />
-          </mesh>
-          <mesh position={[xPos, 0.2 * S, 0]} material={matBracket}>
-            <boxGeometry args={[0.35 * S, 0.35 * S, 0.35 * S]} />
-          </mesh>
+          <Box size={[0.35 * S, 0.35 * S, 0.35 * S]} position={[xPos, pillarHeight + 0.2 * S, 0]} material={matBracket} />
+          <Box size={[0.35 * S, 0.35 * S, 0.35 * S]} position={[xPos, 0.2 * S, 0]} material={matBracket} />
         </group>
       ))}
 
@@ -272,30 +282,32 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
         <cylinderGeometry args={[0.035 * S, 0.035 * S, pillarHeight - 0.2 * S, 16]} />
       </mesh>
 
-      {/* Spool holder — hub dark, winding = CYAN brand filament */}
+      {/* Spool holder — hub dark, winding = amber brand filament */}
       <group position={[-0.6 * S, pillarHeight + 0.7 * S, 0]}>
         <mesh rotation={[0, 0, Math.PI / 2]} material={matBedCarrier}>
           <cylinderGeometry args={[0.38 * S, 0.38 * S, 0.45 * S, 24]} />
         </mesh>
-        <mesh rotation={[0, 0, Math.PI / 2]} material={matCyan}>
+        <mesh rotation={[0, 0, Math.PI / 2]} material={matAmber}>
           <cylinderGeometry args={[0.78 * S, 0.78 * S, 0.42 * S, 32]} />
         </mesh>
+        {/* Dark flanges on both sides of the winding */}
+        {[-0.225 * S, 0.225 * S].map((x) => (
+          <mesh key={x} position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]} material={matFlange}>
+            <cylinderGeometry args={[0.86 * S, 0.86 * S, 0.03 * S, 40]} />
+          </mesh>
+        ))}
       </group>
 
       {/* ═══ HEATED BED ═══ */}
       <group ref={bedRef} position={[0, 0.26 * S, 0]}>
-        <mesh position={[0, 0.03 * S, 0]} material={matBedCarrier}>
-          <boxGeometry args={[2.4 * S, 0.06 * S, 2.4 * S]} />
-        </mesh>
+        <Box size={[2.4 * S, 0.06 * S, 2.4 * S]} position={[0, 0.03 * S, 0]} material={matBedCarrier} />
         {/* PEI sheet — warm light grey */}
-        <mesh position={[0, 0.08 * S, 0]} material={matPEI}>
-          <boxGeometry args={[2.3 * S, 0.04 * S, 2.3 * S]} />
-        </mesh>
+        <Box size={[2.3 * S, 0.04 * S, 2.3 * S]} position={[0, 0.08 * S, 0]} material={matPEI} />
 
         {/* Bed grid lines — subtle premium detail */}
         <mesh position={[0, 0.105 * S, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[2.2 * S, 2.2 * S]} />
-          <meshBasicMaterial color="#22D3EE" wireframe transparent opacity={0.06} />
+          <meshBasicMaterial color="#38C8F5" wireframe transparent opacity={0.06} />
         </mesh>
 
         {/* Levelling knobs */}
@@ -321,38 +333,29 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
 
       {/* ═══ X‑GANTRY ═══ */}
       <group ref={gantryRef} position={[0, 0.91 * S, 0]}>
-        <mesh material={matFrameAccent} castShadow>
-          <boxGeometry args={[baseWidth, 0.18 * S, 0.18 * S]} />
-        </mesh>
+        <Box size={[baseWidth, 0.18 * S, 0.18 * S]} material={matFrameAccent} castShadow />
 
-        <mesh position={[-pillarX, 0, 0]} material={matBracket}>
-          <boxGeometry args={[0.35 * S, 0.45 * S, 0.35 * S]} />
-        </mesh>
-        <mesh position={[pillarX, 0, 0]} material={matBracket}>
-          <boxGeometry args={[0.35 * S, 0.45 * S, 0.35 * S]} />
-        </mesh>
+        <Box size={[0.35 * S, 0.45 * S, 0.35 * S]} position={[-pillarX, 0, 0]} material={matBracket} />
+        <Box size={[0.35 * S, 0.45 * S, 0.35 * S]} position={[pillarX, 0, 0]} material={matBracket} />
 
-        {/* Toolhead — warm pearl-white, with cyan brand accent stripe */}
+        {/* Toolhead — warm pearl-white, with amber brand accent stripe */}
         <group ref={toolheadRef} position={[0, 0, 0.15 * S]}>
-          <mesh material={matToolhead} castShadow>
-            <boxGeometry args={[0.55 * S, 0.6 * S, 0.45 * S]} />
-          </mesh>
+          <Box size={[0.55 * S, 0.6 * S, 0.45 * S]} material={matToolhead} castShadow />
           {/* Fan duct — pearl white */}
-          <mesh position={[0, -0.15 * S, 0.23 * S]} material={matToolhead}>
-            <boxGeometry args={[0.45 * S, 0.25 * S, 0.1 * S]} />
-          </mesh>
-          {/* Brand accent stripe — cyan */}
-          <mesh position={[0, 0.15 * S, 0.23 * S]} material={matCyanAccent}>
-            <boxGeometry args={[0.5 * S, 0.03 * S, 0.02 * S]} />
-          </mesh>
+          <Box size={[0.45 * S, 0.25 * S, 0.1 * S]} position={[0, -0.15 * S, 0.23 * S]} material={matToolhead} />
+          {/* Brand accent stripe, amber */}
+          <Box size={[0.5 * S, 0.03 * S, 0.02 * S]} position={[0, 0.15 * S, 0.23 * S]} material={matAmberAccent} />
           {/* Heater block — chrome */}
-          <mesh position={[0, -0.38 * S, 0]} material={matChrome}>
-            <boxGeometry args={[0.18 * S, 0.12 * S, 0.18 * S]} />
-          </mesh>
+          <Box size={[0.18 * S, 0.12 * S, 0.18 * S]} position={[0, -0.38 * S, 0]} material={matChrome} />
           {/* Brass nozzle */}
           <mesh position={[0, -0.48 * S, 0]} rotation={[Math.PI, 0, 0]} material={matBrass}>
             <coneGeometry args={[0.06 * S, 0.12 * S, 16]} />
           </mesh>
+          {/* Hot tip and the light it throws on the print */}
+          <mesh position={[0, -0.545 * S, 0]} material={matAmberGlow}>
+            <sphereGeometry args={[0.024 * S, 12, 12]} />
+          </mesh>
+          <pointLight position={[0, -0.56 * S, 0.02]} color="#FFC35C" intensity={0.5} distance={1.1} decay={1.6} />
         </group>
       </group>
     </group>

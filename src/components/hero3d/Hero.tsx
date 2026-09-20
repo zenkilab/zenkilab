@@ -15,21 +15,27 @@ const Scene = lazy(() => import("./Scene").then((m) => ({ default: m.Scene })));
 function SceneFallback() {
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-      <div className="w-40 h-40 rounded-full border border-cyan-400/20 animate-pulse" />
+      <div className="w-40 h-40 rounded-full border border-primary/30 animate-pulse" />
     </div>
   );
 }
 
 export function Hero({ onStart }: { onStart: () => void }) {
+  // Mount the desktop canvas only on desktop, so mobile does not pay for a hidden third Canvas.
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => setIsDesktop(window.matchMedia("(min-width: 1024px)").matches), []);
+
   return (
     <>
       <Background />
 
       {/* Desktop: full-screen 3D canvas behind text */}
       <div className="hidden lg:block absolute inset-0 z-0">
-        <Suspense fallback={<SceneFallback />}>
-          <Scene />
-        </Suspense>
+        {isDesktop && (
+          <Suspense fallback={<SceneFallback />}>
+            <Scene />
+          </Suspense>
+        )}
       </div>
 
       <div className="relative z-10 max-w-[1280px] w-full mx-auto px-6 lg:px-8">

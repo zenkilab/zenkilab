@@ -106,7 +106,7 @@ export const onRequestPost = async ({
 <body style="margin:0;padding:0;background:#0F1115;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
 <table width="100%" style="max-width:600px;margin:0 auto;background:#0F1115">
 <tr><td style="padding:32px 24px 20px">
-<span style="font-size:18px;font-weight:700;color:#fafafa;letter-spacing:-0.02em">ZENKI<span style="color:#22D3EE">LAB</span></span>
+<span style="font-size:18px;font-weight:700;color:#fafafa;letter-spacing:-0.02em">ZENKI<span style="color:#38C8F5">LAB</span></span>
 </td></tr>
 <tr><td style="padding:0 24px 8px">
 <h1 style="font-size:20px;font-weight:700;color:#fafafa;margin:0 0 4px">New Quote Request</h1>

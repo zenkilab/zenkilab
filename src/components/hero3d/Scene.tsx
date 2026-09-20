@@ -5,7 +5,9 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import * as THREE from "three";
 import type { Group } from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { Printer } from "./Printer";
 import { Phone } from "./Phone";
 import { Hologram } from "./Hologram";
@@ -83,6 +85,28 @@ function CameraRig({
   return null;
 }
 
+/**
+ * Studio
+ * ──────
+ * A small procedural environment (no network fetch) so brass, chrome, the graphite frame
+ * and the phone's metal edge have something to reflect. Kept low so the amber lights lead.
+ */
+function Studio() {
+  const { gl, scene } = useThree();
+  useEffect(() => {
+    const pmrem = new THREE.PMREMGenerator(gl);
+    const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environment = env;
+    scene.environmentIntensity = 0.22;
+    return () => {
+      scene.environment = null;
+      env.dispose();
+      pmrem.dispose();
+    };
+  }, [gl, scene]);
+  return null;
+}
+
 function ScrollRig({ sceneRoot }: { sceneRoot: React.RefObject<Group | null> }) {
   useEffect(() => {
     if (!sceneRoot.current) return;
@@ -119,7 +143,7 @@ export function Scene({
 
   return (
     <Canvas
-      dpr={[1, 1.75]}
+      dpr={isMobile ? 1 : [1, 1.75]}
       gl={{
         antialias: true,
         alpha: true,
@@ -140,10 +164,10 @@ export function Scene({
       <ambientLight intensity={0.28} color="#2A2E35" />
       {/* Key light — soft white for definition */}
       <directionalLight position={[3, 4, 3]} intensity={0.55} color="#EAEBEC" />
-      {/* Cyan accent point lights — premium engineering glow */}
-      <pointLight position={[-2, 1.5, 2]} intensity={1.0} color="#22D3EE" distance={7} />
-      <pointLight position={[2, -0.5, 1.8]} intensity={0.7} color="#0EA5B7" distance={6} />
-      <pointLight position={[0, -1, 1]} intensity={0.6} color="#22D3EE" distance={5} />
+      {/* Amber accent point lights, matching the amber-primary materials. The hologram uses unlit MeshBasicMaterial, so it stays cyan on purpose. */}
+      <pointLight position={[-2, 1.5, 2]} intensity={1.0} color="#F5A623" distance={7} />
+      <pointLight position={[2, -0.5, 1.8]} intensity={0.7} color="#F5A623" distance={6} />
+      <pointLight position={[0, -1, 1]} intensity={0.6} color="#F5A623" distance={5} />
 
       {(!renderOnly || renderOnly === "printer") && (
         <>
@@ -173,6 +197,8 @@ export function Scene({
         </>
       )}
 
+      <Studio />
+
       <group ref={sceneRoot}>
         <group rotation={isMobile ? undefined : [0, -10 * (Math.PI / 180), 0]}>
           {(!renderOnly || renderOnly === "printer") && (
@@ -197,10 +223,17 @@ export function Scene({
       <CameraRig mouse={mouse} isMobile={isMobile} mobileScrollProgress={mobileScrollProgress} renderOnly={renderOnly} />
       <ScrollRig sceneRoot={sceneRoot} />
 
-      <EffectComposer multisampling={0}>
-        <Bloom intensity={0.55} luminanceThreshold={0.35} luminanceSmoothing={0.25} mipmapBlur radius={0.5} />
-        <Vignette eskil={false} offset={0.15} darkness={0.65} />
-      </EffectComposer>
+      {/* Mobile skips Bloom, the biggest post-processing cost. Vignette stays. */}
+      {isMobile ? (
+        <EffectComposer multisampling={0}>
+          <Vignette eskil={false} offset={0.15} darkness={0.65} />
+        </EffectComposer>
+      ) : (
+        <EffectComposer multisampling={0}>
+          <Bloom intensity={0.55} luminanceThreshold={0.35} luminanceSmoothing={0.25} mipmapBlur radius={0.5} />
+          <Vignette eskil={false} offset={0.15} darkness={0.65} />
+        </EffectComposer>
+      )}
     </Canvas>
   );
 }

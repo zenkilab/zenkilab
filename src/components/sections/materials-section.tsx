@@ -1,88 +1,111 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
 import { Ruler } from "lucide-react";
 import { materials } from "@/lib/constants";
+import { ScrollFade } from "@/components/ui/scroll-fade";
 
+// Selector plus detail panel: six materials are too many for a card grid, and the
+// buyer is comparing, so one panel at a time keeps the numbers readable.
 export function MaterialsSection() {
+  const [idx, setIdx] = useState(0);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const material = materials[idx];
+
+  const select = (next: number) => {
+    const n = (next + materials.length) % materials.length;
+    setIdx(n);
+    tabs.current[n]?.focus();
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); select(idx + 1); }
+    else if (e.key === "ArrowUp" || e.key === "ArrowLeft") { e.preventDefault(); select(idx - 1); }
+    else if (e.key === "Home") { e.preventDefault(); select(0); }
+    else if (e.key === "End") { e.preventDefault(); select(materials.length - 1); }
+  };
+
   return (
-    <section id="materials" className="relative py-24 lg:py-28 bg-[#0B0D10] border-t" style={{ borderColor: "#293038" }}>
+    <section id="materials" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mb-14 lg:mb-16"
-        >
-          <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "#22D3EE" }}>
-            Materials
-          </span>
-          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "#FFFFFF" }}>
+        <ScrollFade>
+          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "var(--color-text-primary)" }}>
             The right material for your project.
           </h2>
-          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "#A5ADB8" }}>
-            We'll help you choose. From everyday PLA to carbon fibre
-            composites — there's a material that fits your application.
+          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+            We&apos;ll help you choose. From everyday PLA to carbon fibre composites, there&apos;s a material that fits your application.
           </p>
-        </motion.div>
+        </ScrollFade>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {materials.map((material, idx) => (
-            <motion.div
-              key={material.name}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
-              className="group relative rounded-2xl p-8 lg:p-9 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-              style={{ backgroundColor: "#171B21", border: "1px solid #293038" }}
-            >
-              <div
-                className="absolute top-0 left-6 right-6 h-[2px] rounded-full transition-all duration-500 group-hover:left-2 group-hover:right-2"
-                style={{ backgroundColor: material.color }}
-              />
-              <div className="flex items-center gap-3 mb-4 mt-2">
-                <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: material.color }} />
-                <h3 className="text-xl font-bold tracking-[-0.01em]" style={{ color: "#FFFFFF" }}>
-                  {material.name}
-                </h3>
-              </div>
-              <p className="text-sm leading-relaxed mb-7" style={{ color: "#A5ADB8" }}>
-                {material.description}
-              </p>
-              <div className="space-y-3">
-                {material.stats.map((stat) => (
-                  <div key={stat.label} className="flex items-center gap-3">
-                    <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ backgroundColor: "#171B21", border: "1px solid #293038" }}
-                    >
-                      <stat.icon className="w-3.5 h-3.5" style={{ color: "#22D3EE" }} />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-semibold tracking-widest uppercase mb-0.5" style={{ color: "#5F6A76" }}>
-                        {stat.label}
-                      </p>
-                      <p className="text-sm font-medium truncate" style={{ color: "#FFFFFF" }}>
-                        {stat.value}
-                      </p>
-                    </div>
+        <div className="mt-12 grid gap-8 lg:mt-16 lg:grid-cols-[260px_1fr] lg:gap-16">
+          {/* Selector: vertical list on desktop, scroll-snap strip on mobile */}
+          <div
+            role="tablist"
+            aria-label="Materials"
+            aria-orientation="vertical"
+            onKeyDown={onKeyDown}
+            className="-mx-6 flex snap-x gap-2 overflow-x-auto px-6 pb-2 lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:px-0 lg:pb-0"
+          >
+            {materials.map((m, i) => {
+              const on = i === idx;
+              return (
+                <button
+                  key={m.name}
+                  ref={(el) => { tabs.current[i] = el; }}
+                  role="tab"
+                  id={`material-tab-${i}`}
+                  aria-selected={on}
+                  aria-controls="material-panel"
+                  tabIndex={on ? 0 : -1}
+                  type="button"
+                  onClick={() => setIdx(i)}
+                  className={`min-h-11 shrink-0 snap-start whitespace-nowrap rounded-xl border px-4 py-2 text-left text-sm font-medium transition-colors motion-reduce:transition-none lg:rounded-none lg:border-0 lg:border-l-2 lg:px-5 lg:py-3 ${
+                    on ? "border-primary text-primary bg-primary/10 lg:bg-transparent" : "border-border text-muted-foreground hover:text-foreground lg:border-l-border"
+                  } ${on ? "lg:border-l-primary" : ""}`}
+                >
+                  {m.name}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Detail */}
+          <div role="tabpanel" id="material-panel" aria-labelledby={`material-tab-${idx}`} tabIndex={0} className="min-w-0">
+            <h3 className="text-2xl font-semibold tracking-[-0.01em]" style={{ color: "var(--color-text-primary)" }}>
+              {material.name}
+            </h3>
+            <p className="mt-3 max-w-[60ch] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+              {material.description}
+            </p>
+
+            <dl className="mt-8 grid gap-x-10 gap-y-6 sm:grid-cols-2">
+              {material.stats.map((stat) => (
+                <div key={stat.label} className="flex items-start gap-3">
+                  <span
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
+                    style={{ backgroundColor: "color-mix(in srgb, var(--color-accent-warm) 8%, transparent)" }}
+                  >
+                    <stat.icon className="h-4 w-4" style={{ color: "var(--color-accent-warm)" }} aria-hidden="true" />
+                  </span>
+                  <div className="min-w-0">
+                    <dt className="text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-text-secondary)" }}>
+                      {stat.label}
+                    </dt>
+                    <dd className="mt-1 text-base font-medium" style={{ color: "var(--color-text-primary)" }}>
+                      {stat.value}
+                    </dd>
                   </div>
-                ))}
-              </div>
-
-              {/* Shrinkage — subtle engineering detail */}
-              {material.shrinkage && (
-                <div className="mt-5 pt-4 flex items-center gap-2.5" style={{ borderTop: "1px solid #293038" }}>
-                  <Ruler className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "#5F6A76" }} />
-                  <p className="text-[11px]" style={{ color: "#5F6A76" }}>
-                    Shrinkage: <span style={{ color: "#A5ADB8" }}>{material.shrinkage}</span>
-                  </p>
                 </div>
-              )}
-            </motion.div>
-          ))}
+              ))}
+            </dl>
+
+            {material.shrinkage && (
+              <p className="mt-8 flex items-center gap-2.5 border-t pt-5 text-sm" style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}>
+                <Ruler className="h-4 w-4 shrink-0" aria-hidden="true" />
+                Shrinkage: <span className="font-mono" style={{ color: "var(--color-text-primary)" }}>{material.shrinkage}</span>
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </section>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { Logomark } from "./logomark";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -11,6 +12,7 @@ const navLinks = [
   { label: "Materials", href: "#materials" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
+  { label: "Store", href: "/store" },
 ];
 
 export function Header() {
@@ -19,12 +21,18 @@ export function Header() {
 
   const scrollToSection = (href: string) => {
     setMobileOpen(false);
+    if (href.startsWith("/")) {
+      window.location.href = href;
+      return;
+    }
     const id = href.replace("#", "");
     // Defer scroll until mobile menu finishes closing (250ms animation)
     setTimeout(() => {
       const el = document.getElementById(id);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.location.href = "/" + href; // on a sub page, go home first
       }
     }, 300);
   };
@@ -39,84 +47,20 @@ export function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? "bg-[#0B0D10]/80 backdrop-blur-xl border-b border-[#293038]/60"
+          ? "bg-background/80 backdrop-blur-xl border-b border-border/60"
           : "bg-transparent"
       }`}
     >
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         <nav className="flex items-center justify-between h-[72px]">
-          {/* Logo — 3D spinning hexagon + Z */}
+          {/* Logomark + wordmark */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div
-              className="overflow-visible"
-              style={{ perspective: "200px", width: 34, height: 34 }}
-            >
-              <svg
-                width="34"
-                height="34"
-                viewBox="0 0 40 40"
-                fill="none"
-                aria-hidden="true"
-              >
-                <style>
-                  {`
-                    @keyframes hex3dLeft {
-                      0%   { transform: rotateY(0deg); }
-                      100% { transform: rotateY(-360deg); }
-                    }
-                    @keyframes z3dRight {
-                      0%   { transform: rotateY(360deg); }
-                      100% { transform: rotateY(0deg); }
-                    }
-                    .hex-3d {
-                      transform-origin: 20px 20px;
-                      animation: hex3dLeft 8s linear infinite;
-                    }
-                    .z-3d {
-                      transform-origin: 20px 23px;
-                      animation: z3dRight 8s linear infinite;
-                    }
-                  `}
-                </style>
-
-                {/* Outer hexagon — spins left (counter-clockwise in 3D) */}
-                <g className="hex-3d">
-                  <path
-                    d="M20 2 L36 11 V29 L20 38 L4 29 V11 Z"
-                    stroke="#22D3EE"
-                    strokeWidth="1.6"
-                    fill="none"
-                  />
-                </g>
-
-                {/* Inner hexagon — stationary */}
-                <path
-                  d="M20 2 L36 11 V29 L20 38 L4 29 V11 Z"
-                  stroke="#FFFFFF"
-                  strokeOpacity="0.12"
-                  strokeWidth="1.6"
-                  fill="none"
-                  transform="scale(0.78) translate(5.7 5.7)"
-                />
-
-                {/* Z character — spins right (clockwise in 3D) */}
-                <text
-                  x="20"
-                  y="26"
-                  textAnchor="middle"
-                  fontSize="15"
-                  fontWeight="800"
-                  fill="#FFFFFF"
-                  fontFamily="var(--font-geist-sans), sans-serif"
-                  className="z-3d"
-                >
-                  Z
+            <Logomark size={34} />
+            <svg width="96" height="24" viewBox="0 0 96 24" role="img" aria-label="ZenkiLab" className="overflow-visible">
+                <text x="0" y="18" fontFamily="var(--font-wordmark), sans-serif" fontSize="20" fontWeight="600" letterSpacing="-0.4">
+                  <tspan fill="var(--color-text-primary)">Zenki</tspan><tspan fill="var(--color-accent-primary)">Lab</tspan>
                 </text>
               </svg>
-            </div>
-            <span className="text-lg font-extrabold tracking-[0.02em] text-white">
-              ZENKI<span className="text-[#22D3EE]">LAB</span>
-            </span>
           </Link>
 
           {/* Desktop Nav */}
@@ -152,7 +96,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="lg:hidden bg-[#0B0D10]/95 backdrop-blur-xl border-b border-[#293038]/60 overflow-hidden"
+            className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-border/60 overflow-hidden"
           >
             <div className="px-6 py-4 space-y-1">
               {navLinks.map((link) => (

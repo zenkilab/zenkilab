@@ -33,7 +33,7 @@ export const projectJourneys: ProjectJourney[] = [
       "Upload your 3D model. We'll review it for printability, recommend a material, and send you a quote within 24 hours.",
     icon: FileText,
     href: "#quote",
-    color: "#22D3EE",
+    color: "#38C8F5",
   },
   {
     title: "I need a custom part printed",
@@ -41,7 +41,7 @@ export const projectJourneys: ProjectJourney[] = [
       "If you have a 3D model, we can manufacture it. Upload your file and tell us about your project.",
     icon: Sparkles,
     href: "#quote",
-    color: "#22D3EE",
+    color: "#38C8F5",
   },
   {
     title: "I have a broken or missing part",
@@ -49,7 +49,7 @@ export const projectJourneys: ProjectJourney[] = [
       "If you already have an STL file for the replacement, upload it and we'll print it. If not, contact us. CAD and reverse-engineering may be available in the future.",
     icon: Camera,
     href: "#contact",
-    color: "#22D3EE",
+    color: "#38C8F5",
   },
   {
     title: "I'm not sure where to start",
@@ -57,7 +57,7 @@ export const projectJourneys: ProjectJourney[] = [
       "No problem. Get in touch and describe what you're trying to do. We'll give you honest advice on whether 3D printing is the right solution.",
     icon: Lightbulb,
     href: "#contact",
-    color: "#22D3EE",
+    color: "#38C8F5",
   },
 ];
 
@@ -69,6 +69,8 @@ export type Service = {
   href: string;
   examples: string[];
   image: string;
+  /** CSS object-position that keeps the subject in frame when the photo is cropped */
+  focus?: string;
 };
 
 export const services: Service[] = [
@@ -80,6 +82,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Gauge pods", "Interior trim clips", "Mounting brackets"],
     image: "/services/automotive.jpg",
+    focus: "50% 55%",
   },
   {
     title: "Functional Parts",
@@ -89,6 +92,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Gears & sprockets", "Enclosures", "Clips & fasteners"],
     image: "/services/functional.jpg",
+    focus: "47% 50%",
   },
   {
     title: "Die-cast Modifications",
@@ -98,6 +102,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Wheels & tyres", "Body kits", "Display stands"],
     image: "/services/diecast.jpg",
+    focus: "52% 50%",
   },
   {
     title: "Prototypes",
@@ -107,6 +112,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Product mockups", "Fitment samples", "Engineering checks"],
     image: "/services/prototypes.jpg",
+    focus: "52% 50%",
   },
   {
     title: "Household & Hobby",
@@ -116,6 +122,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Desk organisers", "Planters", "Workshop tools"],
     image: "/services/household.jpg",
+    focus: "55% 50%",
   },
   {
     title: "Custom Gifts",
@@ -125,6 +132,7 @@ export const services: Service[] = [
     href: "#quote",
     examples: ["Bespoke gifts", "Trophies & awards", "Personalised keychains"],
     image: "/services/gifts.jpg",
+    focus: "52% 45%",
   },
 ];
 
@@ -156,7 +164,7 @@ export const materials: Material[] = [
       { label: "Outdoor Use", value: "Not recommended", icon: Sun },
       { label: "Best For", value: "Prototypes, décor, gifts", icon: Zap },
     ],
-    color: "#22D3EE",
+    color: "#38C8F5",
     textColor: "text-cyan-400",
     borderColor: "border-cyan-500/20",
     shrinkage: "~0.2–0.5%",
@@ -433,19 +441,6 @@ export const faqs: FAQ[] = [
     answer:
       "No. We manufacture single one-off prints as well as small batch runs. Per-unit cost typically decreases with quantity. We're happy to discuss volume pricing for recurring orders.",
   },
-];
-
-// ── Social Proof / Stats ──────────────────────────────
-export type TrustStat = {
-  label: string;
-  value: string;
-};
-
-export const trustStats: TrustStat[] = [
-  { label: "Materials Available", value: "6" },
-  { label: "Finish Options", value: "4+" },
-  { label: "Years Building", value: "4+" },
-  { label: "Customer Rating", value: "100%" },
 ];
 
 // ── About ─────────────────────────────────────────────

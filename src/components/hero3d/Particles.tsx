@@ -99,7 +99,7 @@ function HologramEmission({ origin, isMobile }: { origin: [number, number, numbe
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        color="#67E8F9"
+        color="#8FDDFB"
         size={isMobile ? 0.014 : 0.02}
         sizeAttenuation
         transparent

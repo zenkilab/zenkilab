@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { ScrollFade } from "@/components/ui/scroll-fade";
+import { useState, useCallback, useRef, useEffect, useId, isValidElement, cloneElement } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -168,27 +169,21 @@ export function QuoteSection() {
   };
 
   return (
-    <section id="quote" ref={sectionRef} className="relative py-24 lg:py-28 bg-[#0B0D10] border-t" style={{ borderColor: "#293038" }}>
+    <section id="quote" ref={sectionRef} className="relative py-24 lg:py-28 border-t" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-bg-surface)" }}>
       <div className="max-w-[960px] mx-auto px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mb-14 lg:mb-16"
-        >
-          <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "#22D3EE" }}>
+        <ScrollFade className="mb-14 lg:mb-16">
+          <span className="text-xs font-semibold tracking-[0.15em] uppercase mb-4 block" style={{ color: "var(--color-accent-primary)" }}>
             Start Your Project
           </span>
-          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "#FFFFFF" }}>
+          <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-bold tracking-[-0.02em] leading-[1.1] max-w-[700px]" style={{ color: "var(--color-text-primary)" }}>
             Tell us what you need. We'll handle the rest.
           </h2>
-          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "#A5ADB8" }}>
+          <p className="text-lg mt-4 max-w-[600px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
             Upload your STL files, describe your project, and we'll review
             and respond with a detailed quote within 24 hours.
           </p>
-        </motion.div>
+        </ScrollFade>
 
         {/* Form */}
         {!submitted ? (
@@ -202,10 +197,10 @@ export function QuoteSection() {
           >
             {/* File Upload */}
             <div>
-              <label className="text-sm font-semibold mb-2 block" style={{ color: "#FFFFFF" }}>
+              <h3 className="text-sm font-semibold mb-2" style={{ color: "var(--color-text-primary)" }}>
                 Design Files
-              </label>
-              <p className="text-xs mb-4" style={{ color: "#5F6A76" }}>
+              </h3>
+              <p className="text-xs mb-4" style={{ color: "var(--color-text-secondary)" }}>
                 Accepted: STL, OBJ, 3MF, STEP, ZIP &middot; Up to 250 MB per file &middot; Max 10 files
               </p>
 
@@ -221,16 +216,17 @@ export function QuoteSection() {
                   setDragOver(false);
                   handleFiles(e.dataTransfer.files);
                 }}
-                className="relative border-2 border-dashed rounded-2xl p-12 lg:p-16 text-center transition-all duration-300"
+                className="relative border-2 border-dashed rounded-2xl p-12 lg:p-16 text-center transition-colors duration-300 focus-within:ring-2 focus-within:ring-ring"
                 style={
                   dragOver
-                    ? { borderColor: "#22D3EE", backgroundColor: "rgba(34,211,238,0.06)" }
-                    : { borderColor: "#293038", backgroundColor: "#171B21" }
+                    ? { borderColor: "var(--color-accent-primary)", backgroundColor: "color-mix(in srgb, var(--color-accent-primary) 6%, transparent)" }
+                    : { borderColor: "var(--color-border)", backgroundColor: "var(--color-bg-primary)" }
                 }
               >
                 <input
                   type="file"
                   id="file-upload"
+                  aria-label="Design files"
                   multiple
                   accept={ACCEPTED_TYPES.join(",")}
                   onChange={(e) => handleFiles(e.target.files)}
@@ -240,20 +236,20 @@ export function QuoteSection() {
                 <div className="relative w-16 h-16 mx-auto mb-5">
                   <div
                     className="relative w-full h-full rounded-2xl flex items-center justify-center"
-                    style={{ backgroundColor: "rgba(34,211,238,0.08)", border: "1px solid #293038" }}
+                    style={{ backgroundColor: "color-mix(in srgb, var(--color-accent-warm) 8%, transparent)", border: "1px solid var(--color-border)" }}
                   >
                     {uploading ? (
-                      <Loader2 className="w-6 h-6 animate-spin" style={{ color: "#22D3EE" }} />
+                      <Loader2 className="w-6 h-6 animate-spin" style={{ color: "var(--color-accent-warm)" }} />
                     ) : (
-                      <Upload className="w-6 h-6" style={{ color: "#22D3EE" }} />
+                      <Upload className="w-6 h-6" style={{ color: "var(--color-accent-warm)" }} />
                     )}
                   </div>
                 </div>
 
-                <p className="text-base font-medium mb-1" style={{ color: "#FFFFFF" }}>
+                <p className="text-base font-medium mb-1" style={{ color: "var(--color-text-primary)" }}>
                   {dragOver ? "Drop your files here" : "Drag and drop your files here"}
                 </p>
-                <p className="text-sm" style={{ color: "#5F6A76" }}>
+                <p className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
                   or click to browse
                 </p>
 
@@ -265,16 +261,16 @@ export function QuoteSection() {
                       exit={{ opacity: 0, height: 0 }}
                       className="mt-5 max-w-[320px] mx-auto"
                     >
-                      <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: "#293038" }}>
+                      <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: "var(--color-border)" }}>
                         <motion.div
                           className="h-full rounded-full"
-                          style={{ backgroundColor: "#22D3EE" }}
+                          style={{ backgroundColor: "var(--color-accent-primary)" }}
                           initial={{ width: 0 }}
                           animate={{ width: `${Math.min(uploadProgress, 100)}%` }}
                           transition={{ duration: 0.2 }}
                         />
                       </div>
-                      <p className="text-xs mt-2" style={{ color: "#5F6A76" }}>
+                      <p className="text-xs mt-2" style={{ color: "var(--color-text-secondary)" }}>
                         {uploadProgress < 100
                           ? "Analysing file..."
                           : "File uploaded successfully"}
@@ -300,26 +296,27 @@ export function QuoteSection() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 12 }}
                         className="flex items-center gap-3 rounded-xl px-4 py-3"
-                        style={{ backgroundColor: "#171B21", border: "1px solid #293038" }}
+                        style={{ backgroundColor: "var(--color-bg-surface)", border: "1px solid var(--color-border)" }}
                       >
                         <div
                           className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                          style={{ backgroundColor: "rgba(34,211,238,0.08)" }}
+                          style={{ backgroundColor: "color-mix(in srgb, var(--color-accent-warm) 8%, transparent)" }}
                         >
-                          <FileIcon className="w-4 h-4" style={{ color: "#22D3EE" }} />
+                          <FileIcon className="w-4 h-4" style={{ color: "var(--color-accent-warm)" }} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm truncate" style={{ color: "#FFFFFF" }}>{file.name}</p>
-                          <p className="text-xs" style={{ color: "#5F6A76" }}>
+                          <p className="text-sm truncate" style={{ color: "var(--color-text-primary)" }}>{file.name}</p>
+                          <p className="text-xs" style={{ color: "var(--color-text-secondary)" }}>
                             {formatSize(file.size)} &middot; Printability:{" "}
-                            <span style={{ color: "#22D3EE" }}>Checking...</span>
+                            <span style={{ color: "var(--color-accent-primary)" }}>Checking...</span>
                           </p>
                         </div>
                         <button
                           type="button"
                           onClick={() => removeFile(idx)}
-                          className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors"
-                          style={{ color: "#5F6A76" }}
+                          aria-label={`Remove ${file.name}`}
+                          className="w-11 h-11 -mr-2 rounded-lg flex items-center justify-center transition-colors hover:bg-white/5"
+                          style={{ color: "var(--color-text-secondary)" }}
                         >
                           <X className="w-3.5 h-3.5" />
                         </button>
@@ -330,7 +327,8 @@ export function QuoteSection() {
               </AnimatePresence>
             </div>
 
-            {/* Two column grid */}
+            <fieldset className="space-y-6">
+              <legend className="mb-6 text-lg font-semibold" style={{ color: "var(--color-text-primary)" }}>Your details</legend>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FieldWrapper label="Full Name" error={errors.name?.message} required>
                 <input
@@ -368,6 +366,12 @@ export function QuoteSection() {
                 />
               </FieldWrapper>
 
+            </div>
+            </fieldset>
+
+            <fieldset className="space-y-6">
+              <legend className="mb-6 text-lg font-semibold" style={{ color: "var(--color-text-primary)" }}>Your project</legend>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FieldWrapper label="Material" error={errors.material?.message} required>
                 <select {...register("material")} className={inputClass}>
                   <option value="">Select material...</option>
@@ -430,10 +434,11 @@ export function QuoteSection() {
               <textarea
                 {...register("notes")}
                 rows={4}
-                placeholder="Tell us about your project — what are you making, what's it for, any specific requirements? The more detail, the more accurate your quote."
-                className={`${inputClass} resize-none`}
+                placeholder="Tell us about your project: what are you making, what's it for, any specific requirements? The more detail, the more accurate your quote."
+                className={`${inputClass} !h-auto py-3 resize-none`}
               />
             </FieldWrapper>
+            </fieldset>
 
             {/* Submit Error */}
             {submitError && (
@@ -441,7 +446,7 @@ export function QuoteSection() {
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="p-4 rounded-xl text-sm"
-                style={{ backgroundColor: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.25)", color: "#EF4444" }}
+                style={{ backgroundColor: "color-mix(in srgb, var(--color-danger) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--color-danger) 25%, transparent)", color: "var(--color-danger)" }}
               >
                 {submitError}
               </motion.div>
@@ -451,8 +456,8 @@ export function QuoteSection() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2.5 text-white disabled:opacity-50 disabled:cursor-not-allowed h-[52px] px-8 rounded-xl text-sm font-semibold transition-all duration-300 hover:brightness-110"
-              style={{ backgroundColor: "#EF4444" }}
+              className="inline-flex items-center gap-2.5 text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed h-[52px] px-8 rounded-xl text-sm font-semibold transition-all duration-300 hover:brightness-110"
+              style={{ backgroundColor: "var(--color-accent-primary)" }}
             >
               {isSubmitting ? (
                 <>
@@ -470,20 +475,21 @@ export function QuoteSection() {
         ) : (
           /* Success State */
           <motion.div
+            role="status"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             className="text-center py-20"
           >
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
-              style={{ backgroundColor: "rgba(34,211,238,0.08)", border: "1px solid #293038" }}
+              style={{ backgroundColor: "color-mix(in srgb, var(--color-accent-warm) 8%, transparent)", border: "1px solid var(--color-border)" }}
             >
-              <CheckCircle className="w-8 h-8" style={{ color: "#22D3EE" }} />
+              <CheckCircle className="w-8 h-8" style={{ color: "var(--color-accent-warm)" }} />
             </div>
-            <h3 className="text-2xl font-bold mb-3" style={{ color: "#FFFFFF" }}>
+            <h3 className="text-2xl font-bold mb-3" style={{ color: "var(--color-text-primary)" }}>
               Quote Request Submitted
             </h3>
-            <p className="max-w-[460px] mx-auto leading-relaxed" style={{ color: "#A5ADB8" }}>
+            <p className="max-w-[460px] mx-auto leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
               Thank you. We'll review your files and respond
               with a detailed quote within 24 hours. We're excited to work on your project.
             </p>
@@ -507,19 +513,24 @@ function FieldWrapper({
   children: React.ReactNode;
   required?: boolean;
 }) {
+  const id = useId();
+  const errId = `${id}-error`;
+  const field = isValidElement<Record<string, unknown>>(children)
+    ? cloneElement(children, { id, "aria-invalid": error ? true : undefined, "aria-describedby": error ? errId : undefined })
+    : children;
   return (
     <div className="space-y-2">
-      <label className="text-sm font-semibold flex items-center gap-1" style={{ color: "#FFFFFF" }}>
+      <label htmlFor={id} className="text-sm font-semibold flex items-center gap-1" style={{ color: "var(--color-text-primary)" }}>
         {label}
-        {required && <span style={{ color: "#EF4444" }}>*</span>}
+        {required && <span style={{ color: "var(--color-danger)" }} aria-hidden="true">*</span>}
       </label>
-      {children}
+      {field}
       {error && (
-        <p className="text-xs mt-1" style={{ color: "#EF4444" }}>{error}</p>
+        <p id={errId} role="alert" className="text-xs mt-1" style={{ color: "var(--color-danger)" }}>{error}</p>
       )}
     </div>
   );
 }
 
 const inputClass =
-  "w-full h-12 px-4 bg-[#171B21] border border-[#293038] rounded-xl text-sm text-white placeholder:text-[#5F6A76] focus:outline-none focus:border-[#22D3EE]/50 focus:ring-1 focus:ring-[#22D3EE]/20 transition-all duration-200";
+  "w-full h-12 px-4 bg-background border border-border rounded-xl text-sm text-white placeholder:text-[color:var(--color-text-secondary)] focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-ring transition-colors duration-200";
