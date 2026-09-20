@@ -82,12 +82,9 @@ export default function KeyTagPage() {
       return setError("Add your name and a WhatsApp number so we can reach you.");
     setBusy(true);
     try {
-      const [{ buildPrintGroup }, { exportTo3MF }] = await Promise.all([
-        import("@/components/keytag/geometry"),
-        import("three-3mf-exporter"),
-      ]);
+      const { buildOrder3MF } = await import("@/components/keytag/export3mf");
       const cfg = { ...config, text: text.trim() };
-      const blob = await exportTo3MF(buildPrintGroup(cfg), { filament: "Generic PETG" });
+      const blob = await buildOrder3MF(cfg);
       const now = Date.now();
       const order: StoredOrder = {
         orderId: `KT-${now.toString(36).toUpperCase()}`,

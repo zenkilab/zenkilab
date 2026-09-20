@@ -28,6 +28,9 @@ export const TAG = {
 // Total thickness = FLOOR + EMBOSS = 2.6 mm. The flat back prints face down on the bed.
 // Print Z at which the pocket roof starts, where the operator pauses
 export const RFID_PAUSE_Z = TAG.POCKET.zc + TAG.POCKET.t / 2;
+// Slicer layer height, and the layer (its top Z) where the pause sits: the first layer whose midpoint is above the pocket, so the pocket is fully open below it
+export const PRINT_LAYER = 0.2;
+export const RFID_PAUSE_LAYER_Z = (Math.floor(RFID_PAUSE_Z / PRINT_LAYER + 0.5) + 1) * PRINT_LAYER;
 
 export const STYLES: Record<StyleId, { label: string; maxChars: number; basePrice: number }> = {
   capsule: {
@@ -111,8 +114,8 @@ export function orderSpec(
     `Total: ${rs(p.total)}`,
     "Payment: not collected. On delivery or confirmed over WhatsApp.",
     "",
-    `AMS: the 3MF has two objects. Floor = black, Rim and lettering = ${combo.accentName}. Assign slots in Bambu Studio and check text before printing.`,
-    c.rfid ? `RFID: 20 x 10 mm wet inlay. Pause at Z = ${RFID_PAUSE_Z.toFixed(2)} mm (before the roof over the pocket), place the inlay in the pocket, resume. Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm.` : null,
+    `Colors: the 3MF is one object with two parts already on filament slots 1 (black floor) and 2 (${combo.accentName} rim, ring and lettering). Check the text before printing.`,
+    c.rfid ? `RFID: 20 x 10 mm wet inlay. A pause (M400 U1) is already in the 3MF at Z = ${RFID_PAUSE_LAYER_Z.toFixed(2)} mm, after the pocket is printed and before its roof. Place the inlay in the pocket, then resume. Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm.` : null,
     `Quote expires: ${new Date(o.expiresAt).toISOString()}`,
   ]
     .filter((l) => l !== null)
