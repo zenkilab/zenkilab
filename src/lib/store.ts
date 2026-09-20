@@ -60,9 +60,9 @@ const keyTagStage: StageSlide[] = [
   {
     bg: "/store/key-tag-listing.webp",
     cut: "/store/key-tag-cut.webp",
-    alt: "A black Data Plate key tag with raised amber lettering and rivets",
+    alt: "A black capsule key tag with a raised amber rim and lettering",
     // the tag is wider than the circle so its ends come out of the sides
-    box: place({ size: CHIBI_SIZE, bbox: [83, 451, 1048, 1019], width: 1.2, centre: 0.5 }),
+    box: place({ size: CHIBI_SIZE, bbox: [107, 487, 1055, 958], width: 1.2, centre: 0.5 }),
   },
 ];
 
@@ -72,10 +72,10 @@ export const storeItems = [
     title: "Custom Key Tag",
     description:
       "A two-tone PETG key tag with your name or car number. See it in 3D as you type, then get a quote.",
-    bullets: ["Data Plate", "License Plate", "Heritage or Precision colors"],
+    bullets: ["Name or car number", "Heritage or Precision colors", "Optional RFID chip"],
     href: "/store/key-tag",
     cta: "Design Your Tag",
-    alt: "A black Data Plate key tag with raised amber lettering and rivets",
+    alt: "A black capsule key tag with a raised amber rim and lettering",
     stage: keyTagStage,
     meta: "Made to order",
   },

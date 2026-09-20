@@ -17,7 +17,6 @@ import {
   priceLines,
   rs,
   sanitizeText,
-  styleForContent,
   type ComboId,
   type ContentType,
   type KeyTagConfig,
@@ -41,7 +40,7 @@ export default function KeyTagPage() {
   const router = useRouter();
   const captureRef = useRef<Capture | null>(null);
   const [content, setContent] = useState<ContentType>("name");
-  const [style, setStyle] = useState<StyleId>("data-plate");
+  const style: StyleId = "capsule";
   const [combo, setCombo] = useState<ComboId>("heritage");
   const [text, setText] = useState("");
   const [branding, setBranding] = useState(true); // opt-out: pre-checked
@@ -58,7 +57,7 @@ export default function KeyTagPage() {
       const o: StoredOrder | null = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
       if (o) {
         const c = o.config;
-        setContent(c.content); setStyle(c.style); setCombo(c.combo); setText(c.text);
+        setContent(c.content); setCombo(c.combo); setText(sanitizeText(c.content, style, c.text));
         setBranding(c.branding);
         setRfid(!!c.rfid);
         setName(o.contact.name); setPhone(o.contact.phone);
@@ -72,14 +71,8 @@ export default function KeyTagPage() {
   const p = priceLines(config);
 
   const pickContent = (c: ContentType) => {
-    const s = styleForContent(c);
     setContent(c);
-    setStyle(s);
-    setText((t) => sanitizeText(c, s, t));
-  };
-  const pickStyle = (s: StyleId) => {
-    setStyle(s);
-    setText((t) => sanitizeText(content, s, t));
+    setText((t) => sanitizeText(c, style, t));
   };
 
   async function submit() {
@@ -167,21 +160,6 @@ export default function KeyTagPage() {
                   aria-label="Tag text"
                 />
                 <p className="mt-1.5 text-right font-mono text-xs text-muted-foreground">{text.length}/{max}</p>
-              </div>
-            </section>
-
-            <section className="space-y-3">
-              <h3 className="text-sm font-semibold">Style</h3>
-              <div className="grid gap-2 sm:grid-cols-2">
-                {(Object.keys(STYLES) as StyleId[]).map((s) => (
-                  <button key={s} type="button" onClick={() => pickStyle(s)} className={seg(style === s) + " text-left"}>
-                    <span className="flex items-center justify-between">
-                      {STYLES[s].label}
-                      {STYLES[s].content === content && <span className="text-[10px] uppercase tracking-widest text-primary">Suggested</span>}
-                    </span>
-                    <span className="mt-1 block text-xs font-normal text-muted-foreground">{STYLES[s].blurb}</span>
-                  </button>
-                ))}
               </div>
             </section>
 

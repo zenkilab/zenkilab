@@ -69,14 +69,14 @@ export default function KeyTagScene({
   useEffect(() => setDpr(window.matchMedia("(max-width: 768px)").matches ? 1 : Math.min(2, window.devicePixelRatio)), []);
 
   return (
-    <Canvas dpr={dpr} camera={{ position: [0, 0, 78], fov: 32 }}>
+    <Canvas dpr={dpr} camera={{ position: [0, 0, 100], fov: 32 }}>
       <ambientLight intensity={1.1} />
       <directionalLight position={[30, 40, 60]} intensity={2.2} />
       <directionalLight position={[-40, -20, 30]} intensity={0.7} />
       {/* rim light so the black body reads against the empty background */}
       <directionalLight position={[60, 30, -25]} intensity={2.4} />
       <Tag config={config} flipped={flipped} />
-      <OrbitControls enablePan={false} minDistance={45} maxDistance={120} />
+      <OrbitControls enablePan={false} minDistance={55} maxDistance={150} />
       <Grab apiRef={captureRef} />
     </Canvas>
   );

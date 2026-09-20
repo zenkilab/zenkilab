@@ -1,5 +1,5 @@
 // Key tag product rules. Spec: DESIGN_SYSTEM.md section 5.
-export type StyleId = "data-plate" | "license-plate";
+export type StyleId = "capsule";
 export type ContentType = "name" | "car-number";
 export type ComboId = "heritage" | "precision";
 
@@ -8,24 +8,29 @@ export const BRANDING_DISCOUNT = 50; // Rs., for keeping the zenkilab.com stamp
 export const RFID_PRICE = 200; // Rs., optional RFID chip inside the tag
 export const QUOTE_HOURS = 24;
 
-export const STYLES: Record<
-  StyleId,
-  { label: string; content: ContentType; maxChars: number; basePrice: number; blurb: string }
-> = {
-  "data-plate": {
-    label: "Data Plate",
-    content: "name",
-    maxChars: 16,
+/** Physical tag, millimetres. Rim, lettering and rings stand EMBOSS above a recessed floor on both faces. */
+export const TAG = {
+  W: 64,
+  H: 25,
+  FLOOR: 1.6, // thickness of the recessed floor
+  EMBOSS: 1.0, // how far rim and lettering stand above (and the floor sits below) each face
+  RIM: 1.4, // width of the raised border
+  HOLE_R: 2.25, // keyring hole radius
+  HOLE_X: -24.5,
+  /** Wet RFID inlay, 20 x 10 mm with clearance, sealed inside the floor */
+  POCKET: { w: 20.6, h: 10.6, t: 0.5, cx: 4.6 },
+} as const;
+
+// Total thickness = FLOOR + 2 x EMBOSS = 3.6 mm
+// Print Z (back face down) at which the pocket roof starts, where the operator pauses
+export const RFID_PAUSE_Z = TAG.EMBOSS + TAG.FLOOR / 2 + TAG.POCKET.t / 2;
+
+export const STYLES: Record<StyleId, { label: string; maxChars: number; basePrice: number }> = {
+  capsule: {
+    label: "Capsule key tag",
+    maxChars: 14,
     // Rs. 300 without the stamp and without RFID. 250 with the stamp. RFID adds 200.
     basePrice: 300,
-    blurb: "Riveted plate for a name.",
-  },
-  "license-plate": {
-    label: "License Plate",
-    content: "car-number",
-    maxChars: 10,
-    basePrice: 300,
-    blurb: "Plate proportions with a thin accent border.",
   },
 };
 
@@ -43,7 +48,7 @@ export type KeyTagConfig = {
   rfid: boolean;
 };
 
-export const styleForContent = (c: ContentType): StyleId => (c === "name" ? "data-plate" : "license-plate");
+export const styleForContent = (_c: ContentType): StyleId => "capsule";
 
 export function sanitizeText(content: ContentType, style: StyleId, raw: string) {
   const cleaned =
@@ -102,7 +107,8 @@ export function orderSpec(
     `Total: ${rs(p.total)}`,
     "Payment: not collected. On delivery or confirmed over WhatsApp.",
     "",
-    `AMS: the 3MF has two objects. Body = black, Accent = ${combo.accentName}. Assign slots in Bambu Studio and check text before printing.`,
+    `AMS: the 3MF has two objects. Floor = black, Rim and lettering = ${combo.accentName}. Assign slots in Bambu Studio and check text before printing.`,
+    c.rfid ? `RFID: 20 x 10 mm wet inlay. Pause at Z = ${RFID_PAUSE_Z.toFixed(2)} mm (before the roof over the pocket), place the inlay in the pocket, resume. Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm.` : null,
     `Quote expires: ${new Date(o.expiresAt).toISOString()}`,
   ]
     .filter((l) => l !== null)

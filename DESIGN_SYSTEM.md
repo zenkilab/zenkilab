@@ -79,9 +79,13 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 - **Material: PETG only.** Not offered as a customer choice (removes decision friction; PETG wins outright on heat resistance, durability, and cost is equal or cheaper than PLA).
 - **Two-tone color system:** black/charcoal body + one accent color, not solid bright colors. Two named combos: "Heritage" (black + amber) and "Precision" (black + cyan).
 - **Content types:** Name or Car Number, selected via toggle — selecting Car Number nudges the style recommendation toward plate-shaped designs.
-- **Character limits, enforced live in the customizer:** ~10 chars for plate-style, ~16 for name-style.
+- **Character limit, enforced live in the customizer:** 14 characters, lettering auto-fits the space beside the keyring rings.
 - **Front:** only what the customer types. **Back:** the zenkilab.com marketing stamp, or blank without it. The stamp is opt-out by default (pre-checked), Rs. 50 discount for keeping it on. Framed positively ("save Rs. 50"), not as a penalty for removing it.
-- **Design concepts explored** (front + back both matter): Heritage Badge (shield, raised inset panel), Data Plate (rivets), Coin Medallion (circular, integrated loop instead of a hole), License Plate (light background like a real plate, thin accent border only, minimal back). Final shortlist not yet locked to a specific count — reference the flip-card gallery mockup for all four before deciding which ship.
+- **Shape (v1): one capsule**, 64 x 25 mm, 3.6 mm thick, keyring hole at the left with a boss ring and a thin outer ring (the logomark's ring motif). It replaces the earlier Data Plate and License Plate styles: one shape holds a name or a car number, there is no style picker, and one price. Heritage Badge and Coin Medallion stay phase two.
+- **Emboss and deboss:** the rim (1.4 mm wide), the lettering and the rings stand 1.0 mm proud on both faces. Everything inside the rim is the recessed floor, 1.6 mm thick, so 1.0 mm deboss and 3.6 mm overall. Lettering is Space Grotesk Bold, at least 0.8 mm stroke and about 5 mm tall or more so it prints cleanly.
+- **Colors in print:** black floor, accent (amber or cyan) rim, rings and lettering. Two objects in the 3MF, one per color. Back face: rim and rings always, `ZenkiLab.com` raised only if the marketing line is kept.
+- **Pricing:** Rs. 300 without the marketing line and without RFID, Rs. 250 with the `ZenkiLab.com` line, RFID chip adds Rs. 200 either way.
+- **RFID (optional):** a 20 x 10 mm wet inlay sealed in a 20.6 x 10.6 x 0.5 mm pocket inside the floor. The operator pauses the print at Z = 2.05 mm, places the inlay, and resumes. The emailed spec says when to pause.
 - Keyring holes across all styles: concentric double-ring detail, echoing the logomark's ring motif.
 
 ---
@@ -98,7 +102,7 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 
 ## 7. Open / Unresolved
 
-- Style count for v1 is decided: Data Plate and License Plate ship first, Heritage Badge and Coin Medallion are phase two.
+- Key tag v1 is decided: one capsule shape (see section 5). Heritage Badge and Coin Medallion are phase two.
 - Quotation page Confirm button is decided: locks the order into the queue, does not collect payment.
 - Real AMS filament color lineup (placeholder colors used in mockups, swap for actual loaded colors before shipping).
 - Whether headline/body typography changes beyond the current three-tier system (Space Grotesk headings, Inter body, IBM Plex Mono numbers). That system is locked, but nothing further has been proposed.
