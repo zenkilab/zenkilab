@@ -4,6 +4,8 @@
 // Requires:
 //   Cloudflare Pages env var: RESEND_API_KEY
 
+import { C, button, esc, rows, section, shell, whatsappUrl } from "../_lib/email";
+
 interface Env {
   RESEND_API_KEY: string;
 }
@@ -77,52 +79,53 @@ export const onRequestPost = async ({
     }
   }
 
-  const fields = [
-    { label: "Name", value: name },
-    { label: "Email", value: email },
-    { label: "Phone", value: phone || "—" },
-    { label: "Country", value: country || "—" },
-    { label: "Material", value: material },
-    { label: "Color", value: color || "—" },
-    { label: "Quantity", value: quantity || "—" },
-    { label: "Layer Height", value: layerHeight || "—" },
-    { label: "Desired Date", value: desiredDate || "—" },
-    { label: "Files Uploaded", value: fileCount || String(uploadedFiles.length) },
-    { label: "Notes", value: notes || "—" },
-  ];
-
-  const rows = fields
-    .map(
-      (f) =>
-        `<tr><td style="padding:8px 12px;border-bottom:1px solid #1E232B;color:#8B919E;font-size:13px;white-space:nowrap">${f.label}</td><td style="padding:8px 12px;border-bottom:1px solid #1E232B;color:#fafafa;font-size:13px">${sanitize(f.value)}</td></tr>`
-    )
-    .join("");
-
   const fileNames = uploadedFiles.map((f) => f.name).join(", ") || "None";
 
-  const html = `<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#0F1115;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-<table width="100%" style="max-width:600px;margin:0 auto;background:#0F1115">
-<tr><td style="padding:32px 24px 20px">
-<span style="font-size:18px;font-weight:700;color:#fafafa;letter-spacing:-0.02em">ZENKI<span style="color:#38C8F5">LAB</span></span>
-</td></tr>
-<tr><td style="padding:0 24px 8px">
-<h1 style="font-size:20px;font-weight:700;color:#fafafa;margin:0 0 4px">New Quote Request</h1>
-<p style="font-size:14px;color:#8B919E;margin:0">${sanitize(name)} submitted a project enquiry.</p>
-</td></tr>
-<tr><td style="padding:20px 24px">
-<table width="100%" style="background:#161A20;border-radius:12px;border:1px solid rgba(255,255,255,0.06);overflow:hidden">
-${rows}
-</table>
-</td></tr>
-<tr><td style="padding:24px">
-<p style="font-size:12px;color:#4B5260;margin:0">Sent via Zenki Lab quoting system · Reply directly to this email to respond to ${sanitize(name)}</p>
-</td></tr>
-</table>
-</body>
-</html>`;
+  const dash = (v: string | null | undefined) => v || "-";
+  const kb = (n: number) => (n >= 1024 * 1024 ? `${(n / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
+  const wa = phone ? whatsappUrl(phone) : null;
+  const sentFiles = uploadedFiles.filter((f) => f && f.size > 0);
+
+  const html = shell({
+    kind: "Project Quote",
+    banner: "NEW PROJECT QUOTE REQUEST · REPLY TO THE CUSTOMER",
+    tone: "info",
+    headline: esc(name),
+    sub: `${esc(material)}${quantity ? ` &middot; qty ${esc(quantity)}` : ""}${desiredDate ? ` &middot; needed by ${esc(desiredDate)}` : ""}`,
+    preheader: `${name}: ${material}${quantity ? `, qty ${quantity}` : ""}`,
+    body: [
+      section(
+        "Customer",
+        rows([
+          ["Name", name],
+          ["Email", { html: `<a href="mailto:${esc(email)}" style="color:${C.cyanInk}">${esc(email)}</a>` }],
+          ["Phone", dash(phone)],
+          ["Country", dash(country)],
+        ]) +
+          `<div style="padding-top:14px">${button(`mailto:${email}`, "Reply by email")}${wa ? ` &nbsp; ${button(wa, "WhatsApp")}` : ""}</div>`,
+      ),
+      section(
+        "Job",
+        rows([
+          ["Material", material],
+          ["Colour", dash(color)],
+          ["Quantity", dash(quantity)],
+          ["Layer height", dash(layerHeight)],
+          ["Needed by", dash(desiredDate)],
+        ]),
+      ),
+      notes
+        ? section("Notes", `<div style="font-size:14px;line-height:1.55;color:${C.ink};white-space:pre-wrap;background:#F6F7F9;border-radius:8px;padding:12px 14px">${esc(notes)}</div>`)
+        : "",
+      section(
+        `Files (${sentFiles.length}${fileCount && Number(fileCount) !== sentFiles.length ? ` of ${esc(fileCount)} sent` : ""})`,
+        sentFiles.length
+          ? rows(sentFiles.map((f): [string, string] => [f.name, kb(f.size)]))
+          : `<div style="font-size:14px;color:${C.muted}">No files attached.</div>`,
+      ),
+    ].join(""),
+    footer: "Sent by the Zenki Lab quoting form. Replying to this email goes straight to the customer.",
+  });
 
   const text = `New quote request from ${name} (${email}).\nPhone: ${phone}\nMaterial: ${material}\nQuantity: ${quantity}\nColor: ${color}\nNotes: ${notes || "None"}\nFiles: ${fileNames}`;
 
@@ -193,12 +196,4 @@ function arrayBufferToBase64(buffer: ArrayBuffer): string {
     }
   }
   return result;
-}
-
-function sanitize(str: string): string {
-  return str
-    .replaceAll("&", "\u0026")
-    .replaceAll("<", "\u003C")
-    .replaceAll(">", "\u003E")
-    .replaceAll('"', "\u0022");
 }

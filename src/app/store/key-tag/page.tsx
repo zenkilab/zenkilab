@@ -13,7 +13,6 @@ import {
   QUOTE_HOURS,
   STORAGE_KEY,
   STYLES,
-  orderSpec,
   priceLines,
   rs,
   sanitizeText,
@@ -23,6 +22,7 @@ import {
   type StoredOrder,
   type StyleId,
 } from "@/lib/keytag";
+import { sendOrder } from "@/lib/keytag-submit";
 
 const KeyTagScene = dynamic(() => import("@/components/keytag/KeyTagScene"), {
   ssr: false,
@@ -94,19 +94,7 @@ export default function KeyTagPage() {
         createdAt: now,
         expiresAt: now + QUOTE_HOURS * 3600_000,
       };
-      const form = new FormData();
-      form.append("stage", "quote");
-      form.append("orderId", order.orderId);
-      form.append("spec", orderSpec(order, "quote"));
-      form.append("model", new File([blob], `${order.orderId}.3mf`, { type: "model/3mf" }));
-      try {
-        const res = await fetch("/api/hub/keytag-order", { method: "POST", body: form });
-        if (!res.ok) throw new Error((await res.json().catch(() => null))?.error || `HTTP ${res.status}`);
-      } catch (e) {
-        // The Pages Function does not run under `next dev`, so let local runs continue.
-        if (process.env.NODE_ENV !== "development") throw e;
-        console.warn("keytag-order not sent (dev only):", e);
-      }
+      await sendOrder(order, "quote", blob);
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(order));
       router.push("/store/key-tag/quote");
     } catch (e) {

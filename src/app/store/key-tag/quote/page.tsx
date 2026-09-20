@@ -5,7 +5,8 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { contactChannels } from "@/lib/constants";
-import { COMBOS, MATERIAL, STORAGE_KEY, STYLES, orderSpec, priceLines, rs, type StoredOrder } from "@/lib/keytag";
+import { COMBOS, MATERIAL, STORAGE_KEY, STYLES, priceLines, rs, type StoredOrder } from "@/lib/keytag";
+import { sendOrder } from "@/lib/keytag-submit";
 
 const whatsapp = contactChannels.find((c) => c.label === "WhatsApp")?.href ?? "#";
 
@@ -35,17 +36,7 @@ export default function QuotePage() {
     setBusy(true);
     setError("");
     try {
-      const form = new FormData();
-      form.append("stage", "confirm");
-      form.append("orderId", order.orderId);
-      form.append("spec", orderSpec(order, "confirm"));
-      try {
-        const res = await fetch("/api/hub/keytag-order", { method: "POST", body: form });
-        if (!res.ok) throw new Error((await res.json().catch(() => null))?.error || `HTTP ${res.status}`);
-      } catch (e) {
-        if (process.env.NODE_ENV !== "development") throw e;
-        console.warn("keytag confirm not sent (dev only):", e);
-      }
+      await sendOrder(order, "confirm");
       const next = { ...order, confirmed: true };
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       setOrder(next);
