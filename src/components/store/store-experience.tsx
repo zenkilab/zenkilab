@@ -52,7 +52,7 @@ function Intro({ items }: { items: StoreListItem[] }) {
   const ringB = useTransform(p, [0, 1], [0, -90]);
   const textY = useTransform(p, [0, 1], [0, -30]);
   const textOpacity = useTransform(p, [0, 0.75], [1, 0]);
-  const tagYaw = useTransform(p, [0, 1], [-0.7, 0.35]);
+  const tagYaw = useTransform(p, [0, 1], [-0.4, 0.3]);
   const [front, back] = items;
 
   return (
@@ -95,7 +95,7 @@ function Scene({ item, flip }: { item: StoreListItem; flip: boolean }) {
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
   const scale = useTransform(p, [0, 0.3], [0.86, 1]);
-  const yaw = useTransform(p, [0, 1], [-0.95, 0.6]);
+  const yaw = useTransform(p, [0.05, 0.95], [-0.5, 0.5]);
   const ringA = useTransform(p, [0, 1], [-35, 45]);
   const ringB = useTransform(p, [0, 1], [40, -50]);
   const titleO = useTransform(p, [0.08, 0.28], [0, 1]);
@@ -118,10 +118,10 @@ function Scene({ item, flip }: { item: StoreListItem; flip: boolean }) {
           <div className={`lg:col-span-6 ${flip ? "lg:order-2" : ""}`}>
             <div className="relative mx-auto" style={{ width: d, marginTop: `calc(${d} * 0.3)` }}>
               <DepthRings outer={depth ? ringA : undefined} inner={depth ? ringB : undefined} className="pointer-events-none absolute -inset-[16%] h-[132%] w-[132%]" />
-              <motion.div style={depth ? { scale } : undefined} className="relative">
+              <motion.div style={depth && item.id !== "key-tag" ? { scale } : undefined} className="relative">
                 {depth && item.id === "key-tag" ? (
                   <Link href={item.href} aria-label={item.title} className="block rounded-full">
-                    <KeyTagSpin yaw={yaw} />
+                    <KeyTagSpin yaw={yaw} zoom={scale} />
                   </Link>
                 ) : (
                   <CircleStage slides={item.stage} href={item.href} label={item.title} controls={item.stage.length > 1} />
