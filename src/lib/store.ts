@@ -62,7 +62,7 @@ const keyTagStage: StageSlide[] = [
     cut: "/store/key-tag-cut.webp",
     alt: "A black capsule key tag with a raised amber rim and lettering",
     // the tag is wider than the circle so its ends come out of the sides
-    box: place({ size: CHIBI_SIZE, bbox: [107, 487, 1055, 958], width: 1.2, centre: 0.5 }),
+    box: place({ size: CHIBI_SIZE, bbox: [107, 490, 1048, 958], width: 1.2, centre: 0.5 }),
   },
 ];
 

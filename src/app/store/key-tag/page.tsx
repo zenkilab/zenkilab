@@ -184,7 +184,7 @@ export default function KeyTagPage() {
                   Keep the zenkilab.com stamp on the back and save <span className="font-mono">{rs(BRANDING_DISCOUNT)}</span>
                 </span>
               </label>
-              <p className="pl-7 text-xs text-muted-foreground">Without it, the back is left blank.</p>
+              <p className="pl-7 text-xs text-muted-foreground">The back is always flat. Without the stamp it is left plain.</p>
               <label className="flex cursor-pointer items-start gap-3 border-t border-border pt-3">
                 <input type="checkbox" checked={rfid} onChange={(e) => setRfid(e.target.checked)} className="mt-1 h-4 w-4 accent-[color:var(--color-accent-primary)]" />
                 <span className="text-sm">

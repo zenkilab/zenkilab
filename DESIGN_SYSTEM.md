@@ -81,11 +81,12 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 - **Content types:** Name or Car Number, selected via toggle — selecting Car Number nudges the style recommendation toward plate-shaped designs.
 - **Character limit, enforced live in the customizer:** 14 characters, lettering auto-fits the space beside the keyring rings.
 - **Front:** only what the customer types. **Back:** the zenkilab.com marketing stamp, or blank without it. The stamp is opt-out by default (pre-checked), Rs. 50 discount for keeping it on. Framed positively ("save Rs. 50"), not as a penalty for removing it.
-- **Shape (v1): one capsule**, 64 x 25 mm, 3.6 mm thick, keyring hole at the left with a boss ring and a thin outer ring (the logomark's ring motif). It replaces the earlier Data Plate and License Plate styles: one shape holds a name or a car number, there is no style picker, and one price. Heritage Badge and Coin Medallion stay phase two.
-- **Emboss and deboss:** the rim (1.4 mm wide), the lettering and the rings stand 1.0 mm proud on both faces. Everything inside the rim is the recessed floor, 1.6 mm thick, so 1.0 mm deboss and 3.6 mm overall. Lettering is Space Grotesk Bold, at least 0.8 mm stroke and about 5 mm tall or more so it prints cleanly.
-- **Colors in print:** black floor, accent (amber or cyan) rim, rings and lettering. Two objects in the 3MF, one per color. Back face: rim and rings always, `ZenkiLab.com` raised only if the marketing line is kept.
+- **Shape (v1): one capsule**, 64 x 25 mm, 2.6 mm thick, keyring hole at the left with a single ring around it (the logomark's ring motif). It replaces the earlier Data Plate and License Plate styles: one shape holds a name or a car number, there is no style picker, and one price. Heritage Badge and Coin Medallion stay phase two.
+- **Emboss and deboss (front only):** the rim (1.4 mm wide), the ring and the lettering stand 1.0 mm proud of the recessed floor, which is 1.6 mm thick. Lettering is Space Grotesk Bold, at least 0.8 mm stroke and about 5 mm tall or more so it prints cleanly.
+- **Back is completely flat.** No rim, no ring, no relief. If the marketing line is kept, `ZenkiLab.com` is a flush 0.4 mm color inlay in the accent color, otherwise the back is plain. The flat back prints face down on the bed.
+- **Colors in print:** black floor, accent (amber or cyan) rim, ring and lettering. Two objects in the 3MF, one per color.
 - **Pricing:** Rs. 300 without the marketing line and without RFID, Rs. 250 with the `ZenkiLab.com` line, RFID chip adds Rs. 200 either way.
-- **RFID (optional):** a 20 x 10 mm wet inlay sealed in a 20.6 x 10.6 x 0.5 mm pocket inside the floor. The operator pauses the print at Z = 2.05 mm, places the inlay, and resumes. The emailed spec says when to pause.
+- **RFID (optional):** a 20 x 10 mm wet inlay sealed in a 20.6 x 10.6 x 0.5 mm pocket inside the floor (centred 0.9 mm from the back). The operator pauses the print at Z = 1.15 mm, places the inlay, and resumes. The emailed spec says when to pause.
 - Keyring holes across all styles: concentric double-ring detail, echoing the logomark's ring motif.
 
 ---

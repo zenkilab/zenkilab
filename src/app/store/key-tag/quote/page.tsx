@@ -83,7 +83,7 @@ export default function QuotePage() {
     ["Text", c.text],
     ["Colors", `${combo.label}, black and ${combo.accentName}`],
     ["Material", MATERIAL],
-    ["Back", c.branding ? "zenkilab.com stamp" : "Blank"],
+    ["Back", c.branding ? "Flat, with zenkilab.com as a flush inlay" : "Flat and plain"],
     ["RFID chip", c.rfid ? "Included" : "No"],
   ];
 

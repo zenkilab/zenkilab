@@ -8,22 +8,26 @@ export const BRANDING_DISCOUNT = 50; // Rs., for keeping the zenkilab.com stamp
 export const RFID_PRICE = 200; // Rs., optional RFID chip inside the tag
 export const QUOTE_HOURS = 24;
 
-/** Physical tag, millimetres. Rim, lettering and rings stand EMBOSS above a recessed floor on both faces. */
+/**
+ * Physical tag, millimetres. FRONT: rim, ring and lettering stand EMBOSS above a recessed floor.
+ * BACK: completely flat. The marketing line, when kept, is a flush color inlay INLAY deep.
+ */
 export const TAG = {
   W: 64,
   H: 25,
-  FLOOR: 1.6, // thickness of the recessed floor
-  EMBOSS: 1.0, // how far rim and lettering stand above (and the floor sits below) each face
+  FLOOR: 1.6, // thickness of the floor
+  EMBOSS: 1.0, // how far rim, ring and lettering stand above the floor, front only
+  INLAY: 0.4, // depth of the flush marketing lettering on the back
   RIM: 1.4, // width of the raised border
   HOLE_R: 2.25, // keyring hole radius
   HOLE_X: -24.5,
-  /** Wet RFID inlay, 20 x 10 mm with clearance, sealed inside the floor */
-  POCKET: { w: 20.6, h: 10.6, t: 0.5, cx: 4.6 },
+  /** Wet RFID inlay, 20 x 10 mm with clearance, sealed inside the floor. zc = height of its centre from the back face. */
+  POCKET: { w: 20.6, h: 10.6, t: 0.5, cx: 4.6, zc: 0.9 },
 } as const;
 
-// Total thickness = FLOOR + 2 x EMBOSS = 3.6 mm
-// Print Z (back face down) at which the pocket roof starts, where the operator pauses
-export const RFID_PAUSE_Z = TAG.EMBOSS + TAG.FLOOR / 2 + TAG.POCKET.t / 2;
+// Total thickness = FLOOR + EMBOSS = 2.6 mm. The flat back prints face down on the bed.
+// Print Z at which the pocket roof starts, where the operator pauses
+export const RFID_PAUSE_Z = TAG.POCKET.zc + TAG.POCKET.t / 2;
 
 export const STYLES: Record<StyleId, { label: string; maxChars: number; basePrice: number }> = {
   capsule: {
@@ -97,7 +101,7 @@ export function orderSpec(
     `Text: "${c.text}"`,
     `Color combo: ${combo.label} (black body + ${combo.accentName} accent)`,
     `Material: ${MATERIAL}`,
-    `Back: ${c.branding ? "zenkilab.com stamp only" : "blank"}`,
+    `Back: flat. ${c.branding ? "ZenkiLab.com as a flush 0.4 mm color inlay, no relief" : "blank"}`,
     `RFID chip: ${c.rfid ? "YES, embed before sealing (+Rs. 200)" : "no"}`,
     `zenkilab.com stamp: ${c.branding ? "ON (Rs. 50 discount applied)" : "OFF"}`,
     "",
