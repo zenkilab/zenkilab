@@ -26,8 +26,20 @@ export type StageItem = {
  * sharp in front of it. On fine pointers the two layers drift a little differently with the
  * cursor, which gives the scene depth. No frame, no hard edges.
  */
-export function StageIndex({ items }: { items: StageItem[] }) {
-  const [idx, setIdx] = useState(0);
+export function StageIndex({
+  items,
+  activeIndex,
+  onSelect,
+}: {
+  items: StageItem[];
+  /** Controlled mode: the parent decides which item is active (used when scroll drives the selection) */
+  activeIndex?: number;
+  onSelect?: (i: number) => void;
+}) {
+  const controlled = activeIndex !== undefined;
+  const [own, setOwn] = useState(0);
+  const idx = controlled ? activeIndex : own;
+  const setIdx = (i: number) => (controlled ? onSelect?.(i) : setOwn(i));
   const reduce = useReducedMotion();
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const fine = useRef(false);
@@ -157,7 +169,7 @@ export function StageIndex({ items }: { items: StageItem[] }) {
                 type="button"
                 onClick={() => setIdx(i)}
                 onMouseEnter={() => {
-                  if (fine.current) setIdx(i);
+                  if (fine.current && !controlled) setIdx(i);
                 }}
                 className="flex min-h-12 w-full items-center px-6 py-3 text-left font-[family-name:var(--font-wordmark)] text-[clamp(1.25rem,2.2vw,1.75rem)] font-semibold tracking-[-0.01em] transition-colors duration-300 motion-reduce:transition-none"
                 style={{ color: on ? "var(--color-text-primary)" : "var(--color-text-secondary)" }}
