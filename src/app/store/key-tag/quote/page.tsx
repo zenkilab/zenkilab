@@ -84,6 +84,7 @@ export default function QuotePage() {
     ["Colors", `${combo.label}, black and ${combo.accentName}`],
     ["Material", MATERIAL],
     ["Back", c.branding ? "zenkilab.com stamp" : "Blank"],
+    ["RFID chip", c.rfid ? "Included" : "No"],
   ];
 
   if (order.confirmed)
@@ -129,6 +130,9 @@ export default function QuotePage() {
           <div className="flex justify-between"><dt className="text-muted-foreground">{STYLES[c.style].label}</dt><dd>{rs(p.base)}</dd></div>
           {p.discount > 0 && (
             <div className="flex justify-between"><dt className="text-muted-foreground">Branding discount</dt><dd className="text-primary">-{rs(p.discount)}</dd></div>
+          )}
+          {p.rfid > 0 && (
+            <div className="flex justify-between"><dt className="text-muted-foreground">RFID chip</dt><dd>+{rs(p.rfid)}</dd></div>
           )}
           <div className="flex justify-between text-base font-semibold"><dt>Total</dt><dd>{rs(p.total)}</dd></div>
         </dl>

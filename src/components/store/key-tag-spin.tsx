@@ -7,7 +7,7 @@ import type { MotionValue } from "framer-motion";
 import { buildKeyTag } from "@/components/keytag/geometry";
 import { COMBOS, type KeyTagConfig } from "@/lib/keytag";
 
-const config: KeyTagConfig = { content: "name", style: "data-plate", combo: "heritage", text: "ZENKI", branding: true };
+const config: KeyTagConfig = { content: "name", style: "data-plate", combo: "heritage", text: "ZENKI", branding: true, rfid: false };
 
 function Tag({ yaw }: { yaw: MotionValue<number> }) {
   const invalidate = useThree((s) => s.invalidate);

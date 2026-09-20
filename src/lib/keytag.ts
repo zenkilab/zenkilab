@@ -5,6 +5,7 @@ export type ComboId = "heritage" | "precision";
 
 export const MATERIAL = "PETG"; // fixed, never a customer choice
 export const BRANDING_DISCOUNT = 50; // Rs., for keeping the zenkilab.com stamp
+export const RFID_PRICE = 200; // Rs., optional RFID chip inside the tag
 export const QUOTE_HOURS = 24;
 
 export const STYLES: Record<
@@ -15,15 +16,15 @@ export const STYLES: Record<
     label: "Data Plate",
     content: "name",
     maxChars: 16,
-    // ponytail: placeholder prices, no source in the repo. Confirm before launch.
-    basePrice: 900,
+    // Rs. 300 without the stamp and without RFID. 250 with the stamp. RFID adds 200.
+    basePrice: 300,
     blurb: "Riveted plate for a name.",
   },
   "license-plate": {
     label: "License Plate",
     content: "car-number",
     maxChars: 10,
-    basePrice: 800,
+    basePrice: 300,
     blurb: "Plate proportions with a thin accent border.",
   },
 };
@@ -39,6 +40,7 @@ export type KeyTagConfig = {
   combo: ComboId;
   text: string;
   branding: boolean;
+  rfid: boolean;
 };
 
 export const styleForContent = (c: ContentType): StyleId => (c === "name" ? "data-plate" : "license-plate");
@@ -54,7 +56,8 @@ export function sanitizeText(content: ContentType, style: StyleId, raw: string) 
 export function priceLines(c: KeyTagConfig) {
   const base = STYLES[c.style].basePrice;
   const discount = c.branding ? BRANDING_DISCOUNT : 0;
-  return { base, discount, total: base - discount };
+  const rfid = c.rfid ? RFID_PRICE : 0;
+  return { base, discount, rfid, total: base - discount + rfid };
 }
 
 export const rs = (n: number) => `Rs. ${n.toLocaleString("en-LK")}`;
@@ -90,10 +93,12 @@ export function orderSpec(
     `Color combo: ${combo.label} (black body + ${combo.accentName} accent)`,
     `Material: ${MATERIAL}`,
     `Back: ${c.branding ? "zenkilab.com stamp only" : "blank"}`,
+    `RFID chip: ${c.rfid ? "YES, embed before sealing (+Rs. 200)" : "no"}`,
     `zenkilab.com stamp: ${c.branding ? "ON (Rs. 50 discount applied)" : "OFF"}`,
     "",
     `Base price: ${rs(p.base)}`,
     `Branding discount: ${p.discount ? "-" + rs(p.discount) : "none"}`,
+    `RFID chip: ${p.rfid ? "+" + rs(p.rfid) : "none"}`,
     `Total: ${rs(p.total)}`,
     "Payment: not collected. On delivery or confirmed over WhatsApp.",
     "",

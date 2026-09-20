@@ -9,6 +9,7 @@ import type { Capture } from "@/components/keytag/KeyTagScene";
 import {
   COMBOS,
   BRANDING_DISCOUNT,
+  RFID_PRICE,
   QUOTE_HOURS,
   STORAGE_KEY,
   STYLES,
@@ -44,6 +45,7 @@ export default function KeyTagPage() {
   const [combo, setCombo] = useState<ComboId>("heritage");
   const [text, setText] = useState("");
   const [branding, setBranding] = useState(true); // opt-out: pre-checked
+  const [rfid, setRfid] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -58,13 +60,14 @@ export default function KeyTagPage() {
         const c = o.config;
         setContent(c.content); setStyle(c.style); setCombo(c.combo); setText(c.text);
         setBranding(c.branding);
+        setRfid(!!c.rfid);
         setName(o.contact.name); setPhone(o.contact.phone);
         return;
       }
     } catch {}
   }, []);
 
-  const config: KeyTagConfig = { content, style, combo, text, branding };
+  const config: KeyTagConfig = { content, style, combo, text, branding, rfid };
   const max = STYLES[style].maxChars;
   const p = priceLines(config);
 
@@ -204,6 +207,12 @@ export default function KeyTagPage() {
                 </span>
               </label>
               <p className="pl-7 text-xs text-muted-foreground">Without it, the back is left blank.</p>
+              <label className="flex cursor-pointer items-start gap-3 border-t border-border pt-3">
+                <input type="checkbox" checked={rfid} onChange={(e) => setRfid(e.target.checked)} className="mt-1 h-4 w-4 accent-[color:var(--color-accent-primary)]" />
+                <span className="text-sm">
+                  Add an RFID chip inside the tag for <span className="font-mono">{rs(RFID_PRICE)}</span>
+                </span>
+              </label>
             </section>
 
             <section className="space-y-3">
@@ -219,6 +228,9 @@ export default function KeyTagPage() {
                 <div className="flex justify-between"><dt className="text-muted-foreground">{STYLES[style].label}</dt><dd>{rs(p.base)}</dd></div>
                 {p.discount > 0 && (
                   <div className="flex justify-between"><dt className="text-muted-foreground">Branding discount</dt><dd className="text-primary">-{rs(p.discount)}</dd></div>
+                )}
+                {p.rfid > 0 && (
+                  <div className="flex justify-between"><dt className="text-muted-foreground">RFID chip</dt><dd>+{rs(p.rfid)}</dd></div>
                 )}
                 <div className="flex justify-between text-base font-semibold"><dt>Total</dt><dd>{rs(p.total)}</dd></div>
               </dl>
