@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 export type StageItem = {
@@ -12,15 +12,19 @@ export type StageItem = {
   bullets?: string[];
   href: string;
   cta: string;
-  image: string;
+  /** 4:3 photo, shown dimmed, softly blurred and faded at the edges */
+  bg: string;
+  /** The same photo with only the subject kept, drawn sharp on top so it comes out of the fade */
+  cut: string;
   alt: string;
-  focus?: string;
 };
 
 /**
- * Stage and index: one large image, a list of titles beside it. Choosing an item
- * (click, tap, hover or arrow keys) swaps the image, so nothing depends on scroll.
- * The image drifts slightly with the cursor on fine pointers.
+ * Stage and index: one large scene, a list of titles beside it. Choosing an item (click, tap,
+ * hover or arrow keys) swaps the scene, so nothing depends on scroll position.
+ * The photo behind is dimmed, softly blurred and faded into the page, and the subject stands
+ * sharp in front of it. On fine pointers the two layers drift a little differently with the
+ * cursor, which gives the scene depth. No frame, no hard edges.
  */
 export function StageIndex({ items }: { items: StageItem[] }) {
   const [idx, setIdx] = useState(0);
@@ -31,6 +35,9 @@ export function StageIndex({ items }: { items: StageItem[] }) {
   const my = useMotionValue(0);
   const sx = useSpring(mx, { stiffness: 90, damping: 20 });
   const sy = useSpring(my, { stiffness: 90, damping: 20 });
+  // background drifts against the subject
+  const bx = useTransform(sx, (v) => -v * 0.6);
+  const by = useTransform(sy, (v) => -v * 0.6);
 
   useEffect(() => {
     fine.current = window.matchMedia("(pointer: fine)").matches;
@@ -42,43 +49,77 @@ export function StageIndex({ items }: { items: StageItem[] }) {
     if (focus) tabs.current[next]?.focus();
   };
 
+  const feather = "radial-gradient(ellipse 70% 68% at 50% 50%, #000 42%, transparent 100%)";
+  // the subject layer only loses its outermost edge, so a subject the photo crops at the border fades out instead of ending in a hard line
+  const edgeSoft = "linear-gradient(to right, transparent, #000 7%, #000 93%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent)";
+
   return (
     <div className="grid items-start gap-10 lg:grid-cols-[1.25fr_1fr] lg:gap-16">
       <div
         role="tabpanel"
         id="stage-panel"
         aria-labelledby={`stage-tab-${idx}`}
-        className="relative aspect-[4/3] overflow-hidden rounded-2xl"
-        style={{ backgroundColor: "var(--color-bg-surface)", border: "1px solid var(--color-border)" }}
+        className="relative aspect-[4/3]"
         onPointerMove={(e) => {
           if (reduce || !fine.current) return;
           const r = e.currentTarget.getBoundingClientRect();
-          mx.set(((e.clientX - r.left) / r.width - 0.5) * -22);
-          my.set(((e.clientY - r.top) / r.height - 0.5) * -16);
+          mx.set(((e.clientX - r.left) / r.width - 0.5) * 26);
+          my.set(((e.clientY - r.top) / r.height - 0.5) * 18);
         }}
         onPointerLeave={() => {
           mx.set(0);
           my.set(0);
         }}
       >
-        {items.map((item, i) => (
-          <motion.div key={item.id} aria-hidden={i !== idx} className="absolute inset-0" style={{ x: sx, y: sy, scale: 1.08 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+        {/* Background: dimmed, soft, faded into the page */}
+        <motion.div className="absolute inset-0" style={{ x: reduce ? 0 : bx, y: reduce ? 0 : by, WebkitMaskImage: feather, maskImage: feather }}>
+          {items.map((item, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={item.image}
-              alt={item.alt}
-              loading={i === 0 ? "eager" : "lazy"}
+              key={item.id}
+              src={item.bg}
+              alt={i === idx ? item.alt : ""}
+              aria-hidden={i !== idx}
               decoding="async"
-              className="h-full w-full object-cover transition-[opacity,clip-path,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+              className="absolute inset-0 h-full w-full object-cover"
               style={{
-                objectPosition: item.focus,
                 opacity: i === idx ? 1 : 0,
-                clipPath: i === idx ? "inset(0 0 0 0)" : "inset(0 0 0 14%)",
-                transform: i === idx ? "scale(1)" : "scale(1.06)",
+                filter: "brightness(0.55) saturate(0.9) blur(2.5px)",
+                transform: "scale(1.03)",
+                transition: "opacity 700ms ease",
               }}
             />
-          </motion.div>
-        ))}
+          ))}
+        </motion.div>
+
+        {/* Subject: sharp, full brightness, comes out of the fade */}
+        <motion.div
+          className="pointer-events-none absolute inset-0"
+          aria-hidden="true"
+          style={{ x: reduce ? 0 : sx, y: reduce ? 0 : sy, WebkitMaskImage: edgeSoft, maskImage: edgeSoft, WebkitMaskComposite: "source-in", maskComposite: "intersect" }}
+        >
+          {items.map((item, i) => {
+            const on = i === idx;
+            return (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={item.id}
+                src={item.cut}
+                alt=""
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{
+                  opacity: on ? 1 : 0,
+                  transform: reduce ? "none" : on ? "translateY(0) scale(1)" : "translateY(10px) scale(0.97)",
+                  transformOrigin: "50% 80%",
+                  transition: on
+                    ? "opacity 500ms ease 120ms, transform 700ms cubic-bezier(0.16, 1, 0.3, 1) 120ms"
+                    : "opacity 250ms ease, transform 250ms ease",
+                }}
+              />
+            );
+          })}
+        </motion.div>
       </div>
 
       <div

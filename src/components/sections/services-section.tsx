@@ -4,6 +4,10 @@ import { services } from "@/lib/constants";
 import { StageIndex } from "@/components/ui/stage-index";
 import { ScrollFade } from "@/components/ui/scroll-fade";
 
+/** Stage photos (4:3, subject-centred) and their subject cut-outs sit in /services/stage */
+const stageAsset = (image: string, kind: "bg" | "cut") =>
+  `/services/stage/${image.replace("/services/", "").replace(".jpg", "")}-${kind}.webp`;
+
 export function ServicesSection() {
   return (
     <section id="services" className="relative py-24 lg:py-28 bg-background border-t" style={{ borderColor: "var(--color-border)" }}>
@@ -33,9 +37,9 @@ export function ServicesSection() {
             bullets: service.examples,
             href: service.href,
             cta: "Start a Project",
-            image: service.image,
+            bg: stageAsset(service.image, "bg"),
+            cut: stageAsset(service.image, "cut"),
             alt: service.title,
-            focus: service.focus,
           }))}
         />
       </div>
