@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { DepthRings } from "./depth-rings";
 import { CircleStage } from "./circle-stage";
 import type { StageSlide } from "@/lib/stage";
+
+// The real 3D key tag only loads on desktop with motion allowed, everyone else gets the still.
+const KeyTagSpin = dynamic(() => import("./key-tag-spin"), { ssr: false });
 
 export type StoreListItem = {
   id: string;
@@ -48,6 +52,7 @@ function Intro({ items }: { items: StoreListItem[] }) {
   const ringB = useTransform(p, [0, 1], [0, -90]);
   const textY = useTransform(p, [0, 1], [0, -30]);
   const textOpacity = useTransform(p, [0, 0.75], [1, 0]);
+  const tagYaw = useTransform(p, [0, 1], [-0.7, 0.35]);
   const [front, back] = items;
 
   return (
@@ -68,7 +73,13 @@ function Intro({ items }: { items: StoreListItem[] }) {
           </motion.div>
 
           <motion.div className="absolute bottom-[4%] left-[3%] z-10 w-[42%]" style={depth ? { y: frontY } : undefined}>
-            <CircleStage slides={front.stage} href={front.href} label={front.title} controls={false} />
+            {depth && front.id === "key-tag" ? (
+              <Link href={front.href} aria-label={front.title} className="block rounded-full">
+                <KeyTagSpin yaw={tagYaw} />
+              </Link>
+            ) : (
+              <CircleStage slides={front.stage} href={front.href} label={front.title} controls={false} />
+            )}
           </motion.div>
         </div>
       </div>
@@ -84,6 +95,7 @@ function Scene({ item, flip }: { item: StoreListItem; flip: boolean }) {
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
   const scale = useTransform(p, [0, 0.3], [0.86, 1]);
+  const yaw = useTransform(p, [0, 1], [-0.95, 0.6]);
   const ringA = useTransform(p, [0, 1], [-35, 45]);
   const ringB = useTransform(p, [0, 1], [40, -50]);
   const titleO = useTransform(p, [0.08, 0.28], [0, 1]);
@@ -107,7 +119,13 @@ function Scene({ item, flip }: { item: StoreListItem; flip: boolean }) {
             <div className="relative mx-auto" style={{ width: d, marginTop: `calc(${d} * 0.3)` }}>
               <DepthRings outer={depth ? ringA : undefined} inner={depth ? ringB : undefined} className="pointer-events-none absolute -inset-[16%] h-[132%] w-[132%]" />
               <motion.div style={depth ? { scale } : undefined} className="relative">
-                <CircleStage slides={item.stage} href={item.href} label={item.title} controls={item.stage.length > 1} />
+                {depth && item.id === "key-tag" ? (
+                  <Link href={item.href} aria-label={item.title} className="block rounded-full">
+                    <KeyTagSpin yaw={yaw} />
+                  </Link>
+                ) : (
+                  <CircleStage slides={item.stage} href={item.href} label={item.title} controls={item.stage.length > 1} />
+                )}
               </motion.div>
             </div>
           </div>
