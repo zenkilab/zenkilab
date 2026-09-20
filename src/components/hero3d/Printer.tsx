@@ -56,7 +56,7 @@ function Box({
   size,
   ...props
 }: { size: [number, number, number] } & Omit<React.ComponentProps<typeof RoundedBox>, "args" | "radius" | "smoothness">) {
-  return <RoundedBox args={size} radius={Math.min(...size) * 0.28} smoothness={2} {...props} />;
+  return <RoundedBox args={size} radius={Math.min(...size) * 0.28} smoothness={4} {...props} />;
 }
 
 /**
@@ -84,11 +84,11 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
 
   // ── Premium material palette — Zenki Amber brand accents ──
   const matFrame = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#1E2328", metalness: 0.88, roughness: 0.28 }),
+    () => new THREE.MeshStandardMaterial({ color: "#232930", metalness: 0.7, roughness: 0.36 }),
     [],
   );
   const matFrameAccent = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#15191E", metalness: 0.9, roughness: 0.22 }),
+    () => new THREE.MeshStandardMaterial({ color: "#161A20", metalness: 0.8, roughness: 0.3 }),
     [],
   );
   const matBracket = useMemo(
@@ -96,15 +96,15 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
     [],
   );
   const matToolhead = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#E8E4DE", metalness: 0.08, roughness: 0.45 }),
+    () => new THREE.MeshStandardMaterial({ color: "#D2CEC7", metalness: 0.08, roughness: 0.5 }),
     [],
   );
   const matBedCarrier = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#D5D0C8", metalness: 0.5, roughness: 0.45 }),
+    () => new THREE.MeshStandardMaterial({ color: "#B9B4AB", metalness: 0.5, roughness: 0.45 }),
     [],
   );
   const matPEI = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#E8E4DE", metalness: 0.25, roughness: 0.5 }),
+    () => new THREE.MeshStandardMaterial({ color: "#BFBAB2", metalness: 0.25, roughness: 0.55 }),
     [],
   );
   const matChrome = useMemo(
@@ -112,7 +112,7 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
     [],
   );
   const matGear = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.35, roughness: 0.7 }),
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.65, roughness: 0.32 }),
     [],
   );
   const matBrass = useMemo(
@@ -120,13 +120,37 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
     [],
   );
   const matAmber = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.15, roughness: 0.5 }),
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", metalness: 0.3, roughness: 0.42 }),
     [],
   );
   const matAmberAccent = useMemo(
     () => new THREE.MeshStandardMaterial({ color: "#F5A623", emissive: "#F5A623", emissiveIntensity: 0.35, metalness: 0.2, roughness: 0.3 }),
     [],
   );
+
+  // Emissive amber for the light strip and the hot nozzle tip
+  const matAmberGlow = useMemo(
+    () => new THREE.MeshStandardMaterial({ color: "#F5A623", emissive: "#F5A623", emissiveIntensity: 1.2, metalness: 0.2, roughness: 0.4 }),
+    [],
+  );
+  const matFlange = useMemo(
+    () => new THREE.MeshStandardMaterial({ color: "#161A20", metalness: 0.8, roughness: 0.3 }),
+    [],
+  );
+  // Soft contact shadow so the printer sits on the scene instead of floating
+  const shadowTex = useMemo(() => {
+    const c = document.createElement("canvas");
+    c.width = 256;
+    c.height = 256;
+    const x = c.getContext("2d")!;
+    const g = x.createRadialGradient(128, 128, 10, 128, 128, 128);
+    g.addColorStop(0, "rgba(0,0,0,0.6)");
+    g.addColorStop(0.6, "rgba(0,0,0,0.25)");
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    x.fillStyle = g;
+    x.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(c);
+  }, []);
 
   // ── Pre‑generated gear geometries ──
   const geoGear1 = useMemo(
@@ -202,6 +226,11 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
 
   return (
     <group ref={rigRef} position={position}>
+      {/* Soft contact shadow */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.004, 0]}>
+        <planeGeometry args={[baseWidth * 1.9, baseDepth * 1.9]} />
+        <meshBasicMaterial map={shadowTex} transparent depthWrite={false} />
+      </mesh>
       {/* ═══ BASE FRAME — Y-Rails ═══ */}
       <Box size={[0.2 * S, 0.2 * S, baseDepth]} position={[-1.4 * S, 0.1 * S, 0]} material={matFrame} castShadow />
       <Box size={[0.2 * S, 0.2 * S, baseDepth]} position={[1.4 * S, 0.1 * S, 0]} material={matFrame} castShadow />
@@ -228,6 +257,8 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
       <Box size={[0.2 * S, pillarHeight, 0.2 * S]} position={[-pillarX, pillarHeight / 2 + 0.2 * S, 0]} material={matFrame} castShadow />
       <Box size={[0.2 * S, pillarHeight, 0.2 * S]} position={[pillarX, pillarHeight / 2 + 0.2 * S, 0]} material={matFrame} castShadow />
       <Box size={[baseWidth + 0.2 * S, 0.2 * S, 0.2 * S]} position={[0, pillarHeight + 0.2 * S, 0]} material={matFrameAccent} castShadow />
+      {/* Amber light strip along the front of the crossbar */}
+      <Box size={[baseWidth * 0.78, 0.022 * S, 0.012 * S]} position={[0, pillarHeight + 0.2 * S, 0.1 * S + 0.004]} material={matAmberGlow} />
 
       {/* Corner brackets — dark */}
       {([-pillarX, pillarX] as number[]).map((xPos) => (
@@ -259,6 +290,12 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
         <mesh rotation={[0, 0, Math.PI / 2]} material={matAmber}>
           <cylinderGeometry args={[0.78 * S, 0.78 * S, 0.42 * S, 32]} />
         </mesh>
+        {/* Dark flanges on both sides of the winding */}
+        {[-0.225 * S, 0.225 * S].map((x) => (
+          <mesh key={x} position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]} material={matFlange}>
+            <cylinderGeometry args={[0.86 * S, 0.86 * S, 0.03 * S, 40]} />
+          </mesh>
+        ))}
       </group>
 
       {/* ═══ HEATED BED ═══ */}
@@ -314,6 +351,11 @@ export function Printer({ mouse, position = [2.8, -0.72, -0.08] }: PrinterProps)
           <mesh position={[0, -0.48 * S, 0]} rotation={[Math.PI, 0, 0]} material={matBrass}>
             <coneGeometry args={[0.06 * S, 0.12 * S, 16]} />
           </mesh>
+          {/* Hot tip and the light it throws on the print */}
+          <mesh position={[0, -0.545 * S, 0]} material={matAmberGlow}>
+            <sphereGeometry args={[0.024 * S, 12, 12]} />
+          </mesh>
+          <pointLight position={[0, -0.56 * S, 0.02]} color="#FFC35C" intensity={0.5} distance={1.1} decay={1.6} />
         </group>
       </group>
     </group>

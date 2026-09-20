@@ -5,7 +5,9 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import * as THREE from "three";
 import type { Group } from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { Printer } from "./Printer";
 import { Phone } from "./Phone";
 import { Hologram } from "./Hologram";
@@ -80,6 +82,28 @@ function CameraRig({
     }
   });
 
+  return null;
+}
+
+/**
+ * Studio
+ * ──────
+ * A small procedural environment (no network fetch) so brass, chrome, the graphite frame
+ * and the phone's metal edge have something to reflect. Kept low so the amber lights lead.
+ */
+function Studio() {
+  const { gl, scene } = useThree();
+  useEffect(() => {
+    const pmrem = new THREE.PMREMGenerator(gl);
+    const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environment = env;
+    scene.environmentIntensity = 0.22;
+    return () => {
+      scene.environment = null;
+      env.dispose();
+      pmrem.dispose();
+    };
+  }, [gl, scene]);
   return null;
 }
 
@@ -172,6 +196,8 @@ export function Scene({
           )}
         </>
       )}
+
+      <Studio />
 
       <group ref={sceneRoot}>
         <group rotation={isMobile ? undefined : [0, -10 * (Math.PI / 180), 0]}>
