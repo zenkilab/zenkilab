@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { contactChannels } from "@/lib/constants";
-import { COMBOS, MATERIAL, STORAGE_KEY, STYLES, priceLines, rs, type StoredOrder } from "@/lib/keytag";
+import { COMBOS, CORNER_LABEL, MATERIAL, STORAGE_KEY, STYLES, priceLines, rs, type StoredOrder } from "@/lib/keytag";
 import { sendOrder } from "@/lib/keytag-submit";
 
 const whatsapp = contactChannels.find((c) => c.label === "WhatsApp")?.href ?? "#";
@@ -70,7 +70,7 @@ export default function QuotePage() {
   const expired = now >= order.expiresAt;
 
   const specs: [string, string][] = [
-    ["Style", STYLES[c.style].label],
+    ["Style", STYLES[c.style].label + (c.style === "ring" ? ` (${CORNER_LABEL[c.corner]} corners)` : "")],
     ["Text", c.text],
     ["Colors", `${combo.label}, black and ${combo.accentName}`],
     ["Material", MATERIAL],

@@ -8,6 +8,7 @@ import { Footer } from "@/components/layout/footer";
 import type { Capture } from "@/components/keytag/KeyTagScene";
 import {
   COMBOS,
+  CORNER_LABEL,
   BRANDING_DISCOUNT,
   RFID_PRICE,
   QUOTE_HOURS,
@@ -18,6 +19,7 @@ import {
   sanitizeText,
   type ComboId,
   type ContentType,
+  type Corner,
   type KeyTagConfig,
   type StoredOrder,
   type StyleId,
@@ -36,11 +38,24 @@ const seg = (on: boolean) =>
 const field =
   "h-11 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground placeholder:text-[color:var(--color-text-tertiary)] focus:border-primary focus:outline-none";
 
+// Corner roundness, shown as a picture and a plain word, never a millimetre number.
+const CORNER_ICON: Record<Corner, number> = { sharp: 2, soft: 6, round: 10 };
+const CORNERS: Corner[] = ["sharp", "soft", "round"];
+
+function CornerIcon({ r }: { r: number }) {
+  return (
+    <svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true">
+      <rect x="2" y="2" width="30" height="18" rx={r} fill="none" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  );
+}
+
 export default function KeyTagPage() {
   const router = useRouter();
   const captureRef = useRef<Capture | null>(null);
   const [content, setContent] = useState<ContentType>("name");
-  const style: StyleId = "capsule";
+  const [style, setStyle] = useState<StyleId>("ring");
+  const [corner, setCorner] = useState<Corner>("soft");
   const [combo, setCombo] = useState<ComboId>("heritage");
   const [text, setText] = useState("");
   const [branding, setBranding] = useState(true); // opt-out: pre-checked
@@ -57,7 +72,8 @@ export default function KeyTagPage() {
       const o: StoredOrder | null = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
       if (o) {
         const c = o.config;
-        setContent(c.content); setCombo(c.combo); setText(sanitizeText(c.content, style, c.text));
+        setContent(c.content); setStyle(c.style); setCorner(c.corner ?? "soft"); setCombo(c.combo);
+        setText(sanitizeText(c.content, c.style, c.text));
         setBranding(c.branding);
         setRfid(!!c.rfid);
         setName(o.contact.name); setPhone(o.contact.phone);
@@ -66,13 +82,18 @@ export default function KeyTagPage() {
     } catch {}
   }, []);
 
-  const config: KeyTagConfig = { content, style, combo, text, branding, rfid };
+  const config: KeyTagConfig = { content, style, corner, combo, text, branding, rfid };
   const max = STYLES[style].maxChars;
   const p = priceLines(config);
 
   const pickContent = (c: ContentType) => {
     setContent(c);
     setText((t) => sanitizeText(c, style, t));
+  };
+
+  const pickStyle = (s: StyleId) => {
+    setStyle(s);
+    setText((t) => sanitizeText(content, s, t)); // the two shapes allow slightly different lengths
   };
 
   async function submit() {
@@ -110,7 +131,8 @@ export default function KeyTagPage() {
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
           {/* Live preview */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-card">
+            {/* OrbitControls takes every touch; this lets a vertical swipe scroll the page past the preview on phones while sideways drags still turn the tag */}
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-card [&_canvas]:!touch-pan-y">
               <KeyTagScene config={config} flipped={flipped} captureRef={captureRef} />
               <div className="absolute bottom-3 left-3 flex gap-2">
                 <button type="button" onClick={() => setFlipped(false)} className={seg(!flipped) + " !flex-none !px-3 !py-1.5 bg-background/60"}>Front</button>
@@ -128,6 +150,29 @@ export default function KeyTagPage() {
                 Design it, see it in 3D, get a quote. Printed in Kaduwela, Sri Lanka.
               </p>
             </div>
+
+            <section className="space-y-3">
+              <h3 className="text-sm font-semibold">Shape</h3>
+              <div className="flex gap-2">
+                <button type="button" onClick={() => pickStyle("ring")} className={seg(style === "ring")}>Ring tag</button>
+                <button type="button" onClick={() => pickStyle("capsule")} className={seg(style === "capsule")}>Capsule tag</button>
+              </div>
+              {style === "ring" && (
+                <div className="flex gap-2 pt-1">
+                  {CORNERS.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setCorner(c)}
+                      className={seg(corner === c) + " flex flex-col items-center gap-1.5 !py-2"}
+                    >
+                      <CornerIcon r={CORNER_ICON[c]} />
+                      {CORNER_LABEL[c]}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </section>
 
             <section className="space-y-3">
               <h3 className="text-sm font-semibold">What goes on it</h3>

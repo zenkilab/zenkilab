@@ -1,5 +1,6 @@
 import {
   COMBOS,
+  CORNER_LABEL,
   MATERIAL,
   RFID_PAUSE_LAYER_Z,
   STYLES,
@@ -10,7 +11,9 @@ import {
   sanitizeText,
   type ComboId,
   type ContentType,
+  type Corner,
   type StoredOrder,
+  type StyleId,
 } from "../../src/lib/keytag";
 import { C, button, callout, esc, mono, rows, section, shell, whatsappUrl } from "./email";
 
@@ -30,14 +33,18 @@ export function parseOrder(raw: string): Order | null {
     const c = o?.config;
     const content: ContentType | null = c?.content === "name" || c?.content === "car-number" ? c.content : null;
     const combo: ComboId | null = Object.hasOwn(COMBOS, c?.combo) ? c.combo : null;
+    const style: StyleId = c?.style === "capsule" ? "capsule" : "ring";
+    // Corner is cosmetic and meaningless on the capsule, so an invalid value falls back rather than
+    // rejecting an otherwise valid order.
+    const corner: Corner = c?.corner === "sharp" || c?.corner === "round" ? c.corner : "soft";
     if (!content || !combo || !/^KT-[A-Z0-9]{4,16}$/.test(o.orderId)) return null;
-    const text = sanitizeText(content, "capsule", String(c.text ?? "")).trim();
+    const text = sanitizeText(content, style, String(c.text ?? "")).trim();
     const createdAt = Number(o.createdAt);
     const expiresAt = Number(o.expiresAt);
     if (!text || !Number.isFinite(createdAt) || !Number.isFinite(expiresAt)) return null;
     return {
       orderId: o.orderId,
-      config: { content, style: "capsule", combo, text, branding: c.branding === true, rfid: c.rfid === true },
+      config: { content, style, corner, combo, text, branding: c.branding === true, rfid: c.rfid === true },
       contact: { name: String(o.contact?.name ?? "").trim().slice(0, 80), phone: String(o.contact?.phone ?? "").trim().slice(0, 30) },
       createdAt,
       expiresAt,
@@ -92,6 +99,7 @@ export function keyTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
         ["Text", { html: `<strong style="font-size:16px;letter-spacing:.02em">${esc(c.text)}</strong>` }],
         ["Type", c.content === "name" ? "Name" : "Car number"],
         ["Style", STYLES[c.style].label],
+        ...(c.style === "ring" ? ([["Corner style", `${CORNER_LABEL[c.corner]} corners`]] as [string, string][]) : []),
         ["Colours", { html: `${swatch(combo.body)}Floor black &nbsp; ${swatch(combo.accent)}${esc(combo.label)} ${esc(combo.accentName)} (rim, ring, lettering)` }],
         ["Material", MATERIAL],
         ["Back", c.branding ? `Flat, zenkilab.com as a flush ${TAG.INLAY} mm inlay` : "Flat, blank"],
