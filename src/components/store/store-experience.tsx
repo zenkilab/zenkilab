@@ -9,7 +9,7 @@ import { DepthRings } from "./depth-rings";
 import { CircleStage } from "./circle-stage";
 import type { StageSlide } from "@/lib/stage";
 
-// The real 3D key tag only loads on desktop with motion allowed, everyone else gets the still.
+// The real 3D key tag loads wherever motion is allowed (phones included), everyone else gets the still.
 const KeyTagSpin = dynamic(() => import("./key-tag-spin"), { ssr: false });
 
 export type StoreListItem = {
@@ -26,7 +26,11 @@ export type StoreListItem = {
 
 const muted = { color: "var(--color-text-secondary)" };
 
-/** Scroll-linked effects run on desktop only, and never under reduced motion. */
+/**
+ * What motion this visitor gets. `on`: scroll-linked effects (the key tag turns, rings and photos drift),
+ * for every screen size unless the visitor asked for reduced motion. `pinned`: the tall pinned scenes with
+ * text that builds up as you scroll, desktop only, since a pinned pane fights the phone's moving address bar.
+ */
 function useDepth() {
   const reduce = useReducedMotion();
   const [desktop, setDesktop] = useState(false);
@@ -37,14 +41,14 @@ function useDepth() {
     mq.addEventListener("change", on);
     return () => mq.removeEventListener("change", on);
   }, []);
-  return !reduce && desktop;
+  return { on: !reduce, pinned: !reduce && desktop };
 }
 
 /* ───────────── Intro: two circles on turning rings, each layer at its own speed ───────────── */
 
 function Intro({ items }: { items: StoreListItem[] }) {
   const ref = useRef<HTMLElement>(null);
-  const depth = useDepth();
+  const { on, pinned } = useDepth();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const backY = useTransform(p, [0, 1], [0, -50]);
   const frontY = useTransform(p, [0, 1], [0, -150]);
@@ -58,22 +62,22 @@ function Intro({ items }: { items: StoreListItem[] }) {
   return (
     <section ref={ref} className="relative flex min-h-[92dvh] items-center overflow-hidden pb-12 pt-28">
       <div className="mx-auto grid w-full max-w-[1280px] items-center gap-14 px-6 lg:grid-cols-2 lg:gap-8 lg:px-8">
-        <motion.div style={depth ? { y: textY, opacity: textOpacity } : undefined}>
+        <motion.div style={pinned ? { y: textY, opacity: textOpacity } : undefined}>
           <h1 className="text-[clamp(3.5rem,9vw,8rem)] font-bold leading-[0.95] tracking-[-0.04em]">Store</h1>
           <p className="mt-8 max-w-[38ch] text-lg leading-relaxed" style={muted}>
-            Two things you can order today, made to order in Kaduwela, Sri Lanka.
+            Designed by you. Printed by us.
           </p>
         </motion.div>
 
         <div className="relative mx-auto aspect-[5/6] w-full max-w-[560px] lg:ml-auto lg:mr-0">
-          <DepthRings outer={depth ? ringA : undefined} inner={depth ? ringB : undefined} className="pointer-events-none absolute -inset-[14%] h-[128%] w-[128%]" />
+          <DepthRings outer={on ? ringA : undefined} inner={on ? ringB : undefined} className="pointer-events-none absolute -inset-[14%] h-[128%] w-[128%]" />
 
-          <motion.div className="absolute right-0 top-[15%] w-[58%]" style={depth ? { y: backY } : undefined}>
+          <motion.div className="absolute right-0 top-[15%] w-[58%]" style={on ? { y: backY } : undefined}>
             <CircleStage slides={back.stage.slice(0, 1)} href={back.href} label={back.title} controls={false} />
           </motion.div>
 
-          <motion.div className="absolute bottom-[4%] left-[3%] z-10 w-[42%]" style={depth ? { y: frontY } : undefined}>
-            {depth && front.id === "key-tag" ? (
+          <motion.div className="absolute bottom-[4%] left-[3%] z-10 w-[42%]" style={on ? { y: frontY } : undefined}>
+            {on && front.id === "key-tag" ? (
               <Link href={front.href} aria-label={front.title} className="block rounded-full">
                 <KeyTagSpin yaw={tagYaw} />
               </Link>
@@ -89,13 +93,23 @@ function Intro({ items }: { items: StoreListItem[] }) {
 
 /* ───────────── Scene: one product, scrubbed by scroll on desktop ───────────── */
 
-function Scene({ item, flip }: { item: StoreListItem; flip: boolean }) {
+function Scene(props: { item: StoreListItem; flip: boolean }) {
+  const { pinned } = useDepth();
+  return <SceneBody key={pinned ? "pinned" : "flow"} pinned={pinned} {...props} />;
+}
+
+function SceneBody({ item, flip, pinned }: { item: StoreListItem; flip: boolean; pinned: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const depth = useDepth();
-  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const circleRef = useRef<HTMLDivElement>(null);
+  const { on } = useDepth();
+  // Pinned: progress runs over the tall track. Otherwise: over the circle's own trip up the screen,
+  // so the tag turns while it is actually in view (front-on in the middle of the screen).
+  const { scrollYProgress: p } = useScroll(
+    pinned ? { target: ref, offset: ["start start", "end end"] } : { target: circleRef, offset: ["start end", "end start"] },
+  );
 
   const scale = useTransform(p, [0, 0.3], [0.86, 1]);
-  const yaw = useTransform(p, [0.05, 0.95], [-0.5, 0.5]);
+  const yaw = useTransform(p, pinned ? [0.05, 0.95] : [0, 1], pinned ? [-0.5, 0.5] : [-0.8, 0.8]);
   const ringA = useTransform(p, [0, 1], [-35, 45]);
   const ringB = useTransform(p, [0, 1], [40, -50]);
   const titleO = useTransform(p, [0.08, 0.28], [0, 1]);
@@ -107,21 +121,21 @@ function Scene({ item, flip }: { item: StoreListItem; flip: boolean }) {
   const ctaO = useTransform(p, [0.4, 0.6], [0, 1]);
   const ctaY = useTransform(p, [0.4, 0.6], [24, 0]);
 
-  const rise = (o: typeof titleO, y: typeof titleY) => (depth ? { opacity: o, y } : undefined);
+  const rise = (o: typeof titleO, y: typeof titleY) => (pinned ? { opacity: o, y } : undefined);
   // The circle's diameter. The subject comes out of the top by about a third of it, so it gets that much room.
   const d = "min(440px, 50dvh, 78vw)";
 
   return (
-    <div ref={ref} className={depth ? "h-[215vh]" : ""}>
-      <div className={depth ? "sticky top-0 flex h-[100dvh] items-center pt-16" : "py-16"}>
+    <div ref={ref} className={pinned ? "h-[215vh]" : ""}>
+      <div className={pinned ? "sticky top-0 flex h-[100dvh] items-center pt-16" : "py-16"}>
         <div className="mx-auto grid w-full max-w-[1280px] items-center gap-12 px-6 lg:grid-cols-12 lg:gap-10 lg:px-8">
           <div className={`lg:col-span-6 ${flip ? "lg:order-2" : ""}`}>
-            <div className="relative mx-auto" style={{ width: d, marginTop: `calc(${d} * 0.3)` }}>
-              <DepthRings outer={depth ? ringA : undefined} inner={depth ? ringB : undefined} className="pointer-events-none absolute -inset-[16%] h-[132%] w-[132%]" />
-              <motion.div style={depth && item.id !== "key-tag" ? { scale } : undefined} className="relative">
-                {depth && item.id === "key-tag" ? (
+            <div ref={circleRef} className="relative mx-auto" style={{ width: d, marginTop: `calc(${d} * 0.3)` }}>
+              <DepthRings outer={on ? ringA : undefined} inner={on ? ringB : undefined} className="pointer-events-none absolute -inset-[16%] h-[132%] w-[132%]" />
+              <motion.div style={pinned && item.id !== "key-tag" ? { scale } : undefined} className="relative">
+                {on && item.id === "key-tag" ? (
                   <Link href={item.href} aria-label={item.title} className="block rounded-full">
-                    <KeyTagSpin yaw={yaw} zoom={scale} />
+                    <KeyTagSpin yaw={yaw} zoom={pinned ? scale : undefined} />
                   </Link>
                 ) : (
                   <CircleStage slides={item.stage} href={item.href} label={item.title} controls={item.stage.length > 1} />

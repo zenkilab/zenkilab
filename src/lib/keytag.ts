@@ -1,7 +1,10 @@
 // Key tag product rules. Spec: DESIGN_SYSTEM.md section 5.
-export type StyleId = "capsule";
+export type StyleId = "capsule" | "ring";
 export type ContentType = "name" | "car-number";
 export type ComboId = "heritage" | "precision";
+// How round the ring tag's plate corners are. A named choice, not a number, so it reads
+// clearly to a customer who has never heard the word "radius".
+export type Corner = "sharp" | "soft" | "round";
 
 export const MATERIAL = "PETG"; // fixed, never a customer choice
 export const BRANDING_DISCOUNT = 50; // Rs., for keeping the zenkilab.com stamp
@@ -13,16 +16,15 @@ export const QUOTE_HOURS = 24;
  * BACK: completely flat. The marketing line, when kept, is a flush color inlay INLAY deep.
  */
 export const TAG = {
-  W: 64,
-  H: 25,
+  W: 50, // 5 cm
+  H: 25, // 2.5 cm
   FLOOR: 1.6, // thickness of the floor
   EMBOSS: 1.0, // how far rim, ring and lettering stand above the floor, front only
   INLAY: 0.4, // depth of the flush marketing lettering on the back
-  RIM: 1.4, // width of the raised border
+  RIM: 1.8, // width of the raised border
   HOLE_R: 2.25, // keyring hole radius
-  HOLE_X: -24.5,
   /** Wet RFID inlay, 20 x 10 mm with clearance, sealed inside the floor. zc = height of its centre from the back face. */
-  POCKET: { w: 20.6, h: 10.6, t: 0.5, cx: 4.6, zc: 0.9 },
+  POCKET: { w: 20.6, h: 10.6, t: 0.5, zc: 0.9 },
 } as const;
 
 // Total thickness = FLOOR + EMBOSS = 2.6 mm. The flat back prints face down on the bed.
@@ -35,11 +37,18 @@ export const RFID_PAUSE_LAYER_Z = (Math.floor(RFID_PAUSE_Z / PRINT_LAYER + 0.5) 
 export const STYLES: Record<StyleId, { label: string; maxChars: number; basePrice: number }> = {
   capsule: {
     label: "Capsule key tag",
-    maxChars: 14,
+    maxChars: 10, // the hole sits in the text row, so 5 cm leaves room for about 10 letters
     // Rs. 300 without the stamp and without RFID. 250 with the stamp. RFID adds 200.
     basePrice: 300,
   },
+  ring: { label: "Ring key tag", maxChars: 12, basePrice: 300 },
 };
+
+// Plate corner radius, mm, for the ring tag's three roundness presets. The right edge (top right
+// and bottom right corners, both this radius) is the tightest fit: it must stay under ~11.375 mm
+// or the two arcs overlap, so "round" keeps a safety margin under that.
+export const CORNER_RADIUS: Record<Corner, number> = { sharp: 5, soft: 7.5, round: 10 };
+export const CORNER_LABEL: Record<Corner, string> = { sharp: "Sharp", soft: "Soft", round: "Round" };
 
 export const COMBOS: Record<ComboId, { label: string; body: string; accent: string; accentName: string }> = {
   heritage: { label: "Heritage", body: "#15181D", accent: "#F5A623", accentName: "amber" },
@@ -49,13 +58,12 @@ export const COMBOS: Record<ComboId, { label: string; body: string; accent: stri
 export type KeyTagConfig = {
   content: ContentType;
   style: StyleId;
+  corner: Corner; // ignored on the capsule, which has no plate corners to round
   combo: ComboId;
   text: string;
   branding: boolean;
   rfid: boolean;
 };
-
-export const styleForContent = (_c: ContentType): StyleId => "capsule";
 
 export function sanitizeText(content: ContentType, style: StyleId, raw: string) {
   const cleaned =
@@ -99,7 +107,7 @@ export function orderSpec(
     `Customer: ${contact.name}`,
     `WhatsApp/phone: ${contact.phone}`,
     "",
-    `Style: ${STYLES[c.style].label}`,
+    `Style: ${STYLES[c.style].label}${c.style === "ring" ? ` (${CORNER_LABEL[c.corner]} corners)` : ""}`,
     `Content type: ${c.content === "name" ? "Name" : "Car Number"}`,
     `Text: "${c.text}"`,
     `Color combo: ${combo.label} (black body + ${combo.accentName} accent)`,

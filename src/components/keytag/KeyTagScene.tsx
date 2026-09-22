@@ -11,11 +11,8 @@ export type Capture = () => string;
 
 function Tag({ config, flipped }: { config: KeyTagConfig; flipped: boolean }) {
   const group = useRef<THREE.Group>(null);
-  const { style, text, branding, combo } = config;
-  const geo = useMemo(
-    () => buildKeyTag({ style, text, branding } as KeyTagConfig),
-    [style, text, branding],
-  );
+  const { style, corner, text, branding, rfid, combo } = config;
+  const geo = useMemo(() => buildKeyTag(config), [style, corner, text, branding, rfid]);
   useEffect(() => () => { geo.body.dispose(); geo.accent.dispose(); }, [geo]);
 
   useFrame((_, dt) => {
