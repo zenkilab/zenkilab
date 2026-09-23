@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 import { Pause, Play } from "lucide-react";
-
-export type Slide = { src: string; alt: string };
 
 const FADE_MS = 900;
 
@@ -112,53 +109,6 @@ export function SlideControls({
             />
           </button>
         ))}
-    </div>
-  );
-}
-
-/** Rectangular slideshow: subject-cropped photos, fade and push-in. */
-export function Slideshow({
-  slides,
-  interval = 3000,
-  href,
-  label,
-  frameClassName = "rounded-2xl",
-  aspect = "4 / 5",
-  controls = true,
-  className,
-}: {
-  slides: Slide[];
-  interval?: number;
-  href?: string;
-  label?: string;
-  frameClassName?: string;
-  aspect?: string;
-  controls?: boolean;
-  className?: string;
-}) {
-  const s = useSlideshow(slides.length, interval);
-  const frame = (
-    <div className={`relative h-full w-full overflow-hidden ${frameClassName}`} style={{ backgroundColor: "var(--color-bg-surface)", border: "1px solid var(--color-border)" }}>
-      {slides.map((sl, i) => (
-        <div key={sl.src} aria-hidden={i !== s.idx} className="absolute inset-0" style={s.layer(i)}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={sl.src} alt={sl.alt} decoding="async" className="h-full w-full object-cover" />
-        </div>
-      ))}
-    </div>
-  );
-  return (
-    <div className={className}>
-      <div className="w-full" style={{ aspectRatio: aspect }} {...s.holdProps}>
-        {href ? (
-          <Link href={href} aria-label={label} className="block h-full w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            {frame}
-          </Link>
-        ) : (
-          frame
-        )}
-      </div>
-      {controls && <SlideControls n={slides.length} idx={s.idx} go={s.go} userPaused={s.userPaused} setUserPaused={s.setUserPaused} reduce={s.reduce} />}
     </div>
   );
 }

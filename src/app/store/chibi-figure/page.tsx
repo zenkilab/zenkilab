@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ProductLayout } from "@/components/store/product-layout";
-import { CHIBI_SIZES, chibiDeposit, chibiGallery, chibiMessage, whatsappLink } from "@/lib/store";
+import { CHIBI_SIZES, chibiDeposit, chibiMessage, chibiStage, whatsappLink } from "@/lib/store";
 import { rs } from "@/lib/keytag";
 
 const steps = [
@@ -20,7 +20,7 @@ export default function ChibiFigurePage() {
   const deposit = size.price === null ? null : chibiDeposit(size.price);
 
   return (
-    <ProductLayout slides={chibiGallery}>
+    <ProductLayout stage={chibiStage}>
       <h1 className="text-[clamp(2.5rem,5.5vw,4.25rem)] font-bold leading-[1] tracking-[-0.03em]">Chibi Figure</h1>
       <p className="mt-5 font-mono text-xl" style={{ color: "var(--color-accent-primary)" }}>
         From {rs(CHIBI_SIZES[0].price!)}
