@@ -30,7 +30,21 @@ export function CircleStage({
 
   const stage = (
     <div className="relative aspect-square w-full">
-      <div className="absolute inset-0 overflow-hidden rounded-full" style={{ backgroundColor: "var(--color-bg-surface)", border: "1px solid var(--color-border)" }}>
+      {/*
+       * The photos are shot on a near-black studio background, so a plain hairline border reads
+       * as invisible against them: the circle disappears and the subject popping out of it (the
+       * unclipped cut layer below) has no edge to visibly cross. A soft glow ring, painted outside
+       * the circle by box-shadow (not clipped by this element's own overflow-hidden), gives the
+       * eye a boundary regardless of how dark the photo is.
+       */}
+      <div
+        className="absolute inset-0 overflow-hidden rounded-full"
+        style={{
+          backgroundColor: "var(--color-bg-surface)",
+          border: "1px solid var(--color-border-light)",
+          boxShadow: "0 0 0 1px color-mix(in srgb, var(--color-accent-warm) 45%, transparent), 0 0 32px -6px color-mix(in srgb, var(--color-accent-warm) 40%, transparent)",
+        }}
+      >
         {slides.map((sl, i) => (
           <div key={sl.bg} aria-hidden={i !== s.idx} className="absolute inset-0" style={s.layer(i, origin)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}

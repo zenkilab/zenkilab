@@ -37,7 +37,7 @@ const chibiPose = (n: number, bbox: [number, number, number, number], alt: strin
   bg: `/store/chibi-${n}.webp`,
   cut: `/store/chibi-${n}-cut.webp`,
   alt,
-  box: place({ size: CHIBI_SIZE, bbox, height: 1.25, bottom: 0.93 }),
+  box: place({ size: CHIBI_SIZE, bbox, height: 1.25, bottom: 0.985 }),
 });
 
 export const chibiStage: StageSlide[] = [
@@ -45,15 +45,6 @@ export const chibiStage: StageSlide[] = [
   chibiPose(2, [335, 146, 749, 1230], "The same figure from the side"),
   chibiPose(3, [332, 134, 764, 1252], "The same figure from a three-quarter angle"),
   chibiPose(5, [300, 110, 752, 1295], "The same figure from behind"),
-];
-
-/** Photos for the product page slideshow, each cropped on the subject */
-export const chibiGallery = [
-  { src: "/store/chibi-1.webp", alt: "Chibi figure of a man with glasses, front view" },
-  { src: "/store/chibi-2.webp", alt: "The same figure from the side" },
-  { src: "/store/chibi-3.webp", alt: "The same figure from a three-quarter angle" },
-  { src: "/store/chibi-5.webp", alt: "The same figure from behind" },
-  { src: "/store/chibi-4.webp", alt: "Close-up of the face and glasses" },
 ];
 
 const keyTagStage: StageSlide[] = [
