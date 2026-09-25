@@ -531,7 +531,7 @@ export const footerLinks = [
     title: "Legal",
     links: [
       { label: "Terms of Service", href: "#" },
-      { label: "Privacy Policy", href: "#" },
+      { label: "Privacy Policy", href: "/privacy" },
       { label: "Refund Policy", href: "#" },
     ],
   },
