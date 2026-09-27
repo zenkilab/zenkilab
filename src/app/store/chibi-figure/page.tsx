@@ -76,7 +76,9 @@ export default function ChibiFigurePage() {
         {deposit === null ? "Ask for the Large Price" : `Pay Deposit (${rs(deposit)})`}
       </a>
       <p className="mt-3 text-center text-xs" style={muted}>
-        Opens WhatsApp with your order filled in. No payment is taken on this website.
+        Opens WhatsApp with your order filled in. No payment is taken on this website. By continuing, you agree to
+        our <a href="/terms" className="underline underline-offset-2 hover:text-foreground">Terms of Service</a> and{" "}
+        <a href="/refunds" className="underline underline-offset-2 hover:text-foreground">Refund Policy</a>.
       </p>
 
       <section className="mt-14 border-t border-border pt-9">

@@ -157,6 +157,10 @@ export default function QuotePage() {
           Edit Design
         </Link>
       </div>
+      <p className="mt-4 text-xs" style={{ color: "var(--color-text-secondary)" }}>
+        By confirming, you agree to our <Link href="/terms" className="underline underline-offset-2 hover:text-foreground">Terms of Service</Link> and{" "}
+        <Link href="/refunds" className="underline underline-offset-2 hover:text-foreground">Refund Policy</Link>.
+      </p>
     </>,
   );
 }

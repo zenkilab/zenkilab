@@ -471,6 +471,11 @@ export function QuoteSection() {
                 </>
               )}
             </button>
+            <p className="text-xs" style={{ color: "var(--color-text-secondary)" }}>
+              By submitting, you agree to our{" "}
+              <a href="/terms" className="underline underline-offset-2 hover:text-white">Terms of Service</a> and{" "}
+              <a href="/privacy" className="underline underline-offset-2 hover:text-white">Privacy Policy</a>.
+            </p>
           </motion.form>
         ) : (
           /* Success State */
