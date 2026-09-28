@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "September 25, 2026";
+const LAST_UPDATED = "September 29, 2026";
 
 export default function RefundsPage() {
   return (
@@ -58,7 +58,9 @@ export default function RefundsPage() {
         <p>
           If your order arrives damaged or defective, or is not what you ordered, please contact us within 3 days of
           delivery with your order details and photos of the issue so we can look into it. Depending on the
-          situation, we will offer a reprint, repair, or refund.
+          situation, we will offer a reprint or repair, at no extra cost. We do not offer refunds for defective,
+          damaged, or incorrect items; if a reprint or repair genuinely isn&apos;t possible, we will discuss a fair
+          alternative with you, subject to Section 9 (Your Statutory Rights).
         </p>
       </LegalSection>
 
@@ -66,8 +68,9 @@ export default function RefundsPage() {
         <p>
           For products with a preview or model approval step, we aim to produce your order to match what you
           approved. If the finished item is materially different from the approved design, text, colours, or
-          specification through an error on our part, contact us and we will make it right, for example by
-          correcting and reprinting the item or offering a refund.
+          specification through an error on our part, contact us and we will make it right by correcting and
+          reprinting the item at no extra cost. We do not offer refunds for this; if we&apos;re unable to correct
+          the item, we will discuss a fair alternative with you, subject to Section 9 (Your Statutory Rights).
         </p>
       </LegalSection>
 
@@ -81,9 +84,10 @@ export default function RefundsPage() {
 
       <LegalSection title="8. Remedies">
         <p>
-          Depending on the situation, we may offer a reprint, repair, partial refund, or full refund. We aim to
-          resolve issues fairly and will discuss the right outcome with you based on your specific order. Once a
-          refund is approved, we will process it within 7 business days.
+          Depending on the situation, our remedy is a reprint or repair. We aim to resolve issues fairly and will
+          discuss the right outcome with you based on your specific order. We do not offer refunds as a routine
+          remedy; in the rare case a reprint or repair isn&apos;t possible, any refund agreed under Section 9 will be
+          processed within 7 business days.
         </p>
       </LegalSection>
 
