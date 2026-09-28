@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
 import { LegalPage, LegalSection, LegalLink } from "@/components/legal/legal-page";
-
-const title = "Terms of Service | Zenki Lab";
-const description = "The terms that apply when you request a quote, place an order, or use Zenki Lab's website and services.";
+import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title,
-  description,
-  alternates: {
-    canonical: "https://zenkilab.com/terms",
-  },
-  openGraph: { title, description, url: "https://zenkilab.com/terms" },
-  twitter: { card: "summary_large_image", title, description },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  ...pageMetadata({
+    title: "Terms of Service | Zenki Lab",
+    description: "The terms that apply when you request a quote, place an order, or use Zenki Lab's website and services.",
+    path: "/terms",
+  }),
+  robots: { index: true, follow: true },
 };
 
 const LAST_UPDATED = "September 25, 2026";

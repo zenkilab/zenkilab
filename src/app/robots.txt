@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+Disallow: /store/key-tag/quote
+
+Sitemap: https://zenkilab.com/sitemap.xml
