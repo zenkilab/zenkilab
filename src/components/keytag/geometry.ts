@@ -3,7 +3,7 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import polygonClipping, { type Geom } from "polygon-clipping";
-import fontData from "./spacegrotesk_bold.typeface.json";
+import fontData from "./montserrat_bold.typeface.json";
 import { COMBOS, CORNER_RADIUS, TAG, type Corner, type KeyTagConfig } from "@/lib/keytag";
 
 // All units are millimetres. Front face is +Z, the tag lies flat.

@@ -21,10 +21,12 @@ export const TAG = {
   FLOOR: 1.6, // thickness of the floor
   EMBOSS: 1.0, // how far rim, ring and lettering stand above the floor, front only
   INLAY: 0.4, // depth of the flush marketing lettering on the back
-  RIM: 1.8, // width of the raised border
+  RIM: 2.3, // width of the raised border
   HOLE_R: 2.25, // keyring hole radius
-  /** Wet RFID inlay, 20 x 10 mm with clearance, sealed inside the floor. zc = height of its centre from the back face. */
-  POCKET: { w: 20.6, h: 10.6, t: 0.5, zc: 0.9 },
+  /** RFID film, 20 x 10 x 0.1 mm, sealed inside the floor. t and zc are set so the pocket's floor and
+   * roof each land on a print layer line (0.6-0.8 mm at the coded 0.2 mm layer height): zc = height of
+   * its centre from the back face. */
+  POCKET: { w: 20.6, h: 10.6, t: 0.2, zc: 0.7 },
 } as const;
 
 // Total thickness = FLOOR + EMBOSS = 2.6 mm. The flat back prints face down on the bed.
@@ -123,7 +125,7 @@ export function orderSpec(
     "Payment: not collected. On delivery or confirmed over WhatsApp.",
     "",
     `Colors: the 3MF is one object with two parts already on filament slots 1 (black floor) and 2 (${combo.accentName} rim, ring and lettering). Check the text before printing.`,
-    c.rfid ? `RFID: 20 x 10 mm wet inlay. A pause (M400 U1) is already in the 3MF at Z = ${RFID_PAUSE_LAYER_Z.toFixed(2)} mm, after the pocket is printed and before its roof. Place the inlay in the pocket, then resume. Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm.` : null,
+    c.rfid ? `RFID: 20 x 10 mm film (liner peeled). A pause (M400 U1) is already in the 3MF at Z = ${RFID_PAUSE_LAYER_Z.toFixed(2)} mm, after the pocket is printed and before its roof. Place the film in the pocket, then resume. Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm.` : null,
     `Quote expires: ${new Date(o.expiresAt).toISOString()}`,
   ]
     .filter((l) => l !== null)
