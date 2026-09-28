@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 import { LegalPage, LegalSection, LegalLink } from "@/components/legal/legal-page";
 
+const title = "Privacy Policy | Zenki Lab";
+const description =
+  "Learn how Zenki Lab handles personal information, customer data, and Google authentication information.";
+
 export const metadata: Metadata = {
-  title: "Privacy Policy | Zenki Lab",
-  description:
-    "Learn how Zenki Lab handles personal information, customer data, and Google authentication information.",
+  title,
+  description,
   alternates: {
     canonical: "https://zenkilab.com/privacy",
   },
+  openGraph: { title, description, url: "https://zenkilab.com/privacy" },
+  twitter: { card: "summary_large_image", title, description },
   robots: {
     index: true,
     follow: true,

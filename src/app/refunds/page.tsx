@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { LegalPage, LegalSection, LegalLink } from "@/components/legal/legal-page";
 
+const title = "Refund Policy | Zenki Lab";
+const description = "How Zenki Lab handles cancellations, refunds, and problems with custom 3D printed orders.";
+
 export const metadata: Metadata = {
-  title: "Refund Policy | Zenki Lab",
-  description: "How Zenki Lab handles cancellations, refunds, and problems with custom 3D printed orders.",
+  title,
+  description,
   alternates: {
     canonical: "https://zenkilab.com/refunds",
   },
+  openGraph: { title, description, url: "https://zenkilab.com/refunds" },
+  twitter: { card: "summary_large_image", title, description },
   robots: {
     index: true,
     follow: true,

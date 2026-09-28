@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { LegalPage, LegalSection, LegalLink } from "@/components/legal/legal-page";
 
+const title = "Terms of Service | Zenki Lab";
+const description = "The terms that apply when you request a quote, place an order, or use Zenki Lab's website and services.";
+
 export const metadata: Metadata = {
-  title: "Terms of Service | Zenki Lab",
-  description: "The terms that apply when you request a quote, place an order, or use Zenki Lab's website and services.",
+  title,
+  description,
   alternates: {
     canonical: "https://zenkilab.com/terms",
   },
+  openGraph: { title, description, url: "https://zenkilab.com/terms" },
+  twitter: { card: "summary_large_image", title, description },
   robots: {
     index: true,
     follow: true,

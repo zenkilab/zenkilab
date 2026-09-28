@@ -50,7 +50,12 @@ export const metadata: Metadata = {
     siteName: "Zenki Lab",
     locale: "en_US",
     type: "website",
-    images: ["/favicon.svg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zenki Lab · Custom 3D Printing Workshop",
+    description:
+      "Professional custom 3D printing for makers, enthusiasts and businesses. We manufacture custom parts, prototypes and one-off projects from your 3D models.",
   },
   robots: {
     index: true,
