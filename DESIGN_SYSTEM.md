@@ -44,11 +44,14 @@ No em dash characters anywhere in site copy, reads as AI-generated. Use periods,
 
 ## 3. Logo
 
-**Logomark:** abstract "Z" precision mark — two rings rotating in opposite directions around a fixed white Z.
-- Outer ring: amber `#F5A623`, opacity 0.45, dashed (`10 8`), rotates counter-clockwise, 10s
-- Inner ring: cyan `#38C8F5`, opacity 0.45, solid, rotates clockwise, 7s
-- Z: white `#FFFFFF`, stroke-width 3.4, rounded caps/joins, fixed (does not rotate)
+**Logomark:** abstract "Z" precision mark on an amber medallion — two rings rotating in opposite directions around a fixed Z.
+- Fill: amber gradient, light to base (`#FFC35C` → `#F5A623`), diagonal
+- Outer ring: dark ink `#0B0D10` (`--color-bg-primary`), dashed (`10 8`), rotates counter-clockwise, 10s
+- Inner ring: cyan `#38C8F5`, full opacity, solid, rotates clockwise, 7s
+- Z: dark ink `#0B0D10`, stroke-width 3.4, rounded caps/joins, fixed (does not rotate)
 - ViewBox `0 0 40 40`
+
+Superseded the earlier open-rings-on-transparent version: that one read fine sitting on the site's own dark background but nearly disappeared off it (favicon, social avatar, anywhere the background isn't guaranteed). The amber fill fixes that. Two things had to change to get there rather than just adding a background: the outer ring moved from amber to dark ink (amber dashes at 0.45 opacity on an amber fill are close to invisible), and the inner ring's opacity went from 0.45 to full (at 0.45 it blended into the amber fill instead of reading as cyan). Z inverted from white to dark ink for the same contrast reason.
 
 **Wordmark:** "ZenkiLab", fully merged, no gap, one continuous word. "Zenki" white, "Lab" amber, color break is the only separation between them. Implemented as a single SVG text element with two tspans and zero dx offset, not two separate positioned text elements, that approach was fragile and caused the spacing bugs seen earlier.
 
