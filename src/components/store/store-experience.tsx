@@ -108,25 +108,33 @@ function SceneBody({ item, flip, pinned }: { item: StoreListItem; flip: boolean;
     pinned ? { target: ref, offset: ["start start", "end end"] } : { target: circleRef, offset: ["start end", "end start"] },
   );
 
-  const scale = useTransform(p, [0, 0.3], [0.86, 1]);
+  // The track is taller than the reveal needs (235vh pin vs. ~0.2 of it to fully reveal) on purpose: the
+  // reveal itself stays quick, but that leaves a long calm "dwell" stretch — scrolling through the settled,
+  // fully-revealed product for a while — before the next one takes over. Long enough to read as "here's the
+  // product", short enough it doesn't read as the last one. Yaw and the rings keep drifting the whole way as
+  // ambient motion so the dwell doesn't look frozen.
+  // The exit mirrors the entrance exactly (same duration and motion, continuing the same upward direction
+  // rather than reversing it) but staggers in reverse order — CTA leaves first, title last — so it closes
+  // like a stack rather than falling apart in the order it arrived.
+  const scale = useTransform(p, [0, 0.107, 0.917, 0.976], [0.86, 1, 1, 0.86]);
   const yaw = useTransform(p, pinned ? [0.05, 0.95] : [0, 1], pinned ? [-0.5, 0.5] : [-0.8, 0.8]);
   const ringA = useTransform(p, [0, 1], [-35, 45]);
   const ringB = useTransform(p, [0, 1], [40, -50]);
-  const titleO = useTransform(p, [0.08, 0.28], [0, 1]);
-  const titleY = useTransform(p, [0.08, 0.28], [44, 0]);
-  const descO = useTransform(p, [0.2, 0.4], [0, 1]);
-  const descY = useTransform(p, [0.2, 0.4], [36, 0]);
-  const listO = useTransform(p, [0.3, 0.5], [0, 1]);
-  const listY = useTransform(p, [0.3, 0.5], [30, 0]);
-  const ctaO = useTransform(p, [0.4, 0.6], [0, 1]);
-  const ctaY = useTransform(p, [0.4, 0.6], [24, 0]);
+  const titleO = useTransform(p, [0.018, 0.083, 0.916, 0.975], [0, 1, 1, 0]);
+  const titleY = useTransform(p, [0.018, 0.083, 0.916, 0.975], [44, 0, 0, -44]);
+  const descO = useTransform(p, [0.053, 0.119, 0.88, 0.927], [0, 1, 1, 0]);
+  const descY = useTransform(p, [0.053, 0.119, 0.88, 0.927], [36, 0, 0, -36]);
+  const listO = useTransform(p, [0.083, 0.154, 0.844, 0.892], [0, 1, 1, 0]);
+  const listY = useTransform(p, [0.083, 0.154, 0.844, 0.892], [30, 0, 0, -30]);
+  const ctaO = useTransform(p, [0.119, 0.202, 0.809, 0.856], [0, 1, 1, 0]);
+  const ctaY = useTransform(p, [0.119, 0.202, 0.809, 0.856], [24, 0, 0, -24]);
 
   const rise = (o: typeof titleO, y: typeof titleY) => (pinned ? { opacity: o, y } : undefined);
   // The circle's diameter. The subject comes out of the top by about a third of it, so it gets that much room.
   const d = "min(440px, 50dvh, 78vw)";
 
   return (
-    <div ref={ref} className={pinned ? "h-[215vh]" : ""}>
+    <div ref={ref} className={pinned ? "h-[235vh]" : ""}>
       <div className={pinned ? "sticky top-0 flex h-[100dvh] items-center pt-16" : "py-16"}>
         <div className="mx-auto grid w-full max-w-[1280px] items-center gap-12 px-6 lg:grid-cols-12 lg:gap-10 lg:px-8">
           <div className={`lg:col-span-6 ${flip ? "lg:order-2" : ""}`}>
