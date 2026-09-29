@@ -39,9 +39,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Zenki Lab" }],
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: "/favicon.svg?v=2",
+    shortcut: "/favicon.svg?v=2",
+    apple: "/favicon.svg?v=2",
   },
   openGraph: {
     title: "Zenki Lab · Custom 3D Printing Workshop",
@@ -76,7 +76,7 @@ export default function RootLayout({
       className={`${inter.variable} ${plexMono.variable} ${spaceGrotesk.variable} antialiased`}
     >
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }} />
       </head>
       <body className="min-h-screen bg-background text-white font-sans">
