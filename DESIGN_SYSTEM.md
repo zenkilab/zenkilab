@@ -88,8 +88,8 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 - **Emboss and deboss (front only):** the rim (1.4 mm wide), the ring and the lettering stand 1.0 mm proud of the recessed floor, which is 1.6 mm thick. Lettering is Montserrat Bold, at least 0.8 mm stroke and about 5 mm tall or more so it prints cleanly.
 - **Back is completely flat.** No rim, no ring, no relief. If the marketing line is kept, `ZenkiLab.com` is a flush 0.4 mm color inlay in the accent color, otherwise the back is plain. The flat back prints face down on the bed.
 - **Colors in print:** black floor, accent (amber or cyan) rim, ring and lettering. Two objects in the 3MF, one per color.
-- **Pricing:** Rs. 300 without the marketing line and without RFID, Rs. 250 with the `ZenkiLab.com` line, RFID chip adds Rs. 200 either way.
-- **RFID (optional):** a 20 x 10 mm wet inlay sealed in a 20.6 x 10.6 x 0.5 mm pocket inside the floor (centred 0.9 mm from the back). The operator pauses the print at Z = 1.15 mm, places the inlay, and resumes. The emailed spec says when to pause.
+- **Pricing:** Rs. 300 without the marketing line and without NFC, Rs. 250 with the `ZenkiLab.com` line, NFC chip adds Rs. 200 either way.
+- **NFC (optional):** a 20 x 10 mm wet inlay sealed in a 20.6 x 10.6 x 0.5 mm pocket inside the floor (centred 0.9 mm from the back). The operator pauses the print at Z = 1.15 mm, places the inlay, and resumes. The emailed spec says when to pause.
 - Keyring holes across all styles: concentric double-ring detail, echoing the logomark's ring motif.
 
 ---

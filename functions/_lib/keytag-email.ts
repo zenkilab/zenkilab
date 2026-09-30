@@ -2,7 +2,7 @@ import {
   COMBOS,
   CORNER_LABEL,
   MATERIAL,
-  RFID_PAUSE_LAYER_Z,
+  NFC_PAUSE_LAYER_Z,
   STYLES,
   TAG,
   orderSpec,
@@ -44,7 +44,7 @@ export function parseOrder(raw: string): Order | null {
     if (!text || !Number.isFinite(createdAt) || !Number.isFinite(expiresAt)) return null;
     return {
       orderId: o.orderId,
-      config: { content, style, corner, combo, text, branding: c.branding === true, rfid: c.rfid === true },
+      config: { content, style, corner, combo, text, branding: c.branding === true, nfc: c.nfc === true },
       contact: { name: String(o.contact?.name ?? "").trim().slice(0, 80), phone: String(o.contact?.phone ?? "").trim().slice(0, 30) },
       createdAt,
       expiresAt,
@@ -63,12 +63,12 @@ export function keyTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
   const p = priceLines(c);
   const confirmed = stage === "confirm";
   const wa = whatsappUrl(contact.phone);
-  const flags = [c.rfid ? "RFID" : "", c.branding ? "" : "no stamp"].filter(Boolean).join(" · ");
+  const flags = [c.nfc ? "NFC" : "", c.branding ? "" : "no stamp"].filter(Boolean).join(" · ");
 
   const price = rows([
     ["Base price", rs(p.base)],
     ...(p.discount ? ([["zenkilab.com stamp discount", { html: `<span style="color:${C.ok}">-${esc(rs(p.discount))}</span>` }]] as [string, { html: string }][]) : []),
-    ...(p.rfid ? ([["RFID chip", `+${rs(p.rfid)}`]] as [string, string][]) : []),
+    ...(p.nfc ? ([["NFC chip", `+${rs(p.nfc)}`]] as [string, string][]) : []),
     ["Total", { html: `<strong style="font-size:18px">${esc(rs(p.total))}</strong>` }],
   ]);
 
@@ -76,13 +76,13 @@ export function keyTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
     ? [
         `Open the 3MF attached to the quote email for ${o.orderId} in Bambu Studio.`,
         `Check the text reads "${c.text}" and slot 2 is ${combo.accentName}.`,
-        ...(c.rfid ? [`The printer pauses at Z ${RFID_PAUSE_LAYER_Z.toFixed(2)} mm. Place the 20 x 10 mm wet inlay in the pocket, then resume.`] : []),
+        ...(c.nfc ? [`The printer pauses at Z ${NFC_PAUSE_LAYER_Z.toFixed(2)} mm. Place the 20 x 10 mm wet inlay in the pocket, then resume.`] : []),
         "Message the customer on WhatsApp once it is in the print queue. Payment is on delivery or over WhatsApp.",
       ]
     : [
         "The customer has not confirmed. Do not print yet.",
         "Print only after a CONFIRMED email arrives with this order ID.",
-        `The 3MF is attached to this email${c.rfid ? ", with the RFID pause already set" : ""}.`,
+        `The 3MF is attached to this email${c.nfc ? ", with the NFC pause already set" : ""}.`,
       ];
   const stepList = `<ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.6;color:${C.ink}">${steps.map((s) => `<li style="margin-bottom:4px">${esc(s)}</li>`).join("")}</ol>`;
 
@@ -90,8 +90,8 @@ export function keyTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
     hasPreview
       ? `<tr><td style="padding:20px 28px 0"><img src="cid:tag-preview" alt="Customer's key tag design" width="544" style="display:block;width:100%;max-width:544px;height:auto;border-radius:10px;border:1px solid ${C.line}"></td></tr>`
       : "",
-    c.rfid
-      ? callout("warn", "RFID INLAY REQUIRED", `Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm. The print pauses at Z ${RFID_PAUSE_LAYER_Z.toFixed(2)} mm for the operator to place the inlay.`)
+    c.nfc
+      ? callout("warn", "NFC INLAY REQUIRED", `Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm. The print pauses at Z ${NFC_PAUSE_LAYER_Z.toFixed(2)} mm for the operator to place the inlay.`)
       : "",
     section(
       "What to print",
@@ -103,7 +103,7 @@ export function keyTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
         ["Colours", { html: `${swatch(combo.body)}Floor black &nbsp; ${swatch(combo.accent)}${esc(combo.label)} ${esc(combo.accentName)} (rim, ring, lettering)` }],
         ["Material", MATERIAL],
         ["Back", c.branding ? `Flat, zenkilab.com as a flush ${TAG.INLAY} mm inlay` : "Flat, blank"],
-        ["RFID", c.rfid ? { html: `<strong style="color:${C.amberInk}">YES</strong> (+${esc(rs(p.rfid))})` } : "No"],
+        ["NFC", c.nfc ? { html: `<strong style="color:${C.amberInk}">YES</strong> (+${esc(rs(p.nfc))})` } : "No"],
       ]),
     ),
     section(
@@ -136,8 +136,8 @@ export function keyTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
       banner: confirmed ? "CONFIRMED · CUSTOMER SAYS GO · ADD TO PRINT QUEUE" : "NEW QUOTE · WAITING FOR CUSTOMER TO CONFIRM",
       tone: confirmed ? "ok" : "info",
       headline: `${esc(c.text)} <span style="font-weight:400;color:${C.muted};font-size:16px">${mono(o.orderId)}</span>`,
-      sub: `${esc(contact.name || "Customer")} &middot; ${esc(rs(p.total))}${c.rfid ? " &middot; RFID" : ""}`,
-      preheader: `${o.orderId} ${tag} ${rs(p.total)}${c.rfid ? ", RFID" : ""}`,
+      sub: `${esc(contact.name || "Customer")} &middot; ${esc(rs(p.total))}${c.nfc ? " &middot; NFC" : ""}`,
+      preheader: `${o.orderId} ${tag} ${rs(p.total)}${c.nfc ? ", NFC" : ""}`,
       body,
       footer: `Sent by the Zenki Lab store. Order data is shown as submitted by the customer; prices are recalculated by the server.`,
     }),

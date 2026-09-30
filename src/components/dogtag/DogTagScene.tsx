@@ -4,15 +4,36 @@ import { useEffect, useMemo, useRef, useState, type MutableRefObject } from "rea
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { buildKeyTag } from "./geometry";
-import { COMBOS, type KeyTagConfig } from "@/lib/keytag";
+import { buildDogTag } from "./geometry";
+import { COMBOS, TAG, plateHeight, type DogTagConfig } from "@/lib/dogtag";
 
 export type Capture = () => string;
 
-function Tag({ config, flipped }: { config: KeyTagConfig; flipped: boolean }) {
+/** Keeps the whole plate in frame as its height grows with collar width: refits the camera's distance
+ * (along whatever direction the user last left it, so a manual rotate/zoom isn't undone) whenever the
+ * plate's footprint changes, instead of leaving the fit tuned only for the default collar width. */
+function AutoFrame({ collarWidthMm }: { collarWidthMm: number }) {
+  const { camera, size } = useThree();
+  useEffect(() => {
+    const persp = camera as THREE.PerspectiveCamera;
+    const vFov = (persp.fov * Math.PI) / 180;
+    const aspect = size.width / size.height;
+    const h = plateHeight(collarWidthMm);
+    const distForHeight = h / 2 / Math.tan(vFov / 2);
+    const distForWidth = TAG.W / 2 / (Math.tan(vFov / 2) * aspect);
+    const margin = 1.2; // breathing room so the plate doesn't touch the frame edge
+    const distance = Math.max(distForHeight, distForWidth) * margin;
+    const dir = camera.position.lengthSq() > 0 ? camera.position.clone().normalize() : new THREE.Vector3(0, 0, 1);
+    camera.position.copy(dir.multiplyScalar(distance));
+    camera.updateProjectionMatrix();
+  }, [collarWidthMm, camera, size]);
+  return null;
+}
+
+function Tag({ config, flipped }: { config: DogTagConfig; flipped: boolean }) {
   const group = useRef<THREE.Group>(null);
-  const { style, corner, text, branding, nfc, combo } = config;
-  const geo = useMemo(() => buildKeyTag(config), [style, corner, text, branding, nfc]);
+  const { collarWidthMm, phone, petName, combo, showText } = config;
+  const geo = useMemo(() => buildDogTag(config), [collarWidthMm, phone, petName, combo, showText]);
   useEffect(() => () => { geo.body.dispose(); geo.accent.dispose(); }, [geo]);
 
   useFrame((_, dt) => {
@@ -52,16 +73,15 @@ function Grab({ apiRef }: { apiRef: MutableRefObject<Capture | null> }) {
   return null;
 }
 
-export default function KeyTagScene({
+export default function DogTagScene({
   config,
   flipped,
   captureRef,
 }: {
-  config: KeyTagConfig;
+  config: DogTagConfig;
   flipped: boolean;
   captureRef: MutableRefObject<Capture | null>;
 }) {
-  // Same discipline as the hero scene: dpr 1 on mobile, no postprocessing.
   const [dpr, setDpr] = useState(1);
   useEffect(() => setDpr(window.matchMedia("(max-width: 768px)").matches ? 1 : Math.min(2, window.devicePixelRatio)), []);
 
@@ -70,10 +90,10 @@ export default function KeyTagScene({
       <ambientLight intensity={1.1} />
       <directionalLight position={[30, 40, 60]} intensity={2.2} />
       <directionalLight position={[-40, -20, 30]} intensity={0.7} />
-      {/* rim light so the black body reads against the empty background */}
       <directionalLight position={[60, 30, -25]} intensity={2.4} />
       <Tag config={config} flipped={flipped} />
-      <OrbitControls enablePan={false} minDistance={55} maxDistance={150} />
+      <AutoFrame collarWidthMm={config.collarWidthMm} />
+      <OrbitControls enablePan={false} minDistance={55} maxDistance={220} />
       <Grab apiRef={captureRef} />
     </Canvas>
   );

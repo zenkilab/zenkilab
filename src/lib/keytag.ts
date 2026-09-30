@@ -8,7 +8,7 @@ export type Corner = "sharp" | "soft" | "round";
 
 export const MATERIAL = "PETG"; // fixed, never a customer choice
 export const BRANDING_DISCOUNT = 50; // Rs., for keeping the zenkilab.com stamp
-export const RFID_PRICE = 200; // Rs., optional RFID chip inside the tag
+export const NFC_PRICE = 200; // Rs., optional NFC chip inside the tag
 export const QUOTE_HOURS = 24;
 
 /**
@@ -23,7 +23,7 @@ export const TAG = {
   INLAY: 0.4, // depth of the flush marketing lettering on the back
   RIM: 2.3, // width of the raised border
   HOLE_R: 2.25, // keyring hole radius
-  /** RFID film, 20 x 10 x 0.1 mm, sealed inside the floor. t and zc are set so the pocket's floor and
+  /** NFC film, 20 x 10 x 0.1 mm, sealed inside the floor. t and zc are set so the pocket's floor and
    * roof each land on a print layer line (0.6-0.8 mm at the coded 0.2 mm layer height): zc = height of
    * its centre from the back face. */
   POCKET: { w: 20.6, h: 10.6, t: 0.2, zc: 0.7 },
@@ -31,16 +31,16 @@ export const TAG = {
 
 // Total thickness = FLOOR + EMBOSS = 2.6 mm. The flat back prints face down on the bed.
 // Print Z at which the pocket roof starts, where the operator pauses
-export const RFID_PAUSE_Z = TAG.POCKET.zc + TAG.POCKET.t / 2;
+export const NFC_PAUSE_Z = TAG.POCKET.zc + TAG.POCKET.t / 2;
 // Slicer layer height, and the layer (its top Z) where the pause sits: the first layer whose midpoint is above the pocket, so the pocket is fully open below it
 export const PRINT_LAYER = 0.2;
-export const RFID_PAUSE_LAYER_Z = (Math.floor(RFID_PAUSE_Z / PRINT_LAYER + 0.5) + 1) * PRINT_LAYER;
+export const NFC_PAUSE_LAYER_Z = (Math.floor(NFC_PAUSE_Z / PRINT_LAYER + 0.5) + 1) * PRINT_LAYER;
 
 export const STYLES: Record<StyleId, { label: string; maxChars: number; basePrice: number }> = {
   capsule: {
     label: "Capsule key tag",
     maxChars: 10, // the hole sits in the text row, so 5 cm leaves room for about 10 letters
-    // Rs. 300 without the stamp and without RFID. 250 with the stamp. RFID adds 200.
+    // Rs. 300 without the stamp and without NFC. 250 with the stamp. NFC adds 200.
     basePrice: 300,
   },
   ring: { label: "Ring key tag", maxChars: 12, basePrice: 300 },
@@ -64,7 +64,7 @@ export type KeyTagConfig = {
   combo: ComboId;
   text: string;
   branding: boolean;
-  rfid: boolean;
+  nfc: boolean;
 };
 
 export function sanitizeText(content: ContentType, style: StyleId, raw: string) {
@@ -78,8 +78,8 @@ export function sanitizeText(content: ContentType, style: StyleId, raw: string) 
 export function priceLines(c: KeyTagConfig) {
   const base = STYLES[c.style].basePrice;
   const discount = c.branding ? BRANDING_DISCOUNT : 0;
-  const rfid = c.rfid ? RFID_PRICE : 0;
-  return { base, discount, rfid, total: base - discount + rfid };
+  const nfc = c.nfc ? NFC_PRICE : 0;
+  return { base, discount, nfc, total: base - discount + nfc };
 }
 
 export const rs = (n: number) => `Rs. ${n.toLocaleString("en-LK")}`;
@@ -115,17 +115,17 @@ export function orderSpec(
     `Color combo: ${combo.label} (black body + ${combo.accentName} accent)`,
     `Material: ${MATERIAL}`,
     `Back: flat. ${c.branding ? "ZenkiLab.com as a flush 0.4 mm color inlay, no relief" : "blank"}`,
-    `RFID chip: ${c.rfid ? "YES, embed before sealing (+Rs. 200)" : "no"}`,
+    `NFC chip: ${c.nfc ? "YES, embed before sealing (+Rs. 200)" : "no"}`,
     `zenkilab.com stamp: ${c.branding ? "ON (Rs. 50 discount applied)" : "OFF"}`,
     "",
     `Base price: ${rs(p.base)}`,
     `Branding discount: ${p.discount ? "-" + rs(p.discount) : "none"}`,
-    `RFID chip: ${p.rfid ? "+" + rs(p.rfid) : "none"}`,
+    `NFC chip: ${p.nfc ? "+" + rs(p.nfc) : "none"}`,
     `Total: ${rs(p.total)}`,
     "Payment: not collected. On delivery or confirmed over WhatsApp.",
     "",
     `Colors: the 3MF is one object with two parts already on filament slots 1 (black floor) and 2 (${combo.accentName} rim, ring and lettering). Check the text before printing.`,
-    c.rfid ? `RFID: 20 x 10 mm film (liner peeled). A pause (M400 U1) is already in the 3MF at Z = ${RFID_PAUSE_LAYER_Z.toFixed(2)} mm, after the pocket is printed and before its roof. Place the film in the pocket, then resume. Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm.` : null,
+    c.nfc ? `NFC: 20 x 10 mm film (liner peeled). A pause (M400 U1) is already in the 3MF at Z = ${NFC_PAUSE_LAYER_Z.toFixed(2)} mm, after the pocket is printed and before its roof. Place the film in the pocket, then resume. Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm.` : null,
     `Quote expires: ${new Date(o.expiresAt).toISOString()}`,
   ]
     .filter((l) => l !== null)

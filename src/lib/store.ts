@@ -57,13 +57,36 @@ const keyTagStage: StageSlide[] = [
   },
 ];
 
+const dogTagStage: StageSlide[] = [
+  {
+    bg: "/store/dog-tag-listing.webp",
+    alt: "A black dog tag with an embossed amber QR code, sized to slide onto a collar",
+    box: place({ size: [1080, 1080], bbox: [0, 0, 1080, 1080], width: 0.95, centre: 0.5 }),
+  },
+];
+
+/** Not in storeItems yet, so it doesn't show on the Store catalog: internal/direct-link only
+ * (/store/dog-tag) until confirmed ready to list. Its own layout.tsx still reads this for metadata. */
+export const dogTagItem = {
+  id: "dog-tag",
+  title: "Dog Tag",
+  description:
+    "Slides onto the collar so it lies flat instead of dangling. An NFC chip and an embossed QR code both call you directly if your dog is found, and the number is printed on the front too.",
+  bullets: ["Fits your exact collar width", "NFC + QR + printed number", "Made in outdoor-grade ASA"],
+  href: "/store/dog-tag",
+  cta: "Design Your Tag",
+  alt: "A black dog tag with an embossed amber QR code, sized to slide onto a collar",
+  stage: dogTagStage,
+  meta: "Made to order",
+};
+
 export const storeItems = [
   {
     id: "key-tag",
     title: "Custom Key Tag",
     description:
       "A two-tone PETG key tag with your name or car number. See it in 3D as you type, then get a quote.",
-    bullets: ["Name or car number", "Heritage or Precision colors", "Optional RFID chip"],
+    bullets: ["Name or car number", "Heritage or Precision colors", "Optional NFC chip"],
     href: "/store/key-tag",
     cta: "Design Your Tag",
     alt: "A black capsule key tag with a raised amber rim and lettering",
@@ -82,4 +105,5 @@ export const storeItems = [
     stage: chibiStage,
     meta: `From ${rs(CHIBI_SIZES[0].price!)}`,
   },
+  // dogTagItem deliberately left out: internal-only until confirmed ready for the public catalog.
 ];

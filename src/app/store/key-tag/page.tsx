@@ -10,7 +10,7 @@ import {
   COMBOS,
   CORNER_LABEL,
   BRANDING_DISCOUNT,
-  RFID_PRICE,
+  NFC_PRICE,
   QUOTE_HOURS,
   STORAGE_KEY,
   STYLES,
@@ -59,7 +59,7 @@ export default function KeyTagPage() {
   const [combo, setCombo] = useState<ComboId>("heritage");
   const [text, setText] = useState("");
   const [branding, setBranding] = useState(true); // opt-out: pre-checked
-  const [rfid, setRfid] = useState(false);
+  const [nfc, setNfc] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -75,14 +75,14 @@ export default function KeyTagPage() {
         setContent(c.content); setStyle(c.style); setCorner(c.corner ?? "soft"); setCombo(c.combo);
         setText(sanitizeText(c.content, c.style, c.text));
         setBranding(c.branding);
-        setRfid(!!c.rfid);
+        setNfc(!!c.nfc);
         setName(o.contact.name); setPhone(o.contact.phone);
         return;
       }
     } catch {}
   }, []);
 
-  const config: KeyTagConfig = { content, style, corner, combo, text, branding, rfid };
+  const config: KeyTagConfig = { content, style, corner, combo, text, branding, nfc };
   const max = STYLES[style].maxChars;
   const p = priceLines(config);
 
@@ -216,9 +216,9 @@ export default function KeyTagPage() {
               </label>
               <p className="pl-7 text-xs text-muted-foreground">The back is always flat. Without the stamp it is left plain.</p>
               <label className="flex cursor-pointer items-start gap-3 border-t border-border pt-3">
-                <input type="checkbox" checked={rfid} onChange={(e) => setRfid(e.target.checked)} className="mt-1 h-4 w-4 accent-[color:var(--color-accent-primary)]" />
+                <input type="checkbox" checked={nfc} onChange={(e) => setNfc(e.target.checked)} className="mt-1 h-4 w-4 accent-[color:var(--color-accent-primary)]" />
                 <span className="text-sm">
-                  Add an RFID chip inside the tag for <span className="font-mono">{rs(RFID_PRICE)}</span>
+                  Add an NFC chip inside the tag for <span className="font-mono">{rs(NFC_PRICE)}</span>
                 </span>
               </label>
             </section>
@@ -237,8 +237,8 @@ export default function KeyTagPage() {
                 {p.discount > 0 && (
                   <div className="flex justify-between"><dt className="text-muted-foreground">Branding discount</dt><dd className="text-primary">-{rs(p.discount)}</dd></div>
                 )}
-                {p.rfid > 0 && (
-                  <div className="flex justify-between"><dt className="text-muted-foreground">RFID chip</dt><dd>+{rs(p.rfid)}</dd></div>
+                {p.nfc > 0 && (
+                  <div className="flex justify-between"><dt className="text-muted-foreground">NFC chip</dt><dd>+{rs(p.nfc)}</dd></div>
                 )}
                 <div className="flex justify-between text-base font-semibold"><dt>Total</dt><dd>{rs(p.total)}</dd></div>
               </dl>

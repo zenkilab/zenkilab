@@ -236,7 +236,7 @@ export function buildKeyTag(c: KeyTagConfig) {
     bodyParts.push(flat(extrude(floorShape(), F, 0)));
   }
 
-  if (c.rfid) {
+  if (c.nfc) {
     // Sealed pocket for a 20 x 10 mm wet inlay, inside the floor
     const { w, h, t, zc } = TAG.POCKET;
     bodyParts.push(voidBox(w, h, t, pocket.cx, pocket.cy, zc));

@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { contactChannels } from "@/lib/constants";
-import { COMBOS, CORNER_LABEL, MATERIAL, STORAGE_KEY, STYLES, priceLines, rs, type StoredOrder } from "@/lib/keytag";
-import { sendOrder } from "@/lib/keytag-submit";
+import { COMBOS, INTRO_PRICE, MATERIAL, PRICE, STORAGE_KEY, TAG, plateHeight, rs, type StoredDogTagOrder } from "@/lib/dogtag";
+import { sendOrder } from "@/lib/dogtag-submit";
 
 const whatsapp = contactChannels.find((c) => c.label === "WhatsApp")?.href ?? "#";
 
@@ -15,8 +15,8 @@ function remaining(ms: number) {
   return `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, "0")}m`;
 }
 
-export default function QuotePage() {
-  const [order, setOrder] = useState<StoredOrder | null | undefined>(undefined);
+export default function DogTagQuotePage() {
+  const [order, setOrder] = useState<StoredDogTagOrder | null | undefined>(undefined);
   const [now, setNow] = useState(() => Date.now());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -59,23 +59,23 @@ export default function QuotePage() {
     return shell(
       <div className="text-center">
         <h1 className="text-3xl font-bold">No quote found</h1>
-        <p className="mt-3 text-sm text-muted-foreground">Design a key tag first and we will build your quote.</p>
-        <Link href="/store/key-tag" className="mt-6 inline-flex h-11 items-center rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground">Start Designing</Link>
+        <p className="mt-3 text-sm text-muted-foreground">Design a dog tag first and we will build your quote.</p>
+        <Link href="/store/dog-tag" className="mt-6 inline-flex h-11 items-center rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground">Start Designing</Link>
       </div>,
     );
 
   const { config: c } = order;
-  const p = priceLines(c);
   const combo = COMBOS[c.combo];
   const expired = now >= order.expiresAt;
 
   const specs: [string, string][] = [
-    ["Style", STYLES[c.style].label + (c.style === "ring" ? ` (${CORNER_LABEL[c.corner]} corners)` : "")],
-    ["Text", c.text],
+    ["Collar width", `${c.collarWidthMm} mm`],
+    ["Plate size", `${TAG.W} x ${plateHeight(c.collarWidthMm).toFixed(1)} mm`],
+    ["Phone (NFC + QR)", c.phone],
+    ["Also printed on the front", c.showText ? `Yes${c.petName ? ` ("${c.petName}" + number)` : " (number only)"}` : "No, NFC/QR only"],
     ["Colors", `${combo.label}, black and ${combo.accentName}`],
     ["Material", MATERIAL],
-    ["Back", c.branding ? "Flat, with zenkilab.com as a flush inlay" : "Flat and plain"],
-    ["NFC chip", c.nfc ? "Included" : "No"],
+    ["NFC chip", "Included, programmed with the phone above"],
   ];
 
   if (order.confirmed)
@@ -100,11 +100,11 @@ export default function QuotePage() {
         <div className="flex items-center gap-4">
           {order.thumbnail && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={order.thumbnail} alt="Your key tag design" className="h-20 w-28 rounded-lg border border-border object-cover" />
+            <img src={order.thumbnail} alt="Your dog tag design" className="h-20 w-28 rounded-lg border border-border object-cover" />
           )}
           <div>
-            <p className="font-semibold">{STYLES[c.style].label}</p>
-            <p className="font-mono text-sm text-primary">{c.text}</p>
+            <p className="font-semibold">Dog tag</p>
+            <p className="font-mono text-sm text-primary">{c.petName || c.phone}</p>
           </div>
         </div>
 
@@ -118,14 +118,12 @@ export default function QuotePage() {
         </dl>
 
         <dl className="mt-6 space-y-2 border-t border-border pt-5 font-mono text-sm">
-          <div className="flex justify-between"><dt className="text-muted-foreground">{STYLES[c.style].label}</dt><dd>{rs(p.base)}</dd></div>
-          {p.discount > 0 && (
-            <div className="flex justify-between"><dt className="text-muted-foreground">Branding discount</dt><dd className="text-primary">-{rs(p.discount)}</dd></div>
-          )}
-          {p.nfc > 0 && (
-            <div className="flex justify-between"><dt className="text-muted-foreground">NFC chip</dt><dd>+{rs(p.nfc)}</dd></div>
-          )}
-          <div className="flex justify-between text-base font-semibold"><dt>Total</dt><dd>{rs(p.total)}</dd></div>
+          <div className="flex justify-between">
+            <dt className="text-muted-foreground">Dog tag (NFC + QR + printed number)</dt>
+            <dd className="text-muted-foreground line-through">{rs(PRICE)}</dd>
+          </div>
+          <div className="flex justify-between"><dt className="text-muted-foreground">Introductory price</dt><dd className="text-primary">{rs(INTRO_PRICE)}</dd></div>
+          <div className="flex justify-between text-base font-semibold"><dt>Total</dt><dd>{rs(INTRO_PRICE)}</dd></div>
         </dl>
       </div>
 
@@ -139,7 +137,7 @@ export default function QuotePage() {
         <p className="font-semibold text-foreground">What happens next</p>
         <p className="mt-2">
           Confirming puts your tag in our print queue. It does not take payment, and you have not paid anything yet.
-          We check the design, message you on WhatsApp, and you pay on delivery or over WhatsApp.
+          We program the NFC chip with your number, print, and message you on WhatsApp. You pay on delivery or over WhatsApp.
         </p>
       </div>
 
@@ -153,7 +151,7 @@ export default function QuotePage() {
         >
           {busy ? "Adding to queue..." : "Confirm and Add to Print Queue (No Payment Now)"}
         </button>
-        <Link href="/store/key-tag" className="inline-flex h-12 items-center justify-center rounded-xl border border-border px-6 text-sm font-medium hover:border-primary">
+        <Link href="/store/dog-tag" className="inline-flex h-12 items-center justify-center rounded-xl border border-border px-6 text-sm font-medium hover:border-primary">
           Edit Design
         </Link>
       </div>
