@@ -126,6 +126,15 @@ h2 {
   font-family: var(--font-wordmark), sans-serif;
 }
 
+html,
+body {
+  /* Decorative circle/ring layers (DepthRings, KeyTagSpin canvas) are deliberately
+     oversized past their container so a subject can "pop out" of the circle. Without
+     this clamp, mobile browsers see that transient width during initial layout and
+     apply shrink-to-fit zoom to the whole page instead of just clipping it locally. */
+  overflow-x: hidden;
+}
+
 html {
   scroll-behavior: smooth;
 }
