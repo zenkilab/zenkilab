@@ -5,7 +5,8 @@ export const dynamic = "force-static";
 const SITE_URL = "https://zenkilab.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  // ponytail: bump when the page content really changes; a fresh Date() every build makes Google ignore lastmod.
+  const now = new Date("2026-10-03");
   return [
     { url: SITE_URL, lastModified: now, changeFrequency: "monthly", priority: 1 },
     { url: `${SITE_URL}/store`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },

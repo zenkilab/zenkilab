@@ -1,5 +1,6 @@
 User-Agent: *
 Allow: /
 Disallow: /store/key-tag/quote
+Disallow: /store/dog-tag/quote
 
 Sitemap: https://zenkilab.com/sitemap.xml

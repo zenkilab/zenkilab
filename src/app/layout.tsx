@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter, IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
-import { organizationJsonLd } from "@/lib/seo";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const inter = Inter({
@@ -38,10 +38,16 @@ export const metadata: Metadata = {
     "3D printing service",
   ],
   authors: [{ name: "Zenki Lab" }],
+  alternates: { canonical: "/" },
+  // Google's favicon crawler needs a static, square, multiple-of-48px icon: the animated SVG alone isn't reliable.
   icons: {
-    icon: "/favicon.svg?v=2",
-    shortcut: "/favicon.svg?v=2",
-    apple: "/favicon.svg?v=2",
+    icon: [
+      { url: "/favicon.ico?v=3", sizes: "48x48" },
+      { url: "/favicon-48.png?v=3", type: "image/png", sizes: "48x48" },
+      { url: "/favicon-192.png?v=3", type: "image/png", sizes: "192x192" },
+      { url: "/favicon.svg?v=3", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png?v=3",
   },
   openGraph: {
     title: "Zenki Lab · Custom 3D Printing Workshop",
@@ -51,12 +57,14 @@ export const metadata: Metadata = {
     siteName: "Zenki Lab",
     locale: "en_US",
     type: "website",
+    images: ["/opengraph-image.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Zenki Lab · Custom 3D Printing Workshop",
     description:
       "Professional custom 3D printing for makers, enthusiasts and businesses. We manufacture custom parts, prototypes and one-off projects from your 3D models.",
+    images: ["/opengraph-image.png"],
   },
   robots: {
     index: true,
@@ -76,8 +84,8 @@ export default function RootLayout({
       className={`${inter.variable} ${plexMono.variable} ${spaceGrotesk.variable} antialiased`}
     >
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }} />
       </head>
       <body className="min-h-screen bg-background text-white font-sans">
         {children}

@@ -8,10 +8,12 @@ import { AboutSection } from "@/components/sections/about-section";
 import { FAQSection } from "@/components/sections/faq-section";
 import { QuoteSection } from "@/components/sections/quote-section";
 import { ContactSection } from "@/components/sections/contact-section";
+import { faqJsonLd } from "@/lib/seo";
 
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd()) }} />
       <Header />
       <main>
         <HeroSection />
