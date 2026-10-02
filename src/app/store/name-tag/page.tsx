@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/footer";
 import { MATERIAL } from "@/lib/keytag";
 import dynamic from "next/dynamic";
 import {
-  ACCENTS, CONCEPTS, DEFAULT_LOGO, FONTS, MAX_NAME, MAX_ROLE, SAMPLE_STAFF, THICKNESS, approvalMessage, readLogo, sanitizeLine,
+  ACCENTS, CONCEPTS, DEFAULT_LOGO, FONTS, MAX_NAME, MAX_ROLE, THICKNESS, approvalMessage, readLogo, sanitizeLine,
   type ConceptId, type FontId, type Staff,
 } from "@/lib/name-tag";
 
@@ -24,7 +24,7 @@ const field =
 
 export default function NameTagPage() {
   const [concept, setConcept] = useState<ConceptId>("A");
-  const [staff, setStaff] = useState<Staff[]>(SAMPLE_STAFF);
+  const [staff, setStaff] = useState<Staff[]>([{ name: "", role: "" }]);
   const [sel, setSel] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [logo, setLogo] = useState(DEFAULT_LOGO);

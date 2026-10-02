@@ -42,12 +42,6 @@ export const MAX_ROLE = 48;
 
 export type Staff = { name: string; role: string };
 
-// ponytail: names and roles are placeholders until the real staff list arrives
-export const SAMPLE_STAFF: Staff[] = [
-  { name: "Nimali Perera", role: "Ayurveda Therapist" },
-  { name: "Chathurika Wijesundara", role: "Senior Physiotherapist and Rehabilitation Lead" },
-];
-
 // Placeholder until the customer uploads their own: a plain ring and dot.
 export const DEFAULT_LOGO =
   "data:image/svg+xml;utf8," +
