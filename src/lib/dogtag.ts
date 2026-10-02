@@ -25,7 +25,7 @@ export const TAG = {
   INLAY: 0.4, // depth of each flush inlay, both faces
   CORNER_R: 4, // outer plate corner radius
   LOOP_L: 14, // length of each loop along the collar: long enough to hold it square, short enough to leave the middle exposed
-  POST: 4, // minimum wall at the plate's top and bottom edges beside the collar opening
+  POST: 6, // wall at the plate's top and bottom edges beside the collar opening; 6 so ~2 mm is left at the loop tip after it follows the plate's CORNER_R
   STRAP: 4, // thickness of the strap behind the collar
   CLEAR_W: 2, // total width clearance added to the collar width (1 mm a side)
   CLEAR_T: 1, // thickness clearance added to the collar thickness

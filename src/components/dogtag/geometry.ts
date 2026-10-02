@@ -154,13 +154,17 @@ function loopSlice(xa: number, xb: number, H: number, openW: number, openT: numb
  * only, beside the belt, never across its path. */
 function beltLoop(s: 1 | -1, H: number, openW: number, openT: number) {
   const D = openT + STRAP;
-  const xin = s * (W / 2 - LOOP_L), c = s * (W / 2 - R_END);
+  const xin = s * (W / 2 - LOOP_L), c = s * (W / 2 - CORNER_R);
   const parts = [loopSlice(xin, c, H, openW, openT, D)];
+  // Over the last CORNER_R mm the loop follows the plate's rounded corner in plan (so no square ledge sticks
+  // out past it) and, over the last R_END, curls up in depth. Each slice takes the smaller size at its outer edge.
   const N = 8;
   for (let k = 0; k < N; k++) {
-    const e = (R_END * (k + 1)) / N; // distance of this slice's outer edge past where the rounding starts
-    const depth = D - R_END + Math.sqrt(R_END * R_END - e * e);
-    parts.push(loopSlice(c + (s * R_END * k) / N, c + (s * R_END * (k + 1)) / N, H, openW, openT, depth));
+    const eY = CORNER_R * ((k + 1) / N); // how far the slice's outer edge is into the corner zone
+    const eZ = Math.max(0, eY - (CORNER_R - R_END));
+    const halfH = H / 2 - CORNER_R + Math.sqrt(CORNER_R * CORNER_R - eY * eY);
+    const depth = D - R_END + Math.sqrt(R_END * R_END - eZ * eZ);
+    parts.push(loopSlice(c + (s * CORNER_R * k) / N, c + (s * CORNER_R * (k + 1)) / N, 2 * halfH, openW, openT, depth));
   }
   // Fillet profile in (x, z): concave quarter between the loop's inner face and the plate's back, with a 0.2 mm
   // overlap into both. Extruded across one post, then rotated so shape-y becomes world z and depth runs along -y.
