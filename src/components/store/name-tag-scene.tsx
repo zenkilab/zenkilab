@@ -5,42 +5,31 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { CONCEPTS, type ConceptId, type Staff } from "@/lib/name-tag";
-import { drawArt, loadImage } from "./name-tag-art";
+import { loadImage } from "./name-tag-art";
+import { FLOOR, raisedParts } from "./name-tag-raised";
 
 // Millimetres, front face is +Z. A 1.6 mm floor with the logo, rule and lettering raised 0.8 mm
-// above it, as printed. Raised parts are a finely divided plane pushed out by a height map drawn
-// from the same artwork as the colour map, so any font and any uploaded logo works.
-const FLOOR = 1.6;
-const RAISE = 0.8;
+// above it. The raised parts are the same geometry the print file is built from.
 const RADIUS = 4;
-const PX = 12; // texture pixels per mm
-const SEG = 6; // mesh segments per mm
+const BACK_PX = 12; // pixels per mm for the flat pin-pocket drawing on the back
 
-type Art = { color: THREE.CanvasTexture; height: THREE.CanvasTexture };
-const tex = (cv: HTMLCanvasElement, srgb: boolean) => {
-  const t = new THREE.CanvasTexture(cv);
-  t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
-  t.anisotropy = 8;
-  return t;
+type Raised = { accent: THREE.BufferGeometry; ink: THREE.BufferGeometry };
+
+const toGeometry = (pos: number[]) => {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.computeVertexNormals(); // not indexed, so every face stays flat
+  return g;
 };
-
-/** Front artwork twice: in colour on transparent, and as a white-on-black height map. */
-function draw(concept: ConceptId, staff: Staff, logo: HTMLImageElement, font: string, accent: string): Art {
-  return {
-    color: tex(drawArt(concept, staff, logo, font, accent, PX, "color"), true),
-    height: tex(drawArt(concept, staff, logo, font, accent, PX, "height"), false),
-  };
-}
-
 
 /** Pin pocket outlines on the back, drawn flat. */
 function drawBack(concept: ConceptId, accent: string) {
   const c = CONCEPTS[concept];
   const cv = document.createElement("canvas");
-  cv.width = c.w * PX;
-  cv.height = c.h * PX;
+  cv.width = c.w * BACK_PX;
+  cv.height = c.h * BACK_PX;
   const g = cv.getContext("2d")!;
-  g.scale(PX, PX);
+  g.scale(BACK_PX, BACK_PX);
   const ink = concept === "A" ? "#8A4A2B" : accent;
   g.strokeStyle = ink;
   g.fillStyle = ink;
@@ -53,6 +42,7 @@ function drawBack(concept: ConceptId, accent: string) {
   g.fillText("flat back, pin pockets dashed", c.w / 2, c.h - 2);
   const tex = new THREE.CanvasTexture(cv);
   tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
   return tex;
 }
 
@@ -70,18 +60,14 @@ function roundedRect(w: number, h: number, r: number) {
 function Badge({ concept, staff, logo, font, accent, flipped }: Props) {
   const group = useRef<THREE.Group>(null);
   const c = CONCEPTS[concept];
-  const [art, setArt] = useState<Art | null>(null);
+  const [raised, setRaised] = useState<Raised | null>(null);
   const back = useMemo(() => drawBack(concept, accent), [concept, accent]);
+  const body = useMemo(() => new THREE.ExtrudeGeometry(roundedRect(c.w, c.h, RADIUS), { depth: FLOOR, bevelEnabled: false, curveSegments: 32 }), [c.w, c.h]);
+  const backPlane = useMemo(() => new THREE.PlaneGeometry(c.w, c.h), [c.w, c.h]);
   useEffect(() => () => back.dispose(), [back]);
+  useEffect(() => () => { body.dispose(); backPlane.dispose(); }, [body, backPlane]);
 
-  const body = useMemo(() => {
-    const g = new THREE.ExtrudeGeometry(roundedRect(c.w, c.h, RADIUS), { depth: FLOOR, bevelEnabled: false, curveSegments: 24 });
-    return g;
-  }, [c.w, c.h]);
-  const plane = useMemo(() => new THREE.PlaneGeometry(c.w, c.h, Math.round(c.w * SEG), Math.round(c.h * SEG)), [c.w, c.h]);
-  useEffect(() => () => { body.dispose(); plane.dispose(); }, [body, plane]);
-
-  // Redraw when anything on the front changes, once the chosen font has loaded.
+  // Rebuild the raised parts when anything on the front changes, once the chosen font has loaded.
   useEffect(() => {
     let dead = false;
     (async () => {
@@ -89,8 +75,9 @@ function Badge({ concept, staff, logo, font, accent, flipped }: Props) {
         await Promise.all([document.fonts.load(`600 20px "${font}"`), document.fonts.load(`500 20px "${font}"`)]);
         const img = await loadImage(logo);
         if (dead) return;
-        const next = draw(concept, staff, img, font, accent);
-        setArt((old) => { old?.color.dispose(); old?.height.dispose(); return next; });
+        const r = raisedParts(concept, staff, img, font, accent);
+        const next = { accent: toGeometry(r.accent), ink: toGeometry(r.ink) };
+        setRaised((old) => { old?.accent.dispose(); old?.ink.dispose(); return next; });
       } catch { /* a bad logo never reaches here: the page checks it first */ }
     })();
     return () => { dead = true; };
@@ -103,19 +90,22 @@ function Badge({ concept, staff, logo, font, accent, flipped }: Props) {
   });
 
   return (
-    <group ref={group}><group position={[0, 0, -FLOOR / 2]}>
-      <mesh geometry={body}>
-        <meshStandardMaterial color={c.solid} roughness={0.75} metalness={0} />
-      </mesh>
-      {art && (
-        <mesh geometry={plane} position={[0, 0, FLOOR]}>
-          <meshStandardMaterial map={art.color} alphaTest={0.5} displacementMap={art.height} displacementScale={RAISE} roughness={0.7} />
+    <group ref={group}>
+      <group position={[0, 0, -FLOOR / 2]}>
+        <mesh geometry={body}>
+          <meshStandardMaterial color={c.solid} roughness={0.75} metalness={0} />
         </mesh>
-      )}
-      <mesh geometry={plane} position={[0, 0, -0.02]} rotation={[0, Math.PI, 0]}>
+        {raised && (
+          <>
+            <mesh geometry={raised.accent}><meshStandardMaterial color={accent} roughness={0.6} /></mesh>
+            <mesh geometry={raised.ink}><meshStandardMaterial color={c.name} roughness={0.6} /></mesh>
+          </>
+        )}
+        <mesh geometry={backPlane} position={[0, 0, -0.02]} rotation={[0, Math.PI, 0]}>
           <meshStandardMaterial map={back} transparent roughness={0.8} />
         </mesh>
-    </group></group>
+      </group>
+    </group>
   );
 }
 

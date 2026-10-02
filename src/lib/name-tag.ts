@@ -82,6 +82,7 @@ export async function readLogo(file: File): Promise<string> {
     i.onerror = () => no(new Error("That file is not a valid image."));
     i.src = url;
   });
+  if (file.type !== "image/svg+xml" && Math.min(img.naturalWidth, img.naturalHeight) < 400) throw new Error("This logo is too small and would print blurry. Use an image at least 400 pixels wide, or an SVG.");
   const n = 256;
   const cv = document.createElement("canvas");
   cv.width = cv.height = n;

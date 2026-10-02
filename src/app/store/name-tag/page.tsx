@@ -196,7 +196,7 @@ export default function NameTagPage() {
                   onChange={(e) => { pickLogo(e.target.files?.[0]); e.target.value = ""; }} />
               </label>
               {logoError && <p role="alert" className="text-sm text-[color:var(--color-danger)]">{logoError}</p>}
-              <p className="text-xs text-muted-foreground">PNG, WebP or SVG with a transparent background, up to 2 MB. It prints in one colour, so a single-colour logo works best. Lines thinner than 0.5 mm on the badge will not print cleanly.</p>
+              <p className="text-xs text-muted-foreground">PNG, WebP or SVG with a transparent background, up to 2 MB. It prints in one colour, so a single-colour logo works best. Use at least 400 pixels wide, or an SVG, so the edges print sharp. Lines thinner than 0.5 mm on the badge will not print cleanly.</p>
               {logo !== DEFAULT_LOGO && (
                 <button type="button" onClick={() => { setLogo(DEFAULT_LOGO); setLogoName("Sample logo"); setLogoError(""); }} className="text-xs text-muted-foreground hover:text-foreground">Use the sample logo again</button>
               )}
