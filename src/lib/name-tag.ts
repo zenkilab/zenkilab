@@ -1,9 +1,9 @@
+import { MATERIAL } from "@/lib/keytag";
 import { whatsappLink } from "@/lib/store";
 
 // Name tag. Direct-link only (not in storeItems). Sizes are millimetres.
 // Concept data mirrors the review sheet: A is the recommendation.
 export type ConceptId = "A" | "B";
-export type MaterialId = "pla" | "petg";
 
 export const CONCEPTS: Record<
   ConceptId,
@@ -15,7 +15,7 @@ export const CONCEPTS: Record<
     textW: number; // text column width
     nameSize: number; roleSize: number; // base font sizes
     gap: number; // logo left margin / gap to text
-    body: string; name: string; role: string; accent: string;
+    solid: string; body: string; name: string; role: string; accent: string;
     pins: number[]; // pin pocket centres from the left edge
     filaments: string;
   }
@@ -24,21 +24,16 @@ export const CONCEPTS: Record<
     label: "Ivory and terracotta",
     blurb: "Warm and soft. Three filaments.",
     w: 78, h: 26, logo: 20, textW: 48, nameSize: 6, roleSize: 3.6, gap: 4,
-    body: "linear-gradient(160deg,#F7F0E4,#EDE3D2)", name: "#2A231E", role: "#4A3F37", accent: "#D78258",
+    solid: "#EFE6D6", body: "linear-gradient(160deg,#F7F0E4,#EDE3D2)", name: "#2A231E", role: "#4A3F37", accent: "#D78258",
     pins: [17, 61], filaments: "Ivory body, terracotta logo and rule, charcoal lettering",
   },
   B: {
     label: "Charcoal and terracotta",
     blurb: "More contrast, reads from further away. Best for shorter names. Two filaments.",
     w: 66, h: 30, logo: 24, textW: 32, nameSize: 5.2, roleSize: 3.3, gap: 3.5,
-    body: "linear-gradient(160deg,#2B2520,#1F1B18)", name: "#F5EFE6", role: "#D78258", accent: "#D78258",
+    solid: "#25201C", body: "linear-gradient(160deg,#2B2520,#1F1B18)", name: "#F5EFE6", role: "#D78258", accent: "#D78258",
     pins: [16, 50], filaments: "Charcoal body, terracotta logo, rule and role, ivory name",
   },
-};
-
-export const MATERIALS: Record<MaterialId, { label: string; note: string }> = {
-  pla: { label: "Matte PLA+", note: "Clean and light. Best for indoor wear." },
-  petg: { label: "PETG", note: "Tougher and heat resistant. Better outdoors or in a hot car." },
 };
 
 export const THICKNESS = 2.4; // 1.6 floor + 0.8 raised lettering
@@ -56,7 +51,7 @@ export const SAMPLE_STAFF: Staff[] = [
 // Placeholder until the customer uploads their own: a plain ring and dot.
 export const DEFAULT_LOGO =
   "data:image/svg+xml;utf8," +
-  encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#000" stroke-width="8"/><circle cx="50" cy="50" r="12" fill="#000"/></svg>');
+  encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#000" stroke-width="8"/><circle cx="50" cy="50" r="12" fill="#000"/></svg>');
 
 // The accent (logo, rule and, on the charcoal design, the role line). Terracotta is the default.
 export const ACCENTS = [
@@ -74,7 +69,7 @@ export const FONTS = [
   { id: "Lato", note: "Classic, very legible" },
   { id: "Montserrat", note: "Wide, the key tag font" },
 ] as const;
-export type FontId = (typeof FONTS)[number]["id"];
+export type FontId = string; // a built-in font, or one found on the customer website
 
 const LOGO_TYPES = ["image/png", "image/webp", "image/svg+xml"]; // formats that can carry transparency
 const MAX_LOGO_BYTES = 2 * 1024 * 1024;
@@ -110,10 +105,10 @@ export async function readLogo(file: File): Promise<string> {
 
 export const sanitizeLine = (s: string, max: number) => s.replace(/[^\p{L}\p{N} .,'&/()-]/gu, "").slice(0, max);
 
-export const approvalMessage = (concept: ConceptId, material: MaterialId, staff: Staff[], accent: string) =>
+export const approvalMessage = (concept: ConceptId, staff: Staff[], accent: string) =>
   whatsappLink(
     [
-      `Hi Zenki Lab, name tags: I approve Concept ${concept} (${CONCEPTS[concept].label}), ${CONCEPTS[concept].w} x ${CONCEPTS[concept].h} mm, ${MATERIALS[material].label}, accent ${accent}.`,
+      `Hi Zenki Lab, name tags: I approve Concept ${concept} (${CONCEPTS[concept].label}), ${CONCEPTS[concept].w} x ${CONCEPTS[concept].h} mm, ${MATERIAL}, accent ${accent}.`,
       `Staff (${staff.length}):`,
       ...staff.map((s, i) => `${i + 1}. ${s.name || "(name)"} - ${s.role || "(role)"}`),
     ].join("\n"),

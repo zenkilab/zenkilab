@@ -3,11 +3,17 @@
 import { useEffect, useState } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { NameTagBadge } from "@/components/store/name-tag";
+import { MATERIAL } from "@/lib/keytag";
+import dynamic from "next/dynamic";
 import {
-  ACCENTS, CONCEPTS, DEFAULT_LOGO, FONTS, MATERIALS, MAX_NAME, MAX_ROLE, SAMPLE_STAFF, THICKNESS, approvalMessage, readLogo, sanitizeLine,
-  type ConceptId, type FontId, type MaterialId, type Staff,
+  ACCENTS, CONCEPTS, DEFAULT_LOGO, FONTS, MAX_NAME, MAX_ROLE, SAMPLE_STAFF, THICKNESS, approvalMessage, readLogo, sanitizeLine,
+  type ConceptId, type FontId, type Staff,
 } from "@/lib/name-tag";
+
+const NameTagScene = dynamic(() => import("@/components/store/name-tag-scene"), {
+  ssr: false,
+  loading: () => <div className="h-full w-full animate-pulse bg-card" />,
+});
 
 const seg = (on: boolean) =>
   `flex-1 rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors ${
@@ -18,7 +24,6 @@ const field =
 
 export default function NameTagPage() {
   const [concept, setConcept] = useState<ConceptId>("A");
-  const [material, setMaterial] = useState<MaterialId>("pla");
   const [staff, setStaff] = useState<Staff[]>(SAMPLE_STAFF);
   const [sel, setSel] = useState(0);
   const [flipped, setFlipped] = useState(false);
@@ -27,6 +32,41 @@ export default function NameTagPage() {
   const [logoError, setLogoError] = useState("");
   const [font, setFont] = useState<FontId>("Inter");
   const [accent, setAccent] = useState<string>(ACCENTS[0].hex);
+  const [site, setSite] = useState("");
+  const [found, setFound] = useState<{ name: string; available: boolean }[]>([]);
+  const [siteBusy, setSiteBusy] = useState(false);
+  const [siteMsg, setSiteMsg] = useState("");
+
+  // Fonts read from the company website, offered next to the built-in ones.
+  const fontOptions = [
+    ...found.filter((f) => f.available).map((f) => ({ id: f.name, note: "From your website" })),
+    ...FONTS.filter((f) => !found.some((x) => x.available && x.name === f.id)),
+  ];
+
+  async function findFonts() {
+    if (!site.trim()) return;
+    setSiteBusy(true);
+    setSiteMsg("");
+    try {
+      const res = await fetch(`/api/site-fonts?url=${encodeURIComponent(site.trim())}`);
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data) throw new Error(data?.error || "Could not read that website.");
+      setFound(data.fonts);
+      const first = data.fonts.find((f: { available: boolean }) => f.available);
+      if (first) setFont(first.name);
+      setSiteMsg(
+        data.fonts.length === 0
+          ? "No fonts found on that site. Pick one below."
+          : first
+            ? `Found ${data.fonts.map((f: { name: string }) => f.name).join(", ")}.${data.fonts.some((f: { available: boolean }) => !f.available) ? " Fonts that are not on Google Fonts cannot be used, so the closest option is shown." : ""}`
+            : `Found ${data.fonts.map((f: { name: string }) => f.name).join(", ")}, but none can be used here. Pick the closest one below.`,
+      );
+    } catch (e) {
+      setSiteMsg(e instanceof Error ? e.message : "Could not read that website.");
+    } finally {
+      setSiteBusy(false);
+    }
+  }
 
   // Each font loads from Google Fonts once picked.
   useEffect(() => {
@@ -68,15 +108,15 @@ export default function NameTagPage() {
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
           {/* Live preview */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-border bg-card p-6 sm:p-10">
-              <NameTagBadge concept={concept} staff={staff[sel] ?? { name: "", role: "" }} back={flipped} logo={logo} font={font} accent={accent} />
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-card [&_canvas]:!touch-pan-y">
+              <NameTagScene concept={concept} staff={staff[sel] ?? { name: "", role: "" }} flipped={flipped} logo={logo} font={font} accent={accent} />
               <div className="absolute bottom-3 left-3 flex gap-2">
                 <button type="button" onClick={() => setFlipped(false)} className={seg(!flipped) + " !flex-none !px-3 !py-1.5 bg-background/60"}>Front</button>
                 <button type="button" onClick={() => setFlipped(true)} className={seg(flipped) + " !flex-none !px-3 !py-1.5 bg-background/60"}>Back</button>
               </div>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              Drawn to scale at {c.w} × {c.h} mm. Pin positions are placeholders until the pin-back size is confirmed.
+              Drag to rotate. Drawn to scale at {c.w} × {c.h} mm. Pin positions are placeholders until the pin-back size is confirmed.
             </p>
           </div>
 
@@ -128,24 +168,22 @@ export default function NameTagPage() {
 
             <section className="space-y-3">
               <h3 className="text-sm font-semibold">Lettering</h3>
+              <div className="flex gap-2">
+                <input className={field} value={site} onChange={(e) => setSite(e.target.value)} onKeyDown={(e) => e.key === "Enter" && findFonts()}
+                  placeholder="Company website, e.g. example.com" inputMode="url" aria-label="Company website" />
+                <button type="button" onClick={findFonts} disabled={siteBusy || !site.trim()} className="h-11 shrink-0 rounded-lg border border-border px-4 text-sm font-medium text-primary transition-colors hover:border-primary disabled:opacity-60">
+                  {siteBusy ? "Looking..." : "Find Fonts"}
+                </button>
+              </div>
+              {siteMsg && <p role="status" className="text-xs text-muted-foreground">{siteMsg}</p>}
               <div className="grid gap-2 sm:grid-cols-2">
-                {FONTS.map((f) => (
+                {fontOptions.map((f) => (
                   <button key={f.id} type="button" onClick={() => setFont(f.id)} className={seg(font === f.id) + " text-left"} style={{ fontFamily: `"${f.id}", sans-serif` }}>
                     {f.id}
                     <span className="block text-xs font-normal text-muted-foreground">{f.note}</span>
                   </button>
                 ))}
               </div>
-            </section>
-
-            <section className="space-y-3">
-              <h3 className="text-sm font-semibold">Material</h3>
-              <div className="flex gap-2">
-                {(Object.keys(MATERIALS) as MaterialId[]).map((id) => (
-                  <button key={id} type="button" onClick={() => setMaterial(id)} className={seg(material === id)}>{MATERIALS[id].label}</button>
-                ))}
-              </div>
-              <p className="text-xs text-muted-foreground">{MATERIALS[material].note}</p>
             </section>
 
             <section className="space-y-3">
@@ -174,11 +212,12 @@ export default function NameTagPage() {
               <dl className="space-y-1.5 font-mono text-sm">
                 <div className="flex justify-between"><dt className="text-muted-foreground">Size</dt><dd>{c.w} × {c.h} mm</dd></div>
                 <div className="flex justify-between"><dt className="text-muted-foreground">Thickness</dt><dd>{THICKNESS} mm</dd></div>
+                <div className="flex justify-between"><dt className="text-muted-foreground">Material</dt><dd>{MATERIAL}</dd></div>
                 <div className="flex justify-between"><dt className="text-muted-foreground">Corners</dt><dd>4 mm radius</dd></div>
                 <div className="flex justify-between"><dt className="text-muted-foreground">Back</dt><dd>Flat, 2 pin-backs</dd></div>
               </dl>
               <a
-                href={approvalMessage(concept, material, staff, accent)}
+                href={approvalMessage(concept, staff, accent)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-12 w-full items-center justify-center rounded-xl bg-primary text-sm font-semibold text-primary-foreground transition-colors hover:bg-[color:var(--color-accent-primary-light)]"
