@@ -31,6 +31,8 @@ export const TAG = {
   CLEAR_T: 1, // thickness clearance added to the collar thickness
   R_IN: 2, // radius on every inside corner of the opening (stress relief)
   R_OUT: 3, // radius on the strap's outer corners
+  R_END: 2, // rounds the loop's outer tip, so it curls away from the plate end instead of ending in a square step
+  FILLET: 5, // concave radius blending each loop's post into the plate's back (where a belt pull concentrates stress)
   QR_SIZE: 18, // the embossed QR block, square. 21x21 modules at ~0.85mm/module: comfortably scannable
   BEND_RADIUS: 180, // virtual cylinder radius for the gentle curve along the plate's length
   /** Same physical component as the Key Tag's NFC film: 20 x 10 x 0.1 mm. Sits in the back wall band,

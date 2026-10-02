@@ -11,7 +11,7 @@ import { qrMatrix } from "@/lib/qr";
 // The whole thing is bent around a shallow cylinder as a final step.
 const font = new FontLoader().parse(fontData as unknown as Parameters<FontLoader["parse"]>[0]);
 
-const { W, FLOOR: F, INLAY: I, CORNER_R, QR_SIZE, BEND_RADIUS, LOOP_L, STRAP, CLEAR_W, CLEAR_T, R_IN, R_OUT } = TAG;
+const { W, FLOOR: F, INLAY: I, CORNER_R, QR_SIZE, BEND_RADIUS, LOOP_L, STRAP, CLEAR_W, CLEAR_T, R_IN, R_OUT, R_END, FILLET } = TAG;
 
 type V = THREE.Vector2;
 const v = (x: number, y: number) => new THREE.Vector2(x, y);
@@ -134,18 +134,46 @@ function bend(g: THREE.BufferGeometry, radius: number) {
   return g;
 }
 
-/** One belt loop: a ring in the Y-Z plane (outer block, rounded belt opening cut out) extruded LOOP_L along
- * X from x0. Its top overlaps the plate by 0.2 mm so the two fuse. The opening is rounded on every corner
- * (R_IN) so a tightened collar and a thick print don't crack from a sharp internal 90 degrees. Shape
- * coordinates are (a, b) = (-z, y); rotateY(90deg) maps that to z = -a, y = b, with the extrusion on +x. */
-function beltLoop(x0: number, H: number, openW: number, openT: number) {
-  const outer = roundedRect(-0.2, -H / 2, openT + STRAP, H / 2, [0, R_OUT, R_OUT, 0]);
-  const shape = new THREE.Shape(outer);
+/** One ring slice of a belt loop: the Y-Z ring (outer block, rounded belt opening cut out) extruded along X
+ * from xa to xb, hanging `depth` below the back face. Its top overlaps the plate by 0.2 mm so the two fuse.
+ * The opening is rounded on every corner (R_IN) so a tightened collar and a thick print don't crack from a
+ * sharp internal 90 degrees. Shape coordinates are (a, b) = (-z, y); rotateY(90deg) maps that to z = -a,
+ * y = b, with the extrusion on +x. */
+function loopSlice(xa: number, xb: number, H: number, openW: number, openT: number, depth: number) {
+  const shape = new THREE.Shape(roundedRect(-0.2, -H / 2, depth, H / 2, [0, R_OUT, R_OUT, 0]));
   shape.holes = [new THREE.Path(roundedRect(0, -openW / 2, openT, openW / 2, [R_IN, R_IN, R_IN, R_IN]))];
-  const g = new THREE.ExtrudeGeometry(shape, { depth: LOOP_L, bevelEnabled: false, curveSegments: 24 });
+  const g = new THREE.ExtrudeGeometry(shape, { depth: Math.abs(xb - xa), bevelEnabled: false, curveSegments: 24 });
   g.rotateY(PI / 2);
-  g.translate(x0, 0, 0);
+  g.translate(Math.min(xa, xb), 0, 0);
   return flat(g);
+}
+
+/** One belt loop at the +x end (s = 1) or -x end (s = -1): a full-depth ring, a rounded tip (stacked thin
+ * slices following a quarter circle, so the loop curls into the plate end instead of ending in a square
+ * step), and on each post a concave fillet blending into the plate's back. The fillets sit on the posts
+ * only, beside the belt, never across its path. */
+function beltLoop(s: 1 | -1, H: number, openW: number, openT: number) {
+  const D = openT + STRAP;
+  const xin = s * (W / 2 - LOOP_L), c = s * (W / 2 - R_END);
+  const parts = [loopSlice(xin, c, H, openW, openT, D)];
+  const N = 8;
+  for (let k = 0; k < N; k++) {
+    const e = (R_END * (k + 1)) / N; // distance of this slice's outer edge past where the rounding starts
+    const depth = D - R_END + Math.sqrt(R_END * R_END - e * e);
+    parts.push(loopSlice(c + (s * R_END * k) / N, c + (s * R_END * (k + 1)) / N, H, openW, openT, depth));
+  }
+  // Fillet profile in (x, z): concave quarter between the loop's inner face and the plate's back, with a 0.2 mm
+  // overlap into both. Extruded across one post, then rotated so shape-y becomes world z and depth runs along -y.
+  const r = FILLET, wi = openW / 2, postW = H / 2 - wi;
+  const q = arc(0, -r, r, PI / 2, 0).map((p) => v(xin - s * r + s * p.x, p.y)); // concave arc, mirrored for s = -1
+  const pts = [v(xin + s * 0.2, 0.2), v(xin - s * r, 0.2), ...q, v(xin + s * 0.2, -r)];
+  if (s < 0) pts.reverse();
+  for (const y of [H / 2, -wi]) {
+    const g = new THREE.ExtrudeGeometry(new THREE.Shape(pts), { depth: postW, bevelEnabled: false });
+    g.rotateX(PI / 2).translate(0, y, 0);
+    parts.push(flat(g));
+  }
+  return parts;
 }
 
 type Glyph = { outer: V[]; counters: V[][] };
@@ -258,7 +286,7 @@ export function buildDogTag(c: DogTagConfig) {
   const { w: pw, h: ph, t: pt, zc } = TAG.POCKET;
   bodyParts.push(voidBox(pw, ph, pt, 0, 0, zc));
   const openW = c.collarWidthMm + CLEAR_W, openT = c.collarThicknessMm + CLEAR_T;
-  bodyParts.push(beltLoop(W / 2 - LOOP_L, H, openW, openT), beltLoop(-W / 2, H, openW, openT));
+  bodyParts.push(...beltLoop(1, H, openW, openT), ...beltLoop(-1, H, openW, openT));
 
   // Front inlay band: z F-I..F
   const frontFloor = withHolesPunched(plate, frontGlyphs);
