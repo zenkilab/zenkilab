@@ -11,7 +11,7 @@ export const MAX_NAME = 14;
  * is open and the collar itself shows. Each tunnel opens to collar width x collar thickness (plus a little
  * clearance), has thick POST walls at the plate's top/bottom edges and a STRAP behind the collar, and all
  * inside corners are rounded so a thick ASA/PETG print doesn't crack from a sharp 90 degree stress point.
- * The plate takes a gentle cylindrical bend (see BEND_RADIUS) so it follows the collar's curve.
+ * The plate is flat, so its front face prints flat on the build plate (clean QR, text and plate texture).
  *
  * Everything readable lives on the FRONT (flush accent inlays, same technique as the Key Tag's marketing
  * stamp): the back sits against the collar once worn. The plate's HEIGHT scales with collar width and the
@@ -34,7 +34,6 @@ export const TAG = {
   R_END: 2, // rounds the loop's outer tip, so it curls away from the plate end instead of ending in a square step
   FILLET: 5, // concave radius blending each loop's post into the plate's back (where a belt pull concentrates stress)
   QR_SIZE: 18, // the embossed QR block, square. 21x21 modules at ~0.85mm/module: comfortably scannable
-  BEND_RADIUS: 180, // virtual cylinder radius for the gentle curve along the plate's length
   /** Same physical component as the Key Tag's NFC film: 20 x 10 x 0.1 mm. Sits in the back wall band,
    * clear of the back inlay, so it needs no Y or X clearance logic at all. */
   POCKET: { w: 20.6, h: 10.6, t: 0.2, zc: 1.1 },
@@ -43,8 +42,7 @@ export const TAG = {
 export const PRINT_LAYER = 0.2;
 // Printed FRONT FACE DOWN (so QR/text sit on the bed and the loops grow upward from the back, needing
 // supports only inside the tunnels). Print Z = FLOOR - model Z. The pocket is one layer thick at the
-// plate's centre line (print Z 3.8..4.0); the pause lands on the first layer entirely above it. The bend
-// tilts the pocket's far edges up to ~0.3 mm higher, which the 0.1 mm film simply gets printed over.
+// plate (print Z 3.8..4.0); the pause lands on the first layer entirely above it.
 export const NFC_PAUSE_Z = TAG.FLOOR - (TAG.POCKET.zc - TAG.POCKET.t / 2);
 export const NFC_PAUSE_LAYER_Z = Math.round((Math.floor(NFC_PAUSE_Z / PRINT_LAYER + 0.5) + 1) * PRINT_LAYER * 100) / 100;
 

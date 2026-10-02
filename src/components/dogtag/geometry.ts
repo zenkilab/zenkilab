@@ -8,10 +8,9 @@ import { qrMatrix } from "@/lib/qr";
 
 // All units are millimetres. Back face at z=0, front face at z=FLOOR. Two closed belt loops hang off the
 // back (toward -z), one per end, so the plate itself stays a solid slab with flush inlays on both faces.
-// The whole thing is bent around a shallow cylinder as a final step.
 const font = new FontLoader().parse(fontData as unknown as Parameters<FontLoader["parse"]>[0]);
 
-const { W, FLOOR: F, INLAY: I, CORNER_R, QR_SIZE, BEND_RADIUS, LOOP_L, STRAP, CLEAR_W, CLEAR_T, R_IN, R_OUT, R_END, FILLET } = TAG;
+const { W, FLOOR: F, INLAY: I, CORNER_R, QR_SIZE, LOOP_L, STRAP, CLEAR_W, CLEAR_T, R_IN, R_OUT, R_END, FILLET } = TAG;
 
 type V = THREE.Vector2;
 const v = (x: number, y: number) => new THREE.Vector2(x, y);
@@ -37,8 +36,8 @@ function roundedRect(x0: number, y0: number, x1: number, y1: number, [tl, tr, br
   ];
 }
 
-/** Insert extra collinear points along any edge longer than maxLen, so the later bend transform has
- * enough vertices to follow the curve instead of faceting across one long straight chord. */
+/** Insert extra collinear points along any edge longer than maxLen, so long edges get enough vertices
+ * for strip splitting below. */
 function subdivide(pts: V[], maxLen: number): V[] {
   const out: V[] = [];
   const n = pts.length;
@@ -117,22 +116,6 @@ function voidBox(w: number, h: number, t: number, x: number, y: number, z: numbe
 }
 
 const flat = (g: THREE.BufferGeometry) => (g.index ? g.toNonIndexed() : g);
-
-/** Bends a whole geometry around a cylinder of the given radius, axis along Y: x=0 stays put, the ends
- * curl toward -z (toward the collar) as |x| grows. z is measured as the vertex's original distance out
- * from the back face, so a thicker part of the plate keeps a very slightly larger effective radius. */
-function bend(g: THREE.BufferGeometry, radius: number) {
-  const pos = g.attributes.position;
-  for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
-    const theta = x / radius;
-    const r = radius + z;
-    pos.setXYZ(i, r * Math.sin(theta), y, r * Math.cos(theta) - radius);
-  }
-  pos.needsUpdate = true;
-  g.computeVertexNormals();
-  return g;
-}
 
 /** One ring slice of a belt loop: the Y-Z ring (outer block, rounded belt opening cut out) extruded along X
  * from xa to xb, hanging `depth` below the back face. Its top overlaps the plate by 0.2 mm so the two fuse.
@@ -302,8 +285,8 @@ export function buildDogTag(c: DogTagConfig) {
     accent.push(extrude(letter, I, F - I));
   }
 
-  const body = bend(mergeGeometries(bodyParts, false)!, BEND_RADIUS);
-  const merged = bend(mergeGeometries(accent.map(flat), false)!, BEND_RADIUS);
+  const body = mergeGeometries(bodyParts, false)!;
+  const merged = mergeGeometries(accent.map(flat), false)!;
   bodyParts.forEach((g) => g.dispose());
   accent.forEach((g) => g.dispose());
   return { body, accent: merged };
