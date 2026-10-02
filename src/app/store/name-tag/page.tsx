@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { MATERIAL } from "@/lib/keytag";
+import { sendOrder } from "@/lib/name-tag-submit";
+import type { Capture } from "@/components/store/name-tag-scene";
 import dynamic from "next/dynamic";
 import {
-  ACCENTS, CONCEPTS, DEFAULT_LOGO, FONTS, MAX_NAME, MAX_ROLE, THICKNESS, approvalMessage, readLogo, sanitizeLine,
-  type ConceptId, type FontId, type Staff,
+  ACCENTS, CONCEPTS, DEFAULT_LOGO, FONTS, MAX_NAME, MAX_ROLE, THICKNESS, readLogo, sanitizeLine,
+  type ConceptId, type FontId, type NameTagOrder, type Staff,
 } from "@/lib/name-tag";
 
 const NameTagScene = dynamic(() => import("@/components/store/name-tag-scene"), {
@@ -36,6 +38,40 @@ export default function NameTagPage() {
   const [found, setFound] = useState<{ name: string; available: boolean }[]>([]);
   const [siteBusy, setSiteBusy] = useState(false);
   const [siteMsg, setSiteMsg] = useState("");
+  const captureRef = useRef<Capture | null>(null);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [sent, setSent] = useState(false);
+
+  async function submit() {
+    setError("");
+    if (staff.some((s) => !s.name.trim())) return setError("Add a name for every staff member, or remove the empty row.");
+    if (!name.trim() || phone.replace(/\D/g, "").length < 9) return setError("Add your name and a WhatsApp number so we can reach you.");
+    setBusy(true);
+    try {
+      const { buildNameTag3MFs } = await import("@/components/store/name-tag-export3mf");
+      const clean = staff.map((s) => ({ name: s.name.trim(), role: s.role.trim() }));
+      const models = await buildNameTag3MFs({ concept, accent, font, logo, staff: clean });
+      const order: NameTagOrder = {
+        orderId: `NT-${Date.now().toString(36).toUpperCase()}`,
+        config: { concept, accent, font, logoName: logo === DEFAULT_LOGO ? "" : logoName, staff: clean },
+        contact: { name: name.trim(), phone: phone.trim() },
+        createdAt: Date.now(),
+      };
+      await sendOrder(order, {
+        models,
+        preview: captureRef.current?.(),
+        logo: logo === DEFAULT_LOGO ? undefined : await (await fetch(logo)).blob(),
+      });
+      setSent(true);
+    } catch (e) {
+      setError(e instanceof Error ? `Could not send your design: ${e.message}` : "Something went wrong. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   // Fonts read from the company website, offered next to the built-in ones.
   const fontOptions = [
@@ -109,7 +145,7 @@ export default function NameTagPage() {
           {/* Live preview */}
           <div className="lg:sticky lg:top-24 lg:self-start">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-card [&_canvas]:!touch-pan-y">
-              <NameTagScene concept={concept} staff={staff[sel] ?? { name: "", role: "" }} flipped={flipped} logo={logo} font={font} accent={accent} />
+              <NameTagScene concept={concept} staff={staff[sel] ?? { name: "", role: "" }} flipped={flipped} logo={logo} font={font} accent={accent} captureRef={captureRef} />
               <div className="absolute bottom-3 left-3 flex gap-2">
                 <button type="button" onClick={() => setFlipped(false)} className={seg(!flipped) + " !flex-none !px-3 !py-1.5 bg-background/60"}>Front</button>
                 <button type="button" onClick={() => setFlipped(true)} className={seg(flipped) + " !flex-none !px-3 !py-1.5 bg-background/60"}>Back</button>
@@ -208,6 +244,14 @@ export default function NameTagPage() {
               <p className="text-xs text-muted-foreground">Names up to {MAX_NAME} letters and roles up to {MAX_ROLE}. Long text shrinks to fit, down to a readable minimum.</p>
             </section>
 
+            <section className="space-y-3">
+              <h3 className="text-sm font-semibold">Your details</h3>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input className={field} value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" aria-label="Your name" />
+                <input className={field} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="WhatsApp number" inputMode="tel" aria-label="WhatsApp number" />
+              </div>
+            </section>
+
             <section className="space-y-3 border-t border-border pt-6">
               <dl className="space-y-1.5 font-mono text-sm">
                 <div className="flex justify-between"><dt className="text-muted-foreground">Size</dt><dd>{c.w} × {c.h} mm</dd></div>
@@ -216,15 +260,24 @@ export default function NameTagPage() {
                 <div className="flex justify-between"><dt className="text-muted-foreground">Corners</dt><dd>4 mm radius</dd></div>
                 <div className="flex justify-between"><dt className="text-muted-foreground">Back</dt><dd>Flat, 2 pin-backs</dd></div>
               </dl>
-              <a
-                href={approvalMessage(concept, staff, accent)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-12 w-full items-center justify-center rounded-xl bg-primary text-sm font-semibold text-primary-foreground transition-colors hover:bg-[color:var(--color-accent-primary-light)]"
-              >
-                Approve Design
-              </a>
-              <p className="text-center text-xs text-muted-foreground">Opens WhatsApp with your choices filled in. Nothing is printed or charged until we confirm.</p>
+              {error && <p role="alert" className="text-sm text-[color:var(--color-danger)]">{error}</p>}
+              {sent ? (
+                <p role="status" className="rounded-xl border border-primary bg-primary/10 p-4 text-sm">
+                  Thank you. Your design is with us. We will message you on WhatsApp to confirm before anything is printed.
+                </p>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={submit}
+                    disabled={busy}
+                    className="h-12 w-full rounded-xl bg-primary text-sm font-semibold text-primary-foreground transition-colors hover:bg-[color:var(--color-accent-primary-light)] disabled:opacity-60"
+                  >
+                    {busy ? "Preparing your print file..." : "Send My Design"}
+                  </button>
+                  <p className="text-center text-xs text-muted-foreground">No payment now. We check the names with you before we print.</p>
+                </>
+              )}
             </section>
           </div>
         </div>

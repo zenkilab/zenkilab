@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { CONCEPTS, type ConceptId, type Staff } from "@/lib/name-tag";
+import { drawArt, loadImage } from "./name-tag-art";
 
 // Millimetres, front face is +Z. A 1.6 mm floor with the logo, rule and lettering raised 0.8 mm
 // above it, as printed. Raised parts are a finely divided plane pushed out by a height map drawn
@@ -16,71 +17,21 @@ const PX = 12; // texture pixels per mm
 const SEG = 6; // mesh segments per mm
 
 type Art = { color: THREE.CanvasTexture; height: THREE.CanvasTexture };
+const tex = (cv: HTMLCanvasElement, srgb: boolean) => {
+  const t = new THREE.CanvasTexture(cv);
+  t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+  t.anisotropy = 8;
+  return t;
+};
 
-function loadImage(src: string) {
-  return new Promise<HTMLImageElement>((ok, no) => {
-    const i = new Image();
-    i.onload = () => ok(i);
-    i.onerror = () => no(new Error("logo"));
-    i.src = src;
-  });
-}
-
-/** Draws the front artwork twice: in colour on transparent, and as white-on-black for the height map. */
+/** Front artwork twice: in colour on transparent, and as a white-on-black height map. */
 function draw(concept: ConceptId, staff: Staff, logo: HTMLImageElement, font: string, accent: string): Art {
-  const base = CONCEPTS[concept];
-  const c = { ...base, accent, role: concept === "B" ? accent : base.role };
-  const mk = (mono: boolean) => {
-    const cv = document.createElement("canvas");
-    cv.width = c.w * PX;
-    cv.height = c.h * PX;
-    const g = cv.getContext("2d")!;
-    if (mono) { g.fillStyle = "#000"; g.fillRect(0, 0, cv.width, cv.height); }
-    g.scale(PX, PX);
-    const ink = (col: string) => (mono ? "#fff" : col);
-
-    // logo, recoloured: draw it, then keep only its shape in the ink colour
-    const lx = 3, ly = (c.h - c.logo) / 2;
-    const t = document.createElement("canvas");
-    t.width = t.height = 512;
-    const tg = t.getContext("2d")!;
-    const k = Math.min(512 / (logo.naturalWidth || 512), 512 / (logo.naturalHeight || 512));
-    const lw = (logo.naturalWidth || 512) * k, lh = (logo.naturalHeight || 512) * k;
-    tg.drawImage(logo, (512 - lw) / 2, (512 - lh) / 2, lw, lh);
-    tg.globalCompositeOperation = "source-in";
-    tg.fillStyle = ink(c.accent);
-    tg.fillRect(0, 0, 512, 512);
-    g.drawImage(t, lx, ly, c.logo, c.logo);
-
-    // text column: name, rule, role, centred as one block
-    const fit = (text: string, size: number, weight: number) => {
-      g.font = `${weight} ${size}px "${font}", Inter, sans-serif`;
-      const w = g.measureText(text).width || 1;
-      const s = size * Math.max(0.7, Math.min(1, c.textW / w));
-      g.font = `${weight} ${s}px "${font}", Inter, sans-serif`;
-      return s;
-    };
-    const x = lx + c.logo + c.gap;
-    const nameH = c.nameSize * 1.15, roleH = c.roleSize * 1.15, gap = 0.8, ruleH = 0.7;
-    const y0 = (c.h - (nameH + gap + ruleH + gap + roleH)) / 2;
-    g.textBaseline = "middle";
-    g.textAlign = "left";
-    fit(staff.name, c.nameSize, 600);
-    g.fillStyle = ink(c.name);
-    g.fillText(staff.name, x, y0 + nameH / 2, c.textW);
-    g.fillStyle = ink(c.accent);
-    g.fillRect(x, y0 + nameH + gap, concept === "A" ? 10 : 8, ruleH);
-    fit(staff.role, c.roleSize, 500);
-    g.fillStyle = ink(c.role);
-    g.fillText(staff.role, x, y0 + nameH + gap + ruleH + gap + roleH / 2, c.textW);
-
-    const tex = new THREE.CanvasTexture(cv);
-    tex.colorSpace = mono ? THREE.NoColorSpace : THREE.SRGBColorSpace;
-    tex.anisotropy = 8;
-    return tex;
+  return {
+    color: tex(drawArt(concept, staff, logo, font, accent, PX, "color"), true),
+    height: tex(drawArt(concept, staff, logo, font, accent, PX, "height"), false),
   };
-  return { color: mk(false), height: mk(true) };
 }
+
 
 /** Pin pocket outlines on the back, drawn flat. */
 function drawBack(concept: ConceptId, accent: string) {
@@ -168,7 +119,26 @@ function Badge({ concept, staff, logo, font, accent, flipped }: Props) {
   );
 }
 
-type Props = { concept: ConceptId; staff: Staff; logo: string; font: string; accent: string; flipped: boolean };
+export type Capture = () => string;
+type Props = { concept: ConceptId; staff: Staff; logo: string; font: string; accent: string; flipped: boolean; captureRef?: MutableRefObject<Capture | null> };
+
+/** Lets the page grab a small JPEG of the current view for the order email. */
+function Grab({ apiRef }: { apiRef: MutableRefObject<Capture | null> }) {
+  const { gl, scene, camera } = useThree();
+  useEffect(() => {
+    apiRef.current = () => {
+      gl.render(scene, camera);
+      const src = gl.domElement;
+      const out = document.createElement("canvas");
+      out.width = 720;
+      out.height = Math.round((720 * src.height) / src.width);
+      out.getContext("2d")!.drawImage(src, 0, 0, out.width, out.height);
+      return out.toDataURL("image/jpeg", 0.85);
+    };
+    return () => { apiRef.current = null; };
+  }, [gl, scene, camera, apiRef]);
+  return null;
+}
 
 export default function NameTagScene(props: Props) {
   // Same discipline as the key tag scene: dpr 1 on mobile, no postprocessing.
@@ -181,6 +151,7 @@ export default function NameTagScene(props: Props) {
       <directionalLight position={[60, 30, -25]} intensity={2.4} />
       <Badge {...props} />
       <OrbitControls enablePan={false} minDistance={70} maxDistance={220} />
+      {props.captureRef && <Grab apiRef={props.captureRef} />}
     </Canvas>
   );
 }
