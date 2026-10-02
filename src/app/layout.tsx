@@ -12,7 +12,6 @@ const inter = Inter({
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-wordmark",
   subsets: ["latin"],
-  weight: ["600", "700"],
 });
 
 const plexMono = IBM_Plex_Mono({
