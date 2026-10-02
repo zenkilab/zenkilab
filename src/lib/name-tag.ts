@@ -1,5 +1,3 @@
-import { MATERIAL } from "@/lib/keytag";
-import { whatsappLink } from "@/lib/store";
 
 // Name tag. Direct-link only (not in storeItems). Sizes are millimetres.
 // Concept data mirrors the review sheet: A is the recommendation.
@@ -41,12 +39,6 @@ export const MAX_NAME = 24;
 export const MAX_ROLE = 48;
 
 export type Staff = { name: string; role: string };
-
-// ponytail: names and roles are placeholders until the real staff list arrives
-export const SAMPLE_STAFF: Staff[] = [
-  { name: "Nimali Perera", role: "Ayurveda Therapist" },
-  { name: "Chathurika Wijesundara", role: "Senior Physiotherapist and Rehabilitation Lead" },
-];
 
 // Placeholder until the customer uploads their own: a plain ring and dot.
 export const DEFAULT_LOGO =
@@ -105,11 +97,7 @@ export async function readLogo(file: File): Promise<string> {
 
 export const sanitizeLine = (s: string, max: number) => s.replace(/[^\p{L}\p{N} .,'&/()-]/gu, "").slice(0, max);
 
-export const approvalMessage = (concept: ConceptId, staff: Staff[], accent: string) =>
-  whatsappLink(
-    [
-      `Hi Zenki Lab, name tags: I approve Concept ${concept} (${CONCEPTS[concept].label}), ${CONCEPTS[concept].w} x ${CONCEPTS[concept].h} mm, ${MATERIAL}, accent ${accent}.`,
-      `Staff (${staff.length}):`,
-      ...staff.map((s, i) => `${i + 1}. ${s.name || "(name)"} - ${s.role || "(role)"}`),
-    ].join("\n"),
-  );
+export const MAX_STAFF = 60;
+
+export type NameTagConfig = { concept: ConceptId; accent: string; font: string; logoName: string; staff: Staff[] };
+export type NameTagOrder = { orderId: string; config: NameTagConfig; contact: { name: string; phone: string }; createdAt: number };
