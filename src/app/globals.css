@@ -131,8 +131,10 @@ body {
   /* Decorative circle/ring layers (DepthRings, KeyTagSpin canvas) are deliberately
      oversized past their container so a subject can "pop out" of the circle. Without
      this clamp, mobile browsers see that transient width during initial layout and
-     apply shrink-to-fit zoom to the whole page instead of just clipping it locally. */
-  overflow-x: hidden;
+     apply shrink-to-fit zoom to the whole page instead of just clipping it locally.
+     `clip`, not `hidden`: hidden on both html and body makes body a scroll container,
+     which silently breaks every position: sticky (the pinned services scene, About photo). */
+  overflow-x: clip;
 }
 
 html {
