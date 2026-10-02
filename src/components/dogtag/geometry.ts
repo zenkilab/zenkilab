@@ -6,13 +6,12 @@ import fontData from "@/components/keytag/montserrat_bold.typeface.json";
 import { COMBOS, TAG, plateHeight, sanitizePhone, type DogTagConfig } from "@/lib/dogtag";
 import { qrMatrix } from "@/lib/qr";
 
-// All units are millimetres. Back face at z=0, front face at z=FLOOR. A single continuous channel
-// (see TAG's own doc comment) runs the full length at z CHANNEL_ZC, buried mid-thickness and open only
-// at the two tips, so it never touches either flat face: the front and back stay solid plates with
-// their own flush inlays. The whole thing is bent around a shallow cylinder as a final step.
+// All units are millimetres. Back face at z=0, front face at z=FLOOR. Two closed belt loops hang off the
+// back (toward -z), one per end, so the plate itself stays a solid slab with flush inlays on both faces.
+// The whole thing is bent around a shallow cylinder as a final step.
 const font = new FontLoader().parse(fontData as unknown as Parameters<FontLoader["parse"]>[0]);
 
-const { W, FLOOR: F, INLAY: I, CORNER_R, QR_SIZE, CHANNEL_Y_CLEARANCE, CHANNEL_T, CHANNEL_ZC, BEND_RADIUS } = TAG;
+const { W, FLOOR: F, INLAY: I, CORNER_R, QR_SIZE, BEND_RADIUS, LOOP_L, STRAP, CLEAR_W, CLEAR_T, R_IN, R_OUT } = TAG;
 
 type V = THREE.Vector2;
 const v = (x: number, y: number) => new THREE.Vector2(x, y);
@@ -102,10 +101,9 @@ function stripRegions(r: Region, y0: number, y1: number, stripW: number): Region
   return out;
 }
 
-/** Closed box with its faces turned inside out, so a slicer reads it as a hollow. wSeg subdivides the
- * width (X): needed for anything long enough to go through bend(), same reasoning as subdivide(). */
-function voidBox(w: number, h: number, t: number, x: number, y: number, z: number, wSeg = 1) {
-  const b = new THREE.BoxGeometry(w, h, t, wSeg);
+/** Closed box with its faces turned inside out, so a slicer reads it as a hollow. */
+function voidBox(w: number, h: number, t: number, x: number, y: number, z: number) {
+  const b = new THREE.BoxGeometry(w, h, t);
   const idx = b.index!;
   for (let i = 0; i < idx.count; i += 3) {
     const a = idx.getX(i + 1);
@@ -134,6 +132,20 @@ function bend(g: THREE.BufferGeometry, radius: number) {
   pos.needsUpdate = true;
   g.computeVertexNormals();
   return g;
+}
+
+/** One belt loop: a ring in the Y-Z plane (outer block, rounded belt opening cut out) extruded LOOP_L along
+ * X from x0. Its top overlaps the plate by 0.2 mm so the two fuse. The opening is rounded on every corner
+ * (R_IN) so a tightened collar and a thick print don't crack from a sharp internal 90 degrees. Shape
+ * coordinates are (a, b) = (-z, y); rotateY(90deg) maps that to z = -a, y = b, with the extrusion on +x. */
+function beltLoop(x0: number, H: number, openW: number, openT: number) {
+  const outer = roundedRect(-0.2, -H / 2, openT + STRAP, H / 2, [0, R_OUT, R_OUT, 0]);
+  const shape = new THREE.Shape(outer);
+  shape.holes = [new THREE.Path(roundedRect(0, -openW / 2, openT, openW / 2, [R_IN, R_IN, R_IN, R_IN]))];
+  const g = new THREE.ExtrudeGeometry(shape, { depth: LOOP_L, bevelEnabled: false, curveSegments: 24 });
+  g.rotateY(PI / 2);
+  g.translate(x0, 0, 0);
+  return flat(g);
 }
 
 type Glyph = { outer: V[]; counters: V[][] };
@@ -241,12 +253,12 @@ export function buildDogTag(c: DogTagConfig) {
     accent.push(extrude(letter, I, 0));
   }
 
-  // Solid slab from the back inlay up to the front inlay, minus the NFC pocket and the channel.
+  // Solid slab from the back inlay up to the front inlay, minus the NFC pocket.
   for (const piece of stripRegions(plate, -H / 2, H / 2, STRIP_W)) bodyParts.push(flat(extrude(shapeOf(piece), F - 2 * I, I)));
   const { w: pw, h: ph, t: pt, zc } = TAG.POCKET;
   bodyParts.push(voidBox(pw, ph, pt, 0, 0, zc));
-  // The channel overshoots both tips by 2mm so it fully opens the plate's end edges, not just comes close.
-  bodyParts.push(voidBox(W + 4, c.collarWidthMm + CHANNEL_Y_CLEARANCE, CHANNEL_T, 0, 0, CHANNEL_ZC, Math.ceil((W + 4) / 4)));
+  const openW = c.collarWidthMm + CLEAR_W, openT = c.collarThicknessMm + CLEAR_T;
+  bodyParts.push(beltLoop(W / 2 - LOOP_L, H, openW, openT), beltLoop(-W / 2, H, openW, openT));
 
   // Front inlay band: z F-I..F
   const frontFloor = withHolesPunched(plate, frontGlyphs);
@@ -265,9 +277,12 @@ export function buildDogTag(c: DogTagConfig) {
   return { body, accent: merged };
 }
 
-/** One mesh per color so AMS slots map one to one. Used by the 3MF export. */
+/** One mesh per color so AMS slots map one to one. Used by the 3MF export. Oriented for printing, not
+ * for the on-screen preview (which uses buildDogTag directly). */
 export function buildDogTagPrintGroup(c: DogTagConfig) {
   const { body, accent } = buildDogTag(c);
+  // Print front face down: flip about X (z -> -z), then lift so the front's centre line sits on the bed.
+  for (const g of [body, accent]) g.rotateX(PI).translate(0, 0, F);
   const combo = COMBOS[c.combo];
   const b = new THREE.Mesh(body, new THREE.MeshStandardMaterial({ color: combo.body }));
   b.name = "Plate (black)";

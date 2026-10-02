@@ -1,7 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
-import { CONCEPTS, DEFAULT_LOGO, type ConceptId, type Staff } from "@/lib/ayuveda-badge";
+import { CONCEPTS, DEFAULT_LOGO, type ConceptId, type Staff } from "@/lib/name-tag";
 
 /** One line of lettering that shrinks (to 70%) until it fits its column, never wraps. */
 function Fit({ text, size, width, unit, style, font }: { text: string; size: number; width: number; unit: number; style: React.CSSProperties; font: string }) {
@@ -27,8 +27,9 @@ function Fit({ text, size, width, unit, style, font }: { text: string; size: num
 }
 
 /** The badge drawn to scale. Everything is sized in cqw so it fills whatever width its parent gives it. */
-export function AyuvedaBadge({ concept, staff, back, logo = DEFAULT_LOGO, font = "Inter" }: { concept: ConceptId; staff: Staff; back?: boolean; logo?: string; font?: string }) {
-  const c = CONCEPTS[concept];
+export function NameTagBadge({ concept, staff, back, logo = DEFAULT_LOGO, font = "Inter", accent }: { concept: ConceptId; staff: Staff; back?: boolean; logo?: string; font?: string; accent?: string }) {
+  const base = CONCEPTS[concept];
+  const c = accent ? { ...base, accent, role: concept === "B" ? accent : base.role } : base;
   const u = 100 / c.w; // cqw per mm
   return (
     <div style={{ containerType: "inline-size", width: "100%", maxWidth: 560 }}>
@@ -63,7 +64,7 @@ export function AyuvedaBadge({ concept, staff, back, logo = DEFAULT_LOGO, font =
           <>
             <div
               role="img"
-              aria-label="AyuVeda logo"
+              aria-label="Logo"
               style={{
                 flex: "none", marginLeft: `${3 * u}cqw`, width: `${c.logo * u}cqw`, height: `${c.logo * u}cqw`, background: c.accent,
                 WebkitMask: `url("${logo}") center/contain no-repeat`, mask: `url("${logo}") center/contain no-repeat`,

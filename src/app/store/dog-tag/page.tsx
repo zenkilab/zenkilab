@@ -13,6 +13,7 @@ import {
   QUOTE_HOURS,
   STORAGE_KEY,
   rs,
+  sanitizeCollarThickness,
   sanitizeCollarWidth,
   sanitizePetName,
   sanitizePhone,
@@ -39,6 +40,8 @@ export default function DogTagPage() {
   const captureRef = useRef<Capture | null>(null);
   const [collarWidthMm, setCollarWidthMm] = useState(20);
   const [collarWidthText, setCollarWidthText] = useState("20");
+  const [collarThicknessMm, setCollarThicknessMm] = useState(4);
+  const [collarThicknessText, setCollarThicknessText] = useState("4");
   const [petName, setPetName] = useState("");
   const [tagPhone, setTagPhone] = useState("");
   const [combo, setCombo] = useState<ComboId>("heritage");
@@ -55,13 +58,15 @@ export default function DogTagPage() {
       if (o) {
         const c = o.config;
         setCollarWidthMm(c.collarWidthMm); setCollarWidthText(String(c.collarWidthMm));
+        const t = c.collarThicknessMm ?? 4;
+        setCollarThicknessMm(t); setCollarThicknessText(String(t));
         setPetName(c.petName); setTagPhone(c.phone); setCombo(c.combo); setShowText(c.showText);
         setName(o.contact.name); setPhone(o.contact.phone);
       }
     } catch {}
   }, []);
 
-  const config: DogTagConfig = { collarWidthMm, phone: tagPhone, petName, combo, showText };
+  const config: DogTagConfig = { collarWidthMm, collarThicknessMm, phone: tagPhone, petName, combo, showText };
 
   async function submit() {
     setError("");
@@ -124,36 +129,62 @@ export default function DogTagPage() {
             <div>
               <h1 className="text-[clamp(2rem,4.5vw,3rem)] font-bold leading-[1.1] tracking-[-0.02em]">Dog tag</h1>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                Slides onto the collar itself, no dangling ring. An NFC chip and an embossed QR code both
+                Two loops on the back thread onto the collar itself, no dangling ring. An NFC chip and an embossed QR code both
                 call you directly, and the number is printed right on the visible face too. Printed in
                 ASA for outdoor durability.
               </p>
             </div>
 
             <section className="space-y-3">
-              <h3 className="text-sm font-semibold">Collar width</h3>
-              <div className="flex items-center gap-3">
-                <input
-                  type="number"
-                  className={field + " max-w-[140px] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"}
-                  value={collarWidthText}
-                  min={10}
-                  max={60}
-                  onChange={(e) => {
-                    setCollarWidthText(e.target.value);
-                    const n = Number(e.target.value);
-                    if (e.target.value.trim() !== "" && Number.isFinite(n)) setCollarWidthMm(n);
-                  }}
-                  onBlur={() => {
-                    const clamped = sanitizeCollarWidth(Number(collarWidthText));
-                    setCollarWidthMm(clamped);
-                    setCollarWidthText(String(clamped));
-                  }}
-                  aria-label="Exact collar width in millimetres"
-                />
-                <span className="text-sm text-muted-foreground">mm, measure the collar&rsquo;s width for an exact fit</span>
+              <h3 className="text-sm font-semibold">Collar size</h3>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <label className="flex items-center gap-3">
+                  <span className="text-sm">Width</span>
+                  <input
+                    type="number"
+                    className={field + " max-w-[110px] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"}
+                    value={collarWidthText}
+                    min={10}
+                    max={60}
+                    onChange={(e) => {
+                      setCollarWidthText(e.target.value);
+                      const n = Number(e.target.value);
+                      if (e.target.value.trim() !== "" && Number.isFinite(n)) setCollarWidthMm(n);
+                    }}
+                    onBlur={() => {
+                      const clamped = sanitizeCollarWidth(Number(collarWidthText));
+                      setCollarWidthMm(clamped);
+                      setCollarWidthText(String(clamped));
+                    }}
+                    aria-label="Exact collar width in millimetres"
+                  />
+                  <span className="text-sm text-muted-foreground">mm</span>
+                </label>
+                <label className="flex items-center gap-3">
+                  <span className="text-sm">Thickness</span>
+                  <input
+                    type="number"
+                    step={0.5}
+                    className={field + " max-w-[110px] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"}
+                    value={collarThicknessText}
+                    min={2}
+                    max={12}
+                    onChange={(e) => {
+                      setCollarThicknessText(e.target.value);
+                      const n = Number(e.target.value);
+                      if (e.target.value.trim() !== "" && Number.isFinite(n)) setCollarThicknessMm(n);
+                    }}
+                    onBlur={() => {
+                      const clamped = sanitizeCollarThickness(Number(collarThicknessText));
+                      setCollarThicknessMm(clamped);
+                      setCollarThicknessText(String(clamped));
+                    }}
+                    aria-label="Collar thickness in millimetres"
+                  />
+                  <span className="text-sm text-muted-foreground">mm</span>
+                </label>
               </div>
-              <p className="text-xs text-muted-foreground">Standard sizing: Small ~15mm &middot; Medium ~20mm &middot; Large ~25mm &middot; XL ~32mm</p>
+              <p className="text-xs text-muted-foreground">Measure the collar flat, with a ruler or calipers. Standard widths: Small ~15mm &middot; Medium ~20mm &middot; Large ~25mm &middot; XL ~32mm. Most collars are 3&ndash;5mm thick, padded or leather ones 6&ndash;10mm.</p>
             </section>
 
             <section className="space-y-3">

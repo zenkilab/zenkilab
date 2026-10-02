@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { AyuvedaBadge } from "@/components/store/ayuveda-badge";
+import { NameTagBadge } from "@/components/store/name-tag";
 import {
-  CONCEPTS, DEFAULT_LOGO, FONTS, MATERIALS, MAX_NAME, MAX_ROLE, SAMPLE_STAFF, THICKNESS, approvalMessage, readLogo, sanitizeLine,
+  ACCENTS, CONCEPTS, DEFAULT_LOGO, FONTS, MATERIALS, MAX_NAME, MAX_ROLE, SAMPLE_STAFF, THICKNESS, approvalMessage, readLogo, sanitizeLine,
   type ConceptId, type FontId, type MaterialId, type Staff,
-} from "@/lib/ayuveda-badge";
+} from "@/lib/name-tag";
 
 const seg = (on: boolean) =>
   `flex-1 rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors ${
@@ -16,16 +16,17 @@ const seg = (on: boolean) =>
 const field =
   "h-11 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground placeholder:text-[color:var(--color-text-tertiary)] focus:border-primary focus:outline-none";
 
-export default function AyuvedaBadgePage() {
+export default function NameTagPage() {
   const [concept, setConcept] = useState<ConceptId>("A");
   const [material, setMaterial] = useState<MaterialId>("pla");
   const [staff, setStaff] = useState<Staff[]>(SAMPLE_STAFF);
   const [sel, setSel] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [logo, setLogo] = useState(DEFAULT_LOGO);
-  const [logoName, setLogoName] = useState("AyuVeda logo (supplied)");
+  const [logoName, setLogoName] = useState("Sample logo");
   const [logoError, setLogoError] = useState("");
   const [font, setFont] = useState<FontId>("Inter");
+  const [accent, setAccent] = useState<string>(ACCENTS[0].hex);
 
   // Each font loads from Google Fonts once picked.
   useEffect(() => {
@@ -68,7 +69,7 @@ export default function AyuvedaBadgePage() {
           {/* Live preview */}
           <div className="lg:sticky lg:top-24 lg:self-start">
             <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-border bg-card p-6 sm:p-10">
-              <AyuvedaBadge concept={concept} staff={staff[sel] ?? { name: "", role: "" }} back={flipped} logo={logo} font={font} />
+              <NameTagBadge concept={concept} staff={staff[sel] ?? { name: "", role: "" }} back={flipped} logo={logo} font={font} accent={accent} />
               <div className="absolute bottom-3 left-3 flex gap-2">
                 <button type="button" onClick={() => setFlipped(false)} className={seg(!flipped) + " !flex-none !px-3 !py-1.5 bg-background/60"}>Front</button>
                 <button type="button" onClick={() => setFlipped(true)} className={seg(flipped) + " !flex-none !px-3 !py-1.5 bg-background/60"}>Back</button>
@@ -82,10 +83,10 @@ export default function AyuvedaBadgePage() {
           {/* Controls */}
           <div className="space-y-8">
             <div>
-              <h1 className="text-[clamp(2rem,4.5vw,3rem)] font-bold leading-[1.1] tracking-[-0.02em]">AyuVeda staff badge</h1>
+              <h1 className="text-[clamp(2rem,4.5vw,3rem)] font-bold leading-[1.1] tracking-[-0.02em]">Name tag</h1>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                A light pin-on badge for AyuVeda Wellness &amp; Rehabilitation, printed in Kaduwela, Sri Lanka.
-                Pick a look, check every name and title, then approve.
+                A light pin-on name tag with your logo, name and role, printed in Kaduwela, Sri Lanka.
+                Pick a look, add your logo, check every name and title, then approve.
               </p>
             </div>
 
@@ -95,8 +96,15 @@ export default function AyuvedaBadgePage() {
                 {(Object.keys(CONCEPTS) as ConceptId[]).map((id) => (
                   <button key={id} type="button" onClick={() => setConcept(id)} className={seg(concept === id) + " flex items-center justify-center gap-2"}>
                     <span className="h-3 w-3 rounded-full border border-white/20" style={{ background: id === "A" ? "#F3EBDD" : "#25201C" }} />
-                    <span className="h-3 w-3 rounded-full" style={{ background: CONCEPTS[id].accent }} />
                     {id === "A" ? "Ivory" : "Charcoal"}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-2 pt-1">
+                {ACCENTS.map((a) => (
+                  <button key={a.id} type="button" onClick={() => setAccent(a.hex)} className={seg(accent === a.hex) + " flex items-center justify-center gap-2 !px-2"}>
+                    <span className="h-3 w-3 rounded-full" style={{ background: a.hex }} />
+                    {a.id}
                   </button>
                 ))}
               </div>
@@ -114,7 +122,7 @@ export default function AyuvedaBadgePage() {
               {logoError && <p role="alert" className="text-sm text-[color:var(--color-danger)]">{logoError}</p>}
               <p className="text-xs text-muted-foreground">PNG, WebP or SVG with a transparent background, up to 2 MB. It prints in one colour, so a single-colour logo works best. Lines thinner than 0.5 mm on the badge will not print cleanly.</p>
               {logo !== DEFAULT_LOGO && (
-                <button type="button" onClick={() => { setLogo(DEFAULT_LOGO); setLogoName("AyuVeda logo (supplied)"); setLogoError(""); }} className="text-xs text-muted-foreground hover:text-foreground">Use the AyuVeda logo again</button>
+                <button type="button" onClick={() => { setLogo(DEFAULT_LOGO); setLogoName("Sample logo"); setLogoError(""); }} className="text-xs text-muted-foreground hover:text-foreground">Use the sample logo again</button>
               )}
             </section>
 
@@ -170,7 +178,7 @@ export default function AyuvedaBadgePage() {
                 <div className="flex justify-between"><dt className="text-muted-foreground">Back</dt><dd>Flat, 2 pin-backs</dd></div>
               </dl>
               <a
-                href={approvalMessage(concept, material, staff)}
+                href={approvalMessage(concept, material, staff, accent)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-12 w-full items-center justify-center rounded-xl bg-primary text-sm font-semibold text-primary-foreground transition-colors hover:bg-[color:var(--color-accent-primary-light)]"

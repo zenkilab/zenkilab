@@ -6,45 +6,45 @@ export const QUOTE_HOURS = 24;
 export const MAX_NAME = 14;
 
 /**
- * Physical tag, millimetres. Not two separate holes: one continuous channel runs the full length of
- * the plate, buried in the middle of its thickness, open only at the two tips. The collar goes in one
- * tip, travels hidden inside the plate, and comes out the other, captured along its whole length
- * instead of pivoting around one point. The whole plate then takes a gentle cylindrical bend (see
- * BEND_RADIUS) so the collar doesn't have to locally flatten out to follow it.
+ * Physical tag, millimetres. A flat plate with two closed belt loops (tunnels) on its BACK, one at each
+ * end. The collar threads through both and runs along the plate's length, so between the loops the back
+ * is open and the collar itself shows. Each tunnel opens to collar width x collar thickness (plus a little
+ * clearance), has thick POST walls at the plate's top/bottom edges and a STRAP behind the collar, and all
+ * inside corners are rounded so a thick ASA/PETG print doesn't crack from a sharp 90 degree stress point.
+ * The plate takes a gentle cylindrical bend (see BEND_RADIUS) so it follows the collar's curve.
  *
- * Because the channel is buried mid-thickness, not cut through the faces, the front and back surfaces
- * stay solid across the whole plate and don't need to route around it: the FRONT face (z FLOOR-INLAY..
- * FLOOR) carries the QR code, the pet name and the phone number, all flush accent inlays, same
- * technique as the Key Tag's marketing stamp. Everything readable lives on the front on purpose: the
- * back sits against the collar once worn, so anything printed there would never be seen. The channel's
- * opening height has to fit the collar's width, so the plate's HEIGHT scales with collar width; its
- * length is fixed.
- *
- * The NFC pocket sits in its own Z band, between the back inlay and the channel, so it doesn't need to
- * dodge the channel in X or Y at all, only in Z.
+ * Everything readable lives on the FRONT (flush accent inlays, same technique as the Key Tag's marketing
+ * stamp): the back sits against the collar once worn. The plate's HEIGHT scales with collar width and the
+ * loops' depth with collar thickness; the plate's length is fixed. The NFC pocket sits in the plate itself,
+ * well clear of the loops.
  */
 export const TAG = {
   W: 72, // fixed plate length
   MIN_H: 26, // minimum plate height, even for the narrowest collar: enough for the QR block plus margin
-  CHANNEL_Y_CLEARANCE: 3, // added to the collar width to get the channel's opening height
-  Y_MARGIN: 8, // total solid plate required above and below the channel
-  CHANNEL_T: 3.5, // channel opening depth (fits collar material thickness + clearance)
-  CHANNEL_ZC: 4.5, // channel centre, in Z, from the back face
-  CORNER_R: 4, // outer plate corner radius
-  FLOOR: 8, // total plate thickness: generous, so the inlays, the NFC pocket and the channel all
-  // land in clearly separated Z bands with real wall thickness between them
+  FLOOR: 5, // plate thickness (front inlay, NFC pocket and back inlay with real wall between them)
   INLAY: 0.4, // depth of each flush inlay, both faces
+  CORNER_R: 4, // outer plate corner radius
+  LOOP_L: 14, // length of each loop along the collar: long enough to hold it square, short enough to leave the middle exposed
+  POST: 4, // minimum wall at the plate's top and bottom edges beside the collar opening
+  STRAP: 4, // thickness of the strap behind the collar
+  CLEAR_W: 2, // total width clearance added to the collar width (1 mm a side)
+  CLEAR_T: 1, // thickness clearance added to the collar thickness
+  R_IN: 2, // radius on every inside corner of the opening (stress relief)
+  R_OUT: 3, // radius on the strap's outer corners
   QR_SIZE: 18, // the embossed QR block, square. 21x21 modules at ~0.85mm/module: comfortably scannable
   BEND_RADIUS: 180, // virtual cylinder radius for the gentle curve along the plate's length
   /** Same physical component as the Key Tag's NFC film: 20 x 10 x 0.1 mm. Sits in the back wall band,
-   * clear of both the back inlay and the channel, so it needs no Y or X clearance logic at all. */
-  POCKET: { w: 20.6, h: 10.6, t: 0.2, zc: 1.0 },
+   * clear of the back inlay, so it needs no Y or X clearance logic at all. */
+  POCKET: { w: 20.6, h: 10.6, t: 0.2, zc: 1.1 },
 } as const;
 
 export const PRINT_LAYER = 0.2;
-// Pocket top (1.6mm) is already a layer line, so the pause lands exactly on the next one, no waste.
-export const NFC_PAUSE_Z = TAG.POCKET.zc + TAG.POCKET.t / 2;
-export const NFC_PAUSE_LAYER_Z = (Math.floor(NFC_PAUSE_Z / PRINT_LAYER + 0.5) + 1) * PRINT_LAYER;
+// Printed FRONT FACE DOWN (so QR/text sit on the bed and the loops grow upward from the back, needing
+// supports only inside the tunnels). Print Z = FLOOR - model Z. The pocket is one layer thick at the
+// plate's centre line (print Z 3.8..4.0); the pause lands on the first layer entirely above it. The bend
+// tilts the pocket's far edges up to ~0.3 mm higher, which the 0.1 mm film simply gets printed over.
+export const NFC_PAUSE_Z = TAG.FLOOR - (TAG.POCKET.zc - TAG.POCKET.t / 2);
+export const NFC_PAUSE_LAYER_Z = Math.round((Math.floor(NFC_PAUSE_Z / PRINT_LAYER + 0.5) + 1) * PRINT_LAYER * 100) / 100;
 
 export const COMBOS = {
   heritage: { label: "Heritage", body: "#15181D", accent: "#F5A623", accentName: "amber" },
@@ -54,6 +54,7 @@ export type ComboId = keyof typeof COMBOS;
 
 export type DogTagConfig = {
   collarWidthMm: number;
+  collarThicknessMm: number;
   phone: string;
   petName: string;
   combo: ComboId;
@@ -64,12 +65,17 @@ export type DogTagConfig = {
 };
 
 export function plateHeight(collarWidthMm: number) {
-  return Math.max(TAG.MIN_H, collarWidthMm + TAG.CHANNEL_Y_CLEARANCE + TAG.Y_MARGIN);
+  return Math.max(TAG.MIN_H, collarWidthMm + TAG.CLEAR_W + 2 * TAG.POST);
 }
 
 export function sanitizeCollarWidth(raw: number) {
   if (!Number.isFinite(raw)) return 20;
   return Math.min(60, Math.max(10, Math.round(raw)));
+}
+
+export function sanitizeCollarThickness(raw: number) {
+  if (!Number.isFinite(raw)) return 4;
+  return Math.min(12, Math.max(2, Math.round(raw * 2) / 2));
 }
 
 /** Digits and a leading +, nothing else: this is what actually gets written to the NFC chip and QR. */
@@ -109,7 +115,8 @@ export function orderSpec(
     `Customer: ${contact.name}`,
     `WhatsApp/phone: ${contact.phone}`,
     "",
-    `Collar width: ${c.collarWidthMm} mm`,
+    `Collar width: ${c.collarWidthMm} mm, thickness: ${c.collarThicknessMm} mm`,
+    `Belt loops: 2 closed tunnels on the back, opening ${c.collarWidthMm + TAG.CLEAR_W} x ${c.collarThicknessMm + TAG.CLEAR_T} mm, ${TAG.LOOP_L} mm long. Print FRONT FACE DOWN with supports inside the tunnels.`,
     `Plate: ${TAG.W} x ${plateHeight(c.collarWidthMm).toFixed(1)} mm`,
     `Pet name on tag: ${c.showText && c.petName ? `"${c.petName}"` : "(none)"}`,
     `Phone in QR + NFC: ${phone}`,

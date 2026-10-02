@@ -1,6 +1,6 @@
 import { whatsappLink } from "@/lib/store";
 
-// AyuVeda staff badge. Direct-link only (not in storeItems). Sizes are millimetres.
+// Name tag. Direct-link only (not in storeItems). Sizes are millimetres.
 // Concept data mirrors the review sheet: A is the recommendation.
 export type ConceptId = "A" | "B";
 export type MaterialId = "pla" | "petg";
@@ -22,7 +22,7 @@ export const CONCEPTS: Record<
 > = {
   A: {
     label: "Ivory and terracotta",
-    blurb: "Warm and soft, closest to the AyuVeda website. Three filaments.",
+    blurb: "Warm and soft. Three filaments.",
     w: 78, h: 26, logo: 20, textW: 48, nameSize: 6, roleSize: 3.6, gap: 4,
     body: "linear-gradient(160deg,#F7F0E4,#EDE3D2)", name: "#2A231E", role: "#4A3F37", accent: "#D78258",
     pins: [17, 61], filaments: "Ivory body, terracotta logo and rule, charcoal lettering",
@@ -53,11 +53,22 @@ export const SAMPLE_STAFF: Staff[] = [
   { name: "Chathurika Wijesundara", role: "Senior Physiotherapist and Rehabilitation Lead" },
 ];
 
-export const DEFAULT_LOGO = "/store/ayuveda-logo.png";
+// Placeholder until the customer uploads their own: a plain ring and dot.
+export const DEFAULT_LOGO =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#000" stroke-width="8"/><circle cx="50" cy="50" r="12" fill="#000"/></svg>');
+
+// The accent (logo, rule and, on the charcoal design, the role line). Terracotta is the default.
+export const ACCENTS = [
+  { id: "Terracotta", hex: "#D78258" },
+  { id: "Amber", hex: "#F5A623" },
+  { id: "Sage", hex: "#8FAE8B" },
+  { id: "Sky", hex: "#5FB3D9" },
+] as const;
 
 // Sans faces with Medium and SemiBold weights, so raised strokes stay at 0.8 mm or more.
 export const FONTS = [
-  { id: "Inter", note: "Matches ayuvedasrilanka.com" },
+  { id: "Inter", note: "Clean and neutral" },
   { id: "DM Sans", note: "Soft and friendly" },
   { id: "Nunito Sans", note: "Rounded, calm" },
   { id: "Lato", note: "Classic, very legible" },
@@ -99,10 +110,10 @@ export async function readLogo(file: File): Promise<string> {
 
 export const sanitizeLine = (s: string, max: number) => s.replace(/[^\p{L}\p{N} .,'&/()-]/gu, "").slice(0, max);
 
-export const approvalMessage = (concept: ConceptId, material: MaterialId, staff: Staff[]) =>
+export const approvalMessage = (concept: ConceptId, material: MaterialId, staff: Staff[], accent: string) =>
   whatsappLink(
     [
-      `Hi Zenki Lab, AyuVeda staff badges: I approve Concept ${concept} (${CONCEPTS[concept].label}), ${CONCEPTS[concept].w} x ${CONCEPTS[concept].h} mm, ${MATERIALS[material].label}.`,
+      `Hi Zenki Lab, name tags: I approve Concept ${concept} (${CONCEPTS[concept].label}), ${CONCEPTS[concept].w} x ${CONCEPTS[concept].h} mm, ${MATERIALS[material].label}, accent ${accent}.`,
       `Staff (${staff.length}):`,
       ...staff.map((s, i) => `${i + 1}. ${s.name || "(name)"} - ${s.role || "(role)"}`),
     ].join("\n"),

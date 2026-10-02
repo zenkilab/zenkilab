@@ -7,6 +7,7 @@ import {
   TAG,
   orderSpec,
   plateHeight,
+  sanitizeCollarThickness,
   rs,
   sanitizeCollarWidth,
   sanitizePetName,
@@ -38,7 +39,7 @@ export function parseOrder(raw: string): Order | null {
     if (!Number.isFinite(createdAt) || !Number.isFinite(expiresAt)) return null;
     return {
       orderId: o.orderId,
-      config: { collarWidthMm: sanitizeCollarWidth(Number(c.collarWidthMm)), phone, petName: sanitizePetName(String(c?.petName ?? "")), combo, showText: c?.showText !== false },
+      config: { collarWidthMm: sanitizeCollarWidth(Number(c.collarWidthMm)), collarThicknessMm: sanitizeCollarThickness(Number(c.collarThicknessMm)), phone, petName: sanitizePetName(String(c?.petName ?? "")), combo, showText: c?.showText !== false },
       contact: { name: String(o.contact?.name ?? "").trim().slice(0, 80), phone: String(o.contact?.phone ?? "").trim().slice(0, 30) },
       createdAt,
       expiresAt,
@@ -83,6 +84,7 @@ export function dogTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
         ["Phone (QR + NFC)", { html: mono(c.phone) }],
         ["Also printed on the front", c.showText ? `Yes${c.petName ? ` ("${c.petName}" + number)` : " (number only)"}` : "No, QR/NFC only"],
         ["Collar width", `${c.collarWidthMm} mm`],
+        ["Collar thickness", `${c.collarThicknessMm} mm`],
         ["Plate size", `${TAG.W} x ${plateHeight(c.collarWidthMm).toFixed(1)} mm`],
         ["Colours", { html: `${swatch(combo.body)}Plate black &nbsp; ${swatch(combo.accent)}${esc(combo.label)} ${esc(combo.accentName)} (QR, label, text)` }],
         ["Material", MATERIAL],

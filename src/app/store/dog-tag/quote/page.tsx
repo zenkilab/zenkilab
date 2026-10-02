@@ -70,6 +70,7 @@ export default function DogTagQuotePage() {
 
   const specs: [string, string][] = [
     ["Collar width", `${c.collarWidthMm} mm`],
+    ["Collar thickness", `${c.collarThicknessMm ?? 4} mm`],
     ["Plate size", `${TAG.W} x ${plateHeight(c.collarWidthMm).toFixed(1)} mm`],
     ["Phone (NFC + QR)", c.phone],
     ["Also printed on the front", c.showText ? `Yes${c.petName ? ` ("${c.petName}" + number)` : " (number only)"}` : "No, NFC/QR only"],

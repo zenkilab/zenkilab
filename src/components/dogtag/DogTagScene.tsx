@@ -32,8 +32,8 @@ function AutoFrame({ collarWidthMm }: { collarWidthMm: number }) {
 
 function Tag({ config, flipped }: { config: DogTagConfig; flipped: boolean }) {
   const group = useRef<THREE.Group>(null);
-  const { collarWidthMm, phone, petName, combo, showText } = config;
-  const geo = useMemo(() => buildDogTag(config), [collarWidthMm, phone, petName, combo, showText]);
+  const { collarWidthMm, collarThicknessMm, phone, petName, combo, showText } = config;
+  const geo = useMemo(() => buildDogTag(config), [collarWidthMm, collarThicknessMm, phone, petName, combo, showText]);
   useEffect(() => () => { geo.body.dispose(); geo.accent.dispose(); }, [geo]);
 
   useFrame((_, dt) => {
