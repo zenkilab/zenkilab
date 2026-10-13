@@ -58,6 +58,7 @@ export const COMBOS: Record<ComboId, { label: string; body: string; accent: stri
 };
 
 export type KeyTagConfig = {
+  id?: string;
   content: ContentType;
   style: StyleId;
   corner: Corner; // ignored on the capsule, which has no plate corners to round
@@ -66,6 +67,19 @@ export type KeyTagConfig = {
   branding: boolean;
   nfc: boolean;
 };
+
+export function createDefaultKeyTag(id?: string): KeyTagConfig {
+  return {
+    id: id ?? (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `kt-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`),
+    content: "name",
+    style: "ring",
+    corner: "soft",
+    combo: "heritage",
+    text: "",
+    branding: true,
+    nfc: false,
+  };
+}
 
 export function sanitizeText(content: ContentType, style: StyleId, raw: string) {
   const cleaned =
@@ -82,13 +96,25 @@ export function priceLines(c: KeyTagConfig) {
   return { base, discount, nfc, total: base - discount + nfc };
 }
 
+export function batchPriceSummary(configs: KeyTagConfig[]) {
+  const list = configs.length ? configs : [createDefaultKeyTag()];
+  const lines = list.map(priceLines);
+  const base = lines.reduce((acc, cur) => acc + cur.base, 0);
+  const discount = lines.reduce((acc, cur) => acc + cur.discount, 0);
+  const nfc = lines.reduce((acc, cur) => acc + cur.nfc, 0);
+  const total = base - discount + nfc;
+  return { base, discount, nfc, total, count: list.length, items: lines };
+}
+
 export const rs = (n: number) => `Rs. ${n.toLocaleString("en-LK")}`;
 
 export type StoredOrder = {
   orderId: string;
   config: KeyTagConfig;
+  configs?: KeyTagConfig[];
   contact: { name: string; phone: string };
   thumbnail: string;
+  thumbnails?: string[];
   createdAt: number;
   expiresAt: number;
   confirmed?: boolean;
@@ -97,37 +123,53 @@ export type StoredOrder = {
 export const STORAGE_KEY = "zenki.keytag";
 
 export function orderSpec(
-  o: Pick<StoredOrder, "orderId" | "config" | "contact" | "expiresAt">,
+  o: Pick<StoredOrder, "orderId" | "config" | "contact" | "expiresAt"> & { configs?: KeyTagConfig[] },
   stage: "quote" | "confirm",
 ) {
-  const { config: c, contact } = o;
-  const p = priceLines(c);
-  const combo = COMBOS[c.combo];
-  return [
+  const configs = o.configs && o.configs.length > 0 ? o.configs : [o.config];
+  const { contact } = o;
+  const summary = batchPriceSummary(configs);
+  const hasNfcAny = configs.some((c) => c.nfc);
+
+  const lines: (string | null)[] = [
     stage === "confirm" ? "KEY TAG ORDER CONFIRMED, ADD TO PRINT QUEUE" : "KEY TAG QUOTE REQUEST",
     `Order ID: ${o.orderId}`,
     `Customer: ${contact.name}`,
     `WhatsApp/phone: ${contact.phone}`,
+    `Total key tags: ${configs.length}`,
     "",
-    `Style: ${STYLES[c.style].label}${c.style === "ring" ? ` (${CORNER_LABEL[c.corner]} corners)` : ""}`,
-    `Content type: ${c.content === "name" ? "Name" : "Car Number"}`,
-    `Text: "${c.text}"`,
-    `Color combo: ${combo.label} (black body + ${combo.accentName} accent)`,
-    `Material: ${MATERIAL}`,
-    `Back: flat. ${c.branding ? "ZenkiLab.com as a flush 0.4 mm color inlay, no relief" : "blank"}`,
-    `NFC chip: ${c.nfc ? "YES, embed before sealing (+Rs. 200)" : "no"}`,
-    `zenkilab.com stamp: ${c.branding ? "ON (Rs. 50 discount applied)" : "OFF"}`,
-    "",
-    `Base price: ${rs(p.base)}`,
-    `Branding discount: ${p.discount ? "-" + rs(p.discount) : "none"}`,
-    `NFC chip: ${p.nfc ? "+" + rs(p.nfc) : "none"}`,
-    `Total: ${rs(p.total)}`,
+  ];
+
+  configs.forEach((c, index) => {
+    const p = priceLines(c);
+    const combo = COMBOS[c.combo];
+    lines.push(
+      `--- TAG #${index + 1}: "${c.text}" ---`,
+      `Style: ${STYLES[c.style].label}${c.style === "ring" ? ` (${CORNER_LABEL[c.corner]} corners)` : ""}`,
+      `Content type: ${c.content === "name" ? "Name" : "Car Number"}`,
+      `Text: "${c.text}"`,
+      `Color combo: ${combo.label} (black body + ${combo.accentName} accent)`,
+      `Back: flat. ${c.branding ? "ZenkiLab.com as a flush 0.4 mm color inlay, no relief" : "blank"}`,
+      `NFC chip: ${c.nfc ? "YES, embed before sealing (+Rs. 200)" : "no"}`,
+      `zenkilab.com stamp: ${c.branding ? "ON (Rs. 50 discount applied)" : "OFF"}`,
+      `Tag subtotal: ${rs(p.total)}`,
+      "",
+    );
+  });
+
+  lines.push(
+    "--- PRICING SUMMARY ---",
+    `Base price (${configs.length} items): ${rs(summary.base)}`,
+    `Branding discounts: ${summary.discount ? "-" + rs(summary.discount) : "none"}`,
+    `NFC chips: ${summary.nfc ? "+" + rs(summary.nfc) : "none"}`,
+    `Grand Total: ${rs(summary.total)}`,
     "Payment: not collected. On delivery or confirmed over WhatsApp.",
     "",
-    `Colors: the 3MF is one object with two parts already on filament slots 1 (black floor) and 2 (${combo.accentName} rim, ring and lettering). Check the text before printing.`,
-    c.nfc ? `NFC: 20 x 10 mm film (liner peeled). A pause (M400 U1) is already in the 3MF at Z = ${NFC_PAUSE_LAYER_Z.toFixed(2)} mm, after the pocket is printed and before its roof. Place the film in the pocket, then resume. Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm.` : null,
+    hasNfcAny
+      ? `NFC: 20 x 10 mm film (liner peeled). A pause (M400 U1) is already in the 3MF at Z = ${NFC_PAUSE_LAYER_Z.toFixed(2)} mm, after the pocket is printed and before its roof. Place the film in the pocket, then resume. Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm.`
+      : null,
     `Quote expires: ${new Date(o.expiresAt).toISOString()}`,
-  ]
-    .filter((l) => l !== null)
-    .join("\n");
+  );
+
+  return lines.filter((l) => l !== null).join("\n");
 }

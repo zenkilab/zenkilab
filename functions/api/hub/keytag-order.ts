@@ -37,7 +37,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
   const stage = form.get("stage");
   const rawOrder = String(form.get("order") ?? "");
-  const order = rawOrder.length <= 4000 ? parseOrder(rawOrder) : null;
+  const order = rawOrder.length <= 10000 ? parseOrder(rawOrder) : null;
   if ((stage !== "quote" && stage !== "confirm") || !order) return json({ error: "Invalid order" }, 400);
 
   // Render of the customer's tag, shown at the top of the email. Optional: skipped if missing or not a small JPEG.

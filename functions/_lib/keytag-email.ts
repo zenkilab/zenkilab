@@ -5,6 +5,7 @@ import {
   NFC_PAUSE_LAYER_Z,
   STYLES,
   TAG,
+  batchPriceSummary,
   orderSpec,
   priceLines,
   rs,
@@ -12,13 +13,16 @@ import {
   type ComboId,
   type ContentType,
   type Corner,
+  type KeyTagConfig,
   type StoredOrder,
   type StyleId,
 } from "../../src/lib/keytag";
 import { C, button, callout, esc, mono, rows, section, shell, whatsappUrl } from "./email";
 
 export type Stage = "quote" | "confirm";
-export type Order = Pick<StoredOrder, "orderId" | "config" | "contact" | "createdAt" | "expiresAt">;
+export type Order = Pick<StoredOrder, "orderId" | "config" | "contact" | "createdAt" | "expiresAt"> & {
+  configs?: KeyTagConfig[];
+};
 
 const when = (t: number) =>
   new Date(t).toLocaleString("en-GB", { timeZone: "Asia/Colombo", dateStyle: "medium", timeStyle: "short" });
@@ -30,22 +34,54 @@ const when = (t: number) =>
 export function parseOrder(raw: string): Order | null {
   try {
     const o = JSON.parse(raw);
-    const c = o?.config;
-    const content: ContentType | null = c?.content === "name" || c?.content === "car-number" ? c.content : null;
-    const combo: ComboId | null = Object.hasOwn(COMBOS, c?.combo) ? c.combo : null;
-    const style: StyleId = c?.style === "capsule" ? "capsule" : "ring";
-    // Corner is cosmetic and meaningless on the capsule, so an invalid value falls back rather than
-    // rejecting an otherwise valid order.
-    const corner: Corner = c?.corner === "sharp" || c?.corner === "round" ? c.corner : "soft";
-    if (!content || !combo || !/^KT-[A-Z0-9]{4,16}$/.test(o.orderId)) return null;
-    const text = sanitizeText(content, style, String(c.text ?? "")).trim();
+    if (!o?.orderId || !/^KT-[A-Z0-9]{4,16}$/.test(o.orderId)) return null;
+
+    const parseSingle = (c: any): KeyTagConfig | null => {
+      if (!c) return null;
+      const content: ContentType | null = c.content === "name" || c.content === "car-number" ? c.content : null;
+      const combo: ComboId | null = Object.hasOwn(COMBOS, c.combo) ? c.combo : null;
+      const style: StyleId = c.style === "capsule" ? "capsule" : "ring";
+      const corner: Corner = c.corner === "sharp" || c.corner === "round" ? c.corner : "soft";
+      if (!content || !combo) return null;
+      const text = sanitizeText(content, style, String(c.text ?? "")).trim();
+      if (!text) return null;
+      return {
+        id: typeof c.id === "string" ? c.id : undefined,
+        content,
+        style,
+        corner,
+        combo,
+        text,
+        branding: c.branding === true,
+        nfc: c.nfc === true,
+      };
+    };
+
+    const configs: KeyTagConfig[] = [];
+    if (Array.isArray(o.configs) && o.configs.length > 0) {
+      for (const item of o.configs) {
+        const parsed = parseSingle(item);
+        if (parsed) configs.push(parsed);
+      }
+    }
+    if (configs.length === 0 && o.config) {
+      const parsed = parseSingle(o.config);
+      if (parsed) configs.push(parsed);
+    }
+    if (configs.length === 0) return null;
+
     const createdAt = Number(o.createdAt);
     const expiresAt = Number(o.expiresAt);
-    if (!text || !Number.isFinite(createdAt) || !Number.isFinite(expiresAt)) return null;
+    if (!Number.isFinite(createdAt) || !Number.isFinite(expiresAt)) return null;
+
     return {
       orderId: o.orderId,
-      config: { content, style, corner, combo, text, branding: c.branding === true, nfc: c.nfc === true },
-      contact: { name: String(o.contact?.name ?? "").trim().slice(0, 80), phone: String(o.contact?.phone ?? "").trim().slice(0, 30) },
+      config: configs[0],
+      configs,
+      contact: {
+        name: String(o.contact?.name ?? "").trim().slice(0, 80),
+        phone: String(o.contact?.phone ?? "").trim().slice(0, 30),
+      },
       createdAt,
       expiresAt,
     };
@@ -58,54 +94,72 @@ const swatch = (hex: string) =>
   `<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${hex};border:1px solid #C9CED6;vertical-align:-1px;margin-right:6px"></span>`;
 
 export function keyTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
-  const { config: c, contact } = o;
-  const combo = COMBOS[c.combo];
-  const p = priceLines(c);
+  const configs = o.configs && o.configs.length > 0 ? o.configs : [o.config];
+  const c = configs[0];
+  const { contact } = o;
+  const summary = batchPriceSummary(configs);
   const confirmed = stage === "confirm";
   const wa = whatsappUrl(contact.phone);
-  const flags = [c.nfc ? "NFC" : "", c.branding ? "" : "no stamp"].filter(Boolean).join(" · ");
+  const hasNfcAny = configs.some((x) => x.nfc);
 
   const price = rows([
-    ["Base price", rs(p.base)],
-    ...(p.discount ? ([["zenkilab.com stamp discount", { html: `<span style="color:${C.ok}">-${esc(rs(p.discount))}</span>` }]] as [string, { html: string }][]) : []),
-    ...(p.nfc ? ([["NFC chip", `+${rs(p.nfc)}`]] as [string, string][]) : []),
-    ["Total", { html: `<strong style="font-size:18px">${esc(rs(p.total))}</strong>` }],
+    [`Base price (${configs.length} ${configs.length === 1 ? "tag" : "tags"})`, rs(summary.base)],
+    ...(summary.discount
+      ? ([["zenkilab.com stamp discount", { html: `<span style="color:${C.ok}">-${esc(rs(summary.discount))}</span>` }]] as [string, { html: string }][])
+      : []),
+    ...(summary.nfc ? ([["NFC chips", `+${rs(summary.nfc)}`]] as [string, string][]) : []),
+    ["Total", { html: `<strong style="font-size:18px">${esc(rs(summary.total))}</strong>` }],
   ]);
 
   const steps = confirmed
     ? [
         `Open the 3MF attached to the quote email for ${o.orderId} in Bambu Studio.`,
-        `Check the text reads "${c.text}" and slot 2 is ${combo.accentName}.`,
-        ...(c.nfc ? [`The printer pauses at Z ${NFC_PAUSE_LAYER_Z.toFixed(2)} mm. Place the 20 x 10 mm wet inlay in the pocket, then resume.`] : []),
+        `Check all tags: ${configs.map((t) => `"${t.text}" (${COMBOS[t.combo].accentName})`).join(", ")}.`,
+        ...(hasNfcAny ? [`The printer pauses at Z ${NFC_PAUSE_LAYER_Z.toFixed(2)} mm. Place the 20 x 10 mm wet inlay in the pocket, then resume.`] : []),
         "Message the customer on WhatsApp once it is in the print queue. Payment is on delivery or over WhatsApp.",
       ]
     : [
         "The customer has not confirmed. Do not print yet.",
         "Print only after a CONFIRMED email arrives with this order ID.",
-        `The 3MF is attached to this email${c.nfc ? ", with the NFC pause already set" : ""}.`,
+        `The 3MF is attached to this email${hasNfcAny ? ", with the NFC pause already set" : ""}.`,
       ];
   const stepList = `<ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.6;color:${C.ink}">${steps.map((s) => `<li style="margin-bottom:4px">${esc(s)}</li>`).join("")}</ol>`;
+
+  const tagsHtml = configs
+    .map((item, index) => {
+      const itemCombo = COMBOS[item.combo];
+      const itemPrice = priceLines(item);
+      return section(
+        `Tag #${index + 1}: "${esc(item.text)}" (${rs(itemPrice.total)})`,
+        rows([
+          ["Text", { html: `<strong style="font-size:16px;letter-spacing:.02em">${esc(item.text)}</strong>` }],
+          ["Type", item.content === "name" ? "Name" : "Car number"],
+          ["Style", STYLES[item.style].label],
+          ...(item.style === "ring" ? ([["Corner style", `${CORNER_LABEL[item.corner]} corners`]] as [string, string][]) : []),
+          [
+            "Colours",
+            { html: `${swatch(itemCombo.body)}Floor black &nbsp; ${swatch(itemCombo.accent)}${esc(itemCombo.label)} ${esc(itemCombo.accentName)} (rim, ring, lettering)` },
+          ],
+          ["Material", MATERIAL],
+          ["Back", item.branding ? `Flat, zenkilab.com as a flush ${TAG.INLAY} mm inlay` : "Flat, blank"],
+          ["NFC", item.nfc ? { html: `<strong style="color:${C.amberInk}">YES</strong> (+${esc(rs(itemPrice.nfc))})` } : "No"],
+        ]),
+      );
+    })
+    .join("");
 
   const body = [
     hasPreview
       ? `<tr><td style="padding:20px 28px 0"><img src="cid:tag-preview" alt="Customer's key tag design" width="544" style="display:block;width:100%;max-width:544px;height:auto;border-radius:10px;border:1px solid ${C.line}"></td></tr>`
       : "",
-    c.nfc
-      ? callout("warn", "NFC INLAY REQUIRED", `Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm. The print pauses at Z ${NFC_PAUSE_LAYER_Z.toFixed(2)} mm for the operator to place the inlay.`)
+    hasNfcAny
+      ? callout(
+          "warn",
+          "NFC INLAY REQUIRED",
+          `Pocket ${TAG.POCKET.w} x ${TAG.POCKET.h} x ${TAG.POCKET.t} mm. The print pauses at Z ${NFC_PAUSE_LAYER_Z.toFixed(2)} mm for the operator to place the inlay.`,
+        )
       : "",
-    section(
-      "What to print",
-      rows([
-        ["Text", { html: `<strong style="font-size:16px;letter-spacing:.02em">${esc(c.text)}</strong>` }],
-        ["Type", c.content === "name" ? "Name" : "Car number"],
-        ["Style", STYLES[c.style].label],
-        ...(c.style === "ring" ? ([["Corner style", `${CORNER_LABEL[c.corner]} corners`]] as [string, string][]) : []),
-        ["Colours", { html: `${swatch(combo.body)}Floor black &nbsp; ${swatch(combo.accent)}${esc(combo.label)} ${esc(combo.accentName)} (rim, ring, lettering)` }],
-        ["Material", MATERIAL],
-        ["Back", c.branding ? `Flat, zenkilab.com as a flush ${TAG.INLAY} mm inlay` : "Flat, blank"],
-        ["NFC", c.nfc ? { html: `<strong style="color:${C.amberInk}">YES</strong> (+${esc(rs(p.nfc))})` } : "No"],
-      ]),
-    ),
+    tagsHtml,
     section(
       "Customer",
       rows([
@@ -113,12 +167,13 @@ export function keyTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
         ["WhatsApp / phone", contact.phone || "-"],
       ]) + (wa ? `<div style="padding-top:14px">${button(wa, "Message on WhatsApp")}</div>` : ""),
     ),
-    section("Price", price),
+    section("Pricing Summary", price),
     section(confirmed ? "Next steps" : "Status", stepList),
     section(
       "Order",
       rows([
         ["Order ID", { html: mono(o.orderId) }],
+        ["Total tags", `${configs.length}`],
         ["Created", when(o.createdAt)],
         ["Quote valid until", when(o.expiresAt)],
         ["Attached", confirmed ? "Spec (.txt)" : "3MF for Bambu Studio, spec (.txt)"],
@@ -126,18 +181,18 @@ export function keyTagEmail(o: Order, stage: Stage, hasPreview: boolean) {
     ),
   ].join("");
 
-  const tag = `"${c.text}"`;
+  const tagSummary = configs.length === 1 ? `"${c.text}"` : `${configs.length} tags (${configs.map((t) => `"${t.text}"`).join(", ")})`;
   return {
     subject: confirmed
-      ? `[Key Tag] CONFIRMED ${o.orderId} ${tag}${flags ? " · " + flags : ""}: print it`
-      : `[Key Tag] New quote ${o.orderId} ${tag}${flags ? " · " + flags : ""}`,
+      ? `[Key Tag] CONFIRMED ${o.orderId} ${tagSummary}: print it`
+      : `[Key Tag] New quote ${o.orderId} ${tagSummary}`,
     html: shell({
       kind: "Key Tag",
       banner: confirmed ? "CONFIRMED · CUSTOMER SAYS GO · ADD TO PRINT QUEUE" : "NEW QUOTE · WAITING FOR CUSTOMER TO CONFIRM",
       tone: confirmed ? "ok" : "info",
-      headline: `${esc(c.text)} <span style="font-weight:400;color:${C.muted};font-size:16px">${mono(o.orderId)}</span>`,
-      sub: `${esc(contact.name || "Customer")} &middot; ${esc(rs(p.total))}${c.nfc ? " &middot; NFC" : ""}`,
-      preheader: `${o.orderId} ${tag} ${rs(p.total)}${c.nfc ? ", NFC" : ""}`,
+      headline: `${configs.length === 1 ? esc(c.text) : `${configs.length} Custom Key Tags`} <span style="font-weight:400;color:${C.muted};font-size:16px">${mono(o.orderId)}</span>`,
+      sub: `${esc(contact.name || "Customer")} &middot; ${esc(rs(summary.total))}${hasNfcAny ? " &middot; NFC" : ""}`,
+      preheader: `${o.orderId} ${tagSummary} ${rs(summary.total)}${hasNfcAny ? ", NFC" : ""}`,
       body,
       footer: `Sent by the Zenki Lab store. Order data is shown as submitted by the customer; prices are recalculated by the server.`,
     }),
