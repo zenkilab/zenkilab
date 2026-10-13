@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import type { Capture } from "@/components/keytag/KeyTagScene";
+import { ChevronLeft, ChevronRight, Plus, Copy, Trash2 } from "lucide-react";
 import {
   COMBOS,
   CORNER_LABEL,
@@ -14,6 +15,8 @@ import {
   QUOTE_HOURS,
   STORAGE_KEY,
   STYLES,
+  batchPriceSummary,
+  createDefaultKeyTag,
   priceLines,
   rs,
   sanitizeText,
@@ -53,13 +56,11 @@ function CornerIcon({ r }: { r: number }) {
 export default function KeyTagPage() {
   const router = useRouter();
   const captureRef = useRef<Capture | null>(null);
-  const [content, setContent] = useState<ContentType>("name");
-  const [style, setStyle] = useState<StyleId>("ring");
-  const [corner, setCorner] = useState<Corner>("soft");
-  const [combo, setCombo] = useState<ComboId>("heritage");
-  const [text, setText] = useState("");
-  const [branding, setBranding] = useState(true); // opt-out: pre-checked
-  const [nfc, setNfc] = useState(false);
+
+  // Multiple key tags state
+  const [tags, setTags] = useState<KeyTagConfig[]>([createDefaultKeyTag()]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const [flipped, setFlipped] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -71,50 +72,145 @@ export default function KeyTagPage() {
     try {
       const o: StoredOrder | null = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
       if (o) {
-        const c = o.config;
-        setContent(c.content); setStyle(c.style); setCorner(c.corner ?? "soft"); setCombo(c.combo);
-        setText(sanitizeText(c.content, c.style, c.text));
-        setBranding(c.branding);
-        setNfc(!!c.nfc);
-        setName(o.contact.name); setPhone(o.contact.phone);
-        return;
+        if (Array.isArray(o.configs) && o.configs.length > 0) {
+          setTags(
+            o.configs.map((c) => ({
+              ...c,
+              text: sanitizeText(c.content, c.style, c.text),
+            })),
+          );
+        } else if (o.config) {
+          const c = o.config;
+          setTags([
+            {
+              ...c,
+              text: sanitizeText(c.content, c.style, c.text),
+            },
+          ]);
+        }
+        setName(o.contact?.name ?? "");
+        setPhone(o.contact?.phone ?? "");
       }
     } catch {}
   }, []);
 
-  const config: KeyTagConfig = { content, style, corner, combo, text, branding, nfc };
-  const max = STYLES[style].maxChars;
-  const p = priceLines(config);
+  const safeIndex = Math.max(0, Math.min(activeIndex, tags.length - 1));
+  const activeTag = tags[safeIndex] ?? tags[0];
+  const max = STYLES[activeTag.style].maxChars;
+  const summary = batchPriceSummary(tags);
+
+  const updateActiveTag = (patch: Partial<KeyTagConfig>) => {
+    setTags((prev) =>
+      prev.map((t, i) => (i === safeIndex ? { ...t, ...patch } : t)),
+    );
+  };
 
   const pickContent = (c: ContentType) => {
-    setContent(c);
-    setText((t) => sanitizeText(c, style, t));
+    updateActiveTag({
+      content: c,
+      text: sanitizeText(c, activeTag.style, activeTag.text),
+    });
   };
 
   const pickStyle = (s: StyleId) => {
-    setStyle(s);
-    setText((t) => sanitizeText(content, s, t)); // the two shapes allow slightly different lengths
+    updateActiveTag({
+      style: s,
+      text: sanitizeText(activeTag.content, s, activeTag.text),
+    });
+  };
+
+  const pickCorner = (c: Corner) => {
+    updateActiveTag({ corner: c });
+  };
+
+  const pickCombo = (combo: ComboId) => {
+    updateActiveTag({ combo });
+  };
+
+  const updateText = (val: string) => {
+    updateActiveTag({
+      text: sanitizeText(activeTag.content, activeTag.style, val),
+    });
+  };
+
+  const toggleBranding = (checked: boolean) => {
+    updateActiveTag({ branding: checked });
+  };
+
+  const toggleNfc = (checked: boolean) => {
+    updateActiveTag({ nfc: checked });
+  };
+
+  // Carousel controls with wrap-around
+  const prevTag = () => {
+    setActiveIndex((prev) => (prev > 0 ? prev - 1 : tags.length - 1));
+  };
+
+  const nextTag = () => {
+    setActiveIndex((prev) => (prev < tags.length - 1 ? prev + 1 : 0));
+  };
+
+  const selectTag = (index: number) => {
+    if (index >= 0 && index < tags.length) {
+      setActiveIndex(index);
+    }
+  };
+
+  const addTag = () => {
+    const newTag = createDefaultKeyTag();
+    // Inherit sensible styling defaults from the active tag
+    newTag.style = activeTag.style;
+    newTag.corner = activeTag.corner;
+    newTag.combo = activeTag.combo;
+    newTag.branding = activeTag.branding;
+    setTags((prev) => [...prev, newTag]);
+    setActiveIndex(tags.length);
+  };
+
+  const duplicateTag = () => {
+    const clone: KeyTagConfig = {
+      ...activeTag,
+      id: `kt-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    };
+    setTags((prev) => [...prev, clone]);
+    setActiveIndex(tags.length);
+  };
+
+  const removeTag = (indexToRemove: number) => {
+    if (tags.length <= 1) return;
+    setTags((prev) => prev.filter((_, i) => i !== indexToRemove));
+    setActiveIndex((prev) => Math.max(0, Math.min(prev, tags.length - 2)));
   };
 
   async function submit() {
     setError("");
-    if (!text.trim()) return setError("Enter the text for your tag.");
-    if (!name.trim() || phone.replace(/\D/g, "").length < 9)
+    const emptyIndex = tags.findIndex((t) => !t.text.trim());
+    if (emptyIndex !== -1) {
+      setActiveIndex(emptyIndex);
+      return setError(`Enter the text for Tag #${emptyIndex + 1} (or remove it).`);
+    }
+    if (!name.trim() || phone.replace(/\D/g, "").length < 9) {
       return setError("Add your name and a WhatsApp number so we can reach you.");
+    }
     setBusy(true);
     try {
       const { buildOrder3MF } = await import("@/components/keytag/export3mf");
-      const cfg = { ...config, text: text.trim() };
-      const blob = await buildOrder3MF(cfg);
+      const cleanTags = tags.map((t) => ({ ...t, text: t.text.trim() }));
+      const blob = await buildOrder3MF(cleanTags);
       const now = Date.now();
+      const currentCapture = captureRef.current?.() ?? "";
+
       const order: StoredOrder = {
         orderId: `KT-${now.toString(36).toUpperCase()}`,
-        config: cfg,
+        config: cleanTags[0],
+        configs: cleanTags,
         contact: { name: name.trim(), phone: phone.trim() },
-        thumbnail: captureRef.current?.() ?? "",
+        thumbnail: currentCapture,
+        thumbnails: [currentCapture],
         createdAt: now,
         expiresAt: now + QUOTE_HOURS * 3600_000,
       };
+
       await sendOrder(order, "quote", blob);
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(order));
       router.push("/store/key-tag/quote");
@@ -129,42 +225,191 @@ export default function KeyTagPage() {
       <Header />
       <main className="mx-auto max-w-[1280px] px-6 pb-24 pt-28 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
-          {/* Live preview */}
+          {/* Live preview in picture / carousel mode */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            {/* OrbitControls takes every touch; this lets a vertical swipe scroll the page past the preview on phones while sideways drags still turn the tag */}
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-card [&_canvas]:!touch-pan-y">
-              <KeyTagScene config={config} flipped={flipped} captureRef={captureRef} />
-              <div className="absolute bottom-3 left-3 flex gap-2">
-                <button type="button" onClick={() => setFlipped(false)} className={seg(!flipped) + " !flex-none !px-3 !py-1.5 bg-background/60"}>Front</button>
-                <button type="button" onClick={() => setFlipped(true)} className={seg(flipped) + " !flex-none !px-3 !py-1.5 bg-background/60"}>Back</button>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-card [&_canvas]:!touch-pan-y shadow-sm">
+              {/* Active tag indicator badge */}
+              <div className="absolute left-3 top-3 z-10 flex max-w-[80%] items-center gap-2 rounded-full border border-border/80 bg-background/85 px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur-md shadow-sm">
+                <span className="h-2 w-2 rounded-full bg-primary animate-pulse shrink-0" />
+                <span className="font-semibold shrink-0">Tag {safeIndex + 1} of {tags.length}</span>
+                {activeTag.text ? (
+                  <span className="font-mono text-primary truncate">&quot;{activeTag.text}&quot;</span>
+                ) : (
+                  <span className="text-muted-foreground italic">(enter text below)</span>
+                )}
               </div>
+
+              {/* 3D Scene for the currently active key tag */}
+              <KeyTagScene config={activeTag} flipped={flipped} captureRef={captureRef} />
+
+              {/* VERY BIG ARROWS: Left and Right carousel navigation */}
+              {tags.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={prevTag}
+                    aria-label="Previous key tag"
+                    title="Previous key tag"
+                    className="absolute left-3 top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border-2 border-border/80 bg-background/90 text-foreground shadow-2xl backdrop-blur-md transition-all hover:scale-110 hover:border-primary hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <ChevronLeft className="h-8 w-8 stroke-[2.5]" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextTag}
+                    aria-label="Next key tag"
+                    title="Next key tag"
+                    className="absolute right-3 top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border-2 border-border/80 bg-background/90 text-foreground shadow-2xl backdrop-blur-md transition-all hover:scale-110 hover:border-primary hover:text-primary active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <ChevronRight className="h-8 w-8 stroke-[2.5]" />
+                  </button>
+                </>
+              )}
+
+              {/* Flip controls: Front / Back */}
+              <div className="absolute bottom-3 left-3 z-10 flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setFlipped(false)}
+                  className={seg(!flipped) + " !flex-none !px-3 !py-1.5 bg-background/70 backdrop-blur-sm"}
+                >
+                  Front
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFlipped(true)}
+                  className={seg(flipped) + " !flex-none !px-3 !py-1.5 bg-background/70 backdrop-blur-sm"}
+                >
+                  Back
+                </button>
+              </div>
+
+              {/* Pagination indicators in carousel */}
+              {tags.length > 1 && (
+                <div className="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 rounded-full border border-border/80 bg-background/80 px-2.5 py-1.5 backdrop-blur-md">
+                  {tags.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => selectTag(i)}
+                      aria-label={`Jump to tag ${i + 1}`}
+                      className={`h-2 rounded-full transition-all ${
+                        i === safeIndex ? "w-5 bg-primary" : "w-2 bg-muted-foreground/40 hover:bg-muted-foreground"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-            <p className="mt-3 text-xs text-muted-foreground">Drag to rotate. Preview is the real geometry we print from.</p>
+
+            {/* Quick tag selector strip underneath preview */}
+            {tags.length > 1 && (
+              <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                {tags.map((t, idx) => (
+                  <button
+                    key={t.id ?? idx}
+                    type="button"
+                    onClick={() => selectTag(idx)}
+                    className={`flex shrink-0 items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all ${
+                      idx === safeIndex
+                        ? "border-primary bg-primary/10 text-primary shadow-sm ring-1 ring-primary"
+                        : "border-border bg-card/70 text-muted-foreground hover:border-border/80 hover:text-foreground"
+                    }`}
+                  >
+                    <span>Tag #{idx + 1}</span>
+                    <span className="font-mono text-foreground font-semibold">
+                      {t.text ? t.text : <span className="text-muted-foreground italic font-normal">empty</span>}
+                    </span>
+                    <span
+                      className="h-2.5 w-2.5 rounded-full border border-white/20"
+                      style={{ background: COMBOS[t.combo].accent }}
+                      title={COMBOS[t.combo].label}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <p className="mt-2.5 text-xs text-muted-foreground">
+              Drag to rotate. Preview is the real geometry we print from. {tags.length > 1 ? "Use the big arrows to flip through your designs." : ""}
+            </p>
           </div>
 
-          {/* Controls */}
+          {/* Customization controls */}
           <div className="space-y-8">
             <div>
               <h1 className="text-[clamp(2rem,4.5vw,3rem)] font-bold leading-[1.1] tracking-[-0.02em]">Custom key tag</h1>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                Design it, see it in 3D, get a quote. Printed in Kaduwela, Sri Lanka.
+                Design one or multiple tags, see them in real 3D, and get a quote. Printed in Kaduwela, Sri Lanka.
               </p>
             </div>
 
+            {/* Main size button: Add more tags & Multi-tag management */}
+            <section className="space-y-3 rounded-2xl border border-border bg-card/60 p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-mono font-medium uppercase tracking-wider text-primary">
+                    Customizing Tag #{safeIndex + 1} of {tags.length}
+                  </span>
+                  <p className="text-sm font-semibold text-foreground">
+                    {activeTag.text ? `"${activeTag.text}"` : `New Tag #${safeIndex + 1}`}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {tags.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeTag(safeIndex)}
+                      className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-[color:var(--color-danger)] hover:text-[color:var(--color-danger)]"
+                      title="Remove this tag"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                      Remove
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={duplicateTag}
+                    className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+                    title="Duplicate this tag with same settings"
+                  >
+                    <Copy className="h-3.5 w-3.5" />
+                    Duplicate
+                  </button>
+                </div>
+              </div>
+
+              {/* Main size action button to add more tags */}
+              <button
+                type="button"
+                onClick={addTag}
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-primary/60 bg-primary/10 px-4 text-sm font-semibold text-primary transition-all hover:border-primary hover:bg-primary/20 hover:scale-[1.01] active:scale-[0.99]"
+              >
+                <Plus className="h-4 w-4 stroke-[2.5]" />
+                Add Another Key Tag
+              </button>
+            </section>
+
+            {/* Shape section for active tag */}
             <section className="space-y-3">
               <h3 className="text-sm font-semibold">Shape</h3>
               <div className="flex gap-2">
-                <button type="button" onClick={() => pickStyle("ring")} className={seg(style === "ring")}>Ring tag</button>
-                <button type="button" onClick={() => pickStyle("capsule")} className={seg(style === "capsule")}>Capsule tag</button>
+                <button type="button" onClick={() => pickStyle("ring")} className={seg(activeTag.style === "ring")}>
+                  Ring tag
+                </button>
+                <button type="button" onClick={() => pickStyle("capsule")} className={seg(activeTag.style === "capsule")}>
+                  Capsule tag
+                </button>
               </div>
-              {style === "ring" && (
+              {activeTag.style === "ring" && (
                 <div className="flex gap-2 pt-1">
                   {CORNERS.map((c) => (
                     <button
                       key={c}
                       type="button"
-                      onClick={() => setCorner(c)}
-                      className={seg(corner === c) + " flex flex-col items-center gap-1.5 !py-2"}
+                      onClick={() => pickCorner(c)}
+                      className={seg(activeTag.corner === c) + " flex flex-col items-center gap-1.5 !py-2"}
                     >
                       <CornerIcon r={CORNER_ICON[c]} />
                       {CORNER_LABEL[c]}
@@ -174,30 +419,41 @@ export default function KeyTagPage() {
               )}
             </section>
 
+            {/* What goes on it */}
             <section className="space-y-3">
               <h3 className="text-sm font-semibold">What goes on it</h3>
               <div className="flex gap-2">
-                <button type="button" onClick={() => pickContent("name")} className={seg(content === "name")}>Name</button>
-                <button type="button" onClick={() => pickContent("car-number")} className={seg(content === "car-number")}>Car Number</button>
+                <button type="button" onClick={() => pickContent("name")} className={seg(activeTag.content === "name")}>
+                  Name
+                </button>
+                <button type="button" onClick={() => pickContent("car-number")} className={seg(activeTag.content === "car-number")}>
+                  Car Number
+                </button>
               </div>
               <div>
                 <input
                   className={field}
-                  value={text}
+                  value={activeTag.text}
                   maxLength={max}
-                  onChange={(e) => setText(sanitizeText(content, style, e.target.value))}
-                  placeholder={content === "name" ? "Your name" : "CAB-1234"}
+                  onChange={(e) => updateText(e.target.value)}
+                  placeholder={activeTag.content === "name" ? "Your name" : "CAB-1234"}
                   aria-label="Tag text"
                 />
-                <p className="mt-1.5 text-right font-mono text-xs text-muted-foreground">{text.length}/{max}</p>
+                <p className="mt-1.5 text-right font-mono text-xs text-muted-foreground">{activeTag.text.length}/{max}</p>
               </div>
             </section>
 
+            {/* Colors */}
             <section className="space-y-3">
               <h3 className="text-sm font-semibold">Colors</h3>
               <div className="flex gap-2">
                 {(Object.keys(COMBOS) as ComboId[]).map((id) => (
-                  <button key={id} type="button" onClick={() => setCombo(id)} className={seg(combo === id) + " flex items-center justify-center gap-2"}>
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => pickCombo(id)}
+                    className={seg(activeTag.combo === id) + " flex items-center justify-center gap-2"}
+                  >
                     <span className="h-3 w-3 rounded-full border border-white/20" style={{ background: COMBOS[id].body }} />
                     <span className="h-3 w-3 rounded-full" style={{ background: COMBOS[id].accent }} />
                     {COMBOS[id].label}
@@ -207,22 +463,34 @@ export default function KeyTagPage() {
               <p className="text-xs text-muted-foreground">Black body, one accent. Heritage is black and amber, Precision is black and cyan.</p>
             </section>
 
+            {/* Options */}
             <section className="space-y-2 rounded-xl border border-border bg-card p-4">
               <label className="flex cursor-pointer items-start gap-3">
-                <input type="checkbox" checked={branding} onChange={(e) => setBranding(e.target.checked)} className="mt-1 h-4 w-4 accent-[color:var(--color-accent-primary)]" />
+                <input
+                  type="checkbox"
+                  checked={activeTag.branding}
+                  onChange={(e) => toggleBranding(e.target.checked)}
+                  className="mt-1 h-4 w-4 accent-[color:var(--color-accent-primary)]"
+                />
                 <span className="text-sm">
                   Keep the zenkilab.com stamp on the back and save <span className="font-mono">{rs(BRANDING_DISCOUNT)}</span>
                 </span>
               </label>
               <p className="pl-7 text-xs text-muted-foreground">The back is always flat. Without the stamp it is left plain.</p>
               <label className="flex cursor-pointer items-start gap-3 border-t border-border pt-3">
-                <input type="checkbox" checked={nfc} onChange={(e) => setNfc(e.target.checked)} className="mt-1 h-4 w-4 accent-[color:var(--color-accent-primary)]" />
+                <input
+                  type="checkbox"
+                  checked={activeTag.nfc}
+                  onChange={(e) => toggleNfc(e.target.checked)}
+                  className="mt-1 h-4 w-4 accent-[color:var(--color-accent-primary)]"
+                />
                 <span className="text-sm">
                   Add an NFC chip inside the tag for <span className="font-mono">{rs(NFC_PRICE)}</span>
                 </span>
               </label>
             </section>
 
+            {/* Customer Contact details */}
             <section className="space-y-3">
               <h3 className="text-sm font-semibold">Your details</h3>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -231,17 +499,61 @@ export default function KeyTagPage() {
               </div>
             </section>
 
+            {/* Pricing Summary */}
             <section className="space-y-3 border-t border-border pt-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold">
+                  Quote Summary ({tags.length} {tags.length === 1 ? "tag" : "tags"})
+                </h3>
+              </div>
+
+              {tags.length > 1 && (
+                <div className="max-h-40 overflow-y-auto divide-y divide-border/60 rounded-xl border border-border/80 bg-card/40 p-3 text-xs font-mono">
+                  {tags.map((t, i) => {
+                    const itemPrice = priceLines(t);
+                    return (
+                      <div
+                        key={t.id ?? i}
+                        onClick={() => selectTag(i)}
+                        className={`flex cursor-pointer items-center justify-between py-1.5 transition-colors hover:text-primary ${
+                          i === safeIndex ? "text-primary font-bold" : "text-muted-foreground"
+                        }`}
+                      >
+                        <span>
+                          #{i + 1} {t.text ? `"${t.text}"` : "(Untitled)"} ({STYLES[t.style].label.split(" ")[0]})
+                        </span>
+                        <span>{rs(itemPrice.total)}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
               <dl className="space-y-1.5 font-mono text-sm">
-                <div className="flex justify-between"><dt className="text-muted-foreground">{STYLES[style].label}</dt><dd>{rs(p.base)}</dd></div>
-                {p.discount > 0 && (
-                  <div className="flex justify-between"><dt className="text-muted-foreground">Branding discount</dt><dd className="text-primary">-{rs(p.discount)}</dd></div>
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">
+                    Base price {tags.length > 1 ? `(${tags.length} tags)` : `(${STYLES[activeTag.style].label})`}
+                  </dt>
+                  <dd>{rs(summary.base)}</dd>
+                </div>
+                {summary.discount > 0 && (
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Branding discount</dt>
+                    <dd className="text-primary">-{rs(summary.discount)}</dd>
+                  </div>
                 )}
-                {p.nfc > 0 && (
-                  <div className="flex justify-between"><dt className="text-muted-foreground">NFC chip</dt><dd>+{rs(p.nfc)}</dd></div>
+                {summary.nfc > 0 && (
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">NFC chips</dt>
+                    <dd>+{rs(summary.nfc)}</dd>
+                  </div>
                 )}
-                <div className="flex justify-between text-base font-semibold"><dt>Total</dt><dd>{rs(p.total)}</dd></div>
+                <div className="flex justify-between text-base font-semibold border-t border-border pt-2">
+                  <dt>Grand Total</dt>
+                  <dd>{rs(summary.total)}</dd>
+                </div>
               </dl>
+
               {error && <p role="alert" className="text-sm text-[color:var(--color-danger)]">{error}</p>}
               <button
                 type="button"
@@ -249,7 +561,11 @@ export default function KeyTagPage() {
                 disabled={busy}
                 className="h-12 w-full rounded-xl bg-primary text-sm font-semibold text-primary-foreground transition-colors hover:bg-[color:var(--color-accent-primary-light)] disabled:opacity-60"
               >
-                {busy ? "Preparing your print file..." : "Get My Quote"}
+                {busy
+                  ? "Preparing your print files..."
+                  : tags.length > 1
+                    ? `Get My Quote (${tags.length} Tags · ${rs(summary.total)})`
+                    : "Get My Quote"}
               </button>
               <p className="text-center text-xs text-muted-foreground">No payment now. You review the quote first.</p>
             </section>
