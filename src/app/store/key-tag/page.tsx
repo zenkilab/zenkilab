@@ -56,6 +56,7 @@ function CornerIcon({ r }: { r: number }) {
 export default function KeyTagPage() {
   const router = useRouter();
   const captureRef = useRef<Capture | null>(null);
+  const textRef = useRef<HTMLInputElement>(null);
 
   // Multiple key tags state
   const [tags, setTags] = useState<KeyTagConfig[]>([createDefaultKeyTag()]);
@@ -66,6 +67,7 @@ export default function KeyTagPage() {
   const [phone, setPhone] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [textError, setTextError] = useState(false);
 
   // Restore when the customer came back via Edit
   useEffect(() => {
@@ -97,7 +99,13 @@ export default function KeyTagPage() {
   const safeIndex = Math.max(0, Math.min(activeIndex, tags.length - 1));
   const activeTag = tags[safeIndex] ?? tags[0];
   const max = STYLES[activeTag.style].maxChars;
-  const summary = batchPriceSummary(tags);
+  const activeEmpty = !activeTag.text.trim();
+  // Only flag the field while the tag on screen is still empty, not after switching to a filled one.
+  const showTextError = textError && activeEmpty;
+  // Tags left without text are drafts: skipped in the price and the order.
+  const filled = tags.filter((t) => t.text.trim());
+  const summary = batchPriceSummary(filled.length ? filled : [activeTag]);
+  const count = summary.count;
 
   const updateActiveTag = (patch: Partial<KeyTagConfig>) => {
     setTags((prev) =>
@@ -128,6 +136,7 @@ export default function KeyTagPage() {
   };
 
   const updateText = (val: string) => {
+    setTextError(false);
     updateActiveTag({
       text: sanitizeText(activeTag.content, activeTag.style, val),
     });
@@ -156,7 +165,18 @@ export default function KeyTagPage() {
     }
   };
 
+  // Plain focus() leaves the field under the fixed header when it is only just off-screen.
+  const focusText = () => {
+    textRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    textRef.current?.focus({ preventScroll: true });
+  };
+
   const addTag = () => {
+    // Don't stack blank tags: finish the current one first.
+    if (activeEmpty) {
+      setTextError(true);
+      return focusText();
+    }
     const newTag = createDefaultKeyTag();
     // Inherit sensible styling defaults from the active tag
     newTag.style = activeTag.style;
@@ -165,6 +185,8 @@ export default function KeyTagPage() {
     newTag.branding = activeTag.branding;
     setTags((prev) => [...prev, newTag]);
     setActiveIndex(tags.length);
+    // The text field sits above this button; take the customer straight to it.
+    requestAnimationFrame(focusText);
   };
 
   const duplicateTag = () => {
@@ -184,10 +206,12 @@ export default function KeyTagPage() {
 
   async function submit() {
     setError("");
-    const emptyIndex = tags.findIndex((t) => !t.text.trim());
-    if (emptyIndex !== -1) {
-      setActiveIndex(emptyIndex);
-      return setError(`Enter the text for Tag #${emptyIndex + 1} (or remove it).`);
+    setTextError(false);
+    // Rebuilt here rather than reusing `filled`: the React Compiler lint misreads that as render-time work.
+    const cleanTags = tags.filter((t) => t.text.trim()).map((t) => ({ ...t, text: t.text.trim() }));
+    if (!cleanTags.length) {
+      setTextError(true);
+      return focusText();
     }
     if (!name.trim() || phone.replace(/\D/g, "").length < 9) {
       return setError("Add your name and a WhatsApp number so we can reach you.");
@@ -195,10 +219,10 @@ export default function KeyTagPage() {
     setBusy(true);
     try {
       const { buildOrder3MF } = await import("@/components/keytag/export3mf");
-      const cleanTags = tags.map((t) => ({ ...t, text: t.text.trim() }));
       const blob = await buildOrder3MF(cleanTags);
       const now = Date.now();
-      const currentCapture = captureRef.current?.() ?? "";
+      // The scene shows the active tag; a skipped empty one makes no thumbnail.
+      const currentCapture = activeEmpty ? "" : captureRef.current?.() ?? "";
 
       const order: StoredOrder = {
         orderId: `KT-${now.toString(36).toUpperCase()}`,
@@ -344,53 +368,6 @@ export default function KeyTagPage() {
               </p>
             </div>
 
-            {/* Main size button: Add more tags & Multi-tag management */}
-            <section className="space-y-3 rounded-2xl border border-border bg-card/60 p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-xs font-mono font-medium uppercase tracking-wider text-primary">
-                    Customizing Tag #{safeIndex + 1} of {tags.length}
-                  </span>
-                  <p className="text-sm font-semibold text-foreground">
-                    {activeTag.text ? `"${activeTag.text}"` : `New Tag #${safeIndex + 1}`}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {tags.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeTag(safeIndex)}
-                      className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-[color:var(--color-danger)] hover:text-[color:var(--color-danger)]"
-                      title="Remove this tag"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                      Remove
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    onClick={duplicateTag}
-                    className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
-                    title="Duplicate this tag with same settings"
-                  >
-                    <Copy className="h-3.5 w-3.5" />
-                    Duplicate
-                  </button>
-                </div>
-              </div>
-
-              {/* Main size action button to add more tags */}
-              <button
-                type="button"
-                onClick={addTag}
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-primary/60 bg-primary/10 px-4 text-sm font-semibold text-primary transition-all hover:border-primary hover:bg-primary/20 hover:scale-[1.01] active:scale-[0.99]"
-              >
-                <Plus className="h-4 w-4 stroke-[2.5]" />
-                Add Another Key Tag
-              </button>
-            </section>
-
             {/* Shape section for active tag */}
             <section className="space-y-3">
               <h3 className="text-sm font-semibold">Shape</h3>
@@ -421,7 +398,7 @@ export default function KeyTagPage() {
 
             {/* What goes on it */}
             <section className="space-y-3">
-              <h3 className="text-sm font-semibold">What goes on it</h3>
+              <h3 className="text-sm font-semibold">What goes on {tags.length > 1 ? `tag #${safeIndex + 1}` : "it"}</h3>
               <div className="flex gap-2">
                 <button type="button" onClick={() => pickContent("name")} className={seg(activeTag.content === "name")}>
                   Name
@@ -432,14 +409,22 @@ export default function KeyTagPage() {
               </div>
               <div>
                 <input
-                  className={field}
+                  ref={textRef}
+                  className={field + (showTextError ? " !border-[color:var(--color-danger)]" : "")}
                   value={activeTag.text}
                   maxLength={max}
                   onChange={(e) => updateText(e.target.value)}
                   placeholder={activeTag.content === "name" ? "Your name" : "CAB-1234"}
                   aria-label="Tag text"
+                  aria-invalid={showTextError}
+                  aria-describedby={showTextError ? "tag-text-error" : undefined}
                 />
-                <p className="mt-1.5 text-right font-mono text-xs text-muted-foreground">{activeTag.text.length}/{max}</p>
+                <div className="mt-1.5 flex justify-between gap-3 text-xs">
+                  <p id="tag-text-error" role="alert" className="text-[color:var(--color-danger)]">
+                    {showTextError && "Type the text you want printed on this tag."}
+                  </p>
+                  <p className="font-mono text-muted-foreground">{activeTag.text.length}/{max}</p>
+                </div>
               </div>
             </section>
 
@@ -490,6 +475,60 @@ export default function KeyTagPage() {
               </label>
             </section>
 
+            {/* More tags: comes after the tag is designed, so the flow reads design → add another → details */}
+            <section className="space-y-3 rounded-2xl border border-border bg-card/60 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <span className="text-xs font-mono font-medium uppercase tracking-wider text-primary">
+                    {tags.length > 1 ? `Tag #${safeIndex + 1} of ${tags.length}` : "Need more tags?"}
+                  </span>
+                  <p className="text-sm text-muted-foreground">
+                    {tags.length > 1
+                      ? "Use the arrows or the strip under the preview to switch tags."
+                      : "Each tag can have its own text, shape and colors."}
+                  </p>
+                </div>
+
+                <div className="flex shrink-0 items-center gap-2">
+                  {tags.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeTag(safeIndex)}
+                      className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-[color:var(--color-danger)] hover:text-[color:var(--color-danger)]"
+                      title="Remove this tag"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                      Remove
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={duplicateTag}
+                    disabled={activeEmpty}
+                    className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
+                    title="Duplicate this tag with same settings"
+                  >
+                    <Copy className="h-3.5 w-3.5" />
+                    Duplicate
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={addTag}
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-primary/60 bg-primary/10 px-4 text-sm font-semibold text-primary transition-all hover:border-primary hover:bg-primary/20 hover:scale-[1.01] active:scale-[0.99]"
+              >
+                <Plus className="h-4 w-4 stroke-[2.5]" />
+                Add Another Key Tag
+              </button>
+              {tags.length > 1 && (
+                <p className="text-center text-xs text-muted-foreground">
+                  Empty tags are skipped when you get your quote.
+                </p>
+              )}
+            </section>
+
             {/* Customer Contact details */}
             <section className="space-y-3">
               <h3 className="text-sm font-semibold">Your details</h3>
@@ -503,27 +542,28 @@ export default function KeyTagPage() {
             <section className="space-y-3 border-t border-border pt-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold">
-                  Quote Summary ({tags.length} {tags.length === 1 ? "tag" : "tags"})
+                  Quote Summary ({count} {count === 1 ? "tag" : "tags"})
                 </h3>
               </div>
 
               {tags.length > 1 && (
                 <div className="max-h-40 overflow-y-auto divide-y divide-border/60 rounded-xl border border-border/80 bg-card/40 p-3 text-xs font-mono">
                   {tags.map((t, i) => {
-                    const itemPrice = priceLines(t);
+                    const empty = !t.text.trim();
                     return (
-                      <div
+                      <button
                         key={t.id ?? i}
+                        type="button"
                         onClick={() => selectTag(i)}
-                        className={`flex cursor-pointer items-center justify-between py-1.5 transition-colors hover:text-primary ${
+                        className={`flex w-full items-center justify-between py-1.5 text-left transition-colors hover:text-primary ${
                           i === safeIndex ? "text-primary font-bold" : "text-muted-foreground"
                         }`}
                       >
-                        <span>
-                          #{i + 1} {t.text ? `"${t.text}"` : "(Untitled)"} ({STYLES[t.style].label.split(" ")[0]})
+                        <span className={empty ? "italic opacity-70" : ""}>
+                          #{i + 1} {empty ? "empty, skipped" : `"${t.text}"`} ({STYLES[t.style].label.split(" ")[0]})
                         </span>
-                        <span>{rs(itemPrice.total)}</span>
-                      </div>
+                        <span>{empty ? "—" : rs(priceLines(t).total)}</span>
+                      </button>
                     );
                   })}
                 </div>
@@ -532,7 +572,7 @@ export default function KeyTagPage() {
               <dl className="space-y-1.5 font-mono text-sm">
                 <div className="flex justify-between">
                   <dt className="text-muted-foreground">
-                    Base price {tags.length > 1 ? `(${tags.length} tags)` : `(${STYLES[activeTag.style].label})`}
+                    Base price {count > 1 ? `(${count} tags)` : `(${STYLES[(filled[0] ?? activeTag).style].label})`}
                   </dt>
                   <dd>{rs(summary.base)}</dd>
                 </div>
@@ -563,8 +603,8 @@ export default function KeyTagPage() {
               >
                 {busy
                   ? "Preparing your print files..."
-                  : tags.length > 1
-                    ? `Get My Quote (${tags.length} Tags · ${rs(summary.total)})`
+                  : count > 1
+                    ? `Get My Quote (${count} Tags · ${rs(summary.total)})`
                     : "Get My Quote"}
               </button>
               <p className="text-center text-xs text-muted-foreground">No payment now. You review the quote first.</p>
