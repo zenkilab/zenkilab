@@ -5,7 +5,9 @@ import type { StoredOrder } from "./keytag";
  * spec and prices from the order data, so only the raw order, the render and the 3MF go up.
  */
 export async function sendOrder(order: StoredOrder, stage: "quote" | "confirm", model?: Blob) {
-  const { thumbnail, ...data } = order;
+  // Images go up as the preview file. Left in the JSON they push it past the server's 10 kB limit ("Invalid order").
+  const { thumbnail } = order;
+  const data = { ...order, thumbnail: undefined, thumbnails: undefined };
   const form = new FormData();
   form.append("stage", stage);
   form.append("order", JSON.stringify(data));
