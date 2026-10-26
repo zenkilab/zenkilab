@@ -82,15 +82,24 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 - **Material: PETG only.** Not offered as a customer choice (removes decision friction; PETG wins outright on heat resistance, durability, and cost is equal or cheaper than PLA).
 - **Two-tone color system:** black/charcoal body + one accent color, not solid bright colors. Two named combos: "Heritage" (black + amber) and "Precision" (black + cyan).
 - **Content types:** Name or Car Number, selected via toggle — selecting Car Number nudges the style recommendation toward plate-shaped designs.
-- **Character limit, enforced live in the customizer:** 14 characters, lettering auto-fits the space beside the keyring rings.
+- **Character limit, enforced live in the customizer:** 12 on the ring tag, 10 on the capsule (the hole sits in the text row). Switching to a shorter shape trims the text, so each shape button shows its limit ("up to 12 letters"). Lettering auto-fits the space beside the keyring hole. Source of truth: `STYLES` in `src/lib/keytag.ts`.
 - **Front:** only what the customer types. **Back:** the zenkilab.com marketing stamp, or blank without it. The stamp is opt-out by default (pre-checked), Rs. 50 discount for keeping it on. Framed positively ("save Rs. 50"), not as a penalty for removing it.
-- **Shape (v1): one capsule**, 64 x 25 mm, 2.6 mm thick, keyring hole at the left with a single ring around it (the logomark's ring motif). It replaces the earlier Data Plate and License Plate styles: one shape holds a name or a car number, there is no style picker, and one price. Heritage Badge and Coin Medallion stay phase two.
+- **Shapes (v1): two, both 50 x 25 mm and 2.6 mm thick, same price.** *Ring tag* (default): a rounded plate with the keyring hole in a ring on its top-left corner, with three corner presets shown as a picture and a word (Sharp, Soft, Round, never a millimetre number). *Capsule tag*: keyring hole at the left end with a single ring around it (the logomark's ring motif). One shape holds a name or a car number. Heritage Badge and Coin Medallion stay phase two.
 - **Emboss and deboss (front only):** the rim (1.4 mm wide), the ring and the lettering stand 1.0 mm proud of the recessed floor, which is 1.6 mm thick. Lettering is Montserrat Bold, at least 0.8 mm stroke and about 5 mm tall or more so it prints cleanly.
 - **Back is completely flat.** No rim, no ring, no relief. If the marketing line is kept, `ZenkiLab.com` is a flush 0.4 mm color inlay in the accent color, otherwise the back is plain. The flat back prints face down on the bed.
 - **Colors in print:** black floor, accent (amber or cyan) rim, ring and lettering. Two objects in the 3MF, one per color.
-- **Pricing:** Rs. 300 without the marketing line and without NFC, Rs. 250 with the `ZenkiLab.com` line, NFC chip adds Rs. 200 either way.
+- **Pricing:** per tag. Rs. 300 without the marketing line and without NFC, Rs. 250 with the `ZenkiLab.com` line, NFC chip adds Rs. 200 either way. A multi-tag order is the sum of its non-empty tags.
 - **NFC (optional):** a 20 x 10 mm wet inlay sealed in a 20.6 x 10.6 x 0.5 mm pocket inside the floor (centred 0.9 mm from the back). The operator pauses the print at Z = 1.15 mm, places the inlay, and resumes. The emailed spec says when to pause.
 - Keyring holes across all styles: concentric double-ring detail, echoing the logomark's ring motif.
+
+### Customizer flow (`src/app/store/key-tag/page.tsx`)
+
+Section order is deliberate: **What goes on it, Shape, Colors, Options, Add another tag, Your details, Quote summary.** The text comes first because it is the only required input and the only thing that cannot be defaulted; typing it makes the 3D preview personal straight away, and everything after is a tweak.
+
+- **Greyed sample in the preview.** While a tag has no text, the 3D preview shows a dimmed "Your name" (or "CAB-1234" for Car Number) and the badge reads "sample, type yours". It is preview-only (`sample` prop on `KeyTagScene`, built with `buildLettering`) and never reaches the 3MF, the quote picture or the order. A generic grey placeholder is used on purpose: a believable real name would look like a finished design.
+- **Multiple tags.** "Add Another Key Tag" sits after the options and focuses the new tag's text field (scrolled to centre, clear of the fixed header). Tags can be duplicated or removed, and switched with the preview arrows, the dots or the strip under the preview.
+- **Empty tags are drafts, not errors.** They are left out of the price, the order, the 3MF and the quote count, and show as "empty, skipped" in the summary. Clicking Add on a blank tag does not stack another blank one, it points at the field. The only blocking text error is when *every* tag is empty: an inline hint under the field (`aria-invalid` + `aria-describedby`), with focus moved to it.
+- **Quote preview picture.** One JPEG, a capture of the on-screen tag. If the on-screen tag is blank, the page switches to the first filled tag before capturing so the email is never picture-less. The server accepts a single preview, so a multi-tag email shows only that tag.
 
 ---
 
@@ -98,7 +107,9 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 
 - Live key tag preview: React + react-three-fiber for real parametric 3D geometry (extruded shape + extruded text + keyring hole).
 - Print-ready file export: `three-3mf-exporter` (npm) — generates Bambu-Studio-compatible 3MF client-side, supports multi-material export (one mesh per color, not one mesh with two colors painted on).
-- Order backend: integrated into Zenki Hub (not a standalone endpoint) — new isolated API route, so it doesn't entangle with existing ERPNext quotation logic but keeps order data unified long-term.
+- Order backend: integrated into Zenki Hub (not a standalone endpoint) — new isolated API route (`functions/api/hub/keytag-order.ts`, a Cloudflare Pages Function), so it doesn't entangle with existing ERPNext quotation logic but keeps order data unified long-term.
+- **Order upload contract.** `sendOrder` (`src/lib/keytag-submit.ts`) posts multipart: `stage`, `order` (JSON), `preview` (JPEG) and, on the quote stage, `model` (.3mf). The server rejects the order as **"Invalid order"** if the JSON is over 10,000 characters or `parseOrder` fails (bad `orderId`, no tag with text, bad dates). Never put images in the order JSON: the base64 preview in `thumbnail`/`thumbnails` once pushed it past the limit and every quote with a picture failed. `sendOrder` strips both fields, the picture travels only as the `preview` file.
+- Cloudflare Pages builds a preview for every pushed branch. Branch alias subdomains are cut to 28 characters (`fix-key-tag-preview-when-bla`), so read the URL from the build's check-run output rather than guessing it.
 - Human QA step before printing is intentional, not a workaround — operator opens the 3MF in Bambu Studio, assigns AMS slots per the emailed color spec, confirms text/geometry, then prints. Keep this step even if automation improves later.
 - Mobile performance work already done on the 3D hero scene: `dpr` capped to 1 on mobile, Bloom postprocessing disabled on mobile. Apply equivalent discipline to any new heavy visual work.
 
@@ -106,7 +117,9 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 
 ## 7. Open / Unresolved
 
-- Key tag v1 is decided: one capsule shape (see section 5). Heritage Badge and Coin Medallion are phase two.
+- Key tag v1 is decided: ring and capsule shapes (see section 5). Heritage Badge and Coin Medallion are phase two.
+- Quote email preview shows one tag. Showing every tag in a multi-tag order needs a server change (it takes a single preview image).
+- Known lint error: `react-hooks/set-state-in-effect` on the sessionStorage restore effect in the key tag page (present before the multi-tag work, does not affect the build).
 - Quotation page Confirm button is decided: locks the order into the queue, does not collect payment.
 - Real AMS filament color lineup (placeholder colors used in mockups, swap for actual loaded colors before shipping).
 - Whether headline/body typography changes beyond the current three-tier system (Space Grotesk headings, Inter body, IBM Plex Mono numbers). That system is locked, but nothing further has been proposed.
