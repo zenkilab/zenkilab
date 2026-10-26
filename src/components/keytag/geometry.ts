@@ -254,6 +254,12 @@ export function buildKeyTag(c: KeyTagConfig) {
   return { body, accent: merged };
 }
 
+/** Front lettering on its own, so the preview can show a dimmed sample on a tag with no text yet. */
+export function buildLettering(c: Pick<KeyTagConfig, "style" | "corner" | "text">) {
+  const { zone } = c.style === "capsule" ? CAPSULE_DESIGN : RING_DESIGNS[c.corner];
+  return frontText(c.text, zone.cx, zone.cy, zone.w, zone.h);
+}
+
 /** One mesh per color so AMS slots map one to one. Used by the 3MF export. The back is flat, so it prints face down on the bed. */
 export function buildPrintGroup(c: KeyTagConfig) {
   const { body, accent } = buildKeyTag(c);

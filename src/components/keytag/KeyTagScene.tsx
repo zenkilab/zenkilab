@@ -4,16 +4,19 @@ import { useEffect, useMemo, useRef, useState, type MutableRefObject } from "rea
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { buildKeyTag } from "./geometry";
+import { buildKeyTag, buildLettering } from "./geometry";
 import { COMBOS, type KeyTagConfig } from "@/lib/keytag";
 
 export type Capture = () => string;
 
-function Tag({ config, flipped }: { config: KeyTagConfig; flipped: boolean }) {
+function Tag({ config, flipped, sample }: { config: KeyTagConfig; flipped: boolean; sample?: string }) {
   const group = useRef<THREE.Group>(null);
   const { style, corner, text, branding, nfc, combo } = config;
   const geo = useMemo(() => buildKeyTag(config), [style, corner, text, branding, nfc]);
   useEffect(() => () => { geo.body.dispose(); geo.accent.dispose(); }, [geo]);
+  // Greyed-out placeholder lettering while the tag has no text, never part of the print.
+  const ghost = useMemo(() => (sample ? buildLettering({ style, corner, text: sample }) : null), [sample, style, corner]);
+  useEffect(() => () => ghost?.dispose(), [ghost]);
 
   useFrame((_, dt) => {
     const g = group.current;
@@ -31,6 +34,11 @@ function Tag({ config, flipped }: { config: KeyTagConfig; flipped: boolean }) {
       <mesh geometry={geo.accent}>
         <meshStandardMaterial color={c.accent} roughness={0.4} metalness={0.15} />
       </mesh>
+      {ghost && (
+        <mesh geometry={ghost}>
+          <meshStandardMaterial color="#9AA0A8" roughness={0.6} transparent opacity={0.35} />
+        </mesh>
+      )}
     </group>
   );
 }
@@ -56,10 +64,12 @@ export default function KeyTagScene({
   config,
   flipped,
   captureRef,
+  sample,
 }: {
   config: KeyTagConfig;
   flipped: boolean;
   captureRef: MutableRefObject<Capture | null>;
+  sample?: string;
 }) {
   // Same discipline as the hero scene: dpr 1 on mobile, no postprocessing.
   const [dpr, setDpr] = useState(1);
@@ -72,7 +82,7 @@ export default function KeyTagScene({
       <directionalLight position={[-40, -20, 30]} intensity={0.7} />
       {/* rim light so the black body reads against the empty background */}
       <directionalLight position={[60, 30, -25]} intensity={2.4} />
-      <Tag config={config} flipped={flipped} />
+      <Tag config={config} flipped={flipped} sample={sample} />
       <OrbitControls enablePan={false} minDistance={55} maxDistance={150} />
       <Grab apiRef={captureRef} />
     </Canvas>
