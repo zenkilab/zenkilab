@@ -100,6 +100,7 @@ export default function KeyTagPage() {
   const activeTag = tags[safeIndex] ?? tags[0];
   const max = STYLES[activeTag.style].maxChars;
   const activeEmpty = !activeTag.text.trim();
+  const sample = activeTag.content === "name" ? "Your name" : "CAB-1234";
   // Only flag the field while the tag on screen is still empty, not after switching to a filled one.
   const showTextError = textError && activeEmpty;
   // Tags left without text are drafts: skipped in the price and the order.
@@ -259,12 +260,12 @@ export default function KeyTagPage() {
                 {activeTag.text ? (
                   <span className="font-mono text-primary truncate">&quot;{activeTag.text}&quot;</span>
                 ) : (
-                  <span className="text-muted-foreground italic">(enter text below)</span>
+                  <span className="text-muted-foreground italic">sample, type yours</span>
                 )}
               </div>
 
               {/* 3D Scene for the currently active key tag */}
-              <KeyTagScene config={activeTag} flipped={flipped} captureRef={captureRef} />
+              <KeyTagScene config={activeTag} flipped={flipped} captureRef={captureRef} sample={activeEmpty ? sample : undefined} />
 
               {/* VERY BIG ARROWS: Left and Right carousel navigation */}
               {tags.length > 1 && (
@@ -368,34 +369,6 @@ export default function KeyTagPage() {
               </p>
             </div>
 
-            {/* Shape section for active tag */}
-            <section className="space-y-3">
-              <h3 className="text-sm font-semibold">Shape</h3>
-              <div className="flex gap-2">
-                <button type="button" onClick={() => pickStyle("ring")} className={seg(activeTag.style === "ring")}>
-                  Ring tag
-                </button>
-                <button type="button" onClick={() => pickStyle("capsule")} className={seg(activeTag.style === "capsule")}>
-                  Capsule tag
-                </button>
-              </div>
-              {activeTag.style === "ring" && (
-                <div className="flex gap-2 pt-1">
-                  {CORNERS.map((c) => (
-                    <button
-                      key={c}
-                      type="button"
-                      onClick={() => pickCorner(c)}
-                      className={seg(activeTag.corner === c) + " flex flex-col items-center gap-1.5 !py-2"}
-                    >
-                      <CornerIcon r={CORNER_ICON[c]} />
-                      {CORNER_LABEL[c]}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </section>
-
             {/* What goes on it */}
             <section className="space-y-3">
               <h3 className="text-sm font-semibold">What goes on {tags.length > 1 ? `tag #${safeIndex + 1}` : "it"}</h3>
@@ -414,7 +387,7 @@ export default function KeyTagPage() {
                   value={activeTag.text}
                   maxLength={max}
                   onChange={(e) => updateText(e.target.value)}
-                  placeholder={activeTag.content === "name" ? "Your name" : "CAB-1234"}
+                  placeholder={sample}
                   aria-label="Tag text"
                   aria-invalid={showTextError}
                   aria-describedby={showTextError ? "tag-text-error" : undefined}
@@ -426,6 +399,36 @@ export default function KeyTagPage() {
                   <p className="font-mono text-muted-foreground">{activeTag.text.length}/{max}</p>
                 </div>
               </div>
+            </section>
+
+            {/* Shape section for active tag */}
+            <section className="space-y-3">
+              <h3 className="text-sm font-semibold">Shape</h3>
+              <div className="flex gap-2">
+                <button type="button" onClick={() => pickStyle("ring")} className={seg(activeTag.style === "ring")}>
+                  Ring tag
+                  <span className="block text-xs font-normal opacity-70">up to {STYLES.ring.maxChars} letters</span>
+                </button>
+                <button type="button" onClick={() => pickStyle("capsule")} className={seg(activeTag.style === "capsule")}>
+                  Capsule tag
+                  <span className="block text-xs font-normal opacity-70">up to {STYLES.capsule.maxChars} letters</span>
+                </button>
+              </div>
+              {activeTag.style === "ring" && (
+                <div className="flex gap-2 pt-1">
+                  {CORNERS.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => pickCorner(c)}
+                      className={seg(activeTag.corner === c) + " flex flex-col items-center gap-1.5 !py-2"}
+                    >
+                      <CornerIcon r={CORNER_ICON[c]} />
+                      {CORNER_LABEL[c]}
+                    </button>
+                  ))}
+                </div>
+              )}
             </section>
 
             {/* Colors */}
