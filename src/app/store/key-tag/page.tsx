@@ -222,8 +222,12 @@ export default function KeyTagPage() {
       const { buildOrder3MF } = await import("@/components/keytag/export3mf");
       const blob = await buildOrder3MF(cleanTags);
       const now = Date.now();
-      // The scene shows the active tag; a skipped empty one makes no thumbnail.
-      const currentCapture = activeEmpty ? "" : captureRef.current?.() ?? "";
+      // The scene shows the active tag. If that one is blank (skipped), show the first real tag so the preview isn't empty.
+      if (activeEmpty) {
+        setActiveIndex(tags.findIndex((t) => t.text.trim()));
+        await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      }
+      const currentCapture = captureRef.current?.() ?? "";
 
       const order: StoredOrder = {
         orderId: `KT-${now.toString(36).toUpperCase()}`,
