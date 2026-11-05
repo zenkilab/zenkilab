@@ -582,3 +582,22 @@ html {
 
 
 
+
+/* ── Hairline gearbox hero (palette and stroke model after @lucasmarkes/hairline, MIT) ──
+   Plates are opaque, filled with the charcoal surface, and painted back to front. */
+.hl-fig {
+  --hl-plate: var(--color-bg-surface);
+  --hl-edge: #7d8693;
+  --hl-mid: #4a525d;
+  --hl-lo: #2e353e;
+  --hl-amb: var(--color-accent-primary);
+  touch-action: pan-y;
+}
+.hl-fig path { fill: var(--hl-plate); stroke: var(--hl-mid); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+.hl-fig .nf { fill: none; }
+.hl-fig .fo { stroke: none; }
+.hl-fig .sil { stroke: var(--hl-edge); }
+.hl-fig .lo { stroke: var(--hl-lo); }
+.hl-fig .dash { stroke-dasharray: 2 4; }
+.hl-fig .amb { stroke: var(--hl-amb); stroke-width: 1.4; }
+.hl-fig .ambdot { stroke: none; fill: var(--hl-amb); }
