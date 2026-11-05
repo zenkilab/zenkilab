@@ -8,12 +8,12 @@ import dynamic from "next/dynamic";
 
 // Each hero is its own chunk, so only the one on screen is downloaded (the other's engine never loads).
 const Hero = dynamic(() => import("@/components/hero3d/Hero").then((m) => m.Hero));
-const GearboxHero = dynamic(() => import("@/components/hero-hairline/GearboxHero").then((m) => m.GearboxHero));
+const HairlineHero = dynamic(() => import("@/components/hero-hairline/HairlineHero").then((m) => m.HairlineHero));
 
 /**
  * Which hero animation the homepage shows. "three" is the React Three Fiber scene (its 3D code is a
- * lazy chunk, fetched only when that hero renders); "hairline" is the SVG gearbox. Flip this one value
- * to switch; /preview/hero-hairline always shows the gearbox.
+ * lazy chunk, fetched only when that hero renders); "hairline" is the SVG print queue. Flip this one value
+ * to switch; /preview/hero-hairline always shows the Hairline hero.
  */
 export type HeroVariant = "three" | "hairline";
 export const DEFAULT_HERO: HeroVariant = "three";
@@ -69,7 +69,7 @@ export function HeroSection({ variant = DEFAULT_HERO }: { variant?: HeroVariant 
       className="relative min-h-[100dvh] flex items-center pt-24 pb-16 lg:pt-28 overflow-hidden bg-background"
     >
       {variant === "hairline" ? (
-        <GearboxHero onStart={() => setShowJourneys(true)} />
+        <HairlineHero onStart={() => setShowJourneys(true)} />
       ) : (
         <Hero onStart={() => setShowJourneys(true)} />
       )}

@@ -601,3 +601,13 @@ html {
 .hl-fig .dash { stroke-dasharray: 2 4; }
 .hl-fig .amb { stroke: var(--hl-amb); stroke-width: 1.4; }
 .hl-fig .ambdot { stroke: none; fill: var(--hl-amb); }
+.hl-cap { margin-top: 0.5rem; text-align: center; font-family: var(--font-mono); font-size: clamp(9px, 2.5vw, 11px); letter-spacing: clamp(0.04em, 0.6vw, 0.12em); color: var(--color-text-tertiary); line-height: 1.4; min-height: 2.8em; text-wrap: balance; }
+
+/* "How it works" scroll story: pinned by default; stacked stills under reduced motion (and without JS, via <noscript>) */
+.ps-pin { height: 320vh; }
+@media (min-width: 1024px) { .ps-pin { height: 400vh; } }
+.ps-stack { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ps-pin { display: none; }
+  .ps-stack { display: block; }
+}
