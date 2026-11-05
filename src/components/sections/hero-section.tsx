@@ -3,20 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, FileText, Camera, Lightbulb, Sparkles, ArrowRight } from "lucide-react";
-import { projectJourneys } from "@/lib/constants";
+import { DEFAULT_HERO, projectJourneys, type HeroVariant } from "@/lib/constants";
 import dynamic from "next/dynamic";
 
 // Each hero is its own chunk, so only the one on screen is downloaded (the other's engine never loads).
 const Hero = dynamic(() => import("@/components/hero3d/Hero").then((m) => m.Hero));
-const HairlineHero = dynamic(() => import("@/components/hero-hairline/HairlineHero").then((m) => m.HairlineHero));
-
-/**
- * Which hero animation the homepage shows. "three" is the React Three Fiber scene (its 3D code is a
- * lazy chunk, fetched only when that hero renders); "hairline" is the SVG print queue. Flip this one value
- * to switch; /preview/hero-hairline always shows the Hairline hero.
- */
-export type HeroVariant = "three" | "hairline";
-export const DEFAULT_HERO: HeroVariant = "three";
+const HairlineJourney = dynamic(() => import("@/components/hero-hairline/HairlineJourney").then((m) => m.HairlineJourney));
 
 /**
  * HeroSection
@@ -66,10 +58,14 @@ export function HeroSection({ variant = DEFAULT_HERO }: { variant?: HeroVariant 
   return (
     <section
       id="home"
-      className="relative min-h-[100dvh] flex items-center pt-24 pb-16 lg:pt-28 overflow-hidden bg-background"
+      className={
+        variant === "hairline"
+          ? "relative bg-background overflow-x-clip" // tall, with a sticky drawing: overflow-hidden would break sticky
+          : "relative min-h-[100dvh] flex items-center pt-24 pb-16 lg:pt-28 overflow-hidden bg-background"
+      }
     >
       {variant === "hairline" ? (
-        <HairlineHero onStart={() => setShowJourneys(true)} />
+        <HairlineJourney onStart={() => setShowJourneys(true)} />
       ) : (
         <Hero onStart={() => setShowJourneys(true)} />
       )}

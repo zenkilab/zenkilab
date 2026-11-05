@@ -10,7 +10,6 @@ import {
   bed, block, faded, frameTo, ghost, inout, placed, printing, slice, span, stlWire,
   type Block, type Item, type Pen, type View,
 } from "./parts";
-import type { Scene } from "./render";
 
 const QUEUE: Job[] = [JOBS.gearbox, JOBS.keytag, JOBS.bracket, JOBS.chibi];
 const PRINT = 2.3, GEAR_EXTRA = 2.2, LEAVE = 0.9;
@@ -49,12 +48,12 @@ function finished(pen: Pen, s: Seg, t: number) {
   s.job.blocks.forEach((b) => block(pen, b, H, s.job.pitch, true, s.job.gears ? () => gears(pen, 0, turn(t, fitted), 1) : undefined));
 }
 
-export function frame(t: number, view: View = { az: 0, k: 0, lift: 0 }): Item[] {
+export function frame(t: number, view: View = { az: 0, k: 0, lift: 0, dx: 0 }): Item[] {
   t = ((t % CYCLE) + CYCLE) % CYCLE;
   const out: Item[] = [];
   const C = Cam(45 + 6 * Math.sin((2 * Math.PI * t) / CYCLE) + view.az, 0.5 + view.k, S);
   frameTo(C, FRAME, S, 352, 200, 168);
-  C.oy += view.lift;
+  C.oy += view.lift; C.ox += view.dx;
   const pen: Pen = { P: proj(C), front: facing(C), o: 1, out };
 
   bed(pen);
@@ -112,4 +111,3 @@ export function caption(t: number): string {
   return `${head} · TO TRAY`;
 }
 
-export const HERO_SCENE: Scene = { frame, caption, still: STATIC_T, freeze: "hero-t" };

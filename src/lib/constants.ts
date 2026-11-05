@@ -26,6 +26,16 @@ export type ProjectJourney = {
   color: string;
 };
 
+/**
+ * Which hero the homepage shows. "three" is the React Three Fiber scene (src/components/hero3d), followed by
+ * HowItWorksSection; "hairline" is the SVG print queue (src/components/hero-hairline), which runs on into
+ * "From idea to finished part" as one scene, so the homepage drops HowItWorksSection. Flip this one value to
+ * switch; /preview/hero-hairline always shows "hairline". Lives here, not in the client hero section, so the
+ * server-rendered page can read it.
+ */
+export type HeroVariant = "three" | "hairline";
+export const DEFAULT_HERO: HeroVariant = "three";
+
 export const projectJourneys: ProjectJourney[] = [
   {
     title: "I have an STL file ready",

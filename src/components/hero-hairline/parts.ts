@@ -9,7 +9,8 @@ import {
 } from "./hairline";
 
 export type Item = { d: string; c: string; o: number };
-export type View = { az: number; k: number; lift: number };
+/** The camera's nudges: azimuth (deg) and elevation from the pointer, and a screen offset (viewBox units). */
+export type View = { az: number; k: number; lift: number; dx: number };
 
 /** Where paths go: a projector, the facing test, and an opacity that multiplies everything drawn. */
 export type Pen = { P: Projector; front: (q: Sample) => boolean; o: number; out: Item[] };

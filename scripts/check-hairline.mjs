@@ -6,7 +6,7 @@ register("data:text/javascript," + encodeURIComponent(
 ));
 const dir = "../src/components/hero-hairline/";
 const jobs = await import(dir + "jobs.ts"), parts = await import(dir + "parts.ts");
-const hero = await import(dir + "hero.ts"), story = await import(dir + "story.ts");
+const hero = await import(dir + "hero.ts"), story = await import(dir + "story.ts"), journey = await import(dir + "journey.ts");
 const fail = (m) => { throw new Error(m); };
 
 // 1. the gears mesh without touching, over three pitches of the small gear
@@ -36,15 +36,17 @@ for (const job of Object.values(jobs.JOBS)) {
 }
 
 // 3. every frame draws, with no NaN, and the queue shows a store product
-const view = { az: 0, k: 0, lift: 0 }, ok = (items, at) => {
+const view = { az: 0, k: 0, lift: 0, dx: 0 }, ok = (items, at) => {
   if (!items.length) fail(`empty frame at ${at}`);
   if (items.some((it) => it.d.includes("NaN"))) fail(`NaN in frame at ${at}`);
 };
 // at rest and at the corners of the pointer's tilt (±5°, ±0.035) plus the hero's drift
-const views = [view, ...[-1, 1].flatMap((a) => [-1, 1].map((k) => ({ az: a * 5, k: k * 0.035, lift: 0 }))), { az: 0, k: 0.05, lift: -28 }];
+const views = [view, ...[-1, 1].flatMap((a) => [-1, 1].map((k) => ({ az: a * 5, k: k * 0.035, lift: 0, dx: 0 })))];
 for (const v of views) {
   for (let t = 0; t < hero.CYCLE; t += 0.05) { ok(hero.frame(t, v), `hero ${t.toFixed(2)} ${JSON.stringify(v)}`); hero.caption(t); }
-  for (let p = 0; p <= 1.0001; p += 0.005) { ok(story.frame(p, v), `story ${p.toFixed(3)} ${JSON.stringify(v)}`); story.caption(p); }
+  for (let p = story.P_MIN + 0.01; p <= 1.0001; p += 0.005) { ok(story.frame(p, v), `story ${p.toFixed(3)} ${JSON.stringify(v)}`); story.caption(p); }
+  // the hand-off: hero leaving while the request arrives, at several points in the hero's loop
+  for (let x = 0; x <= 1.0001; x += 0.02) for (const t of [0, 5.6, 13, 21.8]) { ok(journey.frame(t, v, { x, p: 0 }), `hand-off x ${x.toFixed(2)} t ${t}`); journey.caption(t, { x, p: 0 }); }
 }
 let store = false;
 for (let t = 0; t < hero.CYCLE; t += 0.5) store ||= hero.caption(t).includes("ZENKI STORE");

@@ -1,46 +1,37 @@
 /**
- * The client side of a Hairline scene: one svg, its paths reused frame to
- * frame, a damped pointer viewpoint, and a clock that sleeps when unseen.
+ * The client side of the journey: one svg, its paths reused frame to frame,
+ * a damped pointer viewpoint, and a clock that sleeps when unseen.
  *
- * - loop:  time runs on its own (the hero). `leaving()` (0 → 1 as the hero
- *          scrolls away) lifts the drawing a little and speeds it up a touch;
- *          it never scrubs or resets the loop.
- * - scrub: time is wherever `target()` says (scroll progress), followed by a
- *          spring so fast scrolling still reads as motion.
+ * Two inputs drive it: a clock (the hero's print queue loops on its own) and
+ * `scroll()`, which says how far the hand-off and the story have come. Scroll
+ * values are followed by springs, so a fast flick still reads as motion.
+ *
+ * Review aids: ?hero-t=6.2 holds the clock (hero in view); ?story-p=0.4 holds
+ * the story at 0.4 (hand-off done), with no spring.
  */
 import { clamp, spring, stepS } from "./hairline";
+import { CYCLE, STILL_T, caption, frame, type Scroll } from "./journey";
 import type { Item, View } from "./parts";
-
-export type Scene = {
-  frame: (t: number, view: View) => Item[];
-  caption?: (t: number) => string;
-  /** The time drawn under reduced motion, and where the clock starts (matching the server's picture). */
-  still: number;
-  /** URL parameter that holds the clock still for review, e.g. ?hero-t=6.2 */
-  freeze: string;
-};
-
-export type Drive =
-  | { mode: "loop"; cycle: number; leaving?: () => number }
-  | { mode: "scrub"; target: () => number };
 
 const NS = "http://www.w3.org/2000/svg";
 
-export function mount(svg: SVGSVGElement, scene: Scene, drive: Drive, pointerArea: HTMLElement, captionEl?: HTMLElement | null): () => void {
+export function mount(svg: SVGSVGElement, scroll: () => Scroll, pointerArea: HTMLElement, captionEl?: HTMLElement | null): () => void {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const az = spring(0, { k: 40, c: 12, eps: 0.002 }), kk = spring(0, { k: 40, c: 12, eps: 0.0002 });
-  const tt = spring(drive.mode === "scrub" ? drive.target() : 0, { k: 160, c: 25, eps: 0.0004 });
+  const start = scroll();
+  const sx = spring(start.x, { k: 160, c: 25, eps: 0.0004 }), sp = spring(start.p, { k: 160, c: 25, eps: 0.0004 });
   const pool = Array.from(svg.querySelectorAll("path"));
   const last: string[] = [];
-  const q = new URLSearchParams(location.search).get(scene.freeze);
-  const freeze = q === null ? null : Number(q) || 0;
-  let t = scene.still, raf = 0, prev = 0, seen = true, drawnKey = "", lastCaption = "";
+  const qs = new URLSearchParams(location.search), qt = qs.get("hero-t"), qp = qs.get("story-p");
+  const holdT = qt === null ? null : Number(qt) || 0, holdP = qp === null ? null : Number(qp) || 0;
+  let t = holdT ?? STILL_T, raf = 0, prev = 0, seen = true, drawnKey = "", lastCaption = "";
 
-  const draw = (time: number, view: View) => {
-    const key = `${time.toFixed(4)}|${view.az.toFixed(3)}|${view.k.toFixed(4)}|${view.lift.toFixed(2)}`;
+  const draw = (time: number, view: View, sc: Scroll) => {
+    // the hero's clock only matters while any of the hero is showing
+    const key = `${sc.x < 1 ? time.toFixed(4) : "-"}|${sc.x.toFixed(4)}|${sc.p.toFixed(4)}|${view.az.toFixed(3)}|${view.k.toFixed(4)}`;
     if (key === drawnKey) return;
     drawnKey = key;
-    const items = scene.frame(time, view);
+    const items: Item[] = frame(time, view, sc);
     for (let i = 0; i < Math.max(items.length, pool.length); i++) {
       let el = pool[i];
       if (!el) { el = document.createElementNS(NS, "path"); svg.appendChild(el); pool.push(el); }
@@ -51,7 +42,7 @@ export function mount(svg: SVGSVGElement, scene: Scene, drive: Drive, pointerAre
       el.setAttribute("class", it ? it.c : "");
       el.setAttribute("opacity", it ? String(it.o) : "0");
     }
-    const cap = scene.caption?.(time) ?? "";
+    const cap = caption(time, sc);
     if (captionEl && cap !== lastCaption) { captionEl.textContent = cap; lastCaption = cap; }
   };
 
@@ -59,18 +50,12 @@ export function mount(svg: SVGSVGElement, scene: Scene, drive: Drive, pointerAre
     const dt = Math.min(0.05, (now - prev) / 1000);
     prev = now;
     stepS(az, dt); stepS(kk, dt);
-    let lift = 0;
-    if (drive.mode === "loop") {
-      const away = drive.leaving ? clamp(drive.leaving(), 0, 1) : 0;
-      lift = -28 * away;
-      t = freeze ?? (t + dt * (1 + 0.6 * away)) % drive.cycle;
-    } else {
-      tt.t = freeze ?? drive.target();
-      if (freeze !== null) tt.x = tt.t; // review: land exactly, no spring
-      stepS(tt, dt);
-      t = tt.x;
-    }
-    draw(t, { az: az.x, k: kk.x + (drive.mode === "loop" ? 0.05 * (-lift / 28) : 0), lift });
+    const s = holdP !== null ? { x: 1, p: holdP } : holdT !== null ? { x: 0, p: 0 } : scroll();
+    sx.t = clamp(s.x, 0, 1); sp.t = clamp(s.p, 0, 1);
+    if (holdP !== null || holdT !== null) { sx.x = sx.t; sp.x = sp.t; }
+    stepS(sx, dt); stepS(sp, dt);
+    t = holdT ?? (t + dt) % CYCLE;
+    draw(t, { az: az.x, k: kk.x, lift: 0, dx: 0 }, { x: sx.x, p: sp.x });
     raf = requestAnimationFrame(tick);
   };
 
@@ -78,7 +63,7 @@ export function mount(svg: SVGSVGElement, scene: Scene, drive: Drive, pointerAre
     const go = seen && !document.hidden && !reduce.matches;
     if (go && !raf) { prev = performance.now(); raf = requestAnimationFrame(tick); }
     if (!go && raf) { cancelAnimationFrame(raf); raf = 0; }
-    if (reduce.matches) draw(scene.still, { az: 0, k: 0, lift: 0 });
+    if (reduce.matches) draw(STILL_T, { az: 0, k: 0, lift: 0, dx: 0 }, { x: 0, p: 0 });
   };
 
   // mouse and pen only: a finger scrolling the page should not tilt the drawing
@@ -86,7 +71,7 @@ export function mount(svg: SVGSVGElement, scene: Scene, drive: Drive, pointerAre
     if (e.pointerType === "touch") return;
     const r = pointerArea.getBoundingClientRect();
     az.t = clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1) * 5;
-    kk.t = -clamp(((e.clientY - r.top) / r.height) * 2 - 1, -1, 1) * 0.035;
+    kk.t = -clamp((e.clientY / innerHeight) * 2 - 1, -1, 1) * 0.035;
   };
   const leave = () => { az.t = 0; kk.t = 0; };
 

@@ -101,15 +101,27 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 - Order backend: integrated into Zenki Hub (not a standalone endpoint) — new isolated API route, so it doesn't entangle with existing ERPNext quotation logic but keeps order data unified long-term.
 - Human QA step before printing is intentional, not a workaround — operator opens the 3MF in Bambu Studio, assigns AMS slots per the emailed color spec, confirms text/geometry, then prints. Keep this step even if automation improves later.
 - Mobile performance work already done on the 3D hero scene: `dpr` capped to 1 on mobile, Bloom postprocessing disabled on mobile. Apply equivalent discipline to any new heavy visual work.
-- Homepage hero has two interchangeable animations, picked by `DEFAULT_HERO` in `src/components/sections/hero-section.tsx`: `"three"` (the React Three Fiber printer/phone scene in `src/components/hero3d/`, current default) and `"hairline"` (an SVG line drawing of a print queue in `src/components/hero-hairline/`). Both load through `next/dynamic`, so only the one on screen is downloaded. `/preview/hero-hairline` shows the Hairline hero followed by the new scroll story, `PrintStorySection` (noindex, not in the sitemap). The homepage still uses `HowItWorksSection` until the story is approved.
-- Hairline scenes, drawn on maths vendored from [Hairline](https://github.com/lucasmarkes/hairline) (MIT, notice kept in `hairline.ts`). Story rule from BUSINESS_CONTEXT.md: everything starts from the customer's 3D file. Nothing shows sketching or designing a part, since CAD is not offered yet.
-  - `jobs.ts`: what gets printed. Each job is a few rounded blocks, a material and a layer count, and is either `customer` or `store`. Adding a product is one entry here.
-  - `parts.ts`: the shared drawing kit: build plate, nozzle, mesh wireframe, slicing, printing with the amber active layer, the dashed target, dimensions, the parcel, and `frameTo` (fit and scale to width).
-  - `hero.ts`: the hero loop, about 25 s. Jobs alternate customer files and store products: mesh arrives, is sliced, printed, then moved to a tray of finished parts. The gearbox gets its gears fitted and turning (12 and 18 teeth, module 2.5). A mono read-out under the drawing says the job and stage. As the hero scrolls away the drawing lifts and speeds up slightly; scroll never scrubs it.
-  - `story.ts`: the pinned "How it works" story, scrubbed by scroll across the four `steps`: file and photo arrive, slicing and measurements for the quote, printing, then calipers, the parcel and the store products.
-  - `render.ts`: the client driver, in `loop` mode for the hero and spring-smoothed `scrub` mode for the story. It handles mouse/pen tilt (touch never tilts) and pauses offscreen and when the tab is hidden.
-  - **Static pictures:** `frame()` is pure, so the server renders a still. Under reduced motion, or without JavaScript, the story becomes four stacked stills (CSS in `globals.css`).
-  - **Review:** append `?hero-t=<seconds>` or `?story-p=<0..1>` to hold a frame. After changing any geometry, run `node scripts/check-hairline.mjs`. It fails if gear teeth overlap, a job's layers break, or any frame (at several camera tilts) throws or draws nothing.
+- Homepage hero has two interchangeable versions, picked by `DEFAULT_HERO` in `src/lib/constants.ts` (kept there so the server-rendered homepage can read it):
+  - `"three"` (current default): the React Three Fiber scene in `src/components/hero3d/`, followed by `HowItWorksSection`.
+  - `"hairline"`: the SVG scene in `src/components/hero-hairline/`. The hero runs straight on into "From idea to finished part" as one drawing, so the homepage then drops `HowItWorksSection`.
+  - Both load through `next/dynamic`, so only the one on screen is downloaded.
+  - `/preview/hero-hairline` always shows the Hairline version (noindex, not in the sitemap).
+- Hairline journey, drawn on maths vendored from [Hairline](https://github.com/lucasmarkes/hairline) (MIT, notice kept in `hairline.ts`).
+  - **Story rule** (from BUSINESS_CONTEXT.md): everything starts from the customer. Nothing shows sketching or designing a part, since CAD is not offered yet. Steps 1–2 are about the customer and the quote, not printing; the printer only appears at step 3.
+  - **Layout** (`HairlineJourney.tsx`): one sticky drawing.
+    - Desktop: the right column stays pinned while the hero copy, then the four `steps`, scroll by on the left.
+    - Phones: the drawing sits under the CTAs, then pins below the 72px header; it gets an opaque backing only once pinned.
+  - **Scroll** gives two values. `x` is the hand-off: the print queue slides away while the first request arrives, and it is done when step 1 reaches mid-screen. `p` is the story: step i is centred at (i + 0.5) / 4.
+  - `hero.ts`: the print queue, about 25 s. Customer files and store products alternate: mesh arrives, is sliced, printed, then moved to a tray. The gearbox gets its gears fitted (12 and 18 teeth, module 2.5). A mono read-out names the job and stage.
+  - `story.ts`: the four steps.
+    1. A 3D file, a photo of the broken part and a note land, each lit in turn, then gather into one request folder.
+    2. The file is checked under a glass loupe and measured. An itemised quote fills in, PETG is recommended (amber), the 24 h clock sweeps, and an amber tick approves it.
+    3. The bed rises, then the part is sliced and printed.
+    4. Calipers, the parcel, and the store products.
+  - `journey.ts` joins the two scenes. `render.ts` is the client driver: it runs the hero's clock, follows `x`/`p` on springs, handles mouse/pen tilt (touch never tilts), and pauses offscreen and when the tab is hidden.
+  - `jobs.ts` lists what gets printed: one entry per product. `parts.ts` is the shared drawing kit.
+  - **Static pictures:** `frame()` is pure, so the server renders a still. Under reduced motion, or without JavaScript, the drawing stops pinning and each step shows its own still (CSS in `globals.css`).
+  - **Review:** append `?hero-t=<seconds>` or `?story-p=<0..1>` to hold a frame. After changing any geometry, run `node scripts/check-hairline.mjs`. It fails if gear teeth overlap, a job's layers break, or any hero, hand-off or story frame (at several camera tilts) throws or draws nothing.
 
 ---
 

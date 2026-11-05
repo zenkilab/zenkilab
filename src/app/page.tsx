@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/sections/hero-section";
+import { DEFAULT_HERO } from "@/lib/constants";
 import { ServicesSection } from "@/components/sections/services-section";
 import { HowItWorksSection } from "@/components/sections/how-it-works-section";
 import { MaterialsSection } from "@/components/sections/materials-section";
@@ -18,7 +19,8 @@ export default function Home() {
       <main>
         <HeroSection />
         <ServicesSection />
-        <HowItWorksSection />
+        {/* the Hairline hero carries "From idea to finished part" itself */}
+        {DEFAULT_HERO !== "hairline" && <HowItWorksSection />}
         <MaterialsSection />
         <AboutSection />
         <FAQSection />
