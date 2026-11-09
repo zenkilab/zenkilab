@@ -119,10 +119,11 @@ export function StageIndex({
                 src={item.cut}
                 alt=""
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-cover"
+                // reduced motion in CSS, not from useReducedMotion: the server can't know it, so an inline value would mismatch on hydration
+                className="absolute inset-0 h-full w-full object-cover motion-reduce:[transform:none!important]"
                 style={{
                   opacity: on ? 1 : 0,
-                  transform: reduce ? "none" : on ? "translateY(0) scale(1)" : "translateY(10px) scale(0.97)",
+                  transform: on ? "translateY(0) scale(1)" : "translateY(10px) scale(0.97)",
                   transformOrigin: "50% 80%",
                   transition: on
                     ? "opacity 500ms ease 120ms, transform 700ms cubic-bezier(0.16, 1, 0.3, 1) 120ms"

@@ -641,12 +641,12 @@ html {
 @keyframes pl-head { from { top: 94%; opacity: 1; } 97% { opacity: 1; } to { top: -10%; opacity: 0; } }
 
 /* the print queue's live read-out, under the headline */
-.hl-read { display: flex; align-items: baseline; justify-content: center; gap: 0.6rem; margin-bottom: 1.25rem; min-height: 2.8em;
+.hl-read { margin-bottom: 1.25rem; min-height: 2.8em;
   font-family: var(--font-mono); font-size: 11px; line-height: 1.4; letter-spacing: 0.12em; color: var(--color-text-tertiary); text-wrap: balance; }
-.hl-read::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; transform: translateY(-1px);
+.hl-read::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 0.6rem; border-radius: 50%; vertical-align: 1px;
   background: var(--color-accent-primary); box-shadow: 0 0 8px var(--color-accent-primary); animation: hl-pulse 1.6s ease-in-out infinite; }
 @keyframes hl-pulse { 50% { opacity: 0.35; } }
-@media (min-width: 1024px) { .hl-read { justify-content: flex-start; min-height: 1.4em; } }
+@media (min-width: 1024px) { .hl-read { min-height: 1.4em; } }
 
 /* header: no bar and no rule; once scrolled, the page colour and a blur fade in behind it and fade out below it */
 .hdr::before { content: ""; position: absolute; inset: 0 0 -28px; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 300ms;

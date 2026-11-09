@@ -50,7 +50,8 @@ function ServicesStage() {
   const { scrollYProgress } = useScroll({ target: track, offset: ["start start", "end end"] });
   useMotionValueEvent(scrollYProgress, "change", (v) => setActive(Math.max(0, Math.min(n - 1, Math.floor(v * n)))));
 
-  if (!desktop || reduce) return <StageIndex items={items} />;
+  // the tracked wrapper is always rendered: useScroll throws if its target never mounts
+  if (!desktop || reduce) return <div ref={track}><StageIndex items={items} /></div>;
 
   const jump = (i: number) => {
     const el = track.current;

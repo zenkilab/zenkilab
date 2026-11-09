@@ -31,6 +31,7 @@ function WhatsAppIcon() {
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [fabHidden, setFabHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const scrollToSection = (href: string) => {
@@ -46,13 +47,22 @@ export function Header() {
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       } else {
-        window.location.href = "/" + href; // on a sub page, go home first
+        window.location.assign("/" + href); // on a sub page, go home first
       }
     }, 300);
   };
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    // the floating buttons step aside while the visitor scrolls down to read (they would cover the text),
+    // and come back on any scroll up, at the top of the page and near its end
+    let lastY = window.scrollY;
+    const handleScroll = () => {
+      const y = window.scrollY, nearEnd = y + innerHeight > document.documentElement.scrollHeight - 240;
+      setScrolled(y > 20);
+      if (Math.abs(y - lastY) < 6) return;
+      setFabHidden(y > lastY && y > 240 && !nearEnd);
+      lastY = y;
+    };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -134,7 +144,11 @@ export function Header() {
     </header>
 
     {/* Mobile floating action buttons: WhatsApp above Store, both pulled out of the hamburger for visibility */}
-    <div className="lg:hidden fixed z-50 right-5 bottom-[calc(1.25rem+env(safe-area-inset-bottom))] flex flex-col items-center gap-3">
+    <div
+      className={`lg:hidden fixed z-50 right-5 bottom-[calc(1.25rem+env(safe-area-inset-bottom))] flex flex-col items-center gap-3 transition-[transform,opacity] duration-300 motion-reduce:transition-none ${
+        fabHidden ? "pointer-events-none translate-y-6 opacity-0" : ""
+      }`}
+    >
       <a
         href={whatsappHref}
         target="_blank"

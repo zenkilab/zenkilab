@@ -85,6 +85,8 @@ export default function RootLayout({
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }} />
+        {/* scroll-linked entrances start hidden on the server; without JavaScript they would never show */}
+        <noscript><style>{"[data-sf]{opacity:1!important;transform:none!important}"}</style></noscript>
       </head>
       <body className="min-h-screen bg-background text-white font-sans">
         {children}
