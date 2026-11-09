@@ -34,7 +34,7 @@ export type ProjectJourney = {
  * server-rendered page can read it.
  */
 export type HeroVariant = "three" | "hairline";
-export const DEFAULT_HERO: HeroVariant = "three";
+export const DEFAULT_HERO: HeroVariant = "hairline";
 
 export const projectJourneys: ProjectJourney[] = [
   {

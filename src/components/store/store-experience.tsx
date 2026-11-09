@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import { DepthRings } from "./depth-rings";
 import { CircleStage } from "./circle-stage";
@@ -32,7 +33,7 @@ const muted = { color: "var(--color-text-secondary)" };
  * text that builds up as you scroll, desktop only, since a pinned pane fights the phone's moving address bar.
  */
 function useDepth() {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionSafe();
   const [desktop, setDesktop] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");

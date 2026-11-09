@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotionSafe } from "@/lib/utils";
 import { Pause, Play } from "lucide-react";
 
 const FADE_MS = 900;
@@ -15,7 +15,7 @@ const FADE_MS = 900;
  *   while the tab is hidden.
  */
 export function useSlideshow(n: number, interval = 3000) {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionSafe();
   const [idx, setIdx] = useState(0);
   const [prev, setPrev] = useState<number | null>(null);
   const [userPaused, setUserPaused] = useState(false);
