@@ -36,7 +36,7 @@ export function Header() {
   const scrollToSection = (href: string) => {
     setMobileOpen(false);
     if (href.startsWith("/")) {
-      window.location.href = href;
+      window.location.assign(href);
       return;
     }
     const id = href.replace("#", "");
@@ -60,11 +60,7 @@ export function Header() {
   return (
     <>
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-border/60"
-          : "bg-transparent"
-      }`}
+      className={`hdr fixed top-0 left-0 right-0 z-40 ${scrolled ? "hdr-on" : ""}`}
     >
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         <nav className="flex items-center justify-between h-[72px]">

@@ -7,7 +7,7 @@
 import { Cam, EASE_LIFT, facing, lerp, proj, rrect, type Vec3 } from "./hairline";
 import { JOBS, gears, jobHeight, shelfScale, type Job } from "./jobs";
 import {
-  bed, block, faded, frameTo, ghost, inout, placed, printing, slice, span, stlWire,
+  bed, light, block, faded, frameTo, ghost, inout, placed, printing, slice, span, stlWire,
   type Block, type Item, type Pen, type View,
 } from "./parts";
 
@@ -35,6 +35,13 @@ const S = 1.62;
 const box = (x0: number, x1: number, y0: number, y1: number, z: number): Vec3[] => [[x0, y0, z], [x1, y0, z], [x1, y1, z], [x0, y1, z]];
 const FRAME: Vec3[] = [...box(-62, 154, -46, 46, -4), ...box(-62, 62, -46, 46, 34)];
 
+/** The hero's camera at rest (no drift, no tilt). The back and front planes (workshop.ts) are drawn once with it. */
+export function restCam() {
+  const C = Cam(45, 0.5, S);
+  frameTo(C, FRAME, S, 352, 200, 168);
+  return C;
+}
+
 /** Gear angle for a job finished at `fitted` (seconds), ramping up over 0.8 s. */
 const turn = (t: number, fitted: number) => {
   const tau = t - fitted, ramp = 0.8;
@@ -54,7 +61,7 @@ export function frame(t: number, view: View = { az: 0, k: 0, lift: 0, dx: 0 }): 
   const C = Cam(45 + 6 * Math.sin((2 * Math.PI * t) / CYCLE) + view.az, 0.5 + view.k, S);
   frameTo(C, FRAME, S, 352, 200, 168);
   C.oy += view.lift; C.ox += view.dx;
-  const pen: Pen = { P: proj(C), front: facing(C), o: 1, out };
+  const pen: Pen = { P: proj(C), front: facing(C), lit: light(C), o: 1, out };
 
   bed(pen);
 

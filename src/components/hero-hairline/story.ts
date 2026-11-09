@@ -13,7 +13,7 @@
 import { Cam, EASE_LIFT, circ, facing, fit, hull, lerp, open, poly, proj, rrect, seg, type Vec2, type Vec3 } from "./hairline";
 import { JOBS, jobHeight } from "./jobs";
 import {
-  add, at, bed, block, dimension, faded, frameTo, ghost, inout, off, parcel, placed, prismAt, printing, slice, span, stlWire, trace,
+  add, at, bed, block, light, dimension, faded, frameTo, ghost, inout, off, parcel, placed, prismAt, printing, slice, span, stlWire, trace,
   type Item, type Pen, type View,
 } from "./parts";
 
@@ -41,6 +41,7 @@ export const STEP_STILLS = [0.1, 0.44, 0.66, 0.99];
 function sheet(pen: Pen, outline: Vec2[], z: number, cls: string, T = 1.2) {
   const top = outline.map(([x, y]) => pen.P(x, y, z + T)), base = outline.map(([x, y]) => pen.P(x, y, z));
   add(pen, poly(hull(top.concat(base))), cls);
+  add(pen, poly(top), "tt");
   add(pen, poly(top), "nf");
 }
 /** Lines of text on a flat surface at height z: [y, x0, x1] each. */
@@ -142,7 +143,7 @@ export function frame(p: number, view: View = { az: 0, k: 0, lift: 0, dx: 0 }): 
   const [bx, by] = [C.ox, C.oy];
   fit(C, WITH_BOX, 200, 166);
   C.ox = lerp(bx, C.ox, pan) + view.dx; C.oy = lerp(by, C.oy, pan) + view.lift;
-  const pen: Pen = { P: proj(C), front: facing(C), o: 1, out };
+  const pen: Pen = { P: proj(C), front: facing(C), lit: light(C), o: 1, out };
 
   /* 3–4: the printer's bed rises in only when production starts */
   const bedIn = span(p, 0.48, 0.54);

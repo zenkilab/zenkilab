@@ -12,8 +12,39 @@ export type Item = { d: string; c: string; o: number };
 /** The camera's nudges: azimuth (deg) and elevation from the pointer, and a screen offset (viewBox units). */
 export type View = { az: number; k: number; lift: number; dx: number };
 
-/** Where paths go: a projector, the facing test, and an opacity that multiplies everything drawn. */
-export type Pen = { P: Projector; front: (q: Sample) => boolean; o: number; out: Item[] };
+/** Where paths go: a projector, the facing test, the key light, and an opacity that multiplies everything drawn. */
+export type Pen = { P: Projector; front: (q: Sample) => boolean; lit: (q: Sample) => number; o: number; out: Item[] };
+
+/**
+ * The key light, fixed to the camera so the look never changes as the view
+ * drifts: from the viewer's upper left. Returns how much a side facing q
+ * catches it, 0 to 1.
+ */
+export function light(C: Camera) {
+  const s = Math.sin(C.az), c = Math.cos(C.az);
+  const lx = 0.55 * s - 0.84 * c, ly = 0.55 * c + 0.84 * s; // toward the viewer (s, c) and screen left (-c, s)
+  return (q: Sample) => Math.max(0, q.nu * lx + q.nv * ly);
+}
+
+const band = (l: number) => (l > 0.62 ? "tl" : l > 0.22 ? "tm" : "");
+
+/**
+ * Tone: the visible sides of a solid in up to two lit tones (the plate under
+ * them is the shadow tone), then its top, lightest, with any holes left open.
+ * Drawn over the silhouette plate and under the solid's lines.
+ */
+export function tone(pen: Pen, ring: Ring, z0: number, z1: number, top = true, holes: Ring[] = []) {
+  const f = run(ring, pen.front);
+  const cls = (i: number) => band(pen.lit({ u: 0, v: 0, nu: (f[i].nu + f[i + 1].nu) / 2, nv: (f[i].nv + f[i + 1].nv) / 2 }));
+  for (let i = 0; i < f.length - 1;) {
+    const c = cls(i);
+    let j = i + 1;
+    while (j < f.length - 1 && cls(j) === c) j++;
+    if (c) { const s = f.slice(i, j + 1); add(pen, poly(at(pen, s, z0).concat(at(pen, s, z1).reverse())), c); }
+    i = j;
+  }
+  if (top) add(pen, poly(at(pen, ring, z1)) + holes.map((h) => poly(at(pen, h, z1))).join(""), "tt");
+}
 
 /**
  * Hairline's `fit` centres but never scales. This also scales: up to `maxS`,
@@ -65,12 +96,14 @@ export function trace(pts: Vec2[], f: number): Vec2[] {
 export function prismAt(pen: Pen, ring: Ring, z0: number, z1: number, c = "sil") {
   if (z1 - z0 < 0.05) return;
   add(pen, poly(hull(at(pen, ring, z1).concat(at(pen, ring, z0)))), c);
+  tone(pen, ring, z0, z1);
   add(pen, open(at(pen, run(ring, pen.front), z1)), "nf");
 }
 /** A cylinder whose whole top shows: shafts, hubs, bosses. */
 export function cylinder(pen: Pen, ring: Ring, z0: number, z1: number) {
   if (z1 - z0 < 0.05) return;
   add(pen, poly(hull(at(pen, ring, z1).concat(at(pen, ring, z0)))), "sil");
+  tone(pen, ring, z0, z1);
   add(pen, poly(at(pen, ring, z1)), "nf");
 }
 
@@ -101,6 +134,7 @@ export function block(pen: Pen, b: Block, h: number, pitch: number, layers: bool
   add(pen, poly(hull(at(pen, b.ring, hb).concat(at(pen, b.ring, b.z0)))), "sil");
   const cav = b.cavity;
   if (!cav || hb <= cav.floor + 0.05) {
+    tone(pen, b.ring, b.z0, hb, true, b.holes);
     lines();
     add(pen, open(at(pen, fo, hb)), "nf");
     for (const r of b.holes ?? []) add(pen, poly(at(pen, r, hb)), "nf");
@@ -108,7 +142,7 @@ export function block(pen: Pen, b: Block, h: number, pitch: number, layers: bool
     return;
   }
   // an open tray: the opening, the far floor edge, what stands inside, then the near wall over it all
-  add(pen, poly(at(pen, cav.ring, hb)), "");
+  add(pen, poly(at(pen, cav.ring, hb)), "tin");
   const fb = run(cav.ring, (q) => !pen.front(q)), e0 = fb[0], e1 = fb[fb.length - 1];
   add(pen, open(at(pen, fb, cav.floor)) + seg(pen.P(e0.u, e0.v, hb), pen.P(e0.u, e0.v, cav.floor)) + seg(pen.P(e1.u, e1.v, hb), pen.P(e1.u, e1.v, cav.floor)), "nf lo");
   for (const r of b.holes ?? []) add(pen, poly(at(pen, r, cav.floor)), "nf lo");
@@ -122,6 +156,8 @@ export function block(pen: Pen, b: Block, h: number, pitch: number, layers: bool
   const fi = run(cav.ring, pen.front), A = at(pen, fo, b.z0), B = at(pen, fi, hb).reverse();
   const o0 = pen.P(fo[0].u, fo[0].v, hb), o1 = pen.P(fo[fo.length - 1].u, fo[fo.length - 1].v, hb);
   add(pen, poly([...A, o1, ...B, o0]), "fo");
+  tone(pen, b.ring, b.z0, hb, false);
+  add(pen, poly(at(pen, b.ring, hb)) + poly(at(pen, cav.ring, hb)), "tt");
   lines();
   add(pen, open(at(pen, fo, hb)) + open(at(pen, fi, hb)), "nf");
   add(pen, open([o0, ...A, o1]), "nf sil");

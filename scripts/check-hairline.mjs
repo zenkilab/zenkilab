@@ -48,7 +48,10 @@ for (const v of views) {
   // the hand-off: hero leaving while the request arrives, at several points in the hero's loop
   for (let x = 0; x <= 1.0001; x += 0.02) for (const t of [0, 5.6, 13, 21.8]) { ok(journey.frame(t, v, { x, p: 0 }), `hand-off x ${x.toFixed(2)} t ${t}`); journey.caption(t, { x, p: 0 }); }
 }
+// the planes either side draw once, at rest
+const workshop = await import(dir + "workshop.ts");
+ok(workshop.back(), "back plane"); ok(workshop.front(), "front plane");
 let store = false;
 for (let t = 0; t < hero.CYCLE; t += 0.5) store ||= hero.caption(t).includes("ZENKI STORE");
 if (!store) fail("no store product in the hero queue");
-console.log(`ok: gears mesh clean; ${Object.keys(jobs.JOBS).length} jobs print; hero ${hero.CYCLE.toFixed(1)} s and story frames all draw`);
+console.log(`ok: gears mesh clean; ${Object.keys(jobs.JOBS).length} jobs print; hero ${hero.CYCLE.toFixed(1)} s and story frames all draw; both planes draw`);

@@ -33,6 +33,9 @@ export function frame(t: number, view: View, sc: Scroll): Item[] {
 }
 
 export const caption = (t: number, sc: Scroll) => (sc.x < 0.5 ? hero.caption(t) : story.caption(storyP(sc)));
+/** The two read-outs, shown apart: the print queue's under the headline, the story's under the drawing. */
+export const heroCaption = hero.caption;
+export const storyCaption = (sc: Scroll) => story.caption(storyP(sc));
 
 /** One of the story's still frames, for the stacked version. */
 export const still = (p: number) => story.frame(p);

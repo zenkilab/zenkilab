@@ -67,7 +67,7 @@ export function gears(pen: Pen, lift: number, th: number, marks: number) {
     const ring = (z: number) => xy.map(([x, y]) => pen.P(x, y, z));
     add(pen, poly(ring(g0)), "lo");
     for (let j = 1; j < 4; j++) add(pen, poly(ring(lerp(g0, g1, j / 4))), "fo");
-    add(pen, poly(ring(g1)), "sil");
+    add(pen, poly(ring(g1)), "sil ttk");
     add(pen, poly(circ((i ? R2 : R1) - 2.2 * M, 40).map((q) => pen.P(q.u + cx, q.v, g1))), "nf lo");
     cylinder(pen, off(HUB, cx, 0), g1, hubTop);
     if (marks > 0.01) {

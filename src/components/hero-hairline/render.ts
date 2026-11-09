@@ -10,12 +10,15 @@
  * the story at 0.4 (hand-off done), with no spring.
  */
 import { clamp, spring, stepS } from "./hairline";
-import { CYCLE, STILL_T, caption, frame, type Scroll } from "./journey";
-import type { Item, View } from "./parts";
+import { CYCLE, STILL_T, frame, heroCaption, storyCaption, type Scroll } from "./journey";
+import { span, type Item, type View } from "./parts";
+
+/** What the driver moves besides the drawing: the two read-outs and the planes behind and in front. */
+export type Extras = { heroCap?: HTMLElement | null; storyCap?: HTMLElement | null; back?: HTMLElement | null; front?: HTMLElement | null };
 
 const NS = "http://www.w3.org/2000/svg";
 
-export function mount(svg: SVGSVGElement, scroll: () => Scroll, pointerArea: HTMLElement, captionEl?: HTMLElement | null): () => void {
+export function mount(svg: SVGSVGElement, scroll: () => Scroll, pointerArea: HTMLElement, ui: Extras = {}): () => void {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const az = spring(0, { k: 40, c: 12, eps: 0.002 }), kk = spring(0, { k: 40, c: 12, eps: 0.0002 });
   const start = scroll();
@@ -24,7 +27,12 @@ export function mount(svg: SVGSVGElement, scroll: () => Scroll, pointerArea: HTM
   const last: string[] = [];
   const qs = new URLSearchParams(location.search), qt = qs.get("hero-t"), qp = qs.get("story-p");
   const holdT = qt === null ? null : Number(qt) || 0, holdP = qp === null ? null : Number(qp) || 0;
-  let t = holdT ?? STILL_T, raf = 0, prev = 0, seen = true, drawnKey = "", lastCaption = "";
+  let t = holdT ?? STILL_T, raf = 0, prev = 0, seen = true, drawnKey = "";
+  const last2: Record<string, string> = {};
+  const put = (el: HTMLElement | null | undefined, k: string, v: string, f: (el: HTMLElement, v: string) => void) => {
+    if (el && last2[k] !== v) { f(el, v); last2[k] = v; }
+  };
+  const text = (el: HTMLElement, v: string) => { el.textContent = v; };
 
   const draw = (time: number, view: View, sc: Scroll) => {
     // the hero's clock only matters while any of the hero is showing
@@ -42,8 +50,14 @@ export function mount(svg: SVGSVGElement, scroll: () => Scroll, pointerArea: HTM
       el.setAttribute("class", it ? it.c : "");
       el.setAttribute("opacity", it ? String(it.o) : "0");
     }
-    const cap = caption(time, sc);
-    if (captionEl && cap !== lastCaption) { captionEl.textContent = cap; lastCaption = cap; }
+    if (sc.x < 1) put(ui.heroCap, "hc", heroCaption(time), text);
+    put(ui.storyCap, "sc", storyCaption(sc), text);
+    // depth: the planes slide against the drawing with the pointer, and the front one clears off as the story starts
+    const bx = (-view.az * 2.2).toFixed(1), by = (view.k * 260).toFixed(1);
+    put(ui.back, "bt", `translate3d(${bx}px,${by}px,0)`, (el, v) => { el.style.transform = v; });
+    put(ui.front, "ft", `translate3d(${(view.az * 5.5).toFixed(1)}px,${(-view.k * 600 - 40 * sc.x).toFixed(1)}px,0)`, (el, v) => { el.style.transform = v; });
+    put(ui.front, "fo", (1 - span(sc.x, 0, 0.45)).toFixed(2), (el, v) => { el.style.opacity = v; });
+    put(ui.storyCap, "so", span(sc.x, 0.35, 0.75).toFixed(2), (el, v) => { el.style.opacity = v; });
   };
 
   const tick = (now: number) => {
