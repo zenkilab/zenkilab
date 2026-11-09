@@ -106,6 +106,9 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
   - `"hairline"`: the SVG scene in `src/components/hero-hairline/`. The hero runs straight on into "From idea to finished part" as one drawing, so the homepage then drops `HowItWorksSection`.
   - Both load through `next/dynamic`, so only the one on screen is downloaded.
   - `/preview/hero-hairline` always shows the Hairline version (noindex, not in the sitemap).
+- Hairline journey, art direction A "Ink & Tone" (chosen 2026-11-08): the hairlines stay, solids get tonal fills from a camera-fixed key light (top lightest, two lit side tones, shadow plate), and depth comes from three planes: the workshop behind (soft, teal-hazed, static), the live drawing, and parts floating in front (defocused, static). Only the middle plane redraws.
+  - **Two-tone in the drawing:** warm key light, cool cyan-teal shadows. Cyan marks the digital and the precise (incoming mesh files, measurements); amber marks the physical (the layer being printed, the recommended material, approval). Both are the brand tokens, no new colours.
+  - **Type in the scene:** on desktop the drawing runs in behind the headline. The headline prints in layers (CSS only, once, about 1.6 s; static under reduced motion); the print queue's read-out sits under it.
 - Hairline journey, drawn on maths vendored from [Hairline](https://github.com/lucasmarkes/hairline) (MIT, notice kept in `hairline.ts`).
   - **Story rule** (from BUSINESS_CONTEXT.md): everything starts from the customer. Nothing shows sketching or designing a part, since CAD is not offered yet. Steps 1–2 are about the customer and the quote, not printing; the printer only appears at step 3.
   - **Layout** (`HairlineJourney.tsx`): one sticky drawing.

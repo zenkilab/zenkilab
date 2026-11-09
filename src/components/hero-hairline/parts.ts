@@ -242,7 +242,7 @@ export function printing(pen: Pen, blocks: Block[], pitch: number, pf: number, n
   nozzle(faded(pen, noz), nx, ny, z + 0.4 + lift);
 }
 
-/** A part as a mesh file: its outlines plus the triangles of its side faces, all edges showing. */
+/** A part as a mesh file: its outlines plus the triangles of its side faces, all edges showing. Digital, so cyan. */
 export function stlWire(pen: Pen, blocks: Block[], f: number) {
   let d = "", tri = "";
   for (const b of blocks) {
@@ -255,8 +255,8 @@ export function stlWire(pen: Pen, blocks: Block[], f: number) {
       }
     }
   }
-  add(pen, tri, "nf lo");
-  add(pen, d, "nf sil");
+  add(pen, tri, "nf cyl");
+  add(pen, d, "nf cy");
 }
 
 /** Slicing: contour lines rise through the part to height h; the newest is amber. */
@@ -282,11 +282,11 @@ export function ghost(pen: Pen, blocks: Block[]) {
   add(pen, d, "nf dash lo");
 }
 
-/** A dimension line between two world points, with end ticks, lifted off the ground by `lift`. */
+/** A dimension line (precision, so cyan) between two world points, with end ticks, lifted off the ground by `lift`. */
 export function dimension(pen: Pen, a: [number, number, number], b: [number, number, number], f: number, tick: [number, number, number] = [0, 0, 3]) {
   const P = pen.P, m = (k: number): [number, number, number] => [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k];
   const e = m(f), tk = (p: [number, number, number]) => seg(P(p[0] - tick[0], p[1] - tick[1], p[2] - tick[2]), P(p[0] + tick[0], p[1] + tick[1], p[2] + tick[2]));
-  add(pen, seg(P(...a), P(...e)) + tk(a) + (f >= 1 ? tk(b) : ""), "nf sil");
+  add(pen, seg(P(...a), P(...e)) + tk(a) + (f >= 1 ? tk(b) : ""), "nf cy");
 }
 
 /** A shipping box: an open tray of card with two long flaps; `close` folds them from open (0) to shut (1). */

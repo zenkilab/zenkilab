@@ -586,12 +586,14 @@ html {
 /* ── Hairline gearbox hero (palette and stroke model after @lucasmarkes/hairline, MIT) ──
    Plates are opaque, filled with the charcoal surface, and painted back to front. */
 .hl-fig {
-  /* direction A, Ink & Tone: the plate is the shadow side; lit sides and tops step up in grey */
-  --hl-plate: #161b21;
-  --hl-tm: #20262e;
-  --hl-tl: #29313b;
-  --hl-top: #343d48;
-  --hl-in: #0c0f13;
+  /* direction A, Ink & Tone, two-tone: warm key light, cool (cyan-teal) shadows. The plate is the shadow side;
+     lit sides and tops step up toward warm grey. Cyan also marks the digital and precise (mesh files, measurements). */
+  --hl-plate: #121a21;
+  --hl-tm: #1b232b;
+  --hl-tl: #282d33;
+  --hl-top: #36393e;
+  --hl-in: #0a1116;
+  --hl-cy: var(--color-accent-warm);
   --hl-hi: #e6e9ee;
   --hl-edge: #7d8693;
   --hl-mid: #4a525d;
@@ -614,16 +616,19 @@ html {
 .hl-fig .ttk { fill: var(--hl-top); }
 .hl-fig .tin { fill: var(--hl-in); }
 .hl-fig .peg { stroke: #07090c; stroke-width: 2.4; }
+.hl-fig .cy { stroke: color-mix(in srgb, var(--hl-cy) 80%, transparent); }
+.hl-fig .cyl { stroke: color-mix(in srgb, var(--hl-cy) 38%, transparent); }
 
 /* depth: the workshop behind (soft, faded at its edges into the page) and parts floating in front (out of focus) */
-.hl-back { position: absolute; inset: -50%; pointer-events: none; opacity: 0.7; filter: blur(0.7px) contrast(0.8) brightness(1.1); will-change: transform;
+.hl-back { --hl-plate: #0f1920; --hl-tm: #142029; --hl-tl: #1a2731; --hl-top: #213039; --hl-edge: #4f6b78; --hl-mid: #2d3f49; --hl-lo: #1d2a32;
+  position: absolute; inset: -50%; pointer-events: none; opacity: 0.7; filter: blur(0.7px) contrast(0.8) brightness(1.1); will-change: transform;
   -webkit-mask-image: radial-gradient(ellipse 44% 42% at 52% 50%, #000 32%, transparent 76%);
   mask-image: radial-gradient(ellipse 44% 42% at 52% 50%, #000 32%, transparent 76%); }
 .hl-front { position: absolute; inset: 0; pointer-events: none; filter: blur(1.2px); will-change: transform, opacity; }
 .hl-front > svg { animation: hl-bob 7s ease-in-out infinite; }
 @keyframes hl-bob { 50% { transform: translateY(-5px); } }
 .jr-atmo { background:
-  radial-gradient(ellipse 42% 52% at 70% 46%, rgba(56, 200, 245, 0.05), transparent 70%),
+  radial-gradient(ellipse 46% 56% at 72% 40%, rgba(56, 200, 245, 0.085), transparent 70%),
   radial-gradient(ellipse 30% 30% at 66% 58%, rgba(245, 166, 35, 0.045), transparent 70%); }
 @media (min-width: 1024px) {
   /* the headline sits in the scene: a soft pool of page colour behind the copy, no edge */
