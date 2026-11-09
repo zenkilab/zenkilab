@@ -141,8 +141,10 @@ export function block(pen: Pen, b: Block, h: number, pitch: number, layers: bool
     contents?.();
     return;
   }
-  // an open tray: the opening, the far floor edge, what stands inside, then the near wall over it all
+  // an open tray: the opening and the whole rim, the far floor edge, what stands inside, then the near wall and near rim over it.
+  // The far rim goes down first so that anything lifted above it (gears dropping in, parts standing in a slot) is drawn over it.
   add(pen, poly(at(pen, cav.ring, hb)), "tin");
+  add(pen, poly(at(pen, b.ring, hb)) + poly(at(pen, cav.ring, hb)), "tt");
   const fb = run(cav.ring, (q) => !pen.front(q)), e0 = fb[0], e1 = fb[fb.length - 1];
   add(pen, open(at(pen, fb, cav.floor)) + seg(pen.P(e0.u, e0.v, hb), pen.P(e0.u, e0.v, cav.floor)) + seg(pen.P(e1.u, e1.v, hb), pen.P(e1.u, e1.v, cav.floor)), "nf lo");
   for (const r of b.holes ?? []) add(pen, poly(at(pen, r, cav.floor)), "nf lo");
@@ -157,7 +159,7 @@ export function block(pen: Pen, b: Block, h: number, pitch: number, layers: bool
   const o0 = pen.P(fo[0].u, fo[0].v, hb), o1 = pen.P(fo[fo.length - 1].u, fo[fo.length - 1].v, hb);
   add(pen, poly([...A, o1, ...B, o0]), "fo");
   tone(pen, b.ring, b.z0, hb, false);
-  add(pen, poly(at(pen, b.ring, hb)) + poly(at(pen, cav.ring, hb)), "tt");
+  add(pen, poly([...at(pen, fo, hb), ...B]), "tt");
   lines();
   add(pen, open(at(pen, fo, hb)) + open(at(pen, fi, hb)), "nf");
   add(pen, open([o0, ...A, o1]), "nf sil");
