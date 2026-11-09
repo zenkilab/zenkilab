@@ -22,7 +22,8 @@ Single source of truth for the website's design decisions. Update this file when
 **Rules:**
 - Amber leads everywhere: nav, primary buttons, brand mark, primary UI. Primary buttons are amber-filled with dark text. Red is reserved for errors and never used on a button.
 - Button labels are Title Case and name the action: "Start a Project", "Go to Store". One label per intent across the page.
-- Cyan is scoped to small precision/tech details only — icons, minor rim accents, the hologram element in the hero. Never primary nav/CTA.
+- Cyan is scoped to small precision/tech details only: icons, minor rim accents, and in the hero drawing the digital things (incoming mesh files, measurements) plus the cool tint in shadows and the background haze. Never primary nav/CTA.
+- **Amber leads, cyan supports.** Amber is for the physical and for action (the layer being printed, the recommended material, approval, buttons, prices). Cyan is for the digital and the precise (files, specs, dimensions, upload states, depth glows). Amber must still dominate any screen. This is the rule for the site-wide pass too.
 - Gradients always go **light to base**, e.g. `#FFC35C → #F5A623`. Never base to dark (e.g. never `#F5A623 → #A86F10`) — that reads muddy, not premium.
 - Token names in `globals.css` are historical (`--color-accent-warm` holds cyan, not a warm color) — documented with comments in the file, not renamed, to avoid touching ~70 references.
 
@@ -60,6 +61,10 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 ---
 
 ## 4. Layout Patterns
+
+**Header:** no bar and no border. Over the hero it is transparent; once the page scrolls, a soft gradient with a blur fades in behind it and dissolves into the page below (`.hdr` / `.hdr-on` in `globals.css`), so there is never a hard edge.
+
+**Floating buttons (WhatsApp, cart):** on phones they step aside while the visitor reads: they slide away when scrolling down (past 240px) and come back on any scroll up or near the end of the page. This stops them covering text. No transition under reduced motion.
 
 **Depth panel** (About on the homepage, and the model for front page sections): a large photo in a rounded frame that drifts slower than the page and settles as it arrives, a big Space Grotesk heading that moves at its own rate and overlaps the photo edge, and the story fading in behind it. Scroll-linked with Motion `useScroll`, so it follows the visitor in both directions. Static under reduced motion. Section headings elsewhere use the lighter `ScrollFade` (fade in and rise as they travel up the screen).
 
@@ -100,13 +105,18 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 - Print-ready file export: `three-3mf-exporter` (npm) — generates Bambu-Studio-compatible 3MF client-side, supports multi-material export (one mesh per color, not one mesh with two colors painted on).
 - Order backend: integrated into Zenki Hub (not a standalone endpoint) — new isolated API route, so it doesn't entangle with existing ERPNext quotation logic but keeps order data unified long-term.
 - Human QA step before printing is intentional, not a workaround — operator opens the 3MF in Bambu Studio, assigns AMS slots per the emailed color spec, confirms text/geometry, then prints. Keep this step even if automation improves later.
-- Mobile performance work already done on the 3D hero scene: `dpr` capped to 1 on mobile, Bloom postprocessing disabled on mobile. Apply equivalent discipline to any new heavy visual work.
+- Mobile performance work already done on the old 3D hero scene: `dpr` capped to 1 on mobile, Bloom postprocessing disabled on mobile. Apply equivalent discipline to any new heavy visual work (the store's 3D key tag included).
+- **Reduced motion without hydration errors.** Never render from framer-motion's `useReducedMotion()`: it is read on the first client render, so the HTML differs from the server's and React throws error 418 for visitors who ask for reduced motion. Either switch the motion off in CSS (`motion-reduce:` classes, `@media (prefers-reduced-motion)`), or use `useReducedMotionSafe()` from `src/lib/utils.ts`, which is false on the server and while hydrating, then the real value. Some older sections (about, how-it-works, services, product-layout, stage-index) still use the framer hook for effects only; move them over in the site-wide pass.
+- **Without JavaScript:** anything that fades in on scroll carries `data-sf`; a `<noscript>` rule in `layout.tsx` shows it at full opacity.
 - Homepage hero has two interchangeable versions, picked by `DEFAULT_HERO` in `src/lib/constants.ts` (kept there so the server-rendered homepage can read it):
-  - `"three"` (current default): the React Three Fiber scene in `src/components/hero3d/`, followed by `HowItWorksSection`.
-  - `"hairline"`: the SVG scene in `src/components/hero-hairline/`. The hero runs straight on into "From idea to finished part" as one drawing, so the homepage then drops `HowItWorksSection`.
+  - `"hairline"` (**live since 2026-11-09**): the SVG scene in `src/components/hero-hairline/`. The hero runs straight on into "From idea to finished part" as one drawing, so the homepage drops `HowItWorksSection` and no longer downloads Three.js.
+  - `"three"`: the earlier React Three Fiber scene in `src/components/hero3d/`, followed by `HowItWorksSection`. Kept as the fallback; the site as it was with it is archived (see README, "Releases and rollback").
   - Both load through `next/dynamic`, so only the one on screen is downloaded.
   - `/preview/hero-hairline` always shows the Hairline version (noindex, not in the sitemap).
 - Hairline journey, art direction A "Ink & Tone" (chosen 2026-11-08): the hairlines stay, solids get tonal fills from a camera-fixed key light (top lightest, two lit side tones, shadow plate), and depth comes from three planes: the workshop behind (soft, teal-hazed, static), the live drawing, and parts floating in front (defocused, static). Only the middle plane redraws.
+  - **Planes:** `workshop.ts` draws the back plane (walls, a shelf of filament spools, storage bins, a pegboard of tools) and the front plane (a spare gear and the customer's file card) once, with the hero's resting camera (`restCam()`). `render.ts` only moves them with CSS transforms for parallax, and fades the front plane out as the story starts.
+  - **Tones:** `light()` and `tone()` in `parts.ts` band each visible side face into lit (`tl`), mid (`tm`) or shadow (plain plate); tops are `tt`, tray interiors `tin`. The tone colours are CSS variables on `.hl-fig`, with cooler overrides on `.hl-back`.
+  - **Draw order in open trays** (`block()` with a cavity): the opening and the whole rim first, then the far floor edge and what stands inside, then the near wall and near rim. Anything lifted above the rim (gears dropping in, parts standing in a tray slot) must stay in front of the far rim; drawing the whole rim last put the back wall over the gears.
   - **Two-tone in the drawing:** warm key light, cool cyan-teal shadows. Cyan marks the digital and the precise (incoming mesh files, measurements); amber marks the physical (the layer being printed, the recommended material, approval). Both are the brand tokens, no new colours.
   - **Type in the scene:** on desktop the drawing runs in behind the headline. The headline prints in layers (CSS only, once, about 1.6 s; static under reduced motion); the print queue's read-out sits under it.
 - Hairline journey, drawn on maths vendored from [Hairline](https://github.com/lucasmarkes/hairline) (MIT, notice kept in `hairline.ts`).
@@ -133,4 +143,5 @@ Already implemented in `header.tsx` and `favicon.svg` (rings/Z only — wordmark
 - Key tag v1 is decided: one capsule shape (see section 5). Heritage Badge and Coin Medallion are phase two.
 - Quotation page Confirm button is decided: locks the order into the queue, does not collect payment.
 - Real AMS filament color lineup (placeholder colors used in mockups, swap for actual loaded colors before shipping).
+- Site-wide pass, not started: bring Services, Materials, About, FAQ, Quote, Contact, the footer, the store listing and product/quote pages into the hero's language (no visible edges, the amber/cyan rule above, the same motion style).
 - Whether headline/body typography changes beyond the current three-tier system (Space Grotesk headings, Inter body, IBM Plex Mono numbers). That system is locked, but nothing further has been proposed.

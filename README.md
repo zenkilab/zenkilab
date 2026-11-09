@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zenki Lab website
 
-## Getting Started
+The site for [zenkilab.com](https://zenkilab.com): Zenki Lab's custom 3D printing service and its store (key tags, dog tags, name tags, chibi figures). Next.js 16 (App Router), React 19, Tailwind v4, built as a static export.
 
-First, run the development server:
+Read these before changing anything:
+
+- [AGENTS.md](AGENTS.md): this Next.js version differs from older ones (read `node_modules/next/dist/docs/` first), and the SEO rule every page follows.
+- [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md): colour, type, layout patterns and how the homepage hero works.
+- [BUSINESS_CONTEXT.md](BUSINESS_CONTEXT.md): what the business does and does not do, and how the site should talk about it.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci
+npm run dev        # http://localhost:3000 (add -- -p 3007 for another port)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Check before pushing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx tsc --noEmit                     # types
+npx eslint <files you changed>       # lint (a few older files still have errors; don't add new ones)
+node scripts/check-hairline.mjs      # after touching src/components/hero-hairline: every hero and story frame must draw
+npm run build                        # static export into out/
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To see the export the way the live site serves it: `python -m http.server 8766 --directory out`, then open http://127.0.0.1:8766. On that server, `/store/` style links and the `__next.*.txt` prefetch files return 404; the live host serves both, so ignore those.
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+Pushing to `main` deploys. The GitHub Actions workflow [deploy.yml](.github/workflows/deploy.yml) runs `npm run build` and publishes `out/`; zenkilab.com is served through Cloudflare. Work happens on a branch and reaches `main` once it builds and passes the checks above.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Releases and rollback
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| What | Where |
+|---|---|
+| Live since 2026-11-09: the 2.5D "Ink & Tone" hero | `main`, from branch `feat/hero-2-5d` |
+| The site before that, with the Three.js 3D hero | branch `archive/main-3d-hero-2026-11-09` and tag `site-3d-hero-final` (both at `89aed05`) |
 
-## Deploy on Vercel
+To bring the old hero back, either:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- set `DEFAULT_HERO = "three"` in [src/lib/constants.ts](src/lib/constants.ts) (the 3D hero's code is still in the project), or
+- put the whole old site back: `git push --force origin site-3d-hero-final:main`. This throws away everything after it on `main`, so do it only on purpose.
