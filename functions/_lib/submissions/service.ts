@@ -161,7 +161,7 @@ export async function handle(request: Request, env: Env, legacy = false) {
                 validation = await validateModel(b, product === 'automotive' ? payload.config : undefined);
             }
             if(field==='stl'&&!requiresModel)throw Error('CAD-pending brand must be inquiry only');
-            if (field === 'stl' && (b.length < 84 || 84 + new DataView(b.buffer).getUint32(80, true) * 50 !== b.length))
+            if (field === 'stl' && (b.length < 84 || new DataView(b.buffer).getUint32(80,true)===0 || 84 + new DataView(b.buffer).getUint32(80, true) * 50 !== b.length))
                 throw Error('Invalid binary STL');
             if(field==='stl'){
                 const view=new DataView(b.buffer,b.byteOffset,b.byteLength);let lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];
