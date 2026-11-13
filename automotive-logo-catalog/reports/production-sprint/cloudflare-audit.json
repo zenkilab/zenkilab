@@ -1,0 +1,17 @@
+{
+  "r2Status": "disabled, API 10042",
+  "productionUnchanged": true,
+  "productionBindingNames": [
+    null
+  ],
+  "previewNamespace": "preview/feature-automotive-keytags-logo-catalog",
+  "previewVariableNames": [
+    null
+  ],
+  "previewBindings": null,
+  "productionVariableNames": [
+    "DKIM_PRIVATE_KEY",
+    "RESEND_API_KEY"
+  ],
+  "previewD1": "c279c462-84f0-4479-bd47-c6c9368f3d7e"
+}

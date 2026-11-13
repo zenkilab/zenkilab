@@ -6,6 +6,8 @@
   "providerMocked": true,
   "actualDeliveryVerified": false,
   "existingCustomKeytagBrowser": true,
+  "recoverableBrowserFailureRetainsPackage": true,
+  "copyReference": true,
   "viewports": [
     320,
     390,

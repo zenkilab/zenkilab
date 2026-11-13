@@ -1,0 +1,11 @@
+{
+  "paidPlanActivated": false,
+  "r2Status": "disabled at latest API audit",
+  "previewD1": "c279c462-84f0-4479-bd47-c6c9368f3d7e",
+  "previewHostAllowlistConfigured": true,
+  "retentionDays": 30,
+  "previewNamespaceConfigured": true,
+  "productionD1Bound": false,
+  "productionD1": "5af57b01-4665-46ca-9d34-bc8c6b55c7ab",
+  "productionBindingsUnchanged": true
+}

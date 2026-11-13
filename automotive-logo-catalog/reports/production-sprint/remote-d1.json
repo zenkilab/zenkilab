@@ -1,0 +1,10 @@
+{
+  "previewDatabase": "zenkilab-submissions-preview-ak",
+  "databaseId": "c279c462-84f0-4479-bd47-c6c9368f3d7e",
+  "remoteR2Verified": false,
+  "independentReadback": true,
+  "liveEmailSent": false,
+  "productionDataUsed": false,
+  "remoteD1Persistence": true,
+  "syntheticTestRowRemoved": true
+}

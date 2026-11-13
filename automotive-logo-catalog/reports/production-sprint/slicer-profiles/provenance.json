@@ -1,0 +1,28 @@
+{
+  "source": "Installed Bambu Studio 02.09.01.70 packaged BBL profiles, no user or printer account settings",
+  "printer": "Bambu Lab P2S 0.4 nozzle",
+  "filament": "Bambu PETG Basic",
+  "hashes": {
+    "machine\\Bambu Lab P2S 0.4 nozzle.json": "793a2ec5b261144e5c5107a50cd39272851029250f0739b313ec28e2c8832dbd",
+    "machine\\fdm_bbl_3dp_001_common.json": "fbd643afb4888fcd4b88db84b85f74a3729c15253e8d5f8e56bbb4b2c4eb99b4",
+    "machine\\fdm_machine_common.json": "a3e8d37e0ec7b87d5c6c1ff2cede1cbfbb5f301ab549dcec55e92155a5fab06f",
+    "machine\\Bambu Lab P2S 0.4 nozzle template machine_start_gcode.json": "5f8a7912c3d9ec1f85d78da4954949210589fa5018d6bfbabc41b2a02b9e1b10",
+    "machine\\Bambu Lab P2S 0.4 nozzle template machine_end_gcode.json": "bc4acc2bf517e3328cca4c42376c47ca46870810bac3e55d465be814a5d50e45",
+    "machine\\Bambu Lab P2S 0.4 nozzle template layer_change_gcode.json": "a1d020eac0eb5bf61e9afa648350a7ae718a9750d17f94ec6ae743b068bba82a",
+    "machine\\Bambu Lab P2S 0.4 nozzle template time_lapse_gcode.json": "6801ce9dc5c85f03de8baa831c91b2e29fef7c659f7b802f3ea98dd005c511a1",
+    "machine\\Bambu Lab P2S 0.4 nozzle template wrapping_detection_gcode.json": "8ce9a14b5f72fdd9fa983d920919d81b6e0be5f8ecad776f1508584dfb40f3b6",
+    "machine\\Bambu Lab P2S 0.4 nozzle template change_filament_gcode.json": "8d5eb3101deb43ecd4dcd1a1c75aa92f4f6900aaf525f5ccac3ea913a384c0e6",
+    "process\\0.12mm High Quality @BBL P2S.json": "cde91e877ccc349a6d46e5e5806a37f5a862fe31426074427b25631bf98d7a8d",
+    "process\\fdm_process_single_0.12.json": "1e2239385a114f9893a6aeacb77d2eeca2be86d7b8a7f61d28f7eabe489ace3c",
+    "process\\fdm_process_single_common.json": "b589e22e3a9f3513dd71d0a1061181c6f24a2e330b73b1cf7f63a292d7d6a37b",
+    "process\\fdm_process_common.json": "b7a53fc8c06634af6af5152f29cdc93178dd679bee0e2ea5271c5fed9494d7aa",
+    "process\\0.16mm High Quality @BBL P2S.json": "cabbc4f1818e17747bf31c970e19c1b7be4bab4d146902b03eb0edc81d8dec1a",
+    "process\\fdm_process_single_0.16.json": "fa18401482566a2cc6fdf7cb2ae9fe0400c6260ccf77097888e47964039ed599",
+    "filament\\Bambu PETG Basic @BBL P2S 0.4 nozzle.json": "bc2b11e0c8a9e32d90c09cbb0ec5981cf2ab6653832481a57036f56e95f1518b",
+    "filament\\Bambu PETG Basic @base.json": "9e06c48f71280fc0893f8f219eff8ddf8e0c3f138a477d8573cdbe1be7e4b8ff",
+    "filament\\fdm_filament_pet.json": "a2ee7bac45c0f6b8778a06932d1ec2a00b62a13115bd474b3ee54e8c4d492c94",
+    "filament\\fdm_filament_common.json": "f87115df69f38f5042c79c9dff5efd76da99235987e8ec02ffec070a8e1c3b08",
+    "filament\\fdm_filament_template_direct_dual_e3d.json": "623fba9d74071e87a035ffa6b7b84dd325563941c88302d133b7dbe0322eea20"
+  },
+  "use": "Offline slicing validation only; no physical printing"
+}

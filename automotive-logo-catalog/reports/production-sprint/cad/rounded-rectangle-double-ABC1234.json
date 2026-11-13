@@ -1,0 +1,9 @@
+{
+  "brand": "mercedes",
+  "registration": "ABC 1234",
+  "shape": "rounded-rectangle",
+  "border": "double",
+  "body": "white",
+  "accent": "navy",
+  "branding": true
+}

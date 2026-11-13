@@ -1,0 +1,9 @@
+{
+  "brand": "mercedes",
+  "registration": "III 11111111",
+  "shape": "capsule",
+  "border": "double",
+  "body": "white",
+  "accent": "black",
+  "branding": true
+}

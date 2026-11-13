@@ -16,17 +16,23 @@
         "validation": {
           "origin": "client-generated",
           "structuralValidation": true,
-          "triangles": 43736,
-          "vertices": 21234,
-          "boundaryEdges": 688,
-          "nonManifoldEdges": 1829,
-          "watertightEdgeScreen": false,
+          "triangles": 22196,
+          "vertices": 11120,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "windingErrors": 0,
+          "degenerateTriangles": 0,
+          "volumeMm3": 4658.677389370803,
+          "watertightEdgeScreen": true,
           "independentlyRegenerated": false,
           "serverGeometryVerified": false,
           "status": "manufacturing-review-required",
-          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation",
           "stlCoordinateDimensionScreen": true,
-          "stlIndependentlyMatched": false
+          "stlIndependentlyMatched": false,
+          "stlClosedEdgeScreen": true,
+          "stlVolumeMm3": 4658.677399619448,
+          "stl3mfVolumeConsistent": true
         }
       }
     },
@@ -42,17 +48,23 @@
         "validation": {
           "origin": "client-generated",
           "structuralValidation": true,
-          "triangles": 49896,
-          "vertices": 24314,
-          "boundaryEdges": 688,
-          "nonManifoldEdges": 1829,
-          "watertightEdgeScreen": false,
+          "triangles": 28356,
+          "vertices": 14200,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "windingErrors": 0,
+          "degenerateTriangles": 0,
+          "volumeMm3": 4691.262680200178,
+          "watertightEdgeScreen": true,
           "independentlyRegenerated": false,
           "serverGeometryVerified": false,
           "status": "manufacturing-review-required",
-          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation",
           "stlCoordinateDimensionScreen": true,
-          "stlIndependentlyMatched": false
+          "stlIndependentlyMatched": false,
+          "stlClosedEdgeScreen": true,
+          "stlVolumeMm3": 4691.262668191458,
+          "stl3mfVolumeConsistent": true
         }
       }
     },
@@ -68,17 +80,23 @@
         "validation": {
           "origin": "client-generated",
           "structuralValidation": true,
-          "triangles": 49896,
-          "vertices": 24314,
-          "boundaryEdges": 688,
-          "nonManifoldEdges": 1829,
-          "watertightEdgeScreen": false,
+          "triangles": 28356,
+          "vertices": 14200,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "windingErrors": 0,
+          "degenerateTriangles": 0,
+          "volumeMm3": 4723.153114546995,
+          "watertightEdgeScreen": true,
           "independentlyRegenerated": false,
           "serverGeometryVerified": false,
           "status": "manufacturing-review-required",
-          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation",
           "stlCoordinateDimensionScreen": true,
-          "stlIndependentlyMatched": false
+          "stlIndependentlyMatched": false,
+          "stlClosedEdgeScreen": true,
+          "stlVolumeMm3": 4723.153104106232,
+          "stl3mfVolumeConsistent": true
         }
       }
     },
@@ -94,17 +112,23 @@
         "validation": {
           "origin": "client-generated",
           "structuralValidation": true,
-          "triangles": 56056,
-          "vertices": 27394,
-          "boundaryEdges": 688,
-          "nonManifoldEdges": 1829,
-          "watertightEdgeScreen": false,
+          "triangles": 34516,
+          "vertices": 17280,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "windingErrors": 0,
+          "degenerateTriangles": 0,
+          "volumeMm3": 4722.400327625139,
+          "watertightEdgeScreen": true,
           "independentlyRegenerated": false,
           "serverGeometryVerified": false,
           "status": "manufacturing-review-required",
-          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation",
           "stlCoordinateDimensionScreen": true,
-          "stlIndependentlyMatched": false
+          "stlIndependentlyMatched": false,
+          "stlClosedEdgeScreen": true,
+          "stlVolumeMm3": 4722.400307938694,
+          "stl3mfVolumeConsistent": true
         }
       }
     },
@@ -120,17 +144,23 @@
         "validation": {
           "origin": "client-generated",
           "structuralValidation": true,
-          "triangles": 43750,
-          "vertices": 21240,
-          "boundaryEdges": 690,
-          "nonManifoldEdges": 1843,
-          "watertightEdgeScreen": false,
+          "triangles": 22194,
+          "vertices": 11119,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "windingErrors": 0,
+          "degenerateTriangles": 0,
+          "volumeMm3": 5128.41703311992,
+          "watertightEdgeScreen": true,
           "independentlyRegenerated": false,
           "serverGeometryVerified": false,
           "status": "manufacturing-review-required",
-          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation",
           "stlCoordinateDimensionScreen": true,
-          "stlIndependentlyMatched": false
+          "stlIndependentlyMatched": false,
+          "stlClosedEdgeScreen": true,
+          "stlVolumeMm3": 5128.417112488328,
+          "stl3mfVolumeConsistent": true
         }
       }
     },
@@ -146,17 +176,23 @@
         "validation": {
           "origin": "client-generated",
           "structuralValidation": true,
-          "triangles": 49926,
-          "vertices": 24328,
-          "boundaryEdges": 690,
-          "nonManifoldEdges": 1843,
-          "watertightEdgeScreen": false,
+          "triangles": 28370,
+          "vertices": 14207,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "windingErrors": 0,
+          "degenerateTriangles": 0,
+          "volumeMm3": 5164.562445712692,
+          "watertightEdgeScreen": true,
           "independentlyRegenerated": false,
           "serverGeometryVerified": false,
           "status": "manufacturing-review-required",
-          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation",
           "stlCoordinateDimensionScreen": true,
-          "stlIndependentlyMatched": false
+          "stlIndependentlyMatched": false,
+          "stlClosedEdgeScreen": true,
+          "stlVolumeMm3": 5164.562531442678,
+          "stl3mfVolumeConsistent": true
         }
       }
     },
@@ -172,17 +208,23 @@
         "validation": {
           "origin": "client-generated",
           "structuralValidation": true,
-          "triangles": 49926,
-          "vertices": 24328,
-          "boundaryEdges": 690,
-          "nonManifoldEdges": 1843,
-          "watertightEdgeScreen": false,
+          "triangles": 28370,
+          "vertices": 14207,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "windingErrors": 0,
+          "degenerateTriangles": 0,
+          "volumeMm3": 5200.012997543314,
+          "watertightEdgeScreen": true,
           "independentlyRegenerated": false,
           "serverGeometryVerified": false,
           "status": "manufacturing-review-required",
-          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation",
           "stlCoordinateDimensionScreen": true,
-          "stlIndependentlyMatched": false
+          "stlIndependentlyMatched": false,
+          "stlClosedEdgeScreen": true,
+          "stlVolumeMm3": 5200.013099219555,
+          "stl3mfVolumeConsistent": true
         }
       }
     },
@@ -198,17 +240,23 @@
         "validation": {
           "origin": "client-generated",
           "structuralValidation": true,
-          "triangles": 56102,
-          "vertices": 27416,
-          "boundaryEdges": 690,
-          "nonManifoldEdges": 1843,
-          "watertightEdgeScreen": false,
+          "triangles": 34514,
+          "vertices": 17279,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "windingErrors": 0,
+          "degenerateTriangles": 0,
+          "volumeMm3": 5199.265940542454,
+          "watertightEdgeScreen": true,
           "independentlyRegenerated": false,
           "serverGeometryVerified": false,
           "status": "manufacturing-review-required",
-          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation",
           "stlCoordinateDimensionScreen": true,
-          "stlIndependentlyMatched": false
+          "stlIndependentlyMatched": false,
+          "stlClosedEdgeScreen": true,
+          "stlVolumeMm3": 5199.266092667378,
+          "stl3mfVolumeConsistent": true
         }
       }
     },
@@ -244,7 +292,17 @@
       "emptyStlRejected": true
     },
     {
+      "invalidStlTopologyRejected": true
+    },
+    {
       "wrongEnvironmentBlocked": true
+    },
+    {
+      "privateArtifactAuthorization": true,
+      "malformedOriginRejected": true
+    },
+    {
+      "privateArtifactChecksumTamperRejected": true
     },
     {
       "concurrentDuplicateSuppressed": true

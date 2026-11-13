@@ -1,0 +1,9 @@
+{
+  "brand": "mercedes",
+  "registration": "I1",
+  "shape": "rounded-rectangle",
+  "border": "bold",
+  "body": "navy",
+  "accent": "white",
+  "branding": true
+}

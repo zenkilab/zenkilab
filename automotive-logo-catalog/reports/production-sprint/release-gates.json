@@ -1,0 +1,65 @@
+{
+  "releaseAuthorized": false,
+  "mainMerged": false,
+  "productionDeployed": false,
+  "productionConfigurationUnchanged": true,
+  "allMandatoryGatesPass": false,
+  "gates": [
+    {
+      "gate": "G1",
+      "result": "PASS",
+      "evidence": "Production build, types, Function compilation, 24 submission scenarios, 43 font samples and existing hairline checks pass"
+    },
+    {
+      "gate": "G2",
+      "result": "PASS",
+      "evidence": "Existing Custom Key Tag exporter unchanged; real browser generation, quote/confirm and attachments pass with mocked email"
+    },
+    {
+      "gate": "G3",
+      "result": "PASS",
+      "evidence": "26 CAD cases, 12 independently reloaded pairs, 14 offline P2S slices; tested models have no unresolved critical topology defects"
+    },
+    {
+      "gate": "G4",
+      "result": "FAIL",
+      "evidence": "Real isolated D1 passes. R2 remains disabled (10042); full private D1/R2 lifecycle unverified"
+    },
+    {
+      "gate": "G5",
+      "result": "FAIL",
+      "evidence": "Local idempotency, concurrent duplicates and failure/retry pass; real remote R2 recovery still blocked"
+    },
+    {
+      "gate": "G6",
+      "result": "FAIL",
+      "evidence": "Preview RESEND_API_KEY and recovery admin secret are missing; no live provider acceptance verified"
+    },
+    {
+      "gate": "G7",
+      "result": "FAIL",
+      "evidence": "No real email sent or actual delivery observed; prior single synthetic business-recipient authorization remains unused"
+    },
+    {
+      "gate": "G8",
+      "result": "PASS",
+      "evidence": "Deployed 1280 fitting cases across 16 brands, two shapes, all borders, two registrations/color layouts and five widths; controls/noindex pass"
+    },
+    {
+      "gate": "G9",
+      "result": "PASS",
+      "evidence": "Operator-only private retrieval, SHA checks, no-store and unauthorized HTTP 401 verified; no real customer data used or new public customer-file URLs"
+    },
+    {
+      "gate": "G10",
+      "result": "FAIL",
+      "evidence": "Production D1 prepared but unbound; production private R2, admin/recovery, retention schedule and complete rollback rehearsal not configured/verified"
+    }
+  ],
+  "ownerActions": [
+    "Enable R2 through the normal Cloudflare Dashboard after reviewing billing terms. No paid activation was performed.",
+    "Configure Preview RESEND_API_KEY and SUBMISSIONS_ADMIN_TOKEN through normal secret settings. Never paste secrets into chat.",
+    "Continue isolated private R2 provisioning and real persistence/recovery/runtime tests, then use the unused authorization for one controlled synthetic email and obtain delivery evidence.",
+    "Verify isolated production bindings, retention and rollback before any main merge."
+  ]
+}

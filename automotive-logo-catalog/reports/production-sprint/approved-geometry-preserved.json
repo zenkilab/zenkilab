@@ -1,0 +1,286 @@
+{
+  "passed": true,
+  "files": 70,
+  "hashes": [
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_capsule_body.stl",
+      "sha256": "c6c38e22f8b5edd062f443e7751a88ab07420b45da97de757138d4b382c02a54"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_capsule_border.stl",
+      "sha256": "c81e5612b781598a3f203ac09c67142b57fdfbe5b49197f07710d3935c627894"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_capsule_branding-inlay-optional.stl",
+      "sha256": "5b28a15fa68d857d9ce38f98099515a3ddf426f51247ccfe2d81751b34f98408"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_capsule_complete-flush.stl",
+      "sha256": "0336b2da72f6c01a818d63e0a68c200d4c0b49630f2f841b3339ef9d9e6425df"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_capsule_complete-recessed.stl",
+      "sha256": "f37115b2821f26a4521b2ddbae5a5a5b62a6a920a4437584f154bee3f1ee782c"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_capsule_emblem.stl",
+      "sha256": "d6bcde41b112a1b61c87760a8fcec779d9759d74cfe5f24a9a71ed91e1d66d73"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_capsule_flush_geometry.3mf",
+      "sha256": "d9fa4ca0d54629b360d04e4a51d652506e0aa64b7dc18b4b3e9ce2e071174e95"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_capsule_recessed_geometry.3mf",
+      "sha256": "68b2485eca67db6e6c50c633b12fd42c97222e2a5072b01610fee26e0fb19bdd"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_capsule_registration.stl",
+      "sha256": "206e0ca205c40f8f691037b646da5c74efc8c2257f8f273f6eeee7d1e674e8b9"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_rounded-rectangle_body.stl",
+      "sha256": "c109726364541f473c7096eff94ea1e04dc8cb3eca6927ee8568e287734e5e10"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_rounded-rectangle_border.stl",
+      "sha256": "5f057ab1852a86697f5ca72b98f82d0ea8c71bd3c80704b977526d4ddae2a85b"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_rounded-rectangle_branding-inlay-optional.stl",
+      "sha256": "5b28a15fa68d857d9ce38f98099515a3ddf426f51247ccfe2d81751b34f98408"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_rounded-rectangle_complete-flush.stl",
+      "sha256": "2c2e2bdc326631e735a9c7aee6eb765fbc6ddaeb8f8c4f9288ae668543fa5158"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_rounded-rectangle_complete-recessed.stl",
+      "sha256": "0ff6e6674edadfc10397c5e377fdc9a22d76b7d03d6f6a0753b0c1fe408e1461"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_rounded-rectangle_emblem.stl",
+      "sha256": "d6bcde41b112a1b61c87760a8fcec779d9759d74cfe5f24a9a71ed91e1d66d73"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_rounded-rectangle_flush_geometry.3mf",
+      "sha256": "b09f373d3451dae1c88f10e100fd742f7359dc3a6fcd87bd09fcf74d4af4feff"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_rounded-rectangle_recessed_geometry.3mf",
+      "sha256": "4dc7c83d86641453b28e55eeaf63bf371952da7d83816f7200d8f47c5df85f82"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\bold\\mercedes_rounded-rectangle_registration.stl",
+      "sha256": "206e0ca205c40f8f691037b646da5c74efc8c2257f8f273f6eeee7d1e674e8b9"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_capsule_body.stl",
+      "sha256": "c6c38e22f8b5edd062f443e7751a88ab07420b45da97de757138d4b382c02a54"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_capsule_border.stl",
+      "sha256": "348caf626e8309bbd70c58f72daea6fbf0ed6f13f0ececd740dc84c1cdd191c2"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_capsule_branding-inlay-optional.stl",
+      "sha256": "5b28a15fa68d857d9ce38f98099515a3ddf426f51247ccfe2d81751b34f98408"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_capsule_complete-flush.stl",
+      "sha256": "cd7a5dc835eae9fdc55b3032384f42031af20cc2cfbbb94270c79b2410509238"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_capsule_complete-recessed.stl",
+      "sha256": "83dd6e1cacf91c2be94f01419678d51cb3b7710cef9ff2583a4a10e2442e7e17"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_capsule_emblem.stl",
+      "sha256": "d6bcde41b112a1b61c87760a8fcec779d9759d74cfe5f24a9a71ed91e1d66d73"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_capsule_flush_geometry.3mf",
+      "sha256": "fcf2622440428a85db1e2652a7d53c65082f29802031b2d808c5afa6c62d4536"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_capsule_recessed_geometry.3mf",
+      "sha256": "63564d624b81fed0e63aea1ca5321df96f07d4c30ae179588f82070995209800"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_capsule_registration.stl",
+      "sha256": "206e0ca205c40f8f691037b646da5c74efc8c2257f8f273f6eeee7d1e674e8b9"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_rounded-rectangle_body.stl",
+      "sha256": "c109726364541f473c7096eff94ea1e04dc8cb3eca6927ee8568e287734e5e10"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_rounded-rectangle_border.stl",
+      "sha256": "d115094279f1e77570dc59c24536c88ef4df5cbd6440d712e7b788c9822cc6b4"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_rounded-rectangle_branding-inlay-optional.stl",
+      "sha256": "5b28a15fa68d857d9ce38f98099515a3ddf426f51247ccfe2d81751b34f98408"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_rounded-rectangle_complete-flush.stl",
+      "sha256": "4d38cd1d4340330d489cc0012fd054d1a37cecb84ced6533082b2138bcde674f"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_rounded-rectangle_complete-recessed.stl",
+      "sha256": "b5addc8b062bae80be53f7a93477e90a993623e575e506e0b5e42b9eb05a9bb8"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_rounded-rectangle_emblem.stl",
+      "sha256": "d6bcde41b112a1b61c87760a8fcec779d9759d74cfe5f24a9a71ed91e1d66d73"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_rounded-rectangle_flush_geometry.3mf",
+      "sha256": "3c759f4909c4228b5af3d7ec2a4028abf312f7724589818ab2465135ebc77d92"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_rounded-rectangle_recessed_geometry.3mf",
+      "sha256": "5a858cc6c18851858f069952c9f4f964974ba4ad4067ae7179b10c49a436d0f1"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\double\\mercedes_rounded-rectangle_registration.stl",
+      "sha256": "206e0ca205c40f8f691037b646da5c74efc8c2257f8f273f6eeee7d1e674e8b9"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_capsule_body.stl",
+      "sha256": "c6c38e22f8b5edd062f443e7751a88ab07420b45da97de757138d4b382c02a54"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_capsule_border.stl",
+      "sha256": "b8c055c2a50fd7c23d2826fab4d8798b1da41c8eacc23ba744821bbf51fd46fa"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_capsule_branding-inlay-optional.stl",
+      "sha256": "5b28a15fa68d857d9ce38f98099515a3ddf426f51247ccfe2d81751b34f98408"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_capsule_complete-flush.stl",
+      "sha256": "1ae2165cc4edfc866e529090df67810f06286fa46370f9a729a4f5812bf2add9"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_capsule_complete-recessed.stl",
+      "sha256": "35cb2dfc8668251fa54484ccabbd313b4a9cc21efa58db95f4c22b0c9d5acca3"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_capsule_emblem.stl",
+      "sha256": "d6bcde41b112a1b61c87760a8fcec779d9759d74cfe5f24a9a71ed91e1d66d73"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_capsule_flush_geometry.3mf",
+      "sha256": "dc8d4957be1652a9366a51ea054d95582c77a60b7306479aced2515859a1b6af"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_capsule_recessed_geometry.3mf",
+      "sha256": "b852c6be8100422c37ceef2dcecd5f297d9b9b572c00498d56cccec056e96720"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_capsule_registration.stl",
+      "sha256": "206e0ca205c40f8f691037b646da5c74efc8c2257f8f273f6eeee7d1e674e8b9"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_rounded-rectangle_body.stl",
+      "sha256": "c109726364541f473c7096eff94ea1e04dc8cb3eca6927ee8568e287734e5e10"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_rounded-rectangle_border.stl",
+      "sha256": "76de30938c3efe9c050fa9e7546ae7d577ca6f5d062fec06d284e5cd4be901b6"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_rounded-rectangle_branding-inlay-optional.stl",
+      "sha256": "5b28a15fa68d857d9ce38f98099515a3ddf426f51247ccfe2d81751b34f98408"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_rounded-rectangle_complete-flush.stl",
+      "sha256": "b70d0cbb44783ad11bc2dc73e7974b0a8ade62e131534d905fb074d97405665e"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_rounded-rectangle_complete-recessed.stl",
+      "sha256": "0978d3935d081cee858b8dc226bffaf5f54cefbf77cd62f4ac390fd3337b7631"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_rounded-rectangle_emblem.stl",
+      "sha256": "d6bcde41b112a1b61c87760a8fcec779d9759d74cfe5f24a9a71ed91e1d66d73"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_rounded-rectangle_flush_geometry.3mf",
+      "sha256": "b496ed12b9df9127a2d4fa8202b15c10e6ce892926bd845d2d9c46d1e480f24f"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_rounded-rectangle_recessed_geometry.3mf",
+      "sha256": "96610222fcb1fc5468c43f0b785f3cc47094aec7e602c73280eaf3c1d346bbde"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\borders\\thin\\mercedes_rounded-rectangle_registration.stl",
+      "sha256": "206e0ca205c40f8f691037b646da5c74efc8c2257f8f273f6eeee7d1e674e8b9"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_capsule_body.stl",
+      "sha256": "c6c38e22f8b5edd062f443e7751a88ab07420b45da97de757138d4b382c02a54"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_capsule_branding-inlay-optional.stl",
+      "sha256": "5b28a15fa68d857d9ce38f98099515a3ddf426f51247ccfe2d81751b34f98408"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_capsule_complete-flush.stl",
+      "sha256": "fc791cc2c8adf805993530985c6d76cd25b0d15fcb07168bf6ccfa4a4d86ab19"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_capsule_complete-recessed.stl",
+      "sha256": "cd7158fb9c4293d49c459c2c80392ee1fc46e1df169984334ebe7bf7db388b42"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_capsule_emblem.stl",
+      "sha256": "d6bcde41b112a1b61c87760a8fcec779d9759d74cfe5f24a9a71ed91e1d66d73"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_capsule_flush_geometry.3mf",
+      "sha256": "06f57d0eb9821ac73da1533bf66d7035face29cf4ce31aaad450469fc13a90a0"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_capsule_recessed_geometry.3mf",
+      "sha256": "d269e5b877f38ebcc92453d00bf08bae7299d34029fb4d057eef48e60b61295c"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_capsule_registration.stl",
+      "sha256": "206e0ca205c40f8f691037b646da5c74efc8c2257f8f273f6eeee7d1e674e8b9"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_rounded-rectangle_body.stl",
+      "sha256": "c109726364541f473c7096eff94ea1e04dc8cb3eca6927ee8568e287734e5e10"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_rounded-rectangle_branding-inlay-optional.stl",
+      "sha256": "5b28a15fa68d857d9ce38f98099515a3ddf426f51247ccfe2d81751b34f98408"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_rounded-rectangle_complete-flush.stl",
+      "sha256": "e305fd4656a4f776bf87c133eede899482f2d901287d2a22c1070a5720403041"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_rounded-rectangle_complete-recessed.stl",
+      "sha256": "67462f785aa051f02003628f1ea3f6d414443ef9ec22bb24ef483f18227b3039"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_rounded-rectangle_emblem.stl",
+      "sha256": "d6bcde41b112a1b61c87760a8fcec779d9759d74cfe5f24a9a71ed91e1d66d73"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_rounded-rectangle_flush_geometry.3mf",
+      "sha256": "a79c452c88e5e7edd14c2e4098042d468a6d673938f54f0f3ed63f446b7bd1f8"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_rounded-rectangle_recessed_geometry.3mf",
+      "sha256": "9201be4cc2e0ed5b47c4e68b8bcfb45fdfaefb9368a95aa1df83c96478c2f60e"
+    },
+    {
+      "file": "mercedes-cav3883-prototypes\\exports\\mercedes_rounded-rectangle_registration.stl",
+      "sha256": "206e0ca205c40f8f691037b646da5c74efc8c2257f8f273f6eeee7d1e674e8b9"
+    }
+  ]
+}

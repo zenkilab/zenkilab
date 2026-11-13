@@ -1,0 +1,86 @@
+ M automotive-logo-catalog/reports/fitting/all-16-contact-sheet.png
+ M automotive-logo-catalog/reports/fitting/bmw-after.png
+ M automotive-logo-catalog/reports/fitting/contact-audi.png
+ M automotive-logo-catalog/reports/fitting/contact-bmw.png
+ M automotive-logo-catalog/reports/fitting/contact-ford.png
+ M automotive-logo-catalog/reports/fitting/contact-honda.png
+ M automotive-logo-catalog/reports/fitting/contact-hyundai.png
+ M automotive-logo-catalog/reports/fitting/contact-isuzu.png
+ M automotive-logo-catalog/reports/fitting/contact-kia.png
+ M automotive-logo-catalog/reports/fitting/contact-lexus.png
+ M automotive-logo-catalog/reports/fitting/contact-mazda.png
+ M automotive-logo-catalog/reports/fitting/contact-mitsubishi.png
+ M automotive-logo-catalog/reports/fitting/contact-nissan.png
+ M automotive-logo-catalog/reports/fitting/contact-subaru.png
+ M automotive-logo-catalog/reports/fitting/contact-suzuki.png
+ M automotive-logo-catalog/reports/fitting/contact-toyota.png
+ M automotive-logo-catalog/reports/fitting/contact-volkswagen.png
+?? .claude/settings.local.json
+?? .review/
+?? .tokensave/
+?? automotive-logo-catalog/reports/example-honda-live.png
+?? automotive-logo-catalog/reports/example-mercedes-live.png
+?? automotive-logo-catalog/reports/example-toyota-live.png
+?? automotive-logo-catalog/reports/fitting/bmw-after-live.png
+?? automotive-logo-catalog/reports/fitting/final-verification.json
+?? automotive-logo-catalog/reports/fitting/live-audi.png
+?? automotive-logo-catalog/reports/fitting/live-bmw.png
+?? automotive-logo-catalog/reports/fitting/live-ford.png
+?? automotive-logo-catalog/reports/fitting/live-honda.png
+?? automotive-logo-catalog/reports/fitting/live-hyundai.png
+?? automotive-logo-catalog/reports/fitting/live-isuzu.png
+?? automotive-logo-catalog/reports/fitting/live-kia.png
+?? automotive-logo-catalog/reports/fitting/live-lexus.png
+?? automotive-logo-catalog/reports/fitting/live-mazda.png
+?? automotive-logo-catalog/reports/fitting/live-mercedes.png
+?? automotive-logo-catalog/reports/fitting/live-mitsubishi.png
+?? automotive-logo-catalog/reports/fitting/live-nissan.png
+?? automotive-logo-catalog/reports/fitting/live-regression.json
+?? automotive-logo-catalog/reports/fitting/live-subaru.png
+?? automotive-logo-catalog/reports/fitting/live-suzuki.png
+?? automotive-logo-catalog/reports/fitting/live-toyota.png
+?? automotive-logo-catalog/reports/fitting/live-viewport-1024.png
+?? automotive-logo-catalog/reports/fitting/live-viewport-1440.png
+?? automotive-logo-catalog/reports/fitting/live-viewport-320.png
+?? automotive-logo-catalog/reports/fitting/live-viewport-390.png
+?? automotive-logo-catalog/reports/fitting/live-viewport-768.png
+?? automotive-logo-catalog/reports/fitting/live-volkswagen.png
+?? automotive-logo-catalog/reports/live-1024.png
+?? automotive-logo-catalog/reports/live-1440.png
+?? automotive-logo-catalog/reports/live-320.png
+?? automotive-logo-catalog/reports/live-390.png
+?? automotive-logo-catalog/reports/live-768.png
+?? automotive-logo-catalog/reports/live-deployment.json
+?? automotive-logo-catalog/reports/logo-review.png
+?? automotive-logo-catalog/reports/twotone-changed-files.json
+?? automotive-logo-catalog/reports/twotone-live-1024.png
+?? automotive-logo-catalog/reports/twotone-live-1440.png
+?? automotive-logo-catalog/reports/twotone-live-320.png
+?? automotive-logo-catalog/reports/twotone-live-390.png
+?? automotive-logo-catalog/reports/twotone-live-768.png
+?? automotive-logo-catalog/reports/twotone-live-qa.json
+?? debug.log
+?? mathxl-keytag-batch/README.md
+?? mathxl-keytag-batch/documentation/
+?? mathxl-keytag-batch/exports/
+?? mathxl-keytag-batch/logo/
+?? mathxl-keytag-batch/previews/
+?? mathxl-keytag-batch/source/baseline-hashes.json
+?? mathxl-keytag-batch/source/baseline-status.txt
+?? mathxl-keytag-batch/source/check_exports.py
+?? mathxl-keytag-batch/source/montserrat_bold.typeface.json
+?? mathxl-keytag-batch/source/name-outlines.json
+?? mathxl-keytag-batch/source/outlines.mjs
+?? mathxl-keytag-batch/source/vendor/
+?? mercedes-cav3883-prototypes/README.md
+?? mercedes-cav3883-prototypes/comparison.html
+?? mercedes-cav3883-prototypes/documentation/
+?? mercedes-cav3883-prototypes/exports/
+?? mercedes-cav3883-prototypes/previews/
+?? mercedes-cav3883-prototypes/reference/
+?? mercedes-cav3883-prototypes/source/__pycache__/
+?? mercedes-cav3883-prototypes/source/check-website.cjs
+?? mercedes-cav3883-prototypes/source/logo_catalog.py
+?? mercedes-cav3883-prototypes/source/outlines.mjs
+?? mercedes-cav3883-prototypes/source/parameters.json
+?? mercedes-cav3883-prototypes/source/sync-preview-assets.py

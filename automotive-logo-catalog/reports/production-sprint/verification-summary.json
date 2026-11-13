@@ -1,0 +1,29 @@
+{
+  "build": true,
+  "typecheck": true,
+  "functionCompile": true,
+  "sharedSubmissionCases": 24,
+  "fontMetricsCases": 43,
+  "cadConfigurations": 26,
+  "independentSerializedPairs": 12,
+  "actualP2SSlices": 14,
+  "deployedLogoFittingCases": 1280,
+  "brands": 16,
+  "responsiveWidths": [
+    320,
+    390,
+    768,
+    1024,
+    1440
+  ],
+  "originalExportHashesPreserved": 70,
+  "existingHairlineRegression": true,
+  "localBrowserSubmissionWithMockProvider": true,
+  "remoteD1Smoke": true,
+  "remoteR2Lifecycle": false,
+  "realEmailSent": false,
+  "actualEmailDeliveryVerified": false,
+  "productionChanged": false,
+  "mainMerged": false,
+  "productionMainBase": "4c6f3fd741d26026f234be067a5284c763312a0c"
+}

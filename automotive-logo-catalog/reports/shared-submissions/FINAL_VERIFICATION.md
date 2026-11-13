@@ -1,3 +1,5 @@
+> Historical baseline at 9743df1. Current manufacturing/storage evidence and release gates are in ../production-sprint/ and ../../PRODUCTION_RELEASE.md.
+
 # Shared workflow verification
 
 Implemented on feature/automotive-keytags-logo-catalog. Working application code verified at 92e2254dfa6d8ff61d7c7bd7a6bdcc0ce6c52f2c. No main deployment or real email was triggered.
