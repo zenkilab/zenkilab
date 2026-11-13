@@ -82,7 +82,7 @@ export default function QuotePage() {
   if (order.confirmed)
     return shell(
       <div className="rounded-2xl border border-border bg-card p-8 text-center">
-        <h1 className="text-3xl font-bold">You are in the print queue</h1>
+        <h1 className="text-3xl font-bold">Design confirmation received</h1>
         <p className="mt-3 font-mono text-sm text-primary">{order.orderId}</p>
         <p className="mx-auto mt-4 max-w-[480px] text-sm leading-relaxed text-muted-foreground">
           We will check your design{configs.length > 1 ? "s" : ""} and message you on WhatsApp at {order.contact.phone}. You have not paid anything.

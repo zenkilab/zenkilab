@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 dkim_private.pem
+
+# Private local submission fixtures, databases and offline slicer runtimes.
+/.tokensave/

@@ -1,0 +1,34 @@
+name: Private submission retention
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 3 * * *'
+
+permissions: {}
+
+concurrency:
+  group: private-submission-retention
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    if: github.ref == 'refs/heads/main' && vars.KEYTAG_SUBMISSION_CLEANUP_ENABLED == 'true'
+    environment: production-submissions
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Remove expired private artifacts and personal metadata
+        env:
+          ADMIN_TOKEN: ${{ secrets.SUBMISSIONS_ADMIN_TOKEN }}
+        shell: bash
+        run: |
+          test -n "$ADMIN_TOKEN"
+          for attempt in $(seq 1 20); do
+            curl --silent --show-error --fail --max-time 20 \
+              --request POST --header "Authorization: Bearer $ADMIN_TOKEN" \
+              --output cleanup.json https://zenkilab.com/api/submissions/cleanup
+            removed=$(node -e 'const r=require("./cleanup.json"); if(!Number.isInteger(r.removed))process.exit(1); console.log(r.removed)')
+            echo "Expired submissions removed: $removed"
+            if [ "$removed" -lt 50 ]; then break; fi
+          done

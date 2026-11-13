@@ -1,5 +1,5 @@
 import { registrationLayout, contrast, filamentColors } from '../../../src/lib/automotive-config';
-import { validateModel } from './validate';
+import { validateModel, validateAutomotiveStl } from './validate';
 import { businessMail } from './business';
 import { parseOrder, keyTagEmail } from '../keytag-email';
 import definitions from '../../../src/lib/automotive-logo-definitions.json';
@@ -89,7 +89,10 @@ export async function handle(request: Request, env: Env, legacy = false) {
     if (!ready(env)||!await scopeMatches(env))
         return json({ error: 'Submissions are temporarily unavailable. Your design has not been sent. Keep your prepared package or use WhatsApp.', readiness: false }, 503);
     const host = new URL(request.url).hostname;
-    if (!env.SUBMISSION_ALLOWED_HOSTS!.split(',').includes(host) || request.headers.get('Origin') && new URL(request.headers.get('Origin')!).host !== new URL(request.url).host)
+    let originAllowed = true;
+    try { if(request.headers.get('Origin'))originAllowed=new URL(request.headers.get('Origin')!).origin===new URL(request.url).origin; }
+    catch { originAllowed=false; }
+    if (!env.SUBMISSION_ALLOWED_HOSTS!.split(',').map(v=>v.trim()).includes(host) || !originAllowed)
         return json({ error: 'Origin not allowed' }, 403);
     let ref = '', phase = 'validation', prior: Row | null = null;
     try {
@@ -168,7 +171,7 @@ export async function handle(request: Request, env: Env, legacy = false) {
                 const view=new DataView(b.buffer,b.byteOffset,b.byteLength);let lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];
                 for(let face=0;face<view.getUint32(80,true);face++)for(let v=0;v<3;v++)for(let axis=0;axis<3;axis++){const n=view.getFloat32(84+face*50+12+v*12+axis*4,true);if(!Number.isFinite(n)||Math.abs(n)>2000)throw Error('Invalid STL coordinates');lo[axis]=Math.min(lo[axis],n);hi[axis]=Math.max(hi[axis],n)}
                 if(product==='automotive'&&hi.some((v,i)=>Math.abs(v-lo[i]-[58,28,3.92][i])>.03))throw Error('STL dimensions mismatch');
-                validation={...(validation as Record<string,unknown>),stlCoordinateDimensionScreen:true,stlIndependentlyMatched:false};
+                validation={...(validation as Record<string,unknown>),stlCoordinateDimensionScreen:true,stlIndependentlyMatched:false,...(product==='automotive'?validateAutomotiveStl(b,(validation as {volumeMm3:number}).volumeMm3):{})};
             }
             const name = field === 'preview' ? (b[0] === 137 ? 'preview.png' : 'preview.jpg') : field === 'model' ? 'model.3mf' : 'model.stl';
             artifacts.push({ name, key: `${env.SUBMISSION_NAMESPACE}/${ref}/${name}`, sha: await hash(b), type: type === 'image' ? (b[0] === 137 ? 'image/png' : 'image/jpeg') : type === '3mf' ? 'model/3mf' : 'model/stl', size: b.length });

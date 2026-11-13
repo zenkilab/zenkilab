@@ -1,0 +1,11 @@
+{
+  "package": "manifold-3d",
+  "version": "3.5.5",
+  "license": "Apache-2.0",
+  "source": "https://github.com/elalish/manifold",
+  "hashes": {
+    "manifold.js": "ca3c8a88df63bb3083013d1eb7f700bf23216594f6e98a2566e34f55d7341ce8",
+    "manifold.wasm": "b172438703ef72dea983481a9a0328d43a9f09e224f6ab093e7bbc99f4372314",
+    "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  }
+}

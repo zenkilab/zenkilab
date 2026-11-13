@@ -14,9 +14,13 @@ Other brands return no CAD from the generator and submit a design inquiry. Serve
 
 Client generation is real; it is not server regeneration. The Function checks ZIP size/entry policy, model presence, finite vertex coordinates, triangle indices, component references, edge counts, automotive dimensions, exactly two matching filament colors, configuration metadata and SHA-256 attachment integrity. Configuration matching establishes consistency between declarations, not independent proof of fidelity; a malicious client can forge both. No independent solid intersection analysis is claimed.
 
-**New layered browser meshes can fail the watertight edge screen**, just as the audited general exporter did. The response and stored package explicitly require manufacturing review and report boundary/nonmanifold counts. The generated STL may contain touching shells. These samples are not certified single-solid/watertight printer-ready files. The existing individually validated Mercedes reference and prior approved batch are untouched. Robust Boolean solid verification is still required before production acceptance where the edge screen fails.
+The Automotive browser generator now uses the same Manifold 3.5.5 solid kernel family as the approved native recipe, lazily loaded from locally served WASM. It performs real body/inlay subtraction and final STL union. Winding-aware font contours are cleaned at 1 micrometre. The imported sculpted STL base is snapped by less than 0.00000005 mm to the exact body plane before joining; its shape and source bytes are preserved. This resolves internal layer faces, pinched font regions and the Float32 base-plane gap.
 
-`reports/shared-submissions/` contains actual eight Mercedes shape/border 3MF/STL pairs, receipts and validation results. Structural dimensions, material metadata and changed registration were checked by the actual server validator. These are unsliced manufacturing-review samples, not ready-to-print projects.
+The sprint report records 26 CAD configurations and independent checks of 12 serialized STL/3MF pairs. The individual material meshes and unioned STL pass closure, manifold-edge, winding, positive-volume and degenerate-face checks. Independent Boolean intersection and STL/3MF symmetric-volume comparisons pass. Proper noncoplanar triangle crossings are screened; this is not a proof covering all possible geometric configurations. Minimum dominant 0.4 mm strokes and a 3.25 mm hole ligament pass for tested cases. Arbitrary future customer text still receives structural checks and manufacturing review.
+
+Automotive submissions now reject failed edge/winding/degenerate/positive-volume checks in either 3MF or STL, and reject STL/3MF volume disagreement. These are runtime structural checks, not independent server regeneration or proof that a malicious client produced the declared lettering. The original general exporter remains unchanged and retains its separate manufacturing review requirement.
+
+Bambu Studio 02.09.01.70 completed 14 offline P2S 0.4 mm PETG slices at 0.16/0.12 mm, preserving two filament colors and reporting no topology-repair activity. Browser-created 3MF remains unsliced geometry. Offline QA sliced projects/G-code are separate review artifacts; no print/upload command is called. See `reports/production-sprint/` and `PRODUCTION_RELEASE.md` for current evidence and release gates.
 
 ## Durable state / retry semantics
 
@@ -32,10 +36,10 @@ Rate limiting hashes Cloudflare's connecting IP into 15-minute buckets and allow
 
 ## Provisioning status and exact preview setup
 
-Cloudflare OAuth login is valid, including D1/Pages write scopes. D1 listing showed no existing databases. R2 listing returned API code 10042: **enable R2 through the Dashboard**. No billing activation or paid-plan change was made. Remote persistence remains unverified. The preview's Resend secret was already missing in the previous audit. Neither product silently falls back to browser storage; the live APIs return 503 until configured.
+Cloudflare OAuth login is valid, including D1/Pages write scopes. The initial D1 listing was empty; this sprint created and migrated isolated preview and unbound production databases. Real preview D1 write/read/delete tests pass. R2 listing returned API code 10042: **enable R2 through the Dashboard**. No billing activation or paid-plan change was made. Remote R2 persistence and complete remote submission recovery remain unverified. The preview Resend secret is still missing at the latest readiness check. Neither product silently falls back to browser storage; the live APIs return 503 until configured.
 
 1. Owner: Cloudflare Dashboard → R2 Object Storage → enable R2 after reviewing billing. Do not enable a public bucket/r2.dev endpoint. Confirm account plan/quota before accepting usage.
-2. Create isolated resources, for example:
+2. Current databases are already provisioned; use PRODUCTION_RELEASE.md for their IDs. For a fresh installation only, create isolated resources, for example:
    - `npx wrangler d1 create zenkilab-submissions-preview-ak`
    - `npx wrangler r2 bucket create zenkilab-submissions-preview-ak`
    - `npx wrangler d1 execute zenkilab-submissions-preview-ak --remote --file migrations/0001_submissions.sql`
@@ -65,6 +69,8 @@ The SQL migration is additive and isolated. Apply it first to the preview databa
 
 `source/submission-qa-server.cjs` serves the actual exported UI and shared Function over HTTP with those local adapters. `source/check-submission-browser.cjs` verifies mobile Mercedes preparation/submission, CAD-pending inquiry and the existing general keytag browser exporter/submission. The provider is mocked; these checks do not prove a real inbox received mail.
 
-Release gates still open: enabling/configuring remote D1/R2, preview Resend secret and account limits, exercising real remote persistence/recovery, resolving/manually approving mesh-topology warnings, measuring configured Cloudflare CPU/memory limits for archive/mesh inspection, and an explicitly scheduled synthetic live email with provider receipt plus delivery evidence. The prior single-email authorization is unused. This implementation is not claimed production-ready until those checks pass. No real customer messages, orders or printing were triggered.
+Release gates still open: enabling/configuring private R2, preview Resend secret and account limits, exercising full remote persistence/recovery, measuring configured Cloudflare CPU/memory limits for archive/mesh inspection, and an explicitly scheduled synthetic live email with provider receipt plus delivery evidence. The prior single-email authorization is unused. This implementation is not claimed production-ready until those checks pass. No real customer messages, orders or printing were triggered.
 
 Cloudflare deployment regression: server validation now imports only pure typeface measurements and color configuration. Three.js stays in the browser CAD/preview path. The font parity regression covers 43 registration samples against the existing FontLoader output; this avoids Worker startup failures from browser-only rendering globals.
+
+Operator-only GET `/api/submissions/artifact?reference=...&name=model.3mf` requires the admin bearer header, validates the stored checksum and returns no-store attachments. A reference or URL alone never grants access. The retention GitHub workflow stays disabled unless main and KEYTAG_SUBMISSION_CLEANUP_ENABLED=true, and uses the protected production-submissions environment secret. It must be configured and exercised before release.
