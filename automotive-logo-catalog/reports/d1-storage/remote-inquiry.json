@@ -1,0 +1,103 @@
+{
+  "passed": true,
+  "inquiryOnly": true,
+  "realRemote": true,
+  "providerMocked": false,
+  "emailsHeldByAuthenticatedPreviewMode": true,
+  "realEmailSent": false,
+  "commit": "78e7c35c6b8c810d16e62e1e17a8e3b13d9630a8",
+  "immutableUrl": "https://484c7921.zenkilab.pages.dev",
+  "rows": [
+    {
+      "case": "D1-only readiness",
+      "status": 200,
+      "body": {
+        "ready": false,
+        "storageReady": true,
+        "notificationReady": false,
+        "privateAccessReady": true,
+        "storageBackend": "d1",
+        "missing": [
+          "RESEND_API_KEY"
+        ],
+        "deliveryConfirmed": false,
+        "maxFileBytes": 3145728,
+        "maxPackageBytes": 4194304
+      }
+    },
+    {
+      "case": "Real private inquiry upload",
+      "status": 202,
+      "body": {
+        "reference": "AK-D1REMOTE-75E3910EB69063FEEDAF",
+        "state": "stored",
+        "persisted": true,
+        "delivered": false,
+        "notification": "held-for-preview-storage-verification",
+        "error": "Stored privately for storage verification. No email was requested or sent."
+      },
+      "wallMs": 427
+    },
+    {
+      "case": "Authenticated exact retrieval",
+      "name": "preview.png",
+      "chunks": 1,
+      "status": 200,
+      "size": 11840,
+      "sha256": "74644c24bbb519ad892ffcf84b4b6f9704ef164f985de3c483600dff35b5308f",
+      "cache": "no-store"
+    },
+    {
+      "case": "Unauthorized retrieval refused",
+      "status": 401
+    },
+    {
+      "case": "Duplicate prevention",
+      "status": 202
+    },
+    {
+      "case": "Corruption rejected and complete upload recovered",
+      "status": 200
+    },
+    {
+      "case": "Real transactional file-chunk rollback and retry",
+      "status": 202
+    },
+    {
+      "case": "Real database capacity guard",
+      "status": 507
+    },
+    {
+      "case": "CAD-pending inquiry persists preview/configuration",
+      "status": 202,
+      "body": {
+        "reference": "AK-D1REMOTE-D4AAE3D52F1907812857",
+        "state": "stored",
+        "persisted": true,
+        "delivered": false,
+        "notification": "held-for-preview-storage-verification",
+        "error": "Stored privately for storage verification. No email was requested or sent."
+      },
+      "wallMs": 449
+    },
+    {
+      "case": "Actual missing Resend secret retains durable package",
+      "status": 202,
+      "body": {
+        "reference": "AK-D1REMOTE-75E3910EB69063FEEDAF",
+        "state": "stored",
+        "persisted": true,
+        "delivered": false,
+        "notification": "configuration-required",
+        "error": "Saved privately. Email is not configured; no email was sent. Retain this reference and retry after configuration."
+      }
+    },
+    {
+      "case": "Remote retention, tombstones and no orphan chunks",
+      "status": 200,
+      "body": {
+        "removed": 3
+      }
+    }
+  ]
+}

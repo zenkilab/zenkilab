@@ -1,0 +1,49 @@
+{
+  "build": true,
+  "typecheck": true,
+  "functionBundle": true,
+  "legacyAdapterLocalCases": 24,
+  "d1LocalGroups": 16,
+  "localEmailProviderMocked": true,
+  "localBrowser": {
+    "automotiveClientGeneration": true,
+    "mobileSubmission": true,
+    "pendingBrandInquiry": true,
+    "realSharedFunctionOverHTTP": true,
+    "providerMocked": true,
+    "actualDeliveryVerified": false,
+    "existingCustomKeytagBrowser": true,
+    "recoverableBrowserFailureRetainsPackage": true,
+    "copyReference": true,
+    "pendingReceiptReferenceVisible": true,
+    "nonJsonPlatformFailureRetainsPackage": true,
+    "viewports": [
+      320,
+      390,
+      768,
+      1024,
+      1440
+    ]
+  },
+  "fontCases": 43,
+  "cadCases": 26,
+  "independentPairs": 12,
+  "offlineP2SSlices": 14,
+  "deployedFittingCases": 1280,
+  "brands": 16,
+  "widths": [
+    320,
+    390,
+    768,
+    1024,
+    1440
+  ],
+  "approvedExportHashesUnchanged": 70,
+  "smallInquiryRemoteCases": 11,
+  "fullCadRemoteReliable": false,
+  "largePreviewRemoteReliable": false,
+  "confirmedRemoteCpuFailure": true,
+  "actualEmailSent": false,
+  "actualDeliveryVerified": false,
+  "mainMerged": false
+}

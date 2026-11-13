@@ -1,0 +1,512 @@
+{
+  "engine": "Installed Bambu Studio 02.09.01.70, official Windows DLL entry point",
+  "printer": "Bambu Lab P2S 0.4 nozzle",
+  "filament": "Bambu PETG Basic",
+  "passed": true,
+  "rows": [
+    {
+      "name": "capsule-none-ABC1234",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 3.45,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 3.972963809967041,
+          "total_used_g": 5.515465259552002
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.07591313123703003,
+          "total_used_g": 0.6059134006500244
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1575.6558837890625,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "capsule-thin-ABC1234",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.55,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 3.9730606079101562,
+          "total_used_g": 5.515562057495117
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.11191263049840927,
+          "total_used_g": 0.6419129371643066
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1575.9500732421875,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "capsule-bold-ABC1234",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.49,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 3.9689626693725586,
+          "total_used_g": 5.5114641189575195
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.1497773975133896,
+          "total_used_g": 0.6797776818275452
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1575.48193359375,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "capsule-double-ABC1234",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.36,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 3.9731762409210205,
+          "total_used_g": 5.515677452087402
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.14632554352283478,
+          "total_used_g": 0.6763258576393127
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1575.5516357421875,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "rounded-rectangle-none-ABC1234",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 1.95,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 4.369748115539551,
+          "total_used_g": 5.9122490882873535
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.07528923451900482,
+          "total_used_g": 0.6052895188331604
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1634.3642578125,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "rounded-rectangle-thin-ABC1234",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.09,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 4.369729995727539,
+          "total_used_g": 5.9122314453125
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.11511541157960892,
+          "total_used_g": 0.6451157331466675
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1633.6851806640625,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "rounded-rectangle-bold-ABC1234",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.12,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 4.367762565612793,
+          "total_used_g": 5.910263538360596
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.1572379171848297,
+          "total_used_g": 0.6872382164001465
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1633.45556640625,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "rounded-rectangle-double-ABC1234",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.22,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 4.369815349578857,
+          "total_used_g": 5.912316799163818
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.15335440635681152,
+          "total_used_g": 0.6833547353744507
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1633.521484375,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "capsule-bold-I1",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.05,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 3.9691078662872314,
+          "total_used_g": 4.49910831451416
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.1352987438440323,
+          "total_used_g": 1.677800178527832
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1569.661376953125,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "rounded-rectangle-bold-I1",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.0,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 4.367921829223633,
+          "total_used_g": 4.897922039031982
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.14292089641094208,
+          "total_used_g": 1.6854221820831299
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1627.6129150390625,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "capsule-double-III11111111",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.28,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 3.9727632999420166,
+          "total_used_g": 5.507766246795654
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.14873650670051575,
+          "total_used_g": 0.6012368202209473
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1563.268310546875,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "rounded-rectangle-double-III11111111",
+      "layerHeight": 0.16,
+      "returnCode": 0,
+      "seconds": 2.12,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 4.369448661804199,
+          "total_used_g": 5.904451847076416
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.1559319943189621,
+          "total_used_g": 0.6084322929382324
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 4,
+      "estimatedSeconds": 1622.3853759765625,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "capsule-bold-ABC1234",
+      "layerHeight": 0.12,
+      "returnCode": 0,
+      "seconds": 2.55,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 3.3892602920532227,
+          "total_used_g": 5.703011989593506
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.14811314642429352,
+          "total_used_g": 0.9431135654449463
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 6,
+      "estimatedSeconds": 1936.3372802734375,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    },
+    {
+      "name": "rounded-rectangle-bold-ABC1234",
+      "layerHeight": 0.12,
+      "returnCode": 0,
+      "seconds": 2.25,
+      "gcodeCreated": true,
+      "networkOrPrinting": false,
+      "colorsMatch": true,
+      "filaments": [
+        {
+          "filament_id": "GFG00",
+          "id": 1,
+          "main_used_g": 3.7539846897125244,
+          "total_used_g": 6.067736625671387
+        },
+        {
+          "filament_id": "GFG00",
+          "id": 2,
+          "main_used_g": 0.1556788980960846,
+          "total_used_g": 0.9506793022155762
+        }
+      ],
+      "twoFilamentsUsed": true,
+      "filamentChanges": 6,
+      "estimatedSeconds": 2010.7359619140625,
+      "warningMessage": "",
+      "topologyRepairLog": false,
+      "files": [
+        "cli.log",
+        "filament-1.json",
+        "filament-2.json",
+        "plate_1.gcode",
+        "result.json",
+        "sliced.3mf"
+      ]
+    }
+  ]
+}

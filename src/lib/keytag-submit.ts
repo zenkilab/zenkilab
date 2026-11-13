@@ -1,4 +1,5 @@
 import type { StoredOrder } from './keytag';
+import { readSubmissionReceipt } from './submission-response';
 type Receipt = {
     reference: string;
     state: string;
@@ -28,7 +29,7 @@ export async function sendOrder(order: StoredOrder, stage: 'quote' | 'confirm', 
     if (item.model)
         form.append('model', item.model, 'model.3mf');
     const response = await fetch('/api/hub/keytag-order', { method: 'POST', body: form });
-    const receipt = await response.json();
+    const receipt = await readSubmissionReceipt(response);
     if (!response.ok)
         throw Error((receipt.reference?`Reference ${receipt.reference}: `:'')+(receipt.error || 'Submission failed'));
     if (!receipt.persisted || receipt.state !== 'email_accepted' || !receipt.providerId)

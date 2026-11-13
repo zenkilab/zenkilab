@@ -1,7 +1,7 @@
 {
     "error_string": "Success.",
     "layer_height": 0.1599999964237213,
-    "peak_rss_mb": 131.68359375,
+    "peak_rss_mb": 130.18359375,
     "plate_index": 0,
     "return_code": 0,
     "sliced_plates": [
@@ -57,29 +57,29 @@
             "times": {
                 "conflict_check_time": 0,
                 "detect_overhangs_time": 2,
-                "export_gcode_time": 1018,
+                "export_gcode_time": 1007,
                 "flush_plan_time": 0,
-                "generate_support_material_time": 26,
-                "infill_generate_time": 21,
-                "infill_time": 91,
+                "generate_support_material_time": 23,
+                "infill_generate_time": 20,
+                "infill_time": 80,
                 "ironing_time": 0,
-                "make_perimeters_time": 161,
+                "make_perimeters_time": 152,
                 "multifilament_segment_2d_time": 0,
-                "other_slice_time": 3,
-                "prepare_infill_time": 70,
+                "other_slice_time": 2,
+                "prepare_infill_time": 60,
                 "region_split_time": 1,
                 "skirt_brim_time": 0,
-                "slice_layers_time": 47,
-                "sliced_time": 1316,
-                "sliced_time_with_cache": 1018,
+                "slice_layers_time": 43,
+                "sliced_time": 1276,
+                "sliced_time_with_cache": 1007,
                 "support_detect_time": 0,
                 "support_interface_time": 0,
                 "support_normal_generate_time": 0,
                 "support_toolpath_time": 0,
                 "support_tree_generate_time": 0,
                 "toolpath_time": 4,
-                "wall_time": 113,
-                "wipe_tower_time": 10
+                "wall_time": 108,
+                "wipe_tower_time": 5
             },
             "total_predication": 1575.6558837890625,
             "triangle_count": 22196,
@@ -88,12 +88,12 @@
     ],
     "sparse_infill_density": 20.0,
     "times": {
-        "export_3mf_time": 212,
+        "export_3mf_time": 203,
         "export_slicedata_time": 0,
-        "export_time": 697,
+        "export_time": 990,
         "import_time": 187,
         "load_slicedata_time": 0,
-        "prepare_time": 314
+        "prepare_time": 354
     },
     "wall_loops": 3
 }

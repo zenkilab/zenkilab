@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, type RefObject } from 'react';
 import { generateAutomotive, type AutomotiveConfig } from '@/lib/cad/automotive';
+import { readSubmissionReceipt } from '@/lib/submission-response';
 async function capture(element: HTMLElement | null) { if (!element)
     throw Error('Preview unavailable'); const existing = element.querySelector('canvas'); if (existing)
     return new Promise<Blob>((resolve, reject) => existing.toBlob(b => b ? resolve(b) : reject(Error('Preview unavailable')), 'image/jpeg', .9)); const source = element.querySelector('svg'); if (!source)
@@ -69,7 +70,7 @@ export default function SubmissionPanel({ config, preview, enabled }: {
         if (packageData.stl)
             form.append('stl', packageData.stl, 'model.stl');
         const r = await fetch('/api/submissions', { method: 'POST', body: form });
-        const result = await r.json();
+        const result = await readSubmissionReceipt(r);
         if(result.persisted&&result.reference)setPersisted(true);
         if (!r.ok)
             throw Error((result.reference ? `Reference ${result.reference}: ` : '') + (result.error || 'Submission failed'));

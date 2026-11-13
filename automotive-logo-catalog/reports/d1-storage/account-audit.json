@@ -1,0 +1,27 @@
+{
+  "previewDatabaseId": "c279c462-84f0-4479-bd47-c6c9368f3d7e",
+  "publicMediaAccountAssociationVerified": false,
+  "physicalDatabaseBytes": 98304,
+  "paidServiceActivated": false,
+  "billingPlanReadStatus": 403,
+  "publicMediaNotReused": true,
+  "publicMediaHeadStatus": 200,
+  "actualEmailSent": false,
+  "storeR2Api": "Disabled, 10042",
+  "productionDatabaseBound": false,
+  "previewSecretNames": [
+    "SUBMISSIONS_ADMIN_TOKEN"
+  ],
+  "publicMediaBytes": 95260132,
+  "afterSyntheticCleanup": {
+    "used_bytes": 0,
+    "limit_bytes": 67108864,
+    "file_count": 0,
+    "chunk_count": 0
+  },
+  "productionMigrationReady": {
+    "namespace": "production/zenkilab-keytags",
+    "submissions": 0,
+    "storage_tables": 3
+  }
+}

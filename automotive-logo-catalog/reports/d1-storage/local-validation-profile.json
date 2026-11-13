@@ -1,0 +1,42 @@
+{
+  "onlyLocalNodeProfile": true,
+  "cloudflareCpuNotMeasured": true,
+  "rows": [
+    {
+      "name": "Mercedes",
+      "iteration": 0,
+      "wallMs": 287,
+      "nodeCpuMs": 452
+    },
+    {
+      "name": "Mercedes",
+      "iteration": 1,
+      "wallMs": 229,
+      "nodeCpuMs": 266
+    },
+    {
+      "name": "Mercedes",
+      "iteration": 2,
+      "wallMs": 214,
+      "nodeCpuMs": 219
+    },
+    {
+      "name": "Custom",
+      "iteration": 0,
+      "wallMs": 155,
+      "nodeCpuMs": 234
+    },
+    {
+      "name": "Custom",
+      "iteration": 1,
+      "wallMs": 150,
+      "nodeCpuMs": 204
+    },
+    {
+      "name": "Custom",
+      "iteration": 2,
+      "wallMs": 147,
+      "nodeCpuMs": 312
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "remote": false,
+  "providerMocked": true,
+  "realEmailSent": false,
+  "results": [
+    "D1 readiness without R2 or email",
+    "Unknown attachment is rejected rather than silently discarded",
+    "All attachment sizes preflighted before expensive archive validation",
+    "Private chunk reconstruction/checksum and unauthorized rejection",
+    "Retry has no duplicate blobs",
+    "Corruption refused; same-reference upload repairs complete file",
+    "Mid-upload failure rolls back metadata, files and quota; retry succeeds",
+    "Atomic capacity limit rejects whole package",
+    "Failed replacement keeps the previous complete files",
+    "Mock Resend retry and accepted duplicate suppression retain all attachments",
+    "Existing Custom Key Tag quote/confirm reuses D1 CAD with no duplicate email",
+    "Pending-brand inquiry stores preview and selections",
+    "Preview storage-only mode is admin-gated and never sends email",
+    "Atomic retention deletes blobs, clears PII and preserves replay tombstone",
+    "Free email budget pauses delivery without losing the stored package",
+    "Free daily write budget enforced"
+  ],
+  "chunkBytes": 262144,
+  "maxFileBytes": 3145728,
+  "maxPackageBytes": 4194304,
+  "defaultBlobCapBytes": 67108864
+}

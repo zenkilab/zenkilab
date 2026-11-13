@@ -1,4 +1,4 @@
-> Storage policy update: R2 is no longer required. The current architecture, $0 constraints, dashboard instructions and remote evidence are in [D1_STORAGE.md](D1_STORAGE.md).
+> Storage policy update: R2 is no longer required. **Production remains blocked by confirmed Free runtime CPU failures and missing Preview email configuration/delivery evidence.** The architecture, $0 constraints and dashboard instructions are in [D1_STORAGE.md](D1_STORAGE.md). Current gates: [reports/d1-storage/release-gates.json](reports/d1-storage/release-gates.json).
 
 # Automotive Keytags release operations
 
@@ -47,7 +47,7 @@ Use D1's supported backup/Time Travel and an approved private artifact backup po
 
 ## Release checklist
 
-`reports/production-sprint/release-gates.json` is the authoritative outcome for this run. Before main merge: verify isolated real D1 file lifecycle, attachment checksums/retrieval, duplicate suppression and recovery; Resend acceptance plus controlled actual delivery; remote runtime limits; production bindings and tested retention/rollback. The existing explicit authorization for one synthetic message to the configured business recipient remains unused. Do not consume it until the preview is correctly bound and the destination/provider are verified. Provider acceptance is not delivery; obtain a signed event or independently observed inbox arrival. No customer information should appear in public logs or QA fixtures.
+`reports/d1-storage/release-gates.json` is the current authoritative outcome; production-sprint contains historical manufacturing evidence. Before main merge: verify isolated real D1 file lifecycle, attachment checksums/retrieval, duplicate suppression and recovery; Resend acceptance plus controlled actual delivery; remote runtime limits; production bindings and tested retention/rollback. The existing explicit authorization for one synthetic message to the configured business recipient remains unused. Do not consume it until the preview is correctly bound and the destination/provider are verified. Provider acceptance is not delivery; obtain a signed event or independently observed inbox arrival. No customer information should appear in public logs or QA fixtures.
 
 After all gates pass, synchronize with main, review only scoped files, merge via the existing authorized repository workflow, allow Cloudflare's Git integration to deploy, and verify the live store/API/privacy. Current free-cost and email gates are in reports/d1-storage/release-gates.json. The old GitHub Pages workflow also exists on main; Cloudflare is the actual site provider. No production merge is permitted while a mandatory gate fails.
 

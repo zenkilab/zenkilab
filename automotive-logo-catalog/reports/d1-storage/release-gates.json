@@ -1,0 +1,77 @@
+{
+  "allMandatoryGatesPass": false,
+  "mainMerged": false,
+  "productionDeployed": false,
+  "productionConfigurationUnchanged": true,
+  "strictZeroCostPolicy": true,
+  "r2Required": false,
+  "codeDeploymentTested": "78e7c35c6b8c810d16e62e1e17a8e3b13d9630a8",
+  "productionMain": "4c6f3fd741d26026f234be067a5284c763312a0c",
+  "gates": [
+    {
+      "gate": "G0",
+      "result": "FAIL",
+      "evidence": "Actual Workers Free / Resend Free and no-overage account status is not independently verified; billing API is HTTP 403. No paid service was activated."
+    },
+    {
+      "gate": "G1",
+      "result": "PASS",
+      "evidence": "Production build, TypeScript, Function bundle, 24 legacy-adapter scenarios, 16 D1 groups, 43 font cases and hairline regressions pass."
+    },
+    {
+      "gate": "G2",
+      "result": "FAIL",
+      "evidence": "Custom Key Tag generation, quote/confirm and browser recovery pass locally with mocked mail. Real CAD submission is not reliable under the current remote CPU limit."
+    },
+    {
+      "gate": "G3",
+      "result": "PASS",
+      "evidence": "26 CAD cases, 12 independently reloaded STL/3MF pairs and 14 offline P2S Bambu slices pass. All 70 approved export hashes remain unchanged."
+    },
+    {
+      "gate": "G4",
+      "result": "FAIL",
+      "evidence": "11 small-preview inquiry lifecycle checks pass against real isolated D1. Full CAD and a 508039-byte preview hit confirmed Cloudflare CPU-limit termination. R2 is not a required gate."
+    },
+    {
+      "gate": "G5",
+      "result": "FAIL",
+      "evidence": "Local transactional, idempotent and retry tests pass; small remote inquiry rollback/retry, corruption repair and duplicate suppression pass. Full-size remote operation remains unreliable."
+    },
+    {
+      "gate": "G6",
+      "result": "FAIL",
+      "evidence": "Preview RESEND_API_KEY remains missing. Payloads, attachment preservation and duplicate suppression pass with mocks; real provider acceptance is unverified."
+    },
+    {
+      "gate": "G7",
+      "result": "FAIL",
+      "evidence": "No real message sent or inbox/webhook delivery observed. Prior authorization for one synthetic business-recipient message remains unused."
+    },
+    {
+      "gate": "G8",
+      "result": "PASS",
+      "evidence": "1280 deployed fitting cases, 16 brands, both shapes, all borders, two registrations/colors and widths 320/390/768/1024/1440 pass; browser recovery checks pass."
+    },
+    {
+      "gate": "G9",
+      "result": "PASS",
+      "evidence": "Authenticated private retrieval, unauthenticated 401, complete checksums, no-store, corruption refusal, retention and no orphan chunks verified with synthetic data. No public customer CAD."
+    },
+    {
+      "gate": "G10",
+      "result": "FAIL",
+      "evidence": "Existing production D1 additive migrations are ready and empty, but binding, distinct admin/recovery setup, operational retention and compatible rollback rehearsal are not complete. Main/site unchanged."
+    }
+  ],
+  "ownerActions": [
+    "Confirm Workers Free in Cloudflare Billing > Subscriptions; do not upgrade or add a payment method.",
+    "Confirm Resend Free at https://resend.com/settings/billing; do not enable paid overages.",
+    "Set existing RESEND_API_KEY as an encrypted Preview secret for Pages project zenkilab; never paste it into chat.",
+    "After runtime remediation and provider setup, independently verify the one authorized synthetic message arrives with the correct attachments/reference."
+  ],
+  "engineeringBlockers": [
+    "Split expensive validation/large-file processing into bounded Free-compatible work, or demonstrate an equivalent solution without weakening validation, new paid infrastructure or silently omitting CAD. Repeat all full-size remote gates.",
+    "Complete production binding, isolated admin/recovery, retention, backup and compatible rollback verification only after preceding gates pass."
+  ]
+}

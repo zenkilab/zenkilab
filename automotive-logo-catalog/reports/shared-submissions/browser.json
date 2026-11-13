@@ -8,6 +8,8 @@
   "existingCustomKeytagBrowser": true,
   "recoverableBrowserFailureRetainsPackage": true,
   "copyReference": true,
+  "pendingReceiptReferenceVisible": true,
+  "nonJsonPlatformFailureRetainsPackage": true,
   "viewports": [
     320,
     390,

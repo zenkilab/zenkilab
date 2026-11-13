@@ -1,0 +1,987 @@
+{
+  "passed": true,
+  "cases": 26,
+  "sourceEmblemUnchanged": true,
+  "rows": [
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "I1",
+        "shape": "capsule",
+        "border": "none",
+        "body": "navy",
+        "accent": "white",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 19548,
+        "vertices": 9792,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4647.292907481268,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 54.58289551548235,
+        "completeVolume": 4647.292847823657,
+        "materialOverlapVolume": -6.407148324840252e-16
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "I1",
+        "shape": "capsule",
+        "border": "thin",
+        "body": "navy",
+        "accent": "white",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 25708,
+        "vertices": 12872,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4679.878198310643,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 87.16817714883517,
+        "completeVolume": 4679.87812945701,
+        "materialOverlapVolume": 1.466310787564898e-15
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "I1",
+        "shape": "capsule",
+        "border": "bold",
+        "body": "navy",
+        "accent": "white",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 25708,
+        "vertices": 12872,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4711.76863265746,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 119.0585962906051,
+        "completeVolume": 4711.7685485987795,
+        "materialOverlapVolume": 1.9976753518010276e-15
+      },
+      "prefix": "capsule-bold-I1",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 369445,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "I1",
+        "shape": "capsule",
+        "border": "double",
+        "body": "navy",
+        "accent": "white",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 31868,
+        "vertices": 15952,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4711.015845735603,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 118.30582904305841,
+        "completeVolume": 4711.015781351233,
+        "materialOverlapVolume": 1.6025877479267157e-16
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "I1",
+        "shape": "rounded-rectangle",
+        "border": "none",
+        "body": "navy",
+        "accent": "white",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 19546,
+        "vertices": 9791,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5117.032551230385,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 54.58289551548235,
+        "completeVolume": 5117.03252467322,
+        "materialOverlapVolume": -1.273816850475484e-16
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "I1",
+        "shape": "rounded-rectangle",
+        "border": "thin",
+        "body": "navy",
+        "accent": "white",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 25722,
+        "vertices": 12879,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5153.177963823157,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 90.72830957490848,
+        "completeVolume": 5153.177938732646,
+        "materialOverlapVolume": -2.808332800007737e-15
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "I1",
+        "shape": "rounded-rectangle",
+        "border": "bold",
+        "body": "navy",
+        "accent": "white",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 25722,
+        "vertices": 12879,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5188.628515653778,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 126.17886088037821,
+        "completeVolume": 5188.628490038116,
+        "materialOverlapVolume": 3.792512795749142e-15
+      },
+      "prefix": "rounded-rectangle-bold-I1",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 674991,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "I1",
+        "shape": "rounded-rectangle",
+        "border": "double",
+        "body": "navy",
+        "accent": "white",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 31866,
+        "vertices": 15951,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5187.881458652919,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 125.4318650374182,
+        "completeVolume": 5187.881494195156,
+        "materialOverlapVolume": -5.5788378100402565e-15
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 1234",
+        "shape": "capsule",
+        "border": "none",
+        "body": "white",
+        "accent": "navy",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 22196,
+        "vertices": 11120,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4658.677389370803,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 65.96740285573075,
+        "completeVolume": 4658.677355163905,
+        "materialOverlapVolume": -2.168164941696379e-15
+      },
+      "prefix": "capsule-none-ABC1234",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 369445,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 1234",
+        "shape": "capsule",
+        "border": "thin",
+        "body": "white",
+        "accent": "navy",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 28356,
+        "vertices": 14200,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4691.262680200178,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 98.55268448908357,
+        "completeVolume": 4691.262636797258,
+        "materialOverlapVolume": 2.263556705190543e-15
+      },
+      "prefix": "capsule-thin-ABC1234",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 369445,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 1234",
+        "shape": "capsule",
+        "border": "bold",
+        "body": "white",
+        "accent": "navy",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 28356,
+        "vertices": 14200,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4723.153114546995,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 130.4431036308535,
+        "completeVolume": 4723.153055939028,
+        "materialOverlapVolume": 3.1281846884579826e-15
+      },
+      "prefix": "capsule-bold-ABC1234",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 369445,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 1234",
+        "shape": "capsule",
+        "border": "double",
+        "body": "white",
+        "accent": "navy",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 34516,
+        "vertices": 17280,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4722.400327625139,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 129.6903363833068,
+        "completeVolume": 4722.400288691481,
+        "materialOverlapVolume": 6.39792904177714e-16
+      },
+      "prefix": "capsule-double-ABC1234",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 369445,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 1234",
+        "shape": "rounded-rectangle",
+        "border": "none",
+        "body": "white",
+        "accent": "navy",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 22194,
+        "vertices": 11119,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5128.41703311992,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 65.96740285573075,
+        "completeVolume": 5128.417032013468,
+        "materialOverlapVolume": -1.245830881898202e-16
+      },
+      "prefix": "rounded-rectangle-none-ABC1234",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 674991,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 1234",
+        "shape": "rounded-rectangle",
+        "border": "thin",
+        "body": "white",
+        "accent": "navy",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 28370,
+        "vertices": 14207,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5164.562445712692,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 102.11281691515688,
+        "completeVolume": 5164.562446072894,
+        "materialOverlapVolume": -2.813725858782905e-15
+      },
+      "prefix": "rounded-rectangle-thin-ABC1234",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 674991,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 1234",
+        "shape": "rounded-rectangle",
+        "border": "bold",
+        "body": "white",
+        "accent": "navy",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 28370,
+        "vertices": 14207,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5200.012997543314,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 137.56336822062661,
+        "completeVolume": 5200.012997378364,
+        "materialOverlapVolume": 4.192557139374928e-15
+      },
+      "prefix": "rounded-rectangle-bold-ABC1234",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 674991,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 1234",
+        "shape": "rounded-rectangle",
+        "border": "double",
+        "body": "white",
+        "accent": "navy",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 34514,
+        "vertices": 17279,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5199.265940542454,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 136.8163723776666,
+        "completeVolume": 5199.266001535404,
+        "materialOverlapVolume": -5.5788378100402565e-15
+      },
+      "prefix": "rounded-rectangle-double-ABC1234",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 674991,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "III 11111111",
+        "shape": "capsule",
+        "border": "none",
+        "body": "white",
+        "accent": "black",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 19712,
+        "vertices": 9892,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4661.931414764404,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 69.221419665954,
+        "completeVolume": 4661.9313719741285,
+        "materialOverlapVolume": -1.2011118303874703e-15
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "III 11111111",
+        "shape": "capsule",
+        "border": "thin",
+        "body": "white",
+        "accent": "black",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 25872,
+        "vertices": 12972,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4694.516705593778,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 101.80670129930682,
+        "completeVolume": 4694.516653607481,
+        "materialOverlapVolume": 1.2657403736768945e-15
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "III 11111111",
+        "shape": "capsule",
+        "border": "bold",
+        "body": "white",
+        "accent": "black",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 25872,
+        "vertices": 12972,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4726.407139940596,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 133.69712044107675,
+        "completeVolume": 4726.407072749251,
+        "materialOverlapVolume": 2.6819291071420224e-15
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "III 11111111",
+        "shape": "capsule",
+        "border": "double",
+        "body": "white",
+        "accent": "black",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 32032,
+        "vertices": 16052,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4725.654353018738,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4592.709952308174,
+        "accentVolume": 132.94435319353005,
+        "completeVolume": 4725.654305501705,
+        "materialOverlapVolume": -6.774894208103002e-17
+      },
+      "prefix": "capsule-double-III11111111",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 369445,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "III 11111111",
+        "shape": "rounded-rectangle",
+        "border": "none",
+        "body": "white",
+        "accent": "black",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 19710,
+        "vertices": 9891,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5131.671058513521,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 69.221419665954,
+        "completeVolume": 5131.671048823691,
+        "materialOverlapVolume": -1.245830881898202e-16
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "III 11111111",
+        "shape": "rounded-rectangle",
+        "border": "thin",
+        "body": "white",
+        "accent": "black",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 25886,
+        "vertices": 12979,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5167.816471106293,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 105.36683372538013,
+        "completeVolume": 5167.816462883117,
+        "materialOverlapVolume": -2.813725858782905e-15
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "III 11111111",
+        "shape": "rounded-rectangle",
+        "border": "bold",
+        "body": "white",
+        "accent": "black",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 25886,
+        "vertices": 12979,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5203.267022936914,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 140.81738503084986,
+        "completeVolume": 5203.267014188587,
+        "materialOverlapVolume": 4.192557139374928e-15
+      },
+      "prefix": null,
+      "selfIntersectionScreen": null
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "III 11111111",
+        "shape": "rounded-rectangle",
+        "border": "double",
+        "body": "white",
+        "accent": "black",
+        "branding": true
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 32030,
+        "vertices": 16051,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5202.519965936054,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5062.449629157739,
+        "accentVolume": 140.07038918788984,
+        "completeVolume": 5202.520018345627,
+        "materialOverlapVolume": -5.5788378100402565e-15
+      },
+      "prefix": "rounded-rectangle-double-III11111111",
+      "selfIntersectionScreen": {
+        "properNonCoplanarTriangleIntersection": false,
+        "pairsChecked": 674991,
+        "limitation": "Proper noncoplanar crossings only; shared vertices, boundary contacts and coplanar pairs excluded. Combined with solid construction and independent topology/volume checks"
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 12",
+        "shape": "capsule",
+        "border": "none",
+        "body": "white",
+        "accent": "navy",
+        "branding": false
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 11846,
+        "vertices": 5923,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 4666.051545301981,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 4607.493401724237,
+        "accentVolume": 58.55811909066849,
+        "completeVolume": 4666.051520814905,
+        "materialOverlapVolume": -6.081698643575199e-16
+      }
+    },
+    {
+      "config": {
+        "brand": "mercedes",
+        "registration": "ABC 12",
+        "shape": "rounded-rectangle",
+        "border": "none",
+        "body": "white",
+        "accent": "navy",
+        "branding": false
+      },
+      "validation": {
+        "origin": "client-generated",
+        "structuralValidation": true,
+        "triangles": 11854,
+        "vertices": 5927,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "windingErrors": 0,
+        "degenerateTriangles": 0,
+        "volumeMm3": 5135.791189051097,
+        "watertightEdgeScreen": true,
+        "independentlyRegenerated": false,
+        "serverGeometryVerified": false,
+        "status": "manufacturing-review-required",
+        "limitations": "Archive, coordinate, topology-edge, winding, volume and configuration checks; not independent geometry regeneration, intersection or full solid validation"
+      },
+      "solidChecks": {
+        "kernel": "Manifold 3.5.5",
+        "bodyVolume": 5077.2330785738,
+        "accentVolume": 58.55811909066849,
+        "completeVolume": 5135.791197664468,
+        "materialOverlapVolume": -9.120999006800076e-17
+      }
+    }
+  ]
+}

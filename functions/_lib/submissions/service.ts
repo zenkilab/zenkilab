@@ -78,7 +78,13 @@ export async function handle(request: Request, env: Env, legacy = false) {
             if(!daily.meta.changes)return json({error:'Daily free submission capacity reached. Use the WhatsApp design-review option.'},429);
         }
         const f = await limited(request);
-        for(const [name,value] of f){if(value instanceof File&&(!['preview','model','stl'].includes(name)||f.getAll(name).length!==1))throw Error('Unsupported or duplicate attachment. No files were accepted.');}
+        let packageBytes=0;
+        for(const [name,value] of f){
+            if(!(value instanceof File))continue;
+            if(!['preview','model','stl'].includes(name)||f.getAll(name).length!==1)throw Error('Unsupported or duplicate attachment. No files were accepted.');
+            packageBytes+=value.size;
+            if(backend(env)==='d1'&&(value.size>MAX_FILE_BYTES||packageBytes>MAX_PACKAGE_BYTES))throw Error('Free private storage limit: 3 MiB per file, 4 MiB per package. No files discarded. Use the WhatsApp design-review option to arrange manual attachments.');
+        }
         const raw = String(f.get(legacy ? 'order' : 'submission') || '');
         if (raw.length > 20000)
             throw Error('Configuration too large');
@@ -136,7 +142,6 @@ export async function handle(request: Request, env: Env, legacy = false) {
                     throw Error('Missing required ' + field);
                 continue;
             }
-            if(backend(env)==='d1'&&(file.size>MAX_FILE_BYTES||bytes.reduce((n,b)=>n+b.length,0)+file.size>MAX_PACKAGE_BYTES))throw Error('Free private storage limit: 3 MiB per file, 4 MiB per package. No files discarded. Use the WhatsApp design-review option to arrange manual attachments.');
             if (file.size === 0 || file.size > max)
                 throw Error('Oversized ' + field);
             const b = new Uint8Array(await file.arrayBuffer());

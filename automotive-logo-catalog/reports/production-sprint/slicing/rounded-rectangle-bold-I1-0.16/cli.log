@@ -1,7 +1,7 @@
-[2026-11-14 02:52:48.848764] [0x0000eb50] [warning] [BambuStudio.cpp:1845 run] cli mode, Current BambuStudio Version 02.09.01.70
-[2026-11-14 02:52:49.140343] [0x0000eb50] [warning] [BambuStudio.cpp:3155 run] can not find system preset file: C:\VS Code\ZenkiLabStore\.tokensave\bambu-cli-runtime\resources/profiles/BBL/machine_full/Bambu Lab P2S 0.4 nozzle.json 
-[2026-11-14 02:52:49.140343] [0x0000eb50] [warning] [BambuStudio.cpp:3177 run] can not find system preset file: C:\VS Code\ZenkiLabStore\.tokensave\bambu-cli-runtime\resources/profiles/BBL/process_full/0.16mm High Quality @BBL P2S.json 
-[2026-11-14 02:52:49.142842] [0x0000eb50] [warning] [BambuStudio.cpp:4596 run] disable_wipe_tower_after_mapping: disable prime tower for only one filament!
-[2026-11-14 02:52:49.143343] [0x0000eb50] [warning] [MultiNozzleUtils.cpp:217 load_nozzle_infos_with_compatibility] building nozzle list from filament map and volume types
-[2026-11-14 02:52:49.485527] [0x0000eb50] [warning] [SupportParameters.hpp:204 SupportParameters] tree support default to organic support
-[2026-11-14 02:52:50.034067] [0x0000eb50] [error]   [GCodeProcessor.cpp:5973 process_T] Invalid T command (T65535).
+[2026-11-14 04:18:18.119491] [0x00006ad4] [warning] [BambuStudio.cpp:1845 run] cli mode, Current BambuStudio Version 02.09.01.70
+[2026-11-14 04:18:18.403796] [0x00006ad4] [warning] [BambuStudio.cpp:3155 run] can not find system preset file: C:\VS Code\ZenkiLabStore\.tokensave\bambu-cli-runtime\resources/profiles/BBL/machine_full/Bambu Lab P2S 0.4 nozzle.json 
+[2026-11-14 04:18:18.403796] [0x00006ad4] [warning] [BambuStudio.cpp:3177 run] can not find system preset file: C:\VS Code\ZenkiLabStore\.tokensave\bambu-cli-runtime\resources/profiles/BBL/process_full/0.16mm High Quality @BBL P2S.json 
+[2026-11-14 04:18:18.406296] [0x00006ad4] [warning] [BambuStudio.cpp:4596 run] disable_wipe_tower_after_mapping: disable prime tower for only one filament!
+[2026-11-14 04:18:18.406799] [0x00006ad4] [warning] [MultiNozzleUtils.cpp:217 load_nozzle_infos_with_compatibility] building nozzle list from filament map and volume types
+[2026-11-14 04:18:18.724905] [0x00006ad4] [warning] [SupportParameters.hpp:204 SupportParameters] tree support default to organic support
+[2026-11-14 04:18:19.303097] [0x00006ad4] [error]   [GCodeProcessor.cpp:5973 process_T] Invalid T command (T65535).

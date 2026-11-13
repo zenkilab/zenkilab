@@ -1,0 +1,18 @@
+{
+  "confirmed": true,
+  "source": "Authorized wrangler pages deployment tail, unlisted preview, synthetic requests only",
+  "deployment": "484c7921-2aae-4d41-837f-68d438a449fd",
+  "commit": "78e7c35c6b8c810d16e62e1e17a8e3b13d9630a8",
+  "outcome": "Exceeded CPU Limit",
+  "exception": "Worker exceeded CPU time limit.",
+  "affected": [
+    "Full CAD submission",
+    "508039-byte inquiry preview"
+  ],
+  "smallInquiryBytes": 11840,
+  "smallInquiryRemoteCases": 11,
+  "localNodeProfile": "local-validation-profile.json",
+  "cloudflareCpuMsMeasured": false,
+  "paidUpgradeAttempted": false,
+  "mainReleaseAllowed": false
+}

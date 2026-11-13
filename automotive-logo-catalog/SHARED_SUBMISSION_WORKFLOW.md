@@ -40,7 +40,7 @@ Rate limiting hashes Cloudflare's connecting IP into 15-minute buckets and allow
 
 Both existing isolated D1 databases have the additive private-file migration. Preview is bound and uses transactional D1 BLOB storage by default. Production remains unbound. No R2 service is required or activated. Do not follow historical R2 activation recommendations under the current $0/no-payment-method policy.
 
-Remote D1 file persistence, complete reconstruction/checksums, private retrieval, atomic rollback, quotas and retention now pass. Missing Resend keeps stored packages pending with explicit HTTP 202 and no success/delivery claim. Preview needs the existing RESEND_API_KEY; the QA admin secret is already configured securely. The authorized token cannot inspect billing (403); the owner must confirm Workers Free and Resend Free/overages disabled before release. Exact resources, dashboard instructions and limits are in D1_STORAGE.md.
+Small-preview inquiries pass 11 real remote D1 lifecycle checks, including reconstruction/checksums, private retrieval, rollback, quotas and retention. Full CAD and a larger preview fail intermittently with confirmed Cloudflare CPU-limit termination; the complete workflow is not verified. Missing Resend keeps stored packages pending with explicit HTTP 202 and no success/delivery claim. Preview needs the existing RESEND_API_KEY; the QA admin secret is configured securely. The billing API returns 403; the owner must confirm Workers Free and Resend Free/overages disabled. Resources, dashboard steps and runtime limitations are in D1_STORAGE.md.
 
 ## Migration / rollback
 
@@ -52,7 +52,7 @@ The SQL migration is additive and isolated. Apply it first to the preview databa
 
 `source/submission-qa-server.cjs` serves the actual exported UI and shared Function over HTTP with those local adapters. `source/check-submission-browser.cjs` verifies mobile Mercedes preparation/submission, CAD-pending inquiry and the existing general keytag browser exporter/submission. The provider is mocked; these checks do not prove a real inbox received mail.
 
-Release gates still open: confirming zero-cost account plans, preview Resend configuration and actual delivery, measuring configured Cloudflare CPU/memory limits for archive/mesh inspection, and an explicitly scheduled synthetic live email with provider receipt plus delivery evidence. The prior single-email authorization is unused. This implementation is not claimed production-ready until those checks pass. No real customer messages, orders or printing were triggered.
+Release gates still open: resolving confirmed Cloudflare CPU-limit failures within the $0 constraint, confirming account plans, Preview Resend configuration and actual authorized delivery, and production preparation/rollback. Local profiles and intermittent remote success cannot replace reliable Free-runtime evidence. The prior single-email authorization is unused. No real customer messages, orders or printing were triggered.
 
 Cloudflare deployment regression: server validation now imports only pure typeface measurements and color configuration. Three.js stays in the browser CAD/preview path. The font parity regression covers 43 registration samples against the existing FontLoader output; this avoids Worker startup failures from browser-only rendering globals.
 

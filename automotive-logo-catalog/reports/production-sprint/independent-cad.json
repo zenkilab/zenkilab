@@ -44,7 +44,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 4723.153104106258,
       "solidMassG": 5.998404442214948,
-      "sha256": "cf21bd8e66ef335bd312995cbcacba969c066a8e75181b93697fa5a03a0abdef"
+      "sha256": "c807d58681f18be9e027dc852aab98b089cb4ad8da2677c2dece989c494046bc"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\capsule-bold-I1.3mf",
@@ -88,7 +88,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 4711.768597176357,
       "solidMassG": 5.983946118413972,
-      "sha256": "ef14aec3250af0c6bcecfbe6d3edb498ec1183ec55820c2fa981504f61bd05c2"
+      "sha256": "083673ac8809f454fb88e65f6770a080865c8a8f56871f4a21c00cf1e55e07a6"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\capsule-double-ABC1234.3mf",
@@ -132,7 +132,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 4722.400307938722,
       "solidMassG": 5.997448391082178,
-      "sha256": "4a10c83926f188c3d37263554c0a200870580e17dd95a71fcdc91f4d777c1a2d"
+      "sha256": "7ba6b64bf558569759886724c002686c73071d200ebc4d3c36dfd28f2e8a7f51"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\capsule-double-III11111111.3mf",
@@ -176,7 +176,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 4725.654328751051,
       "solidMassG": 6.001580997513836,
-      "sha256": "058d40aba1fd348131dc3afaf0003141754d9b7e927e9edb20f393542057e231"
+      "sha256": "957b4f02081f562d3dd34ce0d1dfac33269c8bd78743acf142d19b478baa394e"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\capsule-none-ABC1234.3mf",
@@ -220,7 +220,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 4658.67739961946,
       "solidMassG": 5.916520297516714,
-      "sha256": "bcbc5f295b97fedeca8a4c57fcadf58c31455a199cbfef491a40aab5f80c7f27"
+      "sha256": "95a756e2c633cae7ab492725d52542a7a3c32af865226255f0b8d1a2fa31816d"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\capsule-thin-ABC1234.3mf",
@@ -264,7 +264,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 4691.2626681914935,
       "solidMassG": 5.957903588603197,
-      "sha256": "524c224826e42f2f5752632bee78c88ba2475faabd64f49871dbf4307b90c0c6"
+      "sha256": "072892cd27dcf6aac146e057e96b11db87268d3da30340d0909a7f3f0b62ee92"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\rounded-rectangle-bold-ABC1234.3mf",
@@ -308,7 +308,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 5200.013099219636,
       "solidMassG": 6.604016636008938,
-      "sha256": "1702fd0352f6b9e1a90b4e16c7e2e0d19fc9251e9b8fd79852c6f381bca65ce4"
+      "sha256": "e0113a4b5991dc7971c1bce0834f5c23ed5b0bd316fb04be8f3b5a1d9c4aaac8"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\rounded-rectangle-bold-I1.3mf",
@@ -352,7 +352,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 5188.628592289736,
       "solidMassG": 6.5895583122079655,
-      "sha256": "24f96abda13d8b10309d96b9e5e87f6727cc5ac64c35aab220534c8e520bc991"
+      "sha256": "52831d9136ffb81953e04a641a5603b8a96100bf32b293a73e550d3993f0ec56"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\rounded-rectangle-double-ABC1234.3mf",
@@ -396,7 +396,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 5199.266092667375,
       "solidMassG": 6.603067937687567,
-      "sha256": "991ec81c5f0a7606170f3e6a623e3d95bf85df1cbbe80a3defe74127a5972681"
+      "sha256": "ae3b05ab27cf62fad230e26607f5519acd058c710b07df5785ee0365c8d9f6cd"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\rounded-rectangle-double-III11111111.3mf",
@@ -440,7 +440,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 5202.5201134797035,
       "solidMassG": 6.607200544119223,
-      "sha256": "f32fbf2ac65e87867d296a829c404dd68ad12f83d91999c2ba8cf73944244e0e"
+      "sha256": "afdbb1015144aa58fbdcb8a47d80ce9bda1781452378eaa0e5b41e154bbbcce9"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\rounded-rectangle-none-ABC1234.3mf",
@@ -484,7 +484,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 5128.417112488324,
       "solidMassG": 6.513089732860172,
-      "sha256": "e8267ae712ea15255f5122d514a1ca29513eec86b7c457759830b2ba1c35e822"
+      "sha256": "b08ea104d26b39e441fce432467d3ccfd97b1a438d126e1760e909e6d4d8a457"
     },
     {
       "file": "automotive-logo-catalog\\reports\\production-sprint\\cad\\rounded-rectangle-thin-ABC1234.3mf",
@@ -528,7 +528,7 @@
       "holeLigamentMm": 3.25,
       "volumeMm3": 5164.562531442742,
       "solidMassG": 6.558994414932282,
-      "sha256": "4e5692dd77775ac79f33964ca598712a724bac25a3ab01a7583b97b9790904c8"
+      "sha256": "82bf58928064dad8b4bbe23d0956bd44d20cb9ae1c82b8a6e703281fa59f9002"
     }
   ]
 }

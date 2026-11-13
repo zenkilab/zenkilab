@@ -1,65 +1,78 @@
 {
-  "releaseAuthorized": false,
+  "allMandatoryGatesPass": false,
   "mainMerged": false,
   "productionDeployed": false,
   "productionConfigurationUnchanged": true,
-  "allMandatoryGatesPass": false,
+  "strictZeroCostPolicy": true,
+  "r2Required": false,
+  "codeDeploymentTested": "78e7c35c6b8c810d16e62e1e17a8e3b13d9630a8",
+  "productionMain": "4c6f3fd741d26026f234be067a5284c763312a0c",
   "gates": [
+    {
+      "gate": "G0",
+      "result": "FAIL",
+      "evidence": "Actual Workers Free / Resend Free and no-overage account status is not independently verified; billing API is HTTP 403. No paid service was activated."
+    },
     {
       "gate": "G1",
       "result": "PASS",
-      "evidence": "Production build, types, Function compilation, 24 submission scenarios, 43 font samples and existing hairline checks pass"
+      "evidence": "Production build, TypeScript, Function bundle, 24 legacy-adapter scenarios, 16 D1 groups, 43 font cases and hairline regressions pass."
     },
     {
       "gate": "G2",
-      "result": "PASS",
-      "evidence": "Existing Custom Key Tag exporter unchanged; real browser generation, quote/confirm and attachments pass with mocked email"
+      "result": "FAIL",
+      "evidence": "Custom Key Tag generation, quote/confirm and browser recovery pass locally with mocked mail. Real CAD submission is not reliable under the current remote CPU limit."
     },
     {
       "gate": "G3",
       "result": "PASS",
-      "evidence": "26 CAD cases, 12 independently reloaded pairs, 14 offline P2S slices; tested models have no unresolved critical topology defects"
+      "evidence": "26 CAD cases, 12 independently reloaded STL/3MF pairs and 14 offline P2S Bambu slices pass. All 70 approved export hashes remain unchanged."
     },
     {
       "gate": "G4",
       "result": "FAIL",
-      "evidence": "Real isolated D1 passes. R2 remains disabled (10042); full private D1/R2 lifecycle unverified"
+      "evidence": "11 small-preview inquiry lifecycle checks pass against real isolated D1. Full CAD and a 508039-byte preview hit confirmed Cloudflare CPU-limit termination. R2 is not a required gate."
     },
     {
       "gate": "G5",
       "result": "FAIL",
-      "evidence": "Local idempotency, concurrent duplicates and failure/retry pass; real remote R2 recovery still blocked"
+      "evidence": "Local transactional, idempotent and retry tests pass; small remote inquiry rollback/retry, corruption repair and duplicate suppression pass. Full-size remote operation remains unreliable."
     },
     {
       "gate": "G6",
       "result": "FAIL",
-      "evidence": "Preview RESEND_API_KEY and recovery admin secret are missing; no live provider acceptance verified"
+      "evidence": "Preview RESEND_API_KEY remains missing. Payloads, attachment preservation and duplicate suppression pass with mocks; real provider acceptance is unverified."
     },
     {
       "gate": "G7",
       "result": "FAIL",
-      "evidence": "No real email sent or actual delivery observed; prior single synthetic business-recipient authorization remains unused"
+      "evidence": "No real message sent or inbox/webhook delivery observed. Prior authorization for one synthetic business-recipient message remains unused."
     },
     {
       "gate": "G8",
       "result": "PASS",
-      "evidence": "Deployed 1280 fitting cases across 16 brands, two shapes, all borders, two registrations/color layouts and five widths; controls/noindex pass"
+      "evidence": "1280 deployed fitting cases, 16 brands, both shapes, all borders, two registrations/colors and widths 320/390/768/1024/1440 pass; browser recovery checks pass."
     },
     {
       "gate": "G9",
       "result": "PASS",
-      "evidence": "Operator-only private retrieval, SHA checks, no-store and unauthorized HTTP 401 verified; no real customer data used or new public customer-file URLs"
+      "evidence": "Authenticated private retrieval, unauthenticated 401, complete checksums, no-store, corruption refusal, retention and no orphan chunks verified with synthetic data. No public customer CAD."
     },
     {
       "gate": "G10",
       "result": "FAIL",
-      "evidence": "Production D1 prepared but unbound; production private R2, admin/recovery, retention schedule and complete rollback rehearsal not configured/verified"
+      "evidence": "Existing production D1 additive migrations are ready and empty, but binding, distinct admin/recovery setup, operational retention and compatible rollback rehearsal are not complete. Main/site unchanged."
     }
   ],
   "ownerActions": [
-    "Enable R2 through the normal Cloudflare Dashboard after reviewing billing terms. No paid activation was performed.",
-    "Configure Preview RESEND_API_KEY and SUBMISSIONS_ADMIN_TOKEN through normal secret settings. Never paste secrets into chat.",
-    "Continue isolated private R2 provisioning and real persistence/recovery/runtime tests, then use the unused authorization for one controlled synthetic email and obtain delivery evidence.",
-    "Verify isolated production bindings, retention and rollback before any main merge."
-  ]
+    "Confirm Workers Free in Cloudflare Billing > Subscriptions; do not upgrade or add a payment method.",
+    "Confirm Resend Free at https://resend.com/settings/billing; do not enable paid overages.",
+    "Set existing RESEND_API_KEY as an encrypted Preview secret for Pages project zenkilab; never paste it into chat.",
+    "After runtime remediation and provider setup, independently verify the one authorized synthetic message arrives with the correct attachments/reference."
+  ],
+  "engineeringBlockers": [
+    "Split expensive validation/large-file processing into bounded Free-compatible work, or demonstrate an equivalent solution without weakening validation, new paid infrastructure or silently omitting CAD. Repeat all full-size remote gates.",
+    "Complete production binding, isolated admin/recovery, retention, backup and compatible rollback verification only after preceding gates pass."
+  ],
+  "supersededBy": "../d1-storage/release-gates.json"
 }

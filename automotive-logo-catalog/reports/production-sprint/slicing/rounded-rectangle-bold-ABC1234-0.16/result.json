@@ -1,7 +1,7 @@
 {
     "error_string": "Success.",
     "layer_height": 0.1599999964237213,
-    "peak_rss_mb": 127.9609375,
+    "peak_rss_mb": 130.375,
     "plate_index": 0,
     "return_code": 0,
     "sliced_plates": [
@@ -57,29 +57,29 @@
             "times": {
                 "conflict_check_time": 0,
                 "detect_overhangs_time": 2,
-                "export_gcode_time": 674,
+                "export_gcode_time": 657,
                 "flush_plan_time": 0,
-                "generate_support_material_time": 23,
-                "infill_generate_time": 18,
-                "infill_time": 90,
+                "generate_support_material_time": 22,
+                "infill_generate_time": 17,
+                "infill_time": 86,
                 "ironing_time": 0,
-                "make_perimeters_time": 164,
+                "make_perimeters_time": 154,
                 "multifilament_segment_2d_time": 0,
-                "other_slice_time": 3,
-                "prepare_infill_time": 72,
-                "region_split_time": 3,
+                "other_slice_time": 2,
+                "prepare_infill_time": 69,
+                "region_split_time": 4,
                 "skirt_brim_time": 0,
-                "slice_layers_time": 63,
-                "sliced_time": 966,
-                "sliced_time_with_cache": 674,
+                "slice_layers_time": 54,
+                "sliced_time": 934,
+                "sliced_time_with_cache": 657,
                 "support_detect_time": 0,
                 "support_interface_time": 0,
                 "support_normal_generate_time": 0,
                 "support_toolpath_time": 0,
                 "support_tree_generate_time": 0,
                 "toolpath_time": 3,
-                "wall_time": 98,
-                "wipe_tower_time": 7
+                "wall_time": 96,
+                "wipe_tower_time": 6
             },
             "total_predication": 1633.45556640625,
             "triangle_count": 28370,
@@ -88,12 +88,12 @@
     ],
     "sparse_infill_density": 20.0,
     "times": {
-        "export_3mf_time": 217,
+        "export_3mf_time": 213,
         "export_slicedata_time": 0,
-        "export_time": 596,
-        "import_time": 276,
+        "export_time": 598,
+        "import_time": 273,
         "load_slicedata_time": 0,
-        "prepare_time": 403
+        "prepare_time": 395
     },
     "wall_loops": 3
 }

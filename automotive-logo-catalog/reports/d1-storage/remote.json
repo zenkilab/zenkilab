@@ -1,0 +1,31 @@
+{
+  "realRemote": true,
+  "providerMocked": false,
+  "emailsHeldByAuthenticatedPreviewMode": true,
+  "realEmailSent": false,
+  "commit": "78e7c35c6b8c810d16e62e1e17a8e3b13d9630a8",
+  "immutableUrl": "https://484c7921.zenkilab.pages.dev",
+  "rows": [
+    {
+      "case": "D1-only readiness",
+      "status": 200,
+      "body": {
+        "ready": false,
+        "storageReady": true,
+        "notificationReady": false,
+        "privateAccessReady": true,
+        "storageBackend": "d1",
+        "missing": [
+          "RESEND_API_KEY"
+        ],
+        "deliveryConfirmed": false,
+        "maxFileBytes": 3145728,
+        "maxPackageBytes": 4194304
+      }
+    },
+    {
+      "failed": true,
+      "error": "{\"status\":503,\"body\":{\"error\":\"Non-JSON platform response\",\"platformTitle\":\"Worker exceeded resource limits | feature-automotive-keytags-l.zenkilab.pages.dev | Cloudflare\",\"ray\":\"a5a18cd4e8382842-CMB\"},\"wallMs\":401}\n\n503 !== 202\n"
+    }
+  ]
+}
