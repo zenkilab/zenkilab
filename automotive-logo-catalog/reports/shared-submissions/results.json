@@ -244,6 +244,9 @@
       "emptyStlRejected": true
     },
     {
+      "wrongEnvironmentBlocked": true
+    },
+    {
       "concurrentDuplicateSuppressed": true
     },
     {

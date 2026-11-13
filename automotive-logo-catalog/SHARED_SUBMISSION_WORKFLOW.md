@@ -48,6 +48,8 @@ Cloudflare OAuth login is valid, including D1/Pages write scopes. D1 listing sho
    - `SUBMISSION_NAMESPACE`: `preview/feature-automotive-keytags-logo-catalog`.
    - `SUBMISSION_ALLOWED_HOSTS`: `feature-automotive-keytags-l.zenkilab.pages.dev`.
    - `SUBMISSION_RETENTION_DAYS`: `30`.
+The migration also seeds a single-row database namespace guard. The API, operator retry and cleanup refuse a database whose guard does not equal SUBMISSION_NAMESPACE, preventing an accidentally bound production/other-branch database from being used. Production needs its own explicitly seeded namespace; never overwrite a production guard for a preview.
+
 5. Redeploy the feature preview. GET `/api/submissions` must report ready true. Other preview branch hosts are intentionally rejected by the allowlist. Pages preview bindings may be shared across branches: use these feature-only resources, allowlist and namespace, never production data. Trusted deploy access is still required; for untrusted preview branches use a separate project instead of exposing shared secrets.
 6. Schedule authenticated cleanup; test synthetic submissions and operator retry before launch. Configure production resources/secrets separately only during a separately authorized production release.
 

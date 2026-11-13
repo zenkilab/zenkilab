@@ -60,6 +60,7 @@ const json = (body: unknown, status = 200) => new Response(JSON.stringify(body),
 const hash = async (b: Uint8Array) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', b as BufferSource))).map(x => x.toString(16).padStart(2, '0')).join('');
 const encode = (v: unknown) => new TextEncoder().encode(JSON.stringify(v));
 function ready(env: Env) { return !!(env.RESEND_API_KEY && env.SUBMISSIONS_DB && env.SUBMISSIONS_FILES && env.SUBMISSION_NAMESPACE && env.SUBMISSION_ALLOWED_HOSTS); }
+export async function scopeMatches(env:Env){try{if(!env.SUBMISSIONS_DB||!env.SUBMISSION_NAMESPACE)return false;const row=await env.SUBMISSIONS_DB.prepare('SELECT namespace FROM submission_scope WHERE id=1').first<{namespace:string}>();return row?.namespace===env.SUBMISSION_NAMESPACE}catch{return false}}
 function base64(bytes: Uint8Array) { let s = ''; for (let i = 0; i < bytes.length; i += 8192)
     s += String.fromCharCode(...bytes.subarray(i, i + 8192)); return btoa(s); }
 async function limited(request: Request) { const reader = request.body?.getReader(); if (!reader)
@@ -85,7 +86,7 @@ function automotive(raw: string) { const o = JSON.parse(raw), c = o.config; cons
     throw Error('Brand/model required'); if (!registrationLayout(c.registration).valid || contrast(filamentColors.find(v => v.id === c.body)!.hex, filamentColors.find(v => v.id === c.accent)!.hex) < 3)
     throw Error('Lettering size or color contrast unsuitable'); return { contact: o.contact, config: { brand: c.brand, registration: c.registration, shape: c.shape, border: c.border, body: c.body, accent: c.accent, branding: c.branding, ...(c.notes ? { notes: c.notes } : {}), ...(c.customBrand ? { customBrand: c.customBrand } : {}) } }; }
 export async function handle(request: Request, env: Env, legacy = false) {
-    if (!ready(env))
+    if (!ready(env)||!await scopeMatches(env))
         return json({ error: 'Submissions are temporarily unavailable. Your design has not been sent. Keep your prepared package or use WhatsApp.', readiness: false }, 503);
     const host = new URL(request.url).hostname;
     if (!env.SUBMISSION_ALLOWED_HOSTS!.split(',').includes(host) || request.headers.get('Origin') && new URL(request.headers.get('Origin')!).host !== new URL(request.url).host)
@@ -216,6 +217,7 @@ export async function handle(request: Request, env: Env, legacy = false) {
     }
 }
 export async function notify(ref: string, env: Env) {
+    if(!ready(env)||!await scopeMatches(env))return json({error:"Submission bindings/scope unavailable"},503);
     const db = env.SUBMISSIONS_DB!, now = Date.now();
     let row = await db.prepare('SELECT * FROM submissions WHERE ref=?').bind(ref).first<Row>();
     if (!row)
@@ -264,4 +266,4 @@ export async function notify(ref: string, env: Env) {
         return json({ reference: ref, state: 'failed', persisted: true, error: 'Saved privately, but notification failed. Retry with the same reference.', retryable: true }, 502);
     }
 }
-export const readiness = (env: Env) => json({ ready: ready(env), missing: ['RESEND_API_KEY', 'SUBMISSIONS_DB', 'SUBMISSIONS_FILES', 'SUBMISSION_NAMESPACE', 'SUBMISSION_ALLOWED_HOSTS'].filter(k => !env[k as keyof Env]), deliveryConfirmed: false }, ready(env) ? 200 : 503);
+export const readiness=async(env:Env)=>{const scoped=await scopeMatches(env);const missing=['RESEND_API_KEY','SUBMISSIONS_DB','SUBMISSIONS_FILES','SUBMISSION_NAMESPACE','SUBMISSION_ALLOWED_HOSTS'].filter(k=>!env[k as keyof Env]);if(env.SUBMISSIONS_DB&&env.SUBMISSION_NAMESPACE&&!scoped)missing.push('SUBMISSION_SCOPE_GUARD');const available=ready(env)&&scoped;return json({ready:available,missing,deliveryConfirmed:false},available?200:503)};

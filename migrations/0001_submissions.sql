@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS submissions (
 );
 CREATE INDEX IF NOT EXISTS submissions_expiry ON submissions(expires);
 CREATE TABLE IF NOT EXISTS submission_rate (bucket TEXT PRIMARY KEY, hits INTEGER NOT NULL, expires INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS submission_scope (id INTEGER PRIMARY KEY CHECK(id=1), namespace TEXT NOT NULL);
+INSERT OR IGNORE INTO submission_scope(id,namespace) VALUES(1,'preview/feature-automotive-keytags-logo-catalog');
