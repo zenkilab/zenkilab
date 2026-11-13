@@ -1,0 +1,7 @@
+manifold3d==3.5.5
+numpy==2.4.6
+opencv-python-headless==5.0.0.93
+shapely
+trimesh
+Pillow
+matplotlib
