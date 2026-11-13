@@ -1,0 +1,39 @@
+{
+  "zip_valid": true,
+  "size": 203119,
+  "entries": [
+    "_rels/",
+    "_rels/.rels",
+    "3D/",
+    "3D/3dmodel.model",
+    "Metadata/",
+    "Metadata/model_settings.config",
+    "Metadata/project_settings.config",
+    "[Content_Types].xml"
+  ],
+  "meshes": [
+    {
+      "object": "1",
+      "watertight": false,
+      "winding": true,
+      "volume": 1742.7139735606404,
+      "extents": [
+        50.0,
+        25.0,
+        1.6
+      ]
+    },
+    {
+      "object": "2",
+      "watertight": false,
+      "winding": true,
+      "volume": 320.5318358694702,
+      "extents": [
+        50.0,
+        25.0,
+        2.6
+      ]
+    }
+  ],
+  "slicer_verified": false
+}

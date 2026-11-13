@@ -1,0 +1,45 @@
+{
+  "actualFunctionExecuted": true,
+  "providerMocked": true,
+  "realEmailsSent": 0,
+  "actualDeliveryVerified": false,
+  "results": [
+    {
+      "case": "missing provider config",
+      "status": 500
+    },
+    {
+      "case": "missing model",
+      "status": 400
+    },
+    {
+      "case": "invalid 3MF bytes accepted without geometry inspection",
+      "status": 200
+    },
+    {
+      "case": "duplicate reference resent",
+      "providerCalls": 2
+    },
+    {
+      "case": "preview silently removed on provider rejection",
+      "status": 200,
+      "calls": 2
+    },
+    {
+      "case": "provider failure surfaces",
+      "status": 500
+    },
+    {
+      "case": "real generated 3MF bytes preserved in provider attachment payload",
+      "status": 200
+    },
+    {
+      "case": "development submission failure suppressed",
+      "returnedNormally": true
+    },
+    {
+      "case": "production submission failure throws",
+      "passed": true
+    }
+  ]
+}
