@@ -1,24 +1,37 @@
-import type { StoredOrder } from "./keytag";
-
-/**
- * Sends the order to the business (POST /api/hub/keytag-order). The server builds the email,
- * spec and prices from the order data, so only the raw order, the render and the 3MF go up.
- */
-export async function sendOrder(order: StoredOrder, stage: "quote" | "confirm", model?: Blob) {
-  // Images go up as the preview file. Left in the JSON they push it past the server's 10 kB limit ("Invalid order").
-  const { thumbnail } = order;
-  const data = { ...order, thumbnail: undefined, thumbnails: undefined };
-  const form = new FormData();
-  form.append("stage", stage);
-  form.append("order", JSON.stringify(data));
-  if (thumbnail.startsWith("data:image/jpeg")) form.append("preview", await (await fetch(thumbnail)).blob(), `${order.orderId}.jpg`);
-  if (model) form.append("model", new File([model], `${order.orderId}.3mf`, { type: "model/3mf" }));
-  try {
-    const res = await fetch("/api/hub/keytag-order", { method: "POST", body: form });
-    if (!res.ok) throw new Error((await res.json().catch(() => null))?.error || `HTTP ${res.status}`);
-  } catch (e) {
-    // The Pages Function does not run under `next dev`, so let local runs continue.
-    if (process.env.NODE_ENV !== "development") throw e;
-    console.warn(`keytag ${stage} not sent (dev only):`, e);
-  }
+import type { StoredOrder } from './keytag';
+type Receipt = {
+    reference: string;
+    state: string;
+    persisted: boolean;
+    providerId: string;
+    delivered: boolean;
+};
+const pending = new Map<string, {
+    order: StoredOrder;
+    model?: Blob;
+}>();
+export async function sendOrder(order: StoredOrder, stage: 'quote' | 'confirm', model?: Blob): Promise<Receipt> {
+    const signature = JSON.stringify({ stage, configs: order.configs || [order.config], contact: order.contact });
+    let item = pending.get(signature);
+    if (!item) {
+        item = { order: { ...order }, model };
+        pending.set(signature, item);
+    }
+    if (stage === 'quote')
+        order.orderId = item.order.orderId;
+    const data = { ...item.order, thumbnail: undefined, thumbnails: undefined };
+    const form = new FormData();
+    form.append('stage', stage);
+    form.append('order', JSON.stringify(data));
+    if (item.order.thumbnail.startsWith('data:image/jpeg'))
+        form.append('preview', await (await fetch(item.order.thumbnail)).blob(), 'preview.jpg');
+    if (item.model)
+        form.append('model', item.model, 'model.3mf');
+    const response = await fetch('/api/hub/keytag-order', { method: 'POST', body: form });
+    const receipt = await response.json();
+    if (!response.ok)
+        throw Error(receipt.error || 'Submission failed');
+    if (!receipt.persisted || receipt.state !== 'email_accepted' || !receipt.providerId)
+        throw Error('Server did not confirm storage and provider acceptance');
+    return receipt;
 }

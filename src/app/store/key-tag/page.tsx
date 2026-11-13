@@ -66,6 +66,7 @@ export default function KeyTagPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [busy, setBusy] = useState(false);
+  const [reviewed, setReviewed] = useState(false);
   const [error, setError] = useState("");
   const [textError, setTextError] = useState(false);
 
@@ -206,6 +207,7 @@ export default function KeyTagPage() {
   };
 
   async function submit() {
+    if (!reviewed) return setError("Please review your design and contact details first.");
     setError("");
     setTextError(false);
     // Rebuilt here rather than reusing `filled`: the React Compiler lint misreads that as render-time work.
@@ -602,10 +604,11 @@ export default function KeyTagPage() {
               </dl>
 
               {error && <p role="alert" className="text-sm text-[color:var(--color-danger)]">{error}</p>}
+              <label className="mb-3 flex gap-3 text-sm text-muted-foreground"><input type="checkbox" checked={reviewed} onChange={(e) => setReviewed(e.target.checked)} />I reviewed this design and my contact details. Manufacturing review is still required.</label>
               <button
                 type="button"
                 onClick={submit}
-                disabled={busy}
+                disabled={busy || !reviewed}
                 className="h-12 w-full rounded-xl bg-primary text-sm font-semibold text-primary-foreground transition-colors hover:bg-[color:var(--color-accent-primary-light)] disabled:opacity-60"
               >
                 {busy

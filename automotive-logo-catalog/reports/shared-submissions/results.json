@@ -1,0 +1,255 @@
+{
+  "passed": true,
+  "realEmailSent": false,
+  "storage": "real SQLite file with reopen verification and private filesystem object adapter; remote D1/R2 unverified",
+  "provider": "mocked",
+  "results": [
+    {
+      "shape": "capsule",
+      "border": "none",
+      "receipt": {
+        "reference": "AK-0000000000000001",
+        "state": "email_accepted",
+        "persisted": true,
+        "providerId": "MOCK-1",
+        "delivered": false,
+        "validation": {
+          "origin": "client-generated",
+          "structuralValidation": true,
+          "triangles": 43736,
+          "vertices": 21234,
+          "boundaryEdges": 688,
+          "nonManifoldEdges": 1829,
+          "watertightEdgeScreen": false,
+          "independentlyRegenerated": false,
+          "serverGeometryVerified": false,
+          "status": "manufacturing-review-required",
+          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "stlCoordinateDimensionScreen": true,
+          "stlIndependentlyMatched": false
+        }
+      }
+    },
+    {
+      "shape": "capsule",
+      "border": "thin",
+      "receipt": {
+        "reference": "AK-0000000000000002",
+        "state": "email_accepted",
+        "persisted": true,
+        "providerId": "MOCK-2",
+        "delivered": false,
+        "validation": {
+          "origin": "client-generated",
+          "structuralValidation": true,
+          "triangles": 49896,
+          "vertices": 24314,
+          "boundaryEdges": 688,
+          "nonManifoldEdges": 1829,
+          "watertightEdgeScreen": false,
+          "independentlyRegenerated": false,
+          "serverGeometryVerified": false,
+          "status": "manufacturing-review-required",
+          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "stlCoordinateDimensionScreen": true,
+          "stlIndependentlyMatched": false
+        }
+      }
+    },
+    {
+      "shape": "capsule",
+      "border": "bold",
+      "receipt": {
+        "reference": "AK-0000000000000003",
+        "state": "email_accepted",
+        "persisted": true,
+        "providerId": "MOCK-3",
+        "delivered": false,
+        "validation": {
+          "origin": "client-generated",
+          "structuralValidation": true,
+          "triangles": 49896,
+          "vertices": 24314,
+          "boundaryEdges": 688,
+          "nonManifoldEdges": 1829,
+          "watertightEdgeScreen": false,
+          "independentlyRegenerated": false,
+          "serverGeometryVerified": false,
+          "status": "manufacturing-review-required",
+          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "stlCoordinateDimensionScreen": true,
+          "stlIndependentlyMatched": false
+        }
+      }
+    },
+    {
+      "shape": "capsule",
+      "border": "double",
+      "receipt": {
+        "reference": "AK-0000000000000004",
+        "state": "email_accepted",
+        "persisted": true,
+        "providerId": "MOCK-4",
+        "delivered": false,
+        "validation": {
+          "origin": "client-generated",
+          "structuralValidation": true,
+          "triangles": 56056,
+          "vertices": 27394,
+          "boundaryEdges": 688,
+          "nonManifoldEdges": 1829,
+          "watertightEdgeScreen": false,
+          "independentlyRegenerated": false,
+          "serverGeometryVerified": false,
+          "status": "manufacturing-review-required",
+          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "stlCoordinateDimensionScreen": true,
+          "stlIndependentlyMatched": false
+        }
+      }
+    },
+    {
+      "shape": "rounded-rectangle",
+      "border": "none",
+      "receipt": {
+        "reference": "AK-0000000000000005",
+        "state": "email_accepted",
+        "persisted": true,
+        "providerId": "MOCK-5",
+        "delivered": false,
+        "validation": {
+          "origin": "client-generated",
+          "structuralValidation": true,
+          "triangles": 43750,
+          "vertices": 21240,
+          "boundaryEdges": 690,
+          "nonManifoldEdges": 1843,
+          "watertightEdgeScreen": false,
+          "independentlyRegenerated": false,
+          "serverGeometryVerified": false,
+          "status": "manufacturing-review-required",
+          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "stlCoordinateDimensionScreen": true,
+          "stlIndependentlyMatched": false
+        }
+      }
+    },
+    {
+      "shape": "rounded-rectangle",
+      "border": "thin",
+      "receipt": {
+        "reference": "AK-0000000000000006",
+        "state": "email_accepted",
+        "persisted": true,
+        "providerId": "MOCK-6",
+        "delivered": false,
+        "validation": {
+          "origin": "client-generated",
+          "structuralValidation": true,
+          "triangles": 49926,
+          "vertices": 24328,
+          "boundaryEdges": 690,
+          "nonManifoldEdges": 1843,
+          "watertightEdgeScreen": false,
+          "independentlyRegenerated": false,
+          "serverGeometryVerified": false,
+          "status": "manufacturing-review-required",
+          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "stlCoordinateDimensionScreen": true,
+          "stlIndependentlyMatched": false
+        }
+      }
+    },
+    {
+      "shape": "rounded-rectangle",
+      "border": "bold",
+      "receipt": {
+        "reference": "AK-0000000000000007",
+        "state": "email_accepted",
+        "persisted": true,
+        "providerId": "MOCK-7",
+        "delivered": false,
+        "validation": {
+          "origin": "client-generated",
+          "structuralValidation": true,
+          "triangles": 49926,
+          "vertices": 24328,
+          "boundaryEdges": 690,
+          "nonManifoldEdges": 1843,
+          "watertightEdgeScreen": false,
+          "independentlyRegenerated": false,
+          "serverGeometryVerified": false,
+          "status": "manufacturing-review-required",
+          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "stlCoordinateDimensionScreen": true,
+          "stlIndependentlyMatched": false
+        }
+      }
+    },
+    {
+      "shape": "rounded-rectangle",
+      "border": "double",
+      "receipt": {
+        "reference": "AK-0000000000000008",
+        "state": "email_accepted",
+        "persisted": true,
+        "providerId": "MOCK-8",
+        "delivered": false,
+        "validation": {
+          "origin": "client-generated",
+          "structuralValidation": true,
+          "triangles": 56102,
+          "vertices": 27416,
+          "boundaryEdges": 690,
+          "nonManifoldEdges": 1843,
+          "watertightEdgeScreen": false,
+          "independentlyRegenerated": false,
+          "serverGeometryVerified": false,
+          "status": "manufacturing-review-required",
+          "limitations": "Archive, coordinate, topology-edge and configuration checks; not independent geometry regeneration, intersection or full solid validation",
+          "stlCoordinateDimensionScreen": true,
+          "stlIndependentlyMatched": false
+        }
+      }
+    },
+    {
+      "inquiry": true
+    },
+    {
+      "emailFailureRetry": true,
+      "mandatoryAttachmentsRetained": true
+    },
+    {
+      "storageFailureRetry": true
+    },
+    {
+      "invalidInputsRejected": true,
+      "unconfiguredFailsClosed": true
+    },
+    {
+      "existingCustomKeytag": true
+    },
+    {
+      "existingConfirmationReusesPrivateCad": true
+    },
+    {
+      "oversizeRejected": true,
+      "conflictingRetryRejected": true
+    },
+    {
+      "retentionCleanup": true,
+      "expiredReplayBlocked": true
+    },
+    {
+      "concurrentDuplicateSuppressed": true
+    },
+    {
+      "newSubmissionRateLimit": true
+    },
+    {
+      "durableSqliteReopen": true,
+      "privateFilesystemStorage": true
+    }
+  ],
+  "providerCalls": 20
+}

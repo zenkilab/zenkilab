@@ -1,0 +1,16 @@
+{
+  "automotiveClientGeneration": true,
+  "mobileSubmission": true,
+  "pendingBrandInquiry": true,
+  "realSharedFunctionOverHTTP": true,
+  "providerMocked": true,
+  "actualDeliveryVerified": false,
+  "existingCustomKeytagBrowser": true,
+  "viewports": [
+    320,
+    390,
+    768,
+    1024,
+    1440
+  ]
+}
