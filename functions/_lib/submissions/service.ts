@@ -59,7 +59,7 @@ type Row = {
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
 const hash = async (b: Uint8Array) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', b as BufferSource))).map(x => x.toString(16).padStart(2, '0')).join('');
 const encode = (v: unknown) => new TextEncoder().encode(JSON.stringify(v));
-function ready(env: Env) { return !!(env.RESEND_API_KEY && env.SUBMISSIONS_DB && env.SUBMISSIONS_FILES && env.SUBMISSION_NAMESPACE && env.SUBMISSION_ALLOWED_HOSTS); }
+function ready(env: Env) { return !!(env.RESEND_API_KEY && env.SUBMISSIONS_DB && env.SUBMISSIONS_FILES && env.SUBMISSION_NAMESPACE && env.SUBMISSION_ALLOWED_HOSTS && env.SUBMISSIONS_ADMIN_TOKEN); }
 export async function scopeMatches(env:Env){try{if(!env.SUBMISSIONS_DB||!env.SUBMISSION_NAMESPACE)return false;const row=await env.SUBMISSIONS_DB.prepare('SELECT namespace FROM submission_scope WHERE id=1').first<{namespace:string}>();return row?.namespace===env.SUBMISSION_NAMESPACE}catch{return false}}
 function base64(bytes: Uint8Array) { let s = ''; for (let i = 0; i < bytes.length; i += 8192)
     s += String.fromCharCode(...bytes.subarray(i, i + 8192)); return btoa(s); }
@@ -269,4 +269,4 @@ export async function notify(ref: string, env: Env) {
         return json({ reference: ref, state: 'failed', persisted: true, error: 'Saved privately, but notification failed. Retry with the same reference.', retryable: true }, 502);
     }
 }
-export const readiness=async(env:Env)=>{const scoped=await scopeMatches(env);const missing=['RESEND_API_KEY','SUBMISSIONS_DB','SUBMISSIONS_FILES','SUBMISSION_NAMESPACE','SUBMISSION_ALLOWED_HOSTS'].filter(k=>!env[k as keyof Env]);if(env.SUBMISSIONS_DB&&env.SUBMISSION_NAMESPACE&&!scoped)missing.push('SUBMISSION_SCOPE_GUARD');const available=ready(env)&&scoped;return json({ready:available,missing,deliveryConfirmed:false},available?200:503)};
+export const readiness=async(env:Env)=>{const scoped=await scopeMatches(env);const missing=['RESEND_API_KEY','SUBMISSIONS_DB','SUBMISSIONS_FILES','SUBMISSION_NAMESPACE','SUBMISSION_ALLOWED_HOSTS','SUBMISSIONS_ADMIN_TOKEN'].filter(k=>!env[k as keyof Env]);if(env.SUBMISSIONS_DB&&env.SUBMISSION_NAMESPACE&&!scoped)missing.push('SUBMISSION_SCOPE_GUARD');const available=ready(env)&&scoped;return json({ready:available,missing,deliveryConfirmed:false},available?200:503)};
