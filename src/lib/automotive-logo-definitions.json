@@ -47,13 +47,54 @@
     ],
     "profile_plan": "Overlapping rounded-section rings",
     "asset": "/automotive-logos/audi.svg",
-    "sanitized_sha256": "a25ffd06c2f08cbb42ba8b3894845c909b18739e867a6eb5fc5e96f840cd1726",
+    "sanitized_sha256": "ec26f3c639bb33849560b984b6fbada74c5258ba539ca38e834f709370a475ea",
     "viewBox": [
-      35,
-      180.0004119873047,
-      443,
-      152.9995880126953
-    ]
+      19.014362304687495,
+      164.47555093296367,
+      474.59634049479166,
+      184.0493101213773
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        35,
+        180.0004119873047,
+        443,
+        152.9995880126953
+      ],
+      "paintedBounds": [
+        34.53854166666666,
+        179.99973029494285,
+        443.5479817708333,
+        153.00095139741896
+      ],
+      "viewBox": [
+        19.014362304687495,
+        164.47555093296367,
+        474.59634049479166,
+        184.0493101213773
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        256.4748784497349,
+        256.4013646479243
+      ],
+      "uncertainty": [
+        0.37493489583333334,
+        0.1861325442790985
+      ],
+      "safety": 15.524179361979167
+    }
   },
   {
     "id": "bmw",
@@ -119,13 +160,54 @@
     ],
     "profile_plan": "Roundel, rim and distinct quadrant regions",
     "asset": "/automotive-logos/bmw.svg",
-    "sanitized_sha256": "4ac626a67932b445a23eaf68e1a686086c00212b82df5a2f4aedfcf8315e50b1",
+    "sanitized_sha256": "00645775cd52294b40eb1031510947650aaeefe69573766ab488008e392ac6b9",
     "viewBox": [
-      78,
-      78,
-      356,
-      356
-    ]
+      65.4656015625,
+      65.4656015625,
+      381.06879687500003,
+      381.06879687500003
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        78,
+        78,
+        356,
+        356
+      ],
+      "paintedBounds": [
+        77.93046875,
+        77.93046875,
+        356.1390625,
+        356.1390625
+      ],
+      "viewBox": [
+        65.4656015625,
+        65.4656015625,
+        381.06879687500003,
+        381.06879687500003
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        255.3065756769925,
+        242.8816433854451
+      ],
+      "uncertainty": [
+        0.30130208333333336,
+        0.30130208333333336
+      ],
+      "safety": 12.464867187500001
+    }
   },
   {
     "id": "ford",
@@ -175,13 +257,54 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/ford.svg",
-    "sanitized_sha256": "3d8ec6ee4c2028e5f5d45a828af8db2e30980af6572dc6475230e11dc91d53b0",
+    "sanitized_sha256": "0a9d55d2aedf9cc2e3d1466bf05ad6ef2f9fb72b2b12ff4d3e1106f9f566316f",
     "viewBox": [
-      28,
-      174,
-      456,
-      164.12100219726562
-    ]
+      11.944703125000002,
+      158.00709229612352,
+      488.11059374999996,
+      196.1068176050186
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        28,
+        174,
+        456,
+        164.12100219726562
+      ],
+      "paintedBounds": [
+        27.910937500000003,
+        173.97332667112352,
+        456.17812499999997,
+        164.1743488550186
+      ],
+      "viewBox": [
+        11.944703125000002,
+        158.00709229612352,
+        488.11059374999996,
+        196.1068176050186
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        255.80555469331654,
+        255.97070497286126
+      ],
+      "uncertainty": [
+        0.3859375,
+        0.19591211080551144
+      ],
+      "safety": 15.966234375
+    }
   },
   {
     "id": "honda",
@@ -239,13 +362,54 @@
     ],
     "profile_plan": "H emblem with selected edge bevels",
     "asset": "/automotive-logos/honda.svg",
-    "sanitized_sha256": "b2f33e07ad38b6e9b87920f674c35e27bec5790fd2fc9ee8588f8e55905520b5",
+    "sanitized_sha256": "b22d4964e84f6ae9dc1f5743553200d8b786514f423e067a8e4672fe44416873",
     "viewBox": [
-      78.00003051757812,
-      111,
-      355.9999694824219,
-      289.1400146484375
-    ]
+      65.46563315457105,
+      98.49424076145887,
+      381.068764208436,
+      314.15153312551973
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        78.00003051757812,
+        111,
+        355.9999694824219,
+        289.1400146484375
+      ],
+      "paintedBounds": [
+        77.93049927353859,
+        110.9591068804264,
+        356.1390319705009,
+        289.22180088758466
+      ],
+      "viewBox": [
+        65.46563315457105,
+        98.49424076145887,
+        381.068764208436,
+        314.15153312551973
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        255.95985898444255,
+        264.2951164003841
+      ],
+      "uncertainty": [
+        0.30130205750465394,
+        0.2577734410762787
+      ],
+      "safety": 12.464866118967533
+    }
   },
   {
     "id": "hyundai",
@@ -295,13 +459,54 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/hyundai.svg",
-    "sanitized_sha256": "b7cc633307705a4c0a1c273d5cb64998706285a1ce68d247058e1257b6d46bb2",
+    "sanitized_sha256": "05d98b91d4004be2352d85ce4f975ca692150e89870fcaa328dfc9edd8041b96",
     "viewBox": [
-      56,
-      154.08299255371094,
-      400,
-      204.83399963378906
-    ]
+      41.56601562499999,
+      139.91464743415514,
+      428.5294270833333,
+      233.17068987290065
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        56,
+        154.08299255371094,
+        400,
+        204.83399963378906
+      ],
+      "paintedBounds": [
+        55.58333333333333,
+        153.93196514248848,
+        400.49479166666663,
+        205.13605445623398
+      ],
+      "viewBox": [
+        41.56601562499999,
+        139.91464743415514,
+        428.5294270833333,
+        233.17068987290065
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        255.57387271989467,
+        256.42079295537997
+      ],
+      "uncertainty": [
+        0.3385416666666667,
+        0.21148046851158142
+      ],
+      "safety": 14.017317708333334
+    }
   },
   {
     "id": "isuzu",
@@ -351,13 +556,54 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/isuzu.svg",
-    "sanitized_sha256": "7d29c57b2fe5b66601709c8b09974eca9a74b69824a7065d1c2b75efcd114f0e",
+    "sanitized_sha256": "75b4b2bee2b4a1c97823d1e2e7c598753e9013efc80bf0cfe3db34fe28476de1",
     "viewBox": [
-      248.46990966796875,
-      838.5933837890625,
-      1663.130615234375,
-      483.265869140625
-    ]
+      189.9127698225975,
+      780.2794837756156,
+      1780.2448949251177,
+      599.8936691675186
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        248.46990966796875,
+        838.5933837890625,
+        1663.130615234375,
+        483.265869140625
+      ],
+      "paintedBounds": [
+        248.1450794696808,
+        838.5117934226989,
+        1663.780275630951,
+        483.429049873352
+      ],
+      "viewBox": [
+        189.9127698225975,
+        780.2794837756156,
+        1780.2448949251177,
+        599.8936691675186
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        1065.4967332276537,
+        1092.5643208050437
+      ],
+      "uncertainty": [
+        1.4075975259145102,
+        0.6394564151763916
+      ],
+      "safety": 58.23230964708329
+    }
   },
   {
     "id": "kia",
@@ -407,13 +653,54 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/kia.svg",
-    "sanitized_sha256": "199e9853b6a19e6cd431ebb63b7360addce7593ba9216487e1d88c008958cf36",
+    "sanitized_sha256": "b4761bb7ff4bf5ab5d68b87db0cbc4baea41bab69f4afb53b4bbdd160baa6aa9",
     "viewBox": [
-      58,
-      210,
-      397,
-      93
-    ]
+      44.022033203125005,
+      196.06461132812498,
+      424.95593359375005,
+      120.87077734374999
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        58,
+        210,
+        397,
+        93
+      ],
+      "paintedBounds": [
+        57.922460937500006,
+        209.96503906249998,
+        397.15507812500005,
+        93.06992187499999
+      ],
+      "viewBox": [
+        44.022033203125005,
+        196.06461132812498,
+        424.95593359375005,
+        120.87077734374999
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        252.42909382387393,
+        258.9631871841504
+      ],
+      "uncertainty": [
+        0.33600260416666666,
+        0.1380859375
+      ],
+      "safety": 13.900427734375002
+    }
   },
   {
     "id": "lexus",
@@ -463,13 +750,54 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/lexus.svg",
-    "sanitized_sha256": "baa4ec0026d4970428d9c66a7431ad18d59104c80b87d04ab64eaa58d7b9a5ce",
+    "sanitized_sha256": "2ad67865b93c6db6ceb8dcd189fb7abdbf3886c3cb13d400c73ce6a07f81a872",
     "viewBox": [
-      50,
-      105.16200256347656,
-      412,
-      301.676025390625
-    ]
+      35.4938984375,
+      90.67891770807903,
+      441.01220312500004,
+      330.6421951014201
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        50,
+        105.16200256347656,
+        412,
+        301.676025390625
+      ],
+      "paintedBounds": [
+        49.919531250000006,
+        105.10455052057902,
+        412.16093750000005,
+        301.7909294764201
+      ],
+      "viewBox": [
+        35.4938984375,
+        90.67891770807903,
+        441.01220312500004,
+        330.6421951014201
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        254.45060075527567,
+        257.69452092719047
+      ],
+      "uncertainty": [
+        0.34869791666666666,
+        0.27687241236368815
+      ],
+      "safety": 14.425632812500004
+    }
   },
   {
     "id": "mazda",
@@ -519,13 +847,54 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/mazda.svg",
-    "sanitized_sha256": "01f4efeda137f60629516b70edbff35d887ca75d968abbaeb85e0ef54330a6ae",
+    "sanitized_sha256": "fb6c8093369c580e1ed19fd1cf26ffc63e85e95f9c88f99800e4e1ad5d53bd6d",
     "viewBox": [
-      95,
-      127,
-      322.64898681640625,
-      257.83599853515625
-    ]
+      83.63985686457157,
+      115.5593121385177,
+      345.3692730872631,
+      280.71737425812086
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        95,
+        127,
+        322.64898681640625,
+        257.83599853515625
+      ],
+      "paintedBounds": [
+        94.93698261976242,
+        126.85643789370855,
+        322.7750215768814,
+        258.12312274773916
+      ],
+      "viewBox": [
+        83.63985686457157,
+        115.5593121385177,
+        345.3692730872631,
+        280.71737425812086
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        256.11988147704255,
+        252.42068695971386
+      ],
+      "uncertainty": [
+        0.2730753143628438,
+        0.2308793584505717
+      ],
+      "safety": 11.29712575519085
+    }
   },
   {
     "id": "mercedes",
@@ -583,13 +952,54 @@
     ],
     "profile_plan": "Existing validated crowned ring/star provider; unchanged",
     "asset": "/automotive-logos/mercedes.svg",
-    "sanitized_sha256": "a4ec73a7ae5f5c57126aff364c262baa8143e08f11131395caefe724a7ffcced",
+    "sanitized_sha256": "24c28a7787364f89a17e0ce4ca097d210e83673784f73d9a99b2319e6b99c50d",
     "viewBox": [
-      -7.5,
-      -7.5,
-      15,
-      15
-    ]
+      -8.028134765625,
+      -8.028134765625,
+      16.05626953125,
+      16.05626953125
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        -7.5,
+        -7.5,
+        15,
+        15
+      ],
+      "paintedBounds": [
+        -7.5029296875,
+        -7.5029296875,
+        15.005859375,
+        15.005859375
+      ],
+      "viewBox": [
+        -8.028134765625,
+        -8.028134765625,
+        16.05626953125,
+        16.05626953125
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        -0.0064254409003901,
+        -0.006531493881178463
+      ],
+      "uncertainty": [
+        0.0126953125,
+        0.0126953125
+      ],
+      "safety": 0.5252050781250001
+    }
   },
   {
     "id": "mitsubishi",
@@ -639,13 +1049,54 @@
     ],
     "profile_plan": "Three diamond facets",
     "asset": "/automotive-logos/mitsubishi.svg",
-    "sanitized_sha256": "dbca610a28ee1122b12173507aef6e2f6f10f5637d4f973d488888d20be0af45",
+    "sanitized_sha256": "0599ddb720fb0a0c325d70b383bc07c41c3216d21252b7e2d3eb51c0a1b11c0e",
     "viewBox": [
-      78,
-      107.81800079345703,
-      356,
-      296.364013671875
-    ]
+      65.4656015625,
+      95.23587760035197,
+      381.06879687500003,
+      321.52826005808515
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        78,
+        107.81800079345703,
+        356,
+        296.364013671875
+      ],
+      "paintedBounds": [
+        77.93046875,
+        107.70074478785197,
+        356.1390625,
+        296.59852568308514
+      ],
+      "viewBox": [
+        65.4656015625,
+        95.23587760035197,
+        381.06879687500003,
+        321.52826005808515
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        255.2928294101077,
+        304.21438447523184
+      ],
+      "uncertainty": [
+        0.30130208333333336,
+        0.2624765714009603
+      ],
+      "safety": 12.464867187500001
+    }
   },
   {
     "id": "nissan",
@@ -695,13 +1146,54 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/nissan.svg",
-    "sanitized_sha256": "071b5708660e5aaf8aad19d6f56fd02db276194322e5a1d3956413a1508acead",
+    "sanitized_sha256": "985c3793793e69972a0f5e892bce17c4255be911ed54997626569515a761113e",
     "viewBox": [
-      50,
-      84,
-      412.0010070800781,
-      345
-    ]
+      35.49386297923327,
+      69.40000184637307,
+      441.01328112161156,
+      374.1999963072538
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        50,
+        84,
+        412.0010070800781,
+        345
+      ],
+      "paintedBounds": [
+        49.919531053304674,
+        83.82566992044448,
+        412.16194497346874,
+        345.348660159111
+      ],
+      "viewBox": [
+        35.49386297923327,
+        69.40000184637307,
+        441.01328112161156,
+        374.1999963072538
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        255.9757659045635,
+        256.71550516136017
+      ],
+      "uncertainty": [
+        0.34869876901308694,
+        0.3050783216953277
+      ],
+      "safety": 14.425668074071407
+    }
   },
   {
     "id": "subaru",
@@ -751,13 +1243,54 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/subaru.svg",
-    "sanitized_sha256": "2df3089b5fa18f8ae9ff62b239892082f4e633a38adb40ffa88ca45c8cf5ed15",
+    "sanitized_sha256": "0c2129398227c8351318a4476a18c42ddb4497b247e952098f85b4f67d3f68ce",
     "viewBox": [
-      78,
-      152.8159942626953,
-      356,
-      207.3670196533203
-    ]
+      65.4656015625,
+      140.33497611784935,
+      381.06879687500003,
+      232.32905594301226
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        78,
+        152.8159942626953,
+        356,
+        207.3670196533203
+      ],
+      "paintedBounds": [
+        77.93046875,
+        152.79984330534936,
+        356.1390625,
+        207.39932156801225
+      ],
+      "viewBox": [
+        65.4656015625,
+        140.33497611784935,
+        381.06879687500003,
+        232.32905594301226
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        253.71769794638564,
+        256.33063855041036
+      ],
+      "uncertainty": [
+        0.30130208333333336,
+        0.20453582008679708
+      ],
+      "safety": 12.464867187500001
+    }
   },
   {
     "id": "suzuki",
@@ -807,13 +1340,54 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/suzuki.svg",
-    "sanitized_sha256": "ba18c746ab78b976ba6bb414f91dee4246b7445ba5e98c737f0a7d925f19740c",
+    "sanitized_sha256": "d1c8eb88325dbc26758a755c53e530d34fd87d5d265602a067aa4c645ddeb775",
     "viewBox": [
-      0,
-      0,
-      220.4169921875,
-      220.25599670410156
-    ]
+      -7.760658433914183,
+      -7.779210647821425,
+      235.93830905532835,
+      235.8144179997444
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        0,
+        0,
+        220.4169921875,
+        220.25599670410156
+      ],
+      "paintedBounds": [
+        -0.04305019378661967,
+        -0.061602407693861494,
+        220.50309257507323,
+        220.37920151948927
+      ],
+      "viewBox": [
+        -7.760658433914183,
+        -7.779210647821425,
+        235.93830905532835,
+        235.8144179997444
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        110.11242680009877,
+        110.0592524442977
+      ],
+      "uncertainty": [
+        0.18655083974202472,
+        0.1864460249741872
+      ],
+      "safety": 7.717608240127563
+    }
   },
   {
     "id": "toyota",
@@ -871,13 +1445,54 @@
     ],
     "profile_plan": "Interlocking ovals with rounded crowns",
     "asset": "/automotive-logos/toyota.svg",
-    "sanitized_sha256": "e40cc16afc237ae6657f9b17c034fc99d90a32b44730843237fafb82e66fda91",
+    "sanitized_sha256": "18ae5a917fe2596c734e4a859d91ec2b9c00f869167e7d4312784bfc64a22327",
     "viewBox": [
-      78,
-      140,
-      356,
-      231.9169921875
-    ]
+      65.4656015625,
+      127.500700592041,
+      381.06879687500003,
+      256.915591003418
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        78,
+        140,
+        356,
+        231.9169921875
+      ],
+      "paintedBounds": [
+        77.93046875,
+        139.965567779541,
+        356.1390625,
+        231.985856628418
+      ],
+      "viewBox": [
+        65.4656015625,
+        127.500700592041,
+        381.06879687500003,
+        256.915591003418
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        255.72790690965985,
+        250.82501866893875
+      ],
+      "uncertainty": [
+        0.30130208333333336,
+        0.22051887512207033
+      ],
+      "safety": 12.464867187500001
+    }
   },
   {
     "id": "volkswagen",
@@ -927,12 +1542,53 @@
     ],
     "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
     "asset": "/automotive-logos/volkswagen.svg",
-    "sanitized_sha256": "307130a4e8a528387795fff6a5c088dbce295aabbcb0fde712f8c08f8d02243e",
+    "sanitized_sha256": "d55b7d1ad9fbebab51bb144a2da94f1756ac1af1713d4890027eaf001a18c418",
     "viewBox": [
-      79.1093978881836,
-      78.66649627685547,
-      354.2055969238281,
-      354.20550537109375
-    ]
+      66.63817856055498,
+      66.19526639920473,
+      379.14803557908533,
+      379.1479651263952
+    ],
+    "fitting": {
+      "method": "painted-alpha-bounds",
+      "safety_fraction": 0.035,
+      "region_mm": [
+        15,
+        15
+      ],
+      "optical_offset_mm": [
+        0,
+        0
+      ],
+      "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+      "geometricBounds": [
+        79.1093978881836,
+        78.66649627685547,
+        354.2055969238281,
+        354.20550537109375
+      ],
+      "paintedBounds": [
+        79.0402171075344,
+        78.59730494618415,
+        354.34395848512645,
+        354.3438880324363
+      ],
+      "viewBox": [
+        66.63817856055498,
+        66.19526639920473,
+        379.14803557908533,
+        379.1479651263952
+      ],
+      "strokeEnvelope": 0,
+      "centroid": [
+        255.89018598158992,
+        254.98545338689496
+      ],
+      "uncertainty": [
+        0.29978338281313577,
+        0.299783323208491
+      ],
+      "safety": 12.402038546979426
+    }
   }
 ]

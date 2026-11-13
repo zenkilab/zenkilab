@@ -1,0 +1,674 @@
+[
+  {
+    "brand": "audi",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      35,
+      180.0004119873047,
+      443,
+      152.9995880126953
+    ],
+    "paintedBounds": [
+      34.53854166666666,
+      179.99973029494285,
+      443.5479817708333,
+      153.00095139741896
+    ],
+    "viewBox": [
+      19.014362304687495,
+      164.47555093296367,
+      474.59634049479166,
+      184.0493101213773
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      256.4748784497349,
+      256.4013646479243
+    ],
+    "uncertainty": [
+      0.37493489583333334,
+      0.1861325442790985
+    ],
+    "safety": 15.524179361979167
+  },
+  {
+    "brand": "bmw",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      78,
+      78,
+      356,
+      356
+    ],
+    "paintedBounds": [
+      77.93046875,
+      77.93046875,
+      356.1390625,
+      356.1390625
+    ],
+    "viewBox": [
+      65.4656015625,
+      65.4656015625,
+      381.06879687500003,
+      381.06879687500003
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      255.3065756769925,
+      242.8816433854451
+    ],
+    "uncertainty": [
+      0.30130208333333336,
+      0.30130208333333336
+    ],
+    "safety": 12.464867187500001
+  },
+  {
+    "brand": "ford",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      28,
+      174,
+      456,
+      164.12100219726562
+    ],
+    "paintedBounds": [
+      27.910937500000003,
+      173.97332667112352,
+      456.17812499999997,
+      164.1743488550186
+    ],
+    "viewBox": [
+      11.944703125000002,
+      158.00709229612352,
+      488.11059374999996,
+      196.1068176050186
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      255.80555469331654,
+      255.97070497286126
+    ],
+    "uncertainty": [
+      0.3859375,
+      0.19591211080551144
+    ],
+    "safety": 15.966234375
+  },
+  {
+    "brand": "honda",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      78.00003051757812,
+      111,
+      355.9999694824219,
+      289.1400146484375
+    ],
+    "paintedBounds": [
+      77.93049927353859,
+      110.9591068804264,
+      356.1390319705009,
+      289.22180088758466
+    ],
+    "viewBox": [
+      65.46563315457105,
+      98.49424076145887,
+      381.068764208436,
+      314.15153312551973
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      255.95985898444255,
+      264.2951164003841
+    ],
+    "uncertainty": [
+      0.30130205750465394,
+      0.2577734410762787
+    ],
+    "safety": 12.464866118967533
+  },
+  {
+    "brand": "hyundai",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      56,
+      154.08299255371094,
+      400,
+      204.83399963378906
+    ],
+    "paintedBounds": [
+      55.58333333333333,
+      153.93196514248848,
+      400.49479166666663,
+      205.13605445623398
+    ],
+    "viewBox": [
+      41.56601562499999,
+      139.91464743415514,
+      428.5294270833333,
+      233.17068987290065
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      255.57387271989467,
+      256.42079295537997
+    ],
+    "uncertainty": [
+      0.3385416666666667,
+      0.21148046851158142
+    ],
+    "safety": 14.017317708333334
+  },
+  {
+    "brand": "isuzu",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      248.46990966796875,
+      838.5933837890625,
+      1663.130615234375,
+      483.265869140625
+    ],
+    "paintedBounds": [
+      248.1450794696808,
+      838.5117934226989,
+      1663.780275630951,
+      483.429049873352
+    ],
+    "viewBox": [
+      189.9127698225975,
+      780.2794837756156,
+      1780.2448949251177,
+      599.8936691675186
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      1065.4967332276537,
+      1092.5643208050437
+    ],
+    "uncertainty": [
+      1.4075975259145102,
+      0.6394564151763916
+    ],
+    "safety": 58.23230964708329
+  },
+  {
+    "brand": "kia",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      58,
+      210,
+      397,
+      93
+    ],
+    "paintedBounds": [
+      57.922460937500006,
+      209.96503906249998,
+      397.15507812500005,
+      93.06992187499999
+    ],
+    "viewBox": [
+      44.022033203125005,
+      196.06461132812498,
+      424.95593359375005,
+      120.87077734374999
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      252.42909382387393,
+      258.9631871841504
+    ],
+    "uncertainty": [
+      0.33600260416666666,
+      0.1380859375
+    ],
+    "safety": 13.900427734375002
+  },
+  {
+    "brand": "lexus",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      50,
+      105.16200256347656,
+      412,
+      301.676025390625
+    ],
+    "paintedBounds": [
+      49.919531250000006,
+      105.10455052057902,
+      412.16093750000005,
+      301.7909294764201
+    ],
+    "viewBox": [
+      35.4938984375,
+      90.67891770807903,
+      441.01220312500004,
+      330.6421951014201
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      254.45060075527567,
+      257.69452092719047
+    ],
+    "uncertainty": [
+      0.34869791666666666,
+      0.27687241236368815
+    ],
+    "safety": 14.425632812500004
+  },
+  {
+    "brand": "mazda",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      95,
+      127,
+      322.64898681640625,
+      257.83599853515625
+    ],
+    "paintedBounds": [
+      94.93698261976242,
+      126.85643789370855,
+      322.7750215768814,
+      258.12312274773916
+    ],
+    "viewBox": [
+      83.63985686457157,
+      115.5593121385177,
+      345.3692730872631,
+      280.71737425812086
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      256.11988147704255,
+      252.42068695971386
+    ],
+    "uncertainty": [
+      0.2730753143628438,
+      0.2308793584505717
+    ],
+    "safety": 11.29712575519085
+  },
+  {
+    "brand": "mercedes",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      -7.5,
+      -7.5,
+      15,
+      15
+    ],
+    "paintedBounds": [
+      -7.5029296875,
+      -7.5029296875,
+      15.005859375,
+      15.005859375
+    ],
+    "viewBox": [
+      -8.028134765625,
+      -8.028134765625,
+      16.05626953125,
+      16.05626953125
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      -0.0064254409003901,
+      -0.006531493881178463
+    ],
+    "uncertainty": [
+      0.0126953125,
+      0.0126953125
+    ],
+    "safety": 0.5252050781250001
+  },
+  {
+    "brand": "mitsubishi",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      78,
+      107.81800079345703,
+      356,
+      296.364013671875
+    ],
+    "paintedBounds": [
+      77.93046875,
+      107.70074478785197,
+      356.1390625,
+      296.59852568308514
+    ],
+    "viewBox": [
+      65.4656015625,
+      95.23587760035197,
+      381.06879687500003,
+      321.52826005808515
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      255.2928294101077,
+      304.21438447523184
+    ],
+    "uncertainty": [
+      0.30130208333333336,
+      0.2624765714009603
+    ],
+    "safety": 12.464867187500001
+  },
+  {
+    "brand": "nissan",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      50,
+      84,
+      412.0010070800781,
+      345
+    ],
+    "paintedBounds": [
+      49.919531053304674,
+      83.82566992044448,
+      412.16194497346874,
+      345.348660159111
+    ],
+    "viewBox": [
+      35.49386297923327,
+      69.40000184637307,
+      441.01328112161156,
+      374.1999963072538
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      255.9757659045635,
+      256.71550516136017
+    ],
+    "uncertainty": [
+      0.34869876901308694,
+      0.3050783216953277
+    ],
+    "safety": 14.425668074071407
+  },
+  {
+    "brand": "subaru",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      78,
+      152.8159942626953,
+      356,
+      207.3670196533203
+    ],
+    "paintedBounds": [
+      77.93046875,
+      152.79984330534936,
+      356.1390625,
+      207.39932156801225
+    ],
+    "viewBox": [
+      65.4656015625,
+      140.33497611784935,
+      381.06879687500003,
+      232.32905594301226
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      253.71769794638564,
+      256.33063855041036
+    ],
+    "uncertainty": [
+      0.30130208333333336,
+      0.20453582008679708
+    ],
+    "safety": 12.464867187500001
+  },
+  {
+    "brand": "suzuki",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      0,
+      0,
+      220.4169921875,
+      220.25599670410156
+    ],
+    "paintedBounds": [
+      -0.04305019378661967,
+      -0.061602407693861494,
+      220.50309257507323,
+      220.37920151948927
+    ],
+    "viewBox": [
+      -7.760658433914183,
+      -7.779210647821425,
+      235.93830905532835,
+      235.8144179997444
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      110.11242680009877,
+      110.0592524442977
+    ],
+    "uncertainty": [
+      0.18655083974202472,
+      0.1864460249741872
+    ],
+    "safety": 7.717608240127563
+  },
+  {
+    "brand": "toyota",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      78,
+      140,
+      356,
+      231.9169921875
+    ],
+    "paintedBounds": [
+      77.93046875,
+      139.965567779541,
+      356.1390625,
+      231.985856628418
+    ],
+    "viewBox": [
+      65.4656015625,
+      127.500700592041,
+      381.06879687500003,
+      256.915591003418
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      255.72790690965985,
+      250.82501866893875
+    ],
+    "uncertainty": [
+      0.30130208333333336,
+      0.22051887512207033
+    ],
+    "safety": 12.464867187500001
+  },
+  {
+    "brand": "volkswagen",
+    "method": "painted-alpha-bounds",
+    "safety_fraction": 0.035,
+    "region_mm": [
+      15,
+      15
+    ],
+    "optical_offset_mm": [
+      0,
+      0
+    ],
+    "centering": "painted bounds center; centroid recorded, no unmeasured brand offsets",
+    "geometricBounds": [
+      79.1093978881836,
+      78.66649627685547,
+      354.2055969238281,
+      354.20550537109375
+    ],
+    "paintedBounds": [
+      79.0402171075344,
+      78.59730494618415,
+      354.34395848512645,
+      354.3438880324363
+    ],
+    "viewBox": [
+      66.63817856055498,
+      66.19526639920473,
+      379.14803557908533,
+      379.1479651263952
+    ],
+    "strokeEnvelope": 0,
+    "centroid": [
+      255.89018598158992,
+      254.98545338689496
+    ],
+    "uncertainty": [
+      0.29978338281313577,
+      0.299783323208491
+    ],
+    "safety": 12.402038546979426
+  }
+]
