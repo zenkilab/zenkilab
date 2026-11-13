@@ -1,45 +1,17 @@
+import {backend,fileStore,storageHealthy,persistD1,MAX_FILE_BYTES,MAX_PACKAGE_BYTES,type StorageEnv,type Artifact} from './storage';
 import { registrationLayout, contrast, filamentColors } from '../../../src/lib/automotive-config';
 import { validateModel, validateAutomotiveStl } from './validate';
 import { businessMail } from './business';
 import { parseOrder, keyTagEmail } from '../keytag-email';
 import definitions from '../../../src/lib/automotive-logo-definitions.json';
 import { esc, shell, rows, section } from '../email';
-interface Statement {
-    bind(...args: unknown[]): Statement;
-    run(): Promise<{
-        meta: {
-            changes: number;
-        };
-    }>;
-    first<T = Record<string, unknown>>(): Promise<T | null>;
-    all<T = Record<string, unknown>>(): Promise<{
-        results: T[];
-    }>;
+export interface Env extends StorageEnv {
+ RESEND_API_KEY?:string;
+ SUBMISSION_NAMESPACE?:string;
+ SUBMISSION_ALLOWED_HOSTS?:string;
+ SUBMISSION_RETENTION_DAYS?:string;
+ SUBMISSIONS_ADMIN_TOKEN?:string;
 }
-export interface Env {
-    RESEND_API_KEY?: string;
-    SUBMISSIONS_DB?: {
-        prepare(sql: string): Statement;
-    };
-    SUBMISSIONS_FILES?: {
-        put(key: string, value: Uint8Array): Promise<unknown>;
-        get(key: string): Promise<{
-            arrayBuffer(): Promise<ArrayBuffer>;
-        } | null>;
-        delete(key: string): Promise<void>;
-    };
-    SUBMISSION_NAMESPACE?: string;
-    SUBMISSION_ALLOWED_HOSTS?: string;
-    SUBMISSION_RETENTION_DAYS?: string;
-    SUBMISSIONS_ADMIN_TOKEN?: string;
-}
-type Artifact = {
-    name: string;
-    key: string;
-    sha: string;
-    type: string;
-    size: number;
-};
 type Row = {
     ref: string;
     digest: string;
@@ -59,7 +31,7 @@ type Row = {
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
 const hash = async (b: Uint8Array) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', b as BufferSource))).map(x => x.toString(16).padStart(2, '0')).join('');
 const encode = (v: unknown) => new TextEncoder().encode(JSON.stringify(v));
-function ready(env: Env) { return !!(env.RESEND_API_KEY && env.SUBMISSIONS_DB && env.SUBMISSIONS_FILES && env.SUBMISSION_NAMESPACE && env.SUBMISSION_ALLOWED_HOSTS && env.SUBMISSIONS_ADMIN_TOKEN); }
+function ready(env: Env) { return !!(env.SUBMISSIONS_DB && env.SUBMISSION_NAMESPACE && env.SUBMISSION_ALLOWED_HOSTS); }
 export async function scopeMatches(env:Env){try{if(!env.SUBMISSIONS_DB||!env.SUBMISSION_NAMESPACE)return false;const row=await env.SUBMISSIONS_DB.prepare('SELECT namespace FROM submission_scope WHERE id=1').first<{namespace:string}>();return row?.namespace===env.SUBMISSION_NAMESPACE}catch{return false}}
 function base64(bytes: Uint8Array) { let s = ''; for (let i = 0; i < bytes.length; i += 8192)
     s += String.fromCharCode(...bytes.subarray(i, i + 8192)); return btoa(s); }
@@ -86,7 +58,7 @@ function automotive(raw: string) { const o = JSON.parse(raw), c = o.config; cons
     throw Error('Brand/model required'); if (!registrationLayout(c.registration).valid || contrast(filamentColors.find(v => v.id === c.body)!.hex, filamentColors.find(v => v.id === c.accent)!.hex) < 3)
     throw Error('Lettering size or color contrast unsuitable'); return { contact: o.contact, config: { brand: c.brand, registration: c.registration, shape: c.shape, border: c.border, body: c.body, accent: c.accent, branding: c.branding, ...(c.notes ? { notes: c.notes } : {}), ...(c.customBrand ? { customBrand: c.customBrand } : {}) } }; }
 export async function handle(request: Request, env: Env, legacy = false) {
-    if (!ready(env)||!await scopeMatches(env))
+    if (!ready(env)||!await scopeMatches(env)||!await storageHealthy(env))
         return json({ error: 'Submissions are temporarily unavailable. Your design has not been sent. Keep your prepared package or use WhatsApp.', readiness: false }, 503);
     const host = new URL(request.url).hostname;
     let originAllowed = true;
@@ -96,6 +68,10 @@ export async function handle(request: Request, env: Env, legacy = false) {
         return json({ error: 'Origin not allowed' }, 403);
     let ref = '', phase = 'validation', prior: Row | null = null;
     try {
+        if(backend(env)==='d1'){
+            const daily=await env.SUBMISSIONS_DB!.prepare('INSERT INTO submission_daily_budget(day,hits) VALUES(?,1) ON CONFLICT(day) DO UPDATE SET hits=hits+1 WHERE hits<200').bind(new Date().toISOString().slice(0,10)).run();
+            if(!daily.meta.changes)return json({error:'Daily free submission capacity reached. Use the WhatsApp design-review option.'},429);
+        }
         const f = await limited(request);
         const raw = String(f.get(legacy ? 'order' : 'submission') || '');
         if (raw.length > 20000)
@@ -154,6 +130,7 @@ export async function handle(request: Request, env: Env, legacy = false) {
                     throw Error('Missing required ' + field);
                 continue;
             }
+            if(backend(env)==='d1'&&(file.size>MAX_FILE_BYTES||bytes.reduce((n,b)=>n+b.length,0)+file.size>MAX_PACKAGE_BYTES))throw Error('Free private storage limit: 3 MiB per file, 4 MiB per package. No files discarded. Use the WhatsApp design-review option to arrange manual attachments.');
             if (file.size === 0 || file.size > max)
                 throw Error('Oversized ' + field);
             const b = new Uint8Array(await file.arrayBuffer());
@@ -182,7 +159,7 @@ export async function handle(request: Request, env: Env, legacy = false) {
             for (const a of JSON.parse(prior.artifacts) as Artifact[]) {
                 if (a.name.startsWith('preview'))
                     continue;
-                const object = await env.SUBMISSIONS_FILES!.get(a.key);
+                const object = await fileStore(env).get(a.key);
                 if (!object)
                     throw Error('Quote attachment unavailable');
                 const b = new Uint8Array(await object.arrayBuffer());
@@ -200,6 +177,10 @@ export async function handle(request: Request, env: Env, legacy = false) {
             return json({ error: 'Reference already used for different content', reference: ref }, 409);
         if (row?.provider_id)
             return json({ reference: ref, state: 'email_accepted', providerId: row.provider_id, delivered: false, persisted: true });
+        const days = Math.min(180, Math.max(7, Number(env.SUBMISSION_RETENTION_DAYS)||30));
+        if(backend(env)==='d1'){
+          await persistD1(env,{ref,digest,product,stage,payload:JSON.stringify(payload),artifacts:JSON.stringify(artifacts),validation:JSON.stringify(validation),created:now,expires:row?.expires||now+days*86400000},artifacts,bytes);
+        } else {
         if (!row) {
             const days = Math.min(180, Math.max(7, Number(env.SUBMISSION_RETENTION_DAYS) || 30));
             await db.prepare('INSERT OR IGNORE INTO submissions(ref,digest,product,stage,state,payload,artifacts,validation,created,updated,expires,lease) VALUES(?,?,?,?,?,?,?,?,?,?,?,0)').bind(ref, digest, product, stage, 'received', JSON.stringify(payload), JSON.stringify(artifacts), JSON.stringify(validation), now, now, now + days * 86400000).run();
@@ -209,18 +190,21 @@ export async function handle(request: Request, env: Env, legacy = false) {
         }
         await db.prepare("UPDATE submissions SET state='validated',updated=? WHERE ref=? AND state IN ('received','failed')").bind(now, ref).run();
         for (let i = 0; i < artifacts.length; i++)
-            await env.SUBMISSIONS_FILES!.put(artifacts[i].key, bytes[i]);
+            await fileStore(env).put(artifacts[i].key, bytes[i]);
         await db.prepare("UPDATE submissions SET state='stored',updated=? WHERE ref=? AND state='validated'").bind(now, ref).run();
+        }
         return await notify(ref, env);
     }
     catch (e) {
         if (ref && env.SUBMISSIONS_DB)
             await env.SUBMISSIONS_DB.prepare("UPDATE submissions SET state='failed',failure='validation-or-storage',updated=? WHERE ref=? AND state NOT IN ('email_pending','email_accepted')").bind(Date.now(), ref).run().catch(() => { });
-        return json({ error: phase === 'validation' ? (e instanceof Error ? e.message : 'Invalid submission') : 'Private storage unavailable; retry with the same reference', reference: ref || undefined, retryable: phase !== 'validation' }, phase === 'validation' ? 400 : 503);
+        const capacity=e instanceof Error&&/capacity reached/i.test(e.message);
+        const bounds=e instanceof Error&&e.message.startsWith('Free private storage limit');
+        return json({ error: capacity?'Private storage is full. No files were accepted. Use the WhatsApp design-review option for manual attachments.':phase === 'validation' ? (e instanceof Error ? e.message : 'Invalid submission') : 'Private storage unavailable; retry with the same reference', reference: ref || undefined, retryable: phase !== 'validation' }, capacity?507:bounds?413:phase === 'validation' ? 400 : 503);
     }
 }
 export async function notify(ref: string, env: Env) {
-    if(!ready(env)||!await scopeMatches(env))return json({error:"Submission bindings/scope unavailable"},503);
+    if(!ready(env)||!await scopeMatches(env)||!await storageHealthy(env))return json({error:"Submission bindings/scope unavailable"},503);
     const db = env.SUBMISSIONS_DB!, now = Date.now();
     let row = await db.prepare('SELECT * FROM submissions WHERE ref=?').bind(ref).first<Row>();
     if (!row)
@@ -229,6 +213,10 @@ export async function notify(ref: string, env: Env) {
         return json({ error: 'Submission expired' }, 410);
     if (row.provider_id)
         return json({ reference: ref, state: 'email_accepted', providerId: row.provider_id, persisted: true, delivered: false });
+    if(!env.RESEND_API_KEY){
+        await db.prepare("UPDATE submissions SET failure='email-configuration' WHERE ref=? AND provider_id IS NULL").bind(ref).run();
+        return json({reference:ref,state:row.state,persisted:true,delivered:false,notification:'configuration-required',error:'Saved privately. Email is not configured; no email was sent. Retain this reference and retry after configuration.'},202);
+    }
     if (now - row.created > 23 * 3600000) {
         await db.prepare("UPDATE submissions SET state='requires_attention',failure='retry-window-expired' WHERE ref=?").bind(ref).run();
         return json({ reference: ref, state: 'requires_attention', error: 'Retry window expired; operator review required' }, 409);
@@ -242,7 +230,7 @@ export async function notify(ref: string, env: Env) {
         const payload = JSON.parse(row.payload), artifacts: Artifact[] = JSON.parse(row.artifacts);
         const attachments = [];
         for (const a of artifacts) {
-            const obj = await env.SUBMISSIONS_FILES!.get(a.key);
+            const obj = await fileStore(env).get(a.key);
             if (!obj)
                 throw Error('Stored attachment missing');
             const b = new Uint8Array(await obj.arrayBuffer());
@@ -253,6 +241,10 @@ export async function notify(ref: string, env: Env) {
         const text = JSON.stringify({ reference: ref, product: row.product, stage: row.stage, submission: payload, cadValidation: JSON.parse(row.validation), status: 'REVIEW REQUIRED. Do not print automatically.' }, null, 2);
         attachments.push({ filename: `${ref}-spec.json`, content: base64(encode(JSON.parse(text))) });
         const mail = row.product === 'custom-keytag' ? keyTagEmail(payload, row.stage as 'quote' | 'confirm', artifacts.some(a=>a.name.startsWith('preview'))) : { subject: `[Automotive design review] ${ref}`, text, html: shell({ kind: 'Automotive inquiry', banner: 'DESIGN / MANUFACTURING REVIEW REQUIRED', tone: 'info', headline: esc(payload.config.registration), sub: esc(payload.contact.name), preheader: ref, body: (artifacts.some(a=>a.name.startsWith('preview'))?'<tr><td><img src="cid:tag-preview" alt="Submitted preview" width="544" style="max-width:100%;height:auto"/></td></tr>':'')+section('Submitted configuration', rows(Object.entries(payload.config).map(([k, v]) => [k, String(v)]))), footer: 'CAD and commercial rights require review. No print authorization.' }) };
+        if(backend(env)==='d1'){
+            const periods=[['day:'+new Date().toISOString().slice(0,10),80],['month:'+new Date().toISOString().slice(0,7),2000]] as const;
+            for(const [period,limit] of periods){const budget=await db.prepare('INSERT INTO submission_email_budget(period,hits) VALUES(?,1) ON CONFLICT(period) DO UPDATE SET hits=hits+1 WHERE hits<?').bind(period,limit).run();if(!budget.meta.changes)throw Error('Free notification budget exhausted');}
+        }
         const res = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Idempotency-Key': `zenki-${ref}` }, body: JSON.stringify({ ...businessMail, subject: mail.subject, html: mail.html, text: mail.text + '\n\n' + text, attachments }) });
         if (!res.ok)
             throw Error('Email provider did not accept notification');
@@ -269,4 +261,14 @@ export async function notify(ref: string, env: Env) {
         return json({ reference: ref, state: 'failed', persisted: true, error: 'Saved privately, but notification failed. Retry with the same reference.', retryable: true }, 502);
     }
 }
-export const readiness=async(env:Env)=>{const scoped=await scopeMatches(env);const missing=['RESEND_API_KEY','SUBMISSIONS_DB','SUBMISSIONS_FILES','SUBMISSION_NAMESPACE','SUBMISSION_ALLOWED_HOSTS','SUBMISSIONS_ADMIN_TOKEN'].filter(k=>!env[k as keyof Env]);if(env.SUBMISSIONS_DB&&env.SUBMISSION_NAMESPACE&&!scoped)missing.push('SUBMISSION_SCOPE_GUARD');const available=ready(env)&&scoped;return json({ready:available,missing,deliveryConfirmed:false},available?200:503)};
+export const readiness=async(env:Env)=>{
+ const scoped=await scopeMatches(env),healthy=await storageHealthy(env);
+ const missing=['SUBMISSIONS_DB','SUBMISSION_NAMESPACE','SUBMISSION_ALLOWED_HOSTS'].filter(k=>!env[k as keyof Env]);
+ if(env.SUBMISSIONS_DB&&env.SUBMISSION_NAMESPACE&&!scoped)missing.push('SUBMISSION_SCOPE_GUARD');
+ if(!healthy)missing.push('SUBMISSION_STORAGE_SCHEMA_OR_BACKEND');
+ const storageReady=ready(env)&&scoped&&healthy;
+ if(!env.RESEND_API_KEY)missing.push('RESEND_API_KEY');
+ if(!env.SUBMISSIONS_ADMIN_TOKEN)missing.push('SUBMISSIONS_ADMIN_TOKEN');
+ let selected='invalid';try{selected=backend(env)}catch{}
+ return json({ready:storageReady&&!!env.RESEND_API_KEY&&!!env.SUBMISSIONS_ADMIN_TOKEN,storageReady,notificationReady:!!env.RESEND_API_KEY,privateAccessReady:!!env.SUBMISSIONS_ADMIN_TOKEN,storageBackend:selected,missing,deliveryConfirmed:false,maxFileBytes:MAX_FILE_BYTES,maxPackageBytes:MAX_PACKAGE_BYTES},storageReady?200:503);
+};

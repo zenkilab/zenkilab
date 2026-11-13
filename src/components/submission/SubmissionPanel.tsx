@@ -72,7 +72,7 @@ export default function SubmissionPanel({ config, preview, enabled }: {
         if (!r.ok)
             throw Error((result.reference ? `Reference ${result.reference}: ` : '') + (result.error || 'Submission failed'));
         if (!result.persisted || result.state !== 'email_accepted' || !result.providerId)
-            throw Error('Incomplete server receipt');
+            throw Error((result.reference?`Reference ${result.reference}: `:'')+(result.error||'Incomplete server receipt'));
         setAccepted(true);
         setStatus(`Saved privately. Reference ${result.reference}. Email accepted by provider; inbox delivery is not confirmed.`);
     }

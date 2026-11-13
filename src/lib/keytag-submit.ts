@@ -32,6 +32,6 @@ export async function sendOrder(order: StoredOrder, stage: 'quote' | 'confirm', 
     if (!response.ok)
         throw Error(receipt.error || 'Submission failed');
     if (!receipt.persisted || receipt.state !== 'email_accepted' || !receipt.providerId)
-        throw Error('Server did not confirm storage and provider acceptance');
+        throw Error((receipt.reference?`Reference ${receipt.reference}: `:'')+(receipt.error||'Server did not confirm storage and provider acceptance'));
     return receipt;
 }
