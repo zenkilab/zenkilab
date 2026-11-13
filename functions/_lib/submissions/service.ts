@@ -66,6 +66,11 @@ export async function handle(request: Request, env: Env, legacy = false) {
     catch { originAllowed=false; }
     if (!env.SUBMISSION_ALLOWED_HOSTS!.split(',').map(v=>v.trim()).includes(host) || !originAllowed)
         return json({ error: 'Origin not allowed' }, 403);
+    // Authenticated preview verification persists REAL files but cannot send mail.
+    // Never exposed by the customer UI, never supported on production namespaces.
+    const storageOnly=request.headers.get('X-Zenki-Storage-Only')==='1';
+    if(storageOnly&&(!env.SUBMISSION_NAMESPACE!.startsWith('preview/')||!env.SUBMISSIONS_ADMIN_TOKEN||request.headers.get('Authorization')!==`Bearer ${env.SUBMISSIONS_ADMIN_TOKEN}`))
+        return json({error:'Storage-only verification is not authorized'},403);
     let ref = '', phase = 'validation', prior: Row | null = null;
     try {
         if(backend(env)==='d1'){
@@ -193,6 +198,7 @@ export async function handle(request: Request, env: Env, legacy = false) {
             await fileStore(env).put(artifacts[i].key, bytes[i]);
         await db.prepare("UPDATE submissions SET state='stored',updated=? WHERE ref=? AND state='validated'").bind(now, ref).run();
         }
+        if(storageOnly)return json({reference:ref,state:'stored',persisted:true,delivered:false,notification:'held-for-preview-storage-verification',error:'Stored privately for storage verification. No email was requested or sent.'},202);
         return await notify(ref, env);
     }
     catch (e) {
