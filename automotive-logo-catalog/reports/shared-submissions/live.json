@@ -1,0 +1,62 @@
+{
+  "verifiedAt": "2026-11-13T16:22:58.448Z",
+  "codeCommit": "92e2254dfa6d8ff61d7c7bd7a6bdcc0ce6c52f2c",
+  "url": "https://feature-automotive-keytags-l.zenkilab.pages.dev/preview/automotive-keytags/zgK-bGNzkybwN8aPd8e_26sDpxL0GRCX",
+  "publiclyAccessible": true,
+  "viewports": [
+    {
+      "width": 320,
+      "http": 200,
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "http": 200,
+      "noOverflow": true
+    },
+    {
+      "width": 768,
+      "http": 200,
+      "noOverflow": true
+    },
+    {
+      "width": 1024,
+      "http": 200,
+      "noOverflow": true
+    },
+    {
+      "width": 1440,
+      "http": 200,
+      "noOverflow": true
+    }
+  ],
+  "mercedesNewRegistrationClientGeneration": true,
+  "pendingBrandInquiryPreparation": true,
+  "existingCustomKeytagLoaded": true,
+  "backend": {
+    "status": 503,
+    "body": {
+      "ready": false,
+      "missing": [
+        "RESEND_API_KEY",
+        "SUBMISSIONS_DB",
+        "SUBMISSIONS_FILES",
+        "SUBMISSION_NAMESPACE",
+        "SUBMISSION_ALLOWED_HOSTS"
+      ],
+      "deliveryConfirmed": false
+    }
+  },
+  "legacyInvalidForm": {
+    "status": 503,
+    "body": {
+      "error": "Submissions are temporarily unavailable. Your design has not been sent. Keep your prepared package or use WhatsApp.",
+      "readiness": false
+    }
+  },
+  "browserErrors": [],
+  "validLiveSubmissionSent": false,
+  "realEmailSent": false,
+  "remotePersistenceVerified": false,
+  "deliveryVerified": false
+}
