@@ -1,0 +1,726 @@
+{
+  "models": [
+    {
+      "brand": "audi",
+      "shape": "capsule",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.877796669912542,
+      "stroke_loss": 3.913591572479724e-06
+    },
+    {
+      "brand": "audi",
+      "shape": "capsule",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.919179913785135,
+      "stroke_loss": 3.913591572479724e-06
+    },
+    {
+      "brand": "audi",
+      "shape": "capsule",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.959680652788593,
+      "stroke_loss": 3.913591572479724e-06
+    },
+    {
+      "brand": "audi",
+      "shape": "capsule",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.958724606475498,
+      "stroke_loss": 3.913591572479724e-06
+    },
+    {
+      "brand": "audi",
+      "shape": "rounded-rectangle",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.4744391229623695,
+      "stroke_loss": 3.913591572479724e-06
+    },
+    {
+      "brand": "audi",
+      "shape": "rounded-rectangle",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.520343735154083,
+      "stroke_loss": 3.913591572479724e-06
+    },
+    {
+      "brand": "audi",
+      "shape": "rounded-rectangle",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.56536584229256,
+      "stroke_loss": 3.913591572479724e-06
+    },
+    {
+      "brand": "audi",
+      "shape": "rounded-rectangle",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.564409796358921,
+      "stroke_loss": 3.913591572479724e-06
+    },
+    {
+      "brand": "honda",
+      "shape": "capsule",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.900301870437335,
+      "stroke_loss": 0.0006863314973133416
+    },
+    {
+      "brand": "honda",
+      "shape": "capsule",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.941685114309927,
+      "stroke_loss": 0.0006863314973133416
+    },
+    {
+      "brand": "honda",
+      "shape": "capsule",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.9821858533133865,
+      "stroke_loss": 0.0006863314973133416
+    },
+    {
+      "brand": "honda",
+      "shape": "capsule",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.981229807000291,
+      "stroke_loss": 0.0006863314973133416
+    },
+    {
+      "brand": "honda",
+      "shape": "rounded-rectangle",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.496944323487162,
+      "stroke_loss": 0.0006863314973133416
+    },
+    {
+      "brand": "honda",
+      "shape": "rounded-rectangle",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.542848935678876,
+      "stroke_loss": 0.0006863314973133416
+    },
+    {
+      "brand": "honda",
+      "shape": "rounded-rectangle",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.587871042817354,
+      "stroke_loss": 0.0006863314973133416
+    },
+    {
+      "brand": "honda",
+      "shape": "rounded-rectangle",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.586914996883715,
+      "stroke_loss": 0.0006863314973133416
+    },
+    {
+      "brand": "hyundai",
+      "shape": "capsule",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.8889554253898995,
+      "stroke_loss": 2.448545323829876e-06
+    },
+    {
+      "brand": "hyundai",
+      "shape": "capsule",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.930338669262493,
+      "stroke_loss": 2.448545323829876e-06
+    },
+    {
+      "brand": "hyundai",
+      "shape": "capsule",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.9708394082659515,
+      "stroke_loss": 2.448545323829876e-06
+    },
+    {
+      "brand": "hyundai",
+      "shape": "capsule",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.9698833619528555,
+      "stroke_loss": 2.448545323829876e-06
+    },
+    {
+      "brand": "hyundai",
+      "shape": "rounded-rectangle",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.4855978784397275,
+      "stroke_loss": 2.448545323829876e-06
+    },
+    {
+      "brand": "hyundai",
+      "shape": "rounded-rectangle",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.53150249063144,
+      "stroke_loss": 2.448545323829876e-06
+    },
+    {
+      "brand": "hyundai",
+      "shape": "rounded-rectangle",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.576524597769919,
+      "stroke_loss": 2.448545323829876e-06
+    },
+    {
+      "brand": "hyundai",
+      "shape": "rounded-rectangle",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.575568551836279,
+      "stroke_loss": 2.448545323829876e-06
+    },
+    {
+      "brand": "mitsubishi",
+      "shape": "capsule",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.896365741611437,
+      "stroke_loss": 0.002826765682407806
+    },
+    {
+      "brand": "mitsubishi",
+      "shape": "capsule",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.93774898548403,
+      "stroke_loss": 0.002826765682407806
+    },
+    {
+      "brand": "mitsubishi",
+      "shape": "capsule",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.978249724487488,
+      "stroke_loss": 0.002826765682407806
+    },
+    {
+      "brand": "mitsubishi",
+      "shape": "capsule",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.977293678174393,
+      "stroke_loss": 0.002826765682407806
+    },
+    {
+      "brand": "mitsubishi",
+      "shape": "rounded-rectangle",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.493008194661264,
+      "stroke_loss": 0.002826765682407806
+    },
+    {
+      "brand": "mitsubishi",
+      "shape": "rounded-rectangle",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.538912806852977,
+      "stroke_loss": 0.002826765682407806
+    },
+    {
+      "brand": "mitsubishi",
+      "shape": "rounded-rectangle",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.583934913991455,
+      "stroke_loss": 0.002826765682407806
+    },
+    {
+      "brand": "mitsubishi",
+      "shape": "rounded-rectangle",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.5829788680578165,
+      "stroke_loss": 0.002826765682407806
+    },
+    {
+      "brand": "toyota",
+      "shape": "capsule",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.8913376908653206,
+      "stroke_loss": 6.406878400810889e-06
+    },
+    {
+      "brand": "toyota",
+      "shape": "capsule",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.932720934737914,
+      "stroke_loss": 6.406878400810889e-06
+    },
+    {
+      "brand": "toyota",
+      "shape": "capsule",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.973221673741373,
+      "stroke_loss": 6.406878400810889e-06
+    },
+    {
+      "brand": "toyota",
+      "shape": "capsule",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 5.972265627428277,
+      "stroke_loss": 6.406878400810889e-06
+    },
+    {
+      "brand": "toyota",
+      "shape": "rounded-rectangle",
+      "border": "none",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.487980143915148,
+      "stroke_loss": 6.406878400810889e-06
+    },
+    {
+      "brand": "toyota",
+      "shape": "rounded-rectangle",
+      "border": "thin",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.533884756106861,
+      "stroke_loss": 6.406878400810889e-06
+    },
+    {
+      "brand": "toyota",
+      "shape": "rounded-rectangle",
+      "border": "bold",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.57890686324534,
+      "stroke_loss": 6.406878400810889e-06
+    },
+    {
+      "brand": "toyota",
+      "shape": "rounded-rectangle",
+      "border": "double",
+      "checks": {
+        "art_inside": true,
+        "art_border_clearance": true,
+        "text_clearance": true,
+        "watertight_parts": true,
+        "watertight_complete": true,
+        "winding": true,
+        "positive_volume": true,
+        "color_overlap": true
+      },
+      "passed": true,
+      "mass_g": 6.577950817311701,
+      "stroke_loss": 6.406878400810889e-06
+    }
+  ],
+  "all_passed": true,
+  "slicer_verified": false
+}
