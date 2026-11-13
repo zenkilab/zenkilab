@@ -1,0 +1,33 @@
+{
+  "url": "http://127.0.0.1:8772/preview/automotive-keytags/zgK-bGNzkybwN8aPd8e_26sDpxL0GRCX.html",
+  "passed": true,
+  "viewports": [
+    {
+      "width": 320,
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "noOverflow": true
+    },
+    {
+      "width": 768,
+      "noOverflow": true
+    },
+    {
+      "width": 1024,
+      "noOverflow": true
+    },
+    {
+      "width": 1440,
+      "noOverflow": true
+    }
+  ],
+  "logos": 16,
+  "inquiries": true,
+  "lowContrastBlocked": true,
+  "invalidRegistrationBlocked": true,
+  "search": true,
+  "frontBack": true,
+  "errors": []
+}

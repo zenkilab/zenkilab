@@ -1,0 +1,938 @@
+[
+  {
+    "id": "audi",
+    "name": "Audi",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Audi Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "eb23b735d9b56f08f57d9f2bcaa265db268fea29f016765b4e5bff4ae4ef0c7f",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "four interlocked rings",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Overlapping rounded-section rings",
+    "asset": "/automotive-logos/audi.svg",
+    "sanitized_sha256": "a25ffd06c2f08cbb42ba8b3894845c909b18739e867a6eb5fc5e96f840cd1726",
+    "viewBox": [
+      35,
+      180.0004119873047,
+      443,
+      152.9995880126953
+    ]
+  },
+  {
+    "id": "bmw",
+    "name": "BMW",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/BMW Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "5c2aed66d535b88a32e7810beb3853182a54607b932e62bb6d914cb92d6da27f",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "outer roundel rim",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      },
+      {
+        "id": "1",
+        "construction": "lettering ring",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      },
+      {
+        "id": "2",
+        "construction": "quadrant regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Roundel, rim and distinct quadrant regions",
+    "asset": "/automotive-logos/bmw.svg",
+    "sanitized_sha256": "4ac626a67932b445a23eaf68e1a686086c00212b82df5a2f4aedfcf8315e50b1",
+    "viewBox": [
+      78,
+      78,
+      356,
+      356
+    ]
+  },
+  {
+    "id": "ford",
+    "name": "Ford",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Ford Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "92e999c0c8ae2d546d57991a32c5e76015a06a6871352e12ecd97474702df15a",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/ford.svg",
+    "sanitized_sha256": "3d8ec6ee4c2028e5f5d45a828af8db2e30980af6572dc6475230e11dc91d53b0",
+    "viewBox": [
+      28,
+      174,
+      456,
+      164.12100219726562
+    ]
+  },
+  {
+    "id": "honda",
+    "name": "Honda",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Honda Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "69998048b786eaeadcd4aaf28171b2eef12900127926ebcfd3cbbdc21079612c",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "H emblem",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      },
+      {
+        "id": "1",
+        "construction": "perimeter frame",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "H emblem with selected edge bevels",
+    "asset": "/automotive-logos/honda.svg",
+    "sanitized_sha256": "b2f33e07ad38b6e9b87920f674c35e27bec5790fd2fc9ee8588f8e55905520b5",
+    "viewBox": [
+      78.00003051757812,
+      111,
+      355.9999694824219,
+      289.1400146484375
+    ]
+  },
+  {
+    "id": "hyundai",
+    "name": "Hyundai",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Hyundai Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "c11bc19c8343cf7b4fcec26ff455b893e4aff6333afde9e0fc2703cadfd3c9de",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/hyundai.svg",
+    "sanitized_sha256": "b7cc633307705a4c0a1c273d5cb64998706285a1ce68d247058e1257b6d46bb2",
+    "viewBox": [
+      56,
+      154.08299255371094,
+      400,
+      204.83399963378906
+    ]
+  },
+  {
+    "id": "isuzu",
+    "name": "Isuzu",
+    "source_url": "https://github.com/vehiclespecs/brand-logos/blob/3f0929e70e0a9a2a502063edc4b3e5c0146cba74/isuzu-logo.svg",
+    "version_tree_sha": "3f0929e70e0a9a2a502063edc4b3e5c0146cba74",
+    "original_sha256": "67140058dfbb66b2224e37a117659dd9b9a143fe0e812670687cff158a90fa93",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/isuzu.svg",
+    "sanitized_sha256": "7d29c57b2fe5b66601709c8b09974eca9a74b69824a7065d1c2b75efcd114f0e",
+    "viewBox": [
+      248.46990966796875,
+      838.5933837890625,
+      1663.130615234375,
+      483.265869140625
+    ]
+  },
+  {
+    "id": "kia",
+    "name": "KIA",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Kia Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "fd54cd6dc4ba0438227d965dd599ae66efefee1d22f63a0c289ed60923115b15",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/kia.svg",
+    "sanitized_sha256": "199e9853b6a19e6cd431ebb63b7360addce7593ba9216487e1d88c008958cf36",
+    "viewBox": [
+      58,
+      210,
+      397,
+      93
+    ]
+  },
+  {
+    "id": "lexus",
+    "name": "Lexus",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Lexus Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "82f5afaf1e8c9cc160d63f017b0b472d94524a0049ca582a9f77ba298d0fc50f",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/lexus.svg",
+    "sanitized_sha256": "baa4ec0026d4970428d9c66a7431ad18d59104c80b87d04ab64eaa58d7b9a5ce",
+    "viewBox": [
+      50,
+      105.16200256347656,
+      412,
+      301.676025390625
+    ]
+  },
+  {
+    "id": "mazda",
+    "name": "Mazda",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Mazda Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "22c878527ccb58e2f3dc81293af4c0c254cfba2a30daa4689acd2b83c86e42a8",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/mazda.svg",
+    "sanitized_sha256": "01f4efeda137f60629516b70edbff35d887ca75d968abbaeb85e0ef54330a6ae",
+    "viewBox": [
+      95,
+      127,
+      322.64898681640625,
+      257.83599853515625
+    ]
+  },
+  {
+    "id": "mercedes",
+    "name": "Mercedes-Benz",
+    "source_url": "Customer-approved Mercedes CAD provider (local)",
+    "version_tree_sha": "local-approved-provider",
+    "original_sha256": "fb91ffc435a476cc20a61e677a8aa30af28e2dedb5bc4e09adcca423fd9f423f",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "cad-validated",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "circular crown",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "validated-reference"
+      },
+      {
+        "id": "1",
+        "construction": "three-pointed star ridges",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "validated-reference"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": 0.72,
+      "ring_crown_height_mm": 0.6,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Existing validated crowned ring/star provider; unchanged",
+    "asset": "/automotive-logos/mercedes.svg",
+    "sanitized_sha256": "a4ec73a7ae5f5c57126aff364c262baa8143e08f11131395caefe724a7ffcced",
+    "viewBox": [
+      -7.5,
+      -7.5,
+      15,
+      15
+    ]
+  },
+  {
+    "id": "mitsubishi",
+    "name": "Mitsubishi",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Mitsubishi Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "27bd180f4d0f727354ac600c1a96f19c67450cc43462dc9e07ed44ccaa36979f",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "three diamond facets",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Three diamond facets",
+    "asset": "/automotive-logos/mitsubishi.svg",
+    "sanitized_sha256": "dbca610a28ee1122b12173507aef6e2f6f10f5637d4f973d488888d20be0af45",
+    "viewBox": [
+      78,
+      107.81800079345703,
+      356,
+      296.364013671875
+    ]
+  },
+  {
+    "id": "nissan",
+    "name": "Nissan",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Nissan Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "a2ae325fa6f496da8b23550469de45648a93d8c0a17e54fc37f9cc68978b5116",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/nissan.svg",
+    "sanitized_sha256": "071b5708660e5aaf8aad19d6f56fd02db276194322e5a1d3956413a1508acead",
+    "viewBox": [
+      50,
+      84,
+      412.0010070800781,
+      345
+    ]
+  },
+  {
+    "id": "subaru",
+    "name": "Subaru",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Subaru Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "96f2ba19d519ce0db9a3ae44041a5e20eb026b54487f0839a4415cacd1540728",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/subaru.svg",
+    "sanitized_sha256": "2df3089b5fa18f8ae9ff62b239892082f4e633a38adb40ffa88ca45c8cf5ed15",
+    "viewBox": [
+      78,
+      152.8159942626953,
+      356,
+      207.3670196533203
+    ]
+  },
+  {
+    "id": "suzuki",
+    "name": "Suzuki",
+    "source_url": "https://github.com/vehiclespecs/brand-logos/blob/3f0929e70e0a9a2a502063edc4b3e5c0146cba74/suzuki-logo.svg",
+    "version_tree_sha": "3f0929e70e0a9a2a502063edc4b3e5c0146cba74",
+    "original_sha256": "4ef079e6f73300b7ff35d4b6e9a67d0cad46bb5fdc49cdf35889bb1472e9f5be",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/suzuki.svg",
+    "sanitized_sha256": "ba18c746ab78b976ba6bb414f91dee4246b7445ba5e98c737f0a7d925f19740c",
+    "viewBox": [
+      0,
+      0,
+      220.4169921875,
+      220.25599670410156
+    ]
+  },
+  {
+    "id": "toyota",
+    "name": "Toyota",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Toyota Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "e91d68f3afac60b99bc4ee63e0c40fbf1e11f60779da5a612fa161a09b432faa",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "outer oval",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      },
+      {
+        "id": "1",
+        "construction": "interlocking central ovals",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Interlocking ovals with rounded crowns",
+    "asset": "/automotive-logos/toyota.svg",
+    "sanitized_sha256": "e40cc16afc237ae6657f9b17c034fc99d90a32b44730843237fafb82e66fda91",
+    "viewBox": [
+      78,
+      140,
+      356,
+      231.9169921875
+    ]
+  },
+  {
+    "id": "volkswagen",
+    "name": "Volkswagen",
+    "source_url": "https://github.com/cardog-ai/icons/blob/05c4001e83a09a189721a0851546291f71f7e31c/core/optimized/Volkswagen Icon.svg",
+    "version_tree_sha": "05c4001e83a09a189721a0851546291f71f7e31c",
+    "original_sha256": "c80577703c4ab508b561edb653a3e2a3226bd22bfee1345a3886a065c76f10d1",
+    "repository_license": "MIT; code/organization only, not manufacturer authorization",
+    "artwork_license": "unverified per-file grant",
+    "trademark_authorization": "unverified",
+    "commercially_authorized": false,
+    "source_verified": true,
+    "capability": "logo-sourced-cad-pending",
+    "production_ready": false,
+    "minimum_feature_mm": 0.4,
+    "target_box_mm": [
+      15,
+      15
+    ],
+    "feature_regions": [
+      {
+        "id": "0",
+        "construction": "manufacturer-specific emblem regions",
+        "crown_height_mm": null,
+        "bevel_width_mm": null,
+        "mesh_group": "accent",
+        "approval": "pending"
+      }
+    ],
+    "profile_parameters": {
+      "crown_height_mm": null,
+      "ring_crown_height_mm": null,
+      "bevel_width_mm": null
+    },
+    "local_corrections": [],
+    "mesh_grouping": [
+      "body",
+      "accent"
+    ],
+    "validation_required": [
+      "profile fidelity",
+      "minimum width",
+      "watertight",
+      "AMS partition",
+      "clearance",
+      "first article"
+    ],
+    "profile_plan": "Derive profile from an approved physical/reference emblem, not shared extrusion",
+    "asset": "/automotive-logos/volkswagen.svg",
+    "sanitized_sha256": "307130a4e8a528387795fff6a5c088dbce295aabbcb0fde712f8c08f8d02243e",
+    "viewBox": [
+      79.1093978881836,
+      78.66649627685547,
+      354.2055969238281,
+      354.20550537109375
+    ]
+  }
+]
