@@ -1,4 +1,4 @@
-import { filamentColors } from '../../../src/lib/automotive';
+import { filamentColors } from '../../../src/lib/automotive-config';
 function canonical(v: unknown): string { return JSON.stringify(v, (_, x) => x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => a.localeCompare(b))) : x); }
 import JSZip from 'jszip';
 export async function validateModel(bytes: Uint8Array, config?: unknown) {

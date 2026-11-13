@@ -1,4 +1,4 @@
-import { registrationLayout, contrast, filamentColors } from '../../../src/lib/automotive';
+import { registrationLayout, contrast, filamentColors } from '../../../src/lib/automotive-config';
 import { validateModel } from './validate';
 import { businessMail } from './business';
 import { parseOrder, keyTagEmail } from '../keytag-email';
