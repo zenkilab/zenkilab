@@ -6,23 +6,6 @@
     ".gitignore",
     "automotive-logo-catalog/PRODUCTION_RELEASE.md",
     "automotive-logo-catalog/SHARED_SUBMISSION_WORKFLOW.md",
-    "automotive-logo-catalog/reports/fitting/all-16-contact-sheet.png",
-    "automotive-logo-catalog/reports/fitting/bmw-after.png",
-    "automotive-logo-catalog/reports/fitting/contact-audi.png",
-    "automotive-logo-catalog/reports/fitting/contact-bmw.png",
-    "automotive-logo-catalog/reports/fitting/contact-ford.png",
-    "automotive-logo-catalog/reports/fitting/contact-honda.png",
-    "automotive-logo-catalog/reports/fitting/contact-hyundai.png",
-    "automotive-logo-catalog/reports/fitting/contact-isuzu.png",
-    "automotive-logo-catalog/reports/fitting/contact-kia.png",
-    "automotive-logo-catalog/reports/fitting/contact-lexus.png",
-    "automotive-logo-catalog/reports/fitting/contact-mazda.png",
-    "automotive-logo-catalog/reports/fitting/contact-mitsubishi.png",
-    "automotive-logo-catalog/reports/fitting/contact-nissan.png",
-    "automotive-logo-catalog/reports/fitting/contact-subaru.png",
-    "automotive-logo-catalog/reports/fitting/contact-suzuki.png",
-    "automotive-logo-catalog/reports/fitting/contact-toyota.png",
-    "automotive-logo-catalog/reports/fitting/contact-volkswagen.png",
     "automotive-logo-catalog/reports/production-sprint/RELEASE_REPORT.md",
     "automotive-logo-catalog/reports/production-sprint/approved-geometry-baseline.json",
     "automotive-logo-catalog/reports/production-sprint/approved-geometry-preserved.json",
@@ -299,5 +282,6 @@
     "src/components/submission/SubmissionPanel.tsx",
     "src/lib/cad/automotive.ts",
     "src/lib/cad/solid-kernel.ts"
-  ]
+  ],
+  "preExistingWorkingTreeChangesExcluded": true
 }
