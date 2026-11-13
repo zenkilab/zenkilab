@@ -30,7 +30,7 @@ export async function sendOrder(order: StoredOrder, stage: 'quote' | 'confirm', 
     const response = await fetch('/api/hub/keytag-order', { method: 'POST', body: form });
     const receipt = await response.json();
     if (!response.ok)
-        throw Error(receipt.error || 'Submission failed');
+        throw Error((receipt.reference?`Reference ${receipt.reference}: `:'')+(receipt.error || 'Submission failed'));
     if (!receipt.persisted || receipt.state !== 'email_accepted' || !receipt.providerId)
         throw Error((receipt.reference?`Reference ${receipt.reference}: `:'')+(receipt.error||'Server did not confirm storage and provider acceptance'));
     return receipt;

@@ -205,7 +205,11 @@ export async function handle(request: Request, env: Env, legacy = false) {
     catch (e) {
         if (ref && env.SUBMISSIONS_DB)
             await env.SUBMISSIONS_DB.prepare("UPDATE submissions SET state='failed',failure='validation-or-storage',updated=? WHERE ref=? AND state NOT IN ('email_pending','email_accepted')").bind(Date.now(), ref).run().catch(() => { });
-        const capacity=e instanceof Error&&/capacity reached/i.test(e.message);
+        // D1 can wrap a SQLite trigger failure in Error.cause.
+        let cause:unknown=e, capacity=false;
+        for(let depth=0;depth<4&&cause instanceof Error;depth++,cause=cause.cause){
+            if(/capacity reached/i.test(cause.message))capacity=true;
+        }
         const bounds=e instanceof Error&&e.message.startsWith('Free private storage limit');
         return json({ error: capacity?'Private storage is full. No files were accepted. Use the WhatsApp design-review option for manual attachments.':phase === 'validation' ? (e instanceof Error ? e.message : 'Invalid submission') : 'Private storage unavailable; retry with the same reference', reference: ref || undefined, retryable: phase !== 'validation' }, capacity?507:bounds?413:phase === 'validation' ? 400 : 503);
     }
@@ -263,9 +267,10 @@ export async function notify(ref: string, env: Env) {
         await db.prepare("UPDATE submissions SET state='email_accepted',provider_id=?,failure=NULL,updated=? WHERE ref=?").bind(receipt.id, Date.now(), ref).run();
         return json({ reference: ref, state: 'email_accepted', persisted: true, providerId: receipt.id, delivered: false, validation: JSON.parse(row.validation) });
     }
-    catch {
-        await db.prepare("UPDATE submissions SET state='failed',failure='notification',lease=0,updated=? WHERE ref=?").bind(Date.now(), ref).run();
-        return json({ reference: ref, state: 'failed', persisted: true, error: 'Saved privately, but notification failed. Retry with the same reference.', retryable: true }, 502);
+    catch (error) {
+        const budget=error instanceof Error&&error.message==='Free notification budget exhausted';
+        await db.prepare("UPDATE submissions SET state='failed',failure=?,lease=0,updated=? WHERE ref=?").bind(budget?'free-email-budget':'notification',Date.now(), ref).run();
+        return json({ reference: ref, state: 'failed', persisted: true, error: budget?'Saved privately. Email is paused at the free notification limit; retry later with the same reference.':'Saved privately, but notification failed. Retry with the same reference.', retryable: true }, budget?429:502);
     }
 }
 export const readiness=async(env:Env)=>{
