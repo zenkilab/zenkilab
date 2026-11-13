@@ -1,3 +1,5 @@
+> Current storage policy: D1 BLOB default, no R2 activation or paid services. See [D1_STORAGE.md](D1_STORAGE.md) for current limits, setup, remote evidence and release gates.
+
 # Shared keytag submissions — implementation and release gate
 
 ## Architecture
@@ -26,7 +28,7 @@ Bambu Studio 02.09.01.70 completed 14 offline P2S 0.4 mm PETG slices at 0.16/0.1
 
 D1 rows persist received → validated → stored → email_pending → email_accepted. Failure is retained as failed; stale attempts use a short lease. Repeated identical reference/payload/file digests return the original receipt; conflicts are rejected. Provider calls use a stable stage-specific Resend Idempotency-Key and exactly the same attachments on retry. No fallback drops the preview. After 23 hours, uncertain sends require operator attention instead of risking duplicate mail beyond the provider's idempotency window.
 
-Artifacts are recorded in metadata before R2 writes so partial writes remain discoverable for cleanup. Only after every required object is stored does notification run. R2 reads are hash checked before attaching. D1 provider receipt stores Resend ID. `delivered:false` is intentional: no signed delivery webhook is configured, so provider acceptance is never called inbox delivery.
+D1 metadata, file chunks and stored state commit in one transaction. The optional legacy R2 adapter records metadata before writes so partial writes remain discoverable; it is not authorized under the current $0 policy. Only complete stored packages enter notification. Private file reads are hash checked before attaching. D1 provider receipt stores Resend ID. `delivered:false` is intentional: no signed delivery webhook is configured, so provider acceptance is never called inbox delivery.
 
 Customer retry reuses the package/reference. An operator can POST `{ "reference": "..." }` to `/api/submissions/retry` with `Authorization: Bearer <SUBMISSIONS_ADMIN_TOKEN>`; it uses private stored artifacts and never needs the customer's browser. Never log the token or put it in URLs. It is not exposed to the client.
 
@@ -34,30 +36,11 @@ POST `/api/submissions/cleanup` with the same admin header removes expired objec
 
 Rate limiting hashes Cloudflare's connecting IP into 15-minute buckets and allows five new submissions per bucket. Existing-reference retries do not create new email attempts concurrently. This is a basic application control, not a substitute for Cloudflare WAF/bot controls. Origin and exact allowed-host checks restrict the preview branch. Byte limits and enum/contact validation apply before persistence. No arbitrary SVG/upload execution is supported.
 
-## Provisioning status and exact preview setup
+## Current provisioning (D1-only)
 
-Cloudflare OAuth login is valid, including D1/Pages write scopes. The initial D1 listing was empty; this sprint created and migrated isolated preview and unbound production databases. Real preview D1 write/read/delete tests pass. R2 listing returned API code 10042: **enable R2 through the Dashboard**. No billing activation or paid-plan change was made. Remote R2 persistence and complete remote submission recovery remain unverified. The preview Resend secret is still missing at the latest readiness check. Neither product silently falls back to browser storage; the live APIs return 503 until configured.
+Both existing isolated D1 databases have the additive private-file migration. Preview is bound and uses transactional D1 BLOB storage by default. Production remains unbound. No R2 service is required or activated. Do not follow historical R2 activation recommendations under the current $0/no-payment-method policy.
 
-1. Owner: Cloudflare Dashboard → R2 Object Storage → enable R2 after reviewing billing. Do not enable a public bucket/r2.dev endpoint. Confirm account plan/quota before accepting usage.
-2. Current databases are already provisioned; use PRODUCTION_RELEASE.md for their IDs. For a fresh installation only, create isolated resources, for example:
-   - `npx wrangler d1 create zenkilab-submissions-preview-ak`
-   - `npx wrangler r2 bucket create zenkilab-submissions-preview-ak`
-   - `npx wrangler d1 execute zenkilab-submissions-preview-ak --remote --file migrations/0001_submissions.sql`
-3. Workers & Pages → `zenkilab` → Settings → Bindings, select **Preview**:
-   - `SUBMISSIONS_DB`: that isolated D1 database.
-   - `SUBMISSIONS_FILES`: that private R2 bucket.
-4. Preview Variables and Secrets:
-   - `RESEND_API_KEY`: existing authorized provider key, entered as a secret, never committed/pasted into chat.
-   - `SUBMISSIONS_ADMIN_TOKEN`: fresh strong random admin secret, not shared with customer/browser code.
-   - `SUBMISSION_NAMESPACE`: `preview/feature-automotive-keytags-logo-catalog`.
-   - `SUBMISSION_ALLOWED_HOSTS`: `feature-automotive-keytags-l.zenkilab.pages.dev`.
-   - `SUBMISSION_RETENTION_DAYS`: `30`.
-The migration also seeds a single-row database namespace guard. The API, operator retry and cleanup refuse a database whose guard does not equal SUBMISSION_NAMESPACE, preventing an accidentally bound production/other-branch database from being used. Production needs its own explicitly seeded namespace; never overwrite a production guard for a preview.
-
-5. Redeploy the feature preview. GET `/api/submissions` must report ready true. Other preview branch hosts are intentionally rejected by the allowlist. Pages preview bindings may be shared across branches: use these feature-only resources, allowlist and namespace, never production data. Trusted deploy access is still required; for untrusted preview branches use a separate project instead of exposing shared secrets.
-6. Schedule authenticated cleanup; test synthetic submissions and operator retry before launch. Configure production resources/secrets separately only during a separately authorized production release.
-
-D1 and R2 have free included usage but are not an unlimited/no-cost guarantee. Published pricing: https://developers.cloudflare.com/d1/platform/pricing/ and https://developers.cloudflare.com/r2/pricing/ . No account-specific spending limit or subscription upgrade is assumed. Model sizes, retained count and query/object operations determine cost; set Cloudflare usage alerts and keep the retention job running.
+Remote D1 file persistence, complete reconstruction/checksums, private retrieval, atomic rollback, quotas and retention now pass. Missing Resend keeps stored packages pending with explicit HTTP 202 and no success/delivery claim. Preview needs the existing RESEND_API_KEY; the QA admin secret is already configured securely. The authorized token cannot inspect billing (403); the owner must confirm Workers Free and Resend Free/overages disabled before release. Exact resources, dashboard instructions and limits are in D1_STORAGE.md.
 
 ## Migration / rollback
 
@@ -69,7 +52,7 @@ The SQL migration is additive and isolated. Apply it first to the preview databa
 
 `source/submission-qa-server.cjs` serves the actual exported UI and shared Function over HTTP with those local adapters. `source/check-submission-browser.cjs` verifies mobile Mercedes preparation/submission, CAD-pending inquiry and the existing general keytag browser exporter/submission. The provider is mocked; these checks do not prove a real inbox received mail.
 
-Release gates still open: enabling/configuring private R2, preview Resend secret and account limits, exercising full remote persistence/recovery, measuring configured Cloudflare CPU/memory limits for archive/mesh inspection, and an explicitly scheduled synthetic live email with provider receipt plus delivery evidence. The prior single-email authorization is unused. This implementation is not claimed production-ready until those checks pass. No real customer messages, orders or printing were triggered.
+Release gates still open: confirming zero-cost account plans, preview Resend configuration and actual delivery, measuring configured Cloudflare CPU/memory limits for archive/mesh inspection, and an explicitly scheduled synthetic live email with provider receipt plus delivery evidence. The prior single-email authorization is unused. This implementation is not claimed production-ready until those checks pass. No real customer messages, orders or printing were triggered.
 
 Cloudflare deployment regression: server validation now imports only pure typeface measurements and color configuration. Three.js stays in the browser CAD/preview path. The font parity regression covers 43 registration samples against the existing FontLoader output; this avoids Worker startup failures from browser-only rendering globals.
 

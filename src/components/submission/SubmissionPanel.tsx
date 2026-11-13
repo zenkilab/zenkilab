@@ -36,6 +36,7 @@ export default function SubmissionPanel({ config, preview, enabled }: {
     const [name, setName] = useState(''), [phone, setPhone] = useState(''), [review, setReview] = useState(false), [busy, setBusy] = useState(false), [status, setStatus] = useState(''), [error, setError] = useState('');
     const reference = useRef('AK-' + crypto.randomUUID().toUpperCase());
     const [accepted, setAccepted] = useState(false);
+    const [persisted,setPersisted]=useState(false);
     const [copied, setCopied] = useState(false);
     const [packageData, setPackage] = useState<{
         preview: Blob;
@@ -69,6 +70,7 @@ export default function SubmissionPanel({ config, preview, enabled }: {
             form.append('stl', packageData.stl, 'model.stl');
         const r = await fetch('/api/submissions', { method: 'POST', body: form });
         const result = await r.json();
+        if(result.persisted&&result.reference)setPersisted(true);
         if (!r.ok)
             throw Error((result.reference ? `Reference ${result.reference}: ` : '') + (result.error || 'Submission failed'));
         if (!result.persisted || result.state !== 'email_accepted' || !result.providerId)
@@ -83,5 +85,5 @@ export default function SubmissionPanel({ config, preview, enabled }: {
     finally {
         setBusy(false);
     } }
-    return <section aria-label="Submit design" style={{ marginTop: 24, borderTop: '1px solid #414a57', paddingTop: 20 }}><h3>Send your design to Zenki Lab</h3><label htmlFor="submission-name">Your name</label><input id="submission-name" autoComplete="name" maxLength={80} disabled={accepted} value={name} onChange={e => setName(e.target.value)}/><label htmlFor="submission-phone">WhatsApp / phone</label><input id="submission-phone" autoComplete="tel" type="tel" maxLength={30} disabled={accepted} value={phone} onChange={e => setPhone(e.target.value)}/><button disabled={busy || !enabled || accepted} onClick={prepare}>Prepare package for review</button>{packageData && <><label><input type="checkbox" checked={review} onChange={e => setReview(e.target.checked)} style={{ width: 'auto' }}/> I reviewed the preview and choices; final manufacturing approval is required.</label><button disabled={busy || accepted || !review || name.trim().length < 2 || phone.replace(/\D/g, '').length < 9} onClick={submit}>Submit design package</button></>}<p role="status">{status}</p>{accepted && <button onClick={async()=>{try{await navigator.clipboard.writeText(reference.current);setCopied(true)}catch{setError(`Copy this reference: ${reference.current}`)}}}>{copied?'Reference Copied':'Copy Reference'}</button>}{error && <p role="alert">{error}</p>}<small>No print authorization or checkout. Retry retains your package; no delivery claim without confirmation.</small></section>;
+    return <section aria-label="Submit design" style={{ marginTop: 24, borderTop: '1px solid #414a57', paddingTop: 20 }}><h3>Send your design to Zenki Lab</h3><label htmlFor="submission-name">Your name</label><input id="submission-name" autoComplete="name" maxLength={80} disabled={accepted} value={name} onChange={e => setName(e.target.value)}/><label htmlFor="submission-phone">WhatsApp / phone</label><input id="submission-phone" autoComplete="tel" type="tel" maxLength={30} disabled={accepted} value={phone} onChange={e => setPhone(e.target.value)}/><button disabled={busy || !enabled || accepted} onClick={prepare}>Prepare package for review</button>{packageData && <><label><input type="checkbox" checked={review} onChange={e => setReview(e.target.checked)} style={{ width: 'auto' }}/> I reviewed the preview and choices; final manufacturing approval is required.</label><button disabled={busy || accepted || !review || name.trim().length < 2 || phone.replace(/\D/g, '').length < 9} onClick={submit}>Submit design package</button></>}<p role="status">{status}</p>{persisted && <button onClick={async()=>{try{await navigator.clipboard.writeText(reference.current);setCopied(true)}catch{setError(`Copy this reference: ${reference.current}`)}}}>{copied?'Reference Copied':'Copy Reference'}</button>}{error && <p role="alert">{error}</p>}<small>No print authorization or checkout. Retry retains your package; no delivery claim without confirmation.</small></section>;
 }

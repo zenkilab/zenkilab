@@ -78,6 +78,7 @@ export async function handle(request: Request, env: Env, legacy = false) {
             if(!daily.meta.changes)return json({error:'Daily free submission capacity reached. Use the WhatsApp design-review option.'},429);
         }
         const f = await limited(request);
+        for(const [name,value] of f){if(value instanceof File&&(!['preview','model','stl'].includes(name)||f.getAll(name).length!==1))throw Error('Unsupported or duplicate attachment. No files were accepted.');}
         const raw = String(f.get(legacy ? 'order' : 'submission') || '');
         if (raw.length > 20000)
             throw Error('Configuration too large');
