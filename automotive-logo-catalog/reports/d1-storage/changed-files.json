@@ -1,5 +1,6 @@
 {
   "branch": "feature/automotive-keytags-logo-catalog",
+  "excluded": "Pre-existing user modifications and unrelated untracked files were not staged.",
   "files": [
     "automotive-logo-catalog/D1_STORAGE.md",
     "automotive-logo-catalog/PRODUCTION_RELEASE.md",
@@ -11,6 +12,8 @@
     "automotive-logo-catalog/reports/d1-storage/changed-files.json",
     "automotive-logo-catalog/reports/d1-storage/independent-cad.json",
     "automotive-logo-catalog/reports/d1-storage/legacy-adapter-local.json",
+    "automotive-logo-catalog/reports/d1-storage/live-mercedes-prepared.png",
+    "automotive-logo-catalog/reports/d1-storage/live.json",
     "automotive-logo-catalog/reports/d1-storage/local-validation-profile.json",
     "automotive-logo-catalog/reports/d1-storage/local.json",
     "automotive-logo-catalog/reports/d1-storage/regression-summary.json",
@@ -171,6 +174,5 @@
     "src/lib/keytag-submit.ts",
     "src/lib/submission-response.ts"
   ],
-  "baseline": "f6d12694aa026bf4ec1f852974af4f87ce9177ec",
-  "excluded": "Pre-existing user modifications and unrelated untracked files were not staged."
+  "baseline": "f6d12694aa026bf4ec1f852974af4f87ce9177ec"
 }
