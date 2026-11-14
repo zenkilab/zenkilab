@@ -26,9 +26,9 @@ function Controls({view,revision,reduced}:{view:View;revision:number;reduced:boo
  const controls=useRef<OrbitControlsImpl>(null),{camera,size,invalidate}=useThree();
  const fit=Math.max(28,58/(size.width/size.height))/2/Math.tan(THREE.MathUtils.degToRad(16))*1.22;
  useLayoutEffect(()=>{
-  const direction=view==='front'?[0,0,1]:view==='back'?[0,0,-1]:view==='side'?[1,0,0]:[.32,-.38,1];
+  const direction=view==='front'?[0,0,1]:view==='back'?[0,0,-1]:view==='side'?[0,-1,0]:[.32,-.38,1];
   camera.position.copy(new THREE.Vector3(...direction).normalize().multiplyScalar(fit));
-  camera.up.set(0,1,0);camera.lookAt(0,0,0);camera.updateProjectionMatrix();
+  camera.up.set(0,view==='side'?0:1,view==='side'?1:0);camera.lookAt(0,0,0);camera.updateProjectionMatrix();
   controls.current?.target.set(0,0,0);controls.current?.update();invalidate();
  },[camera,fit,view,revision,invalidate]);
  return <OrbitControls key={`${view}-${revision}`} ref={controls} makeDefault enablePan={false} minDistance={fit*.6} maxDistance={fit*2.8} enableDamping={!reduced} dampingFactor={.12}/>;

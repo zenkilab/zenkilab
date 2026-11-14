@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "url": "http://127.0.0.1:8773",
+  "rows": [
+    {
+      "width": 390,
+      "mouseRotation": true,
+      "wheelZoom": true,
+      "touchAndPinch": true,
+      "colorWithoutRegeneration": true,
+      "presets": true,
+      "combinations": 8,
+      "reducedMotionStable": true,
+      "brandSwitchCleanup": true,
+      "contextLossHandled": false,
+      "wasmRequests": 1,
+      "errors": []
+    }
+  ],
+  "realEmailSent": false,
+  "validSubmissionSent": false
+}
