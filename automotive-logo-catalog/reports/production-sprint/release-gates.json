@@ -51,7 +51,7 @@
     {
       "gate": "G8",
       "result": "PASS",
-      "evidence": "1280 deployed fitting cases, 16 brands, both shapes, all borders, two registrations/colors and widths 320/390/768/1024/1440 pass; browser recovery checks pass."
+      "evidence": "Interactive Mercedes viewer passes all five widths and 40 shape/border cases, touch/pinch, camera/color reuse, reduced motion and cleanup; 1200 live fitting cases pass for the 15 conceptual SVG brands. See reports/viewer/README.md. Existing CPU/email/production gates remain open."
     },
     {
       "gate": "G9",
@@ -74,5 +74,6 @@
     "Split expensive validation/large-file processing into bounded Free-compatible work, or demonstrate an equivalent solution without weakening validation, new paid infrastructure or silently omitting CAD. Repeat all full-size remote gates.",
     "Complete production binding, isolated admin/recovery, retention, backup and compatible rollback verification only after preceding gates pass."
   ],
-  "supersededBy": "../d1-storage/release-gates.json"
+  "supersededBy": "../d1-storage/release-gates.json",
+  "viewerEvidence": "automotive-logo-catalog/reports/viewer/README.md"
 }

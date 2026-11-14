@@ -1,0 +1,66 @@
+{
+  "verifiedAt": "2026-11-14T07:06:52.787Z",
+  "codeCommit": "8f701447df386d31468d1b7e0635c915fdf02b7a",
+  "url": "https://feature-automotive-keytags-l.zenkilab.pages.dev/preview/automotive-keytags/zgK-bGNzkybwN8aPd8e_26sDpxL0GRCX",
+  "publiclyAccessible": true,
+  "viewports": [
+    {
+      "width": 320,
+      "http": 200,
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "http": 200,
+      "noOverflow": true
+    },
+    {
+      "width": 768,
+      "http": 200,
+      "noOverflow": true
+    },
+    {
+      "width": 1024,
+      "http": 200,
+      "noOverflow": true
+    },
+    {
+      "width": 1440,
+      "http": 200,
+      "noOverflow": true
+    }
+  ],
+  "mercedesNewRegistrationClientGeneration": true,
+  "pendingBrandInquiryPreparation": true,
+  "existingCustomKeytagLoaded": true,
+  "clientCadPreparationMs": 1961,
+  "privateArtifactWithoutToken": 401,
+  "backend": {
+    "status": 200,
+    "body": {
+      "ready": false,
+      "storageReady": true,
+      "notificationReady": false,
+      "privateAccessReady": true,
+      "storageBackend": "d1",
+      "missing": [
+        "RESEND_API_KEY"
+      ],
+      "deliveryConfirmed": false,
+      "maxFileBytes": 3145728,
+      "maxPackageBytes": 4194304
+    }
+  },
+  "legacyInvalidForm": {
+    "status": 400,
+    "body": {
+      "error": "Invalid stage",
+      "retryable": false
+    }
+  },
+  "browserErrors": [],
+  "validLiveSubmissionSent": false,
+  "realEmailSent": false,
+  "remotePersistenceVerified": false,
+  "deliveryVerified": false
+}

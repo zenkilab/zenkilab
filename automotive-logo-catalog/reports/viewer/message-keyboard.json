@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "url": "http://127.0.0.1:8773",
+  "unbuiltModelInquiryHonest": true,
+  "generatedModelMessageAfterReady": true,
+  "keyboardViews": [
+    "back",
+    "front",
+    "side",
+    "reset"
+  ],
+  "noGeometryRegeneration": true,
+  "errors": [],
+  "realEmailSent": false
+}

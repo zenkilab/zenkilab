@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "url": "https://feature-automotive-keytags-l.zenkilab.pages.dev",
+  "commit": "f1dacf484cacd086b50649473d02671afb7b8c7d",
+  "rows": [
+    {
+      "width": 320,
+      "mouseRotation": true,
+      "wheelZoom": true,
+      "touchAndPinch": true,
+      "colorWithoutRegeneration": true,
+      "presets": true,
+      "combinations": 8,
+      "reducedMotionStable": true,
+      "brandSwitchCleanup": true,
+      "contextLossHandled": true,
+      "wasmRequests": 1,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mouseRotation": true,
+      "wheelZoom": true,
+      "touchAndPinch": true,
+      "colorWithoutRegeneration": true,
+      "presets": true,
+      "combinations": 8,
+      "reducedMotionStable": true,
+      "brandSwitchCleanup": true,
+      "contextLossHandled": false,
+      "wasmRequests": 1,
+      "errors": []
+    },
+    {
+      "width": 768,
+      "mouseRotation": true,
+      "wheelZoom": true,
+      "touchAndPinch": false,
+      "colorWithoutRegeneration": true,
+      "presets": true,
+      "combinations": 8,
+      "reducedMotionStable": true,
+      "brandSwitchCleanup": true,
+      "contextLossHandled": false,
+      "wasmRequests": 1,
+      "errors": []
+    },
+    {
+      "width": 1024,
+      "mouseRotation": true,
+      "wheelZoom": true,
+      "touchAndPinch": false,
+      "colorWithoutRegeneration": true,
+      "presets": true,
+      "combinations": 8,
+      "reducedMotionStable": true,
+      "brandSwitchCleanup": true,
+      "contextLossHandled": false,
+      "wasmRequests": 1,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "mouseRotation": true,
+      "wheelZoom": true,
+      "touchAndPinch": false,
+      "colorWithoutRegeneration": true,
+      "presets": true,
+      "combinations": 8,
+      "reducedMotionStable": true,
+      "brandSwitchCleanup": true,
+      "contextLossHandled": false,
+      "wasmRequests": 1,
+      "errors": []
+    }
+  ],
+  "realEmailSent": false,
+  "validSubmissionSent": false
+}
