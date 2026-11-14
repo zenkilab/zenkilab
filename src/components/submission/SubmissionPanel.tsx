@@ -1,9 +1,10 @@
 "use client";
 import { useState, useRef, type RefObject } from 'react';
-import { generateAutomotive, type AutomotiveConfig } from '@/lib/cad/automotive';
+import type { AutomotiveConfig } from '@/lib/cad/automotive';
 import { readSubmissionReceipt } from '@/lib/submission-response';
 async function capture(element: HTMLElement | null) { if (!element)
-    throw Error('Preview unavailable'); const existing = element.querySelector('canvas'); if (existing)
+    throw Error('Preview unavailable'); const existing = element.querySelector('canvas'); if (existing?.dataset.contextLost==='true')
+    throw Error('The 3D display is unavailable. Your selections are retained. Reload to restore it or use WhatsApp for design review.'); if (existing)
     return new Promise<Blob>((resolve, reject) => existing.toBlob(b => b ? resolve(b) : reject(Error('Preview unavailable')), 'image/jpeg', .9)); const source = element.querySelector('svg'); if (!source)
     throw Error('Preview unavailable'); const svg = source.cloneNode(true) as SVGElement; for (const object of svg.querySelectorAll('foreignObject')) {
     const art = object.querySelector('svg');
@@ -29,9 +30,10 @@ async function capture(element: HTMLElement | null) { if (!element)
 finally {
     URL.revokeObjectURL(url);
 } }
-export default function SubmissionPanel({ config, preview, enabled }: {
+export default function SubmissionPanel({ config, preview, enabled, prepareCad }: {
     config: AutomotiveConfig;
-    preview: RefObject<HTMLButtonElement | null>;
+    preview: RefObject<HTMLElement | null>;
+    prepareCad: () => Promise<{model:Blob;stl:Blob}|null>;
     enabled: boolean;
 }) {
     const [name, setName] = useState(''), [phone, setPhone] = useState(''), [review, setReview] = useState(false), [busy, setBusy] = useState(false), [status, setStatus] = useState(''), [error, setError] = useState('');
@@ -46,7 +48,7 @@ export default function SubmissionPanel({ config, preview, enabled }: {
     } | null>(null);
     async function prepare() { setBusy(true); setError(''); try {
         setStatus('Preparing actual geometry and preview…');
-        const cad = await generateAutomotive(config);
+        const cad = await prepareCad();
         const image = await capture(preview.current);
         setPackage({ preview: image, ...(cad ? { model: cad.model, stl: cad.stl } : {}) });
         setStatus(cad ? 'Client CAD generated. Structural server checks and manufacturing review still required.' : 'Inquiry package prepared. No production CAD generated for this brand.');

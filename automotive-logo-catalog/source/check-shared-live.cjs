@@ -9,7 +9,7 @@ const base=process.env.PREVIEW_URL||'https://feature-automotive-keytags-l.zenkil
   await p.getByRole('button',{name:'Prepare package for review'}).waitFor();assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   viewports.push({width,http:200,noOverflow:true});
  }
- await p.setViewportSize({width:390,height:1000});await p.getByLabel('Registration',{exact:true}).fill('NEW 1234');
+ await p.setViewportSize({width:390,height:1000});await p.getByRole('region',{name:'Design comparison'}).scrollIntoViewIfNeeded();await p.locator('[data-cad-key]').waitFor();await p.getByLabel('Registration',{exact:true}).fill('NEW 1234');
  const cadStart=Date.now();await p.getByRole('button',{name:'Prepare package for review'}).click();await p.getByText('Client CAD generated.',{exact:false}).waitFor();
  const clientCadPreparationMs=Date.now()-cadStart;await p.screenshot({path:reportDir+'/live-mercedes-prepared.png',fullPage:true});
  await p.getByLabel('Vehicle brand',{exact:true}).selectOption('toyota');await p.getByRole('button',{name:'Prepare package for review'}).click();

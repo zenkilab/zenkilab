@@ -23,7 +23,7 @@ export interface AutomotiveConfig {
 const font = new FontLoader().parse(fontData as unknown as Parameters<FontLoader["parse"]>[0]);
 function outline(radius: number, inset = 0) { const w = 58 - 2 * inset, h = 28 - 2 * inset, r = radius - inset; const s = new THREE.Shape(); s.moveTo(-w / 2 + r, -h / 2); s.lineTo(w / 2 - r, -h / 2); s.absarc(w / 2 - r, -h / 2 + r, r, -Math.PI / 2, 0, false); s.lineTo(w / 2, h / 2 - r); s.absarc(w / 2 - r, h / 2 - r, r, 0, Math.PI / 2, false); s.lineTo(-w / 2 + r, h / 2); s.absarc(-w / 2 + r, h / 2 - r, r, Math.PI / 2, Math.PI, false); s.lineTo(-w / 2, -h / 2 + r); s.absarc(-w / 2 + r, -h / 2 + r, r, Math.PI, 1.5 * Math.PI, false); return s; }
 /** True solid construction; concatenating closed layers leaves internal faces. */
-export async function generateAutomotive(c: AutomotiveConfig) {
+export async function buildAutomotiveGeometry(c: AutomotiveConfig) {
     if (c.brand !== "mercedes") return null;
     if (!registrationLayout(c.registration).valid) throw Error('Invalid registration');
     const kernel = await solidKernel();
@@ -99,13 +99,45 @@ export async function generateAutomotive(c: AutomotiveConfig) {
             const mesh=new THREE.Mesh(geometry(solid),new THREE.MeshStandardMaterial({color:color.hex}));
             mesh.name=name;group.add(mesh);
         }
+        return {group,completeGeometry:geometry(complete),status:'client-generated Boolean solids; manufacturing review required',
+          solidChecks:{kernel:'Manifold 3.5.5',bodyVolume:body.volume(),accentVolume:accent.volume(),completeVolume:complete.volume(),materialOverlapVolume:overlap}};
+    } finally { for(const item of owned.reverse())item.delete(); }
+}
+
+export type AutomotiveGeometry = NonNullable<Awaited<ReturnType<typeof buildAutomotiveGeometry>>>;
+export function disposeAutomotiveGroup(group: THREE.Group) {
+    for (const mesh of group.children as THREE.Mesh<THREE.BufferGeometry,THREE.Material>[]) {
+        mesh.geometry.dispose(); mesh.material.dispose();
+    }
+    group.clear();
+}
+export function disposeAutomotiveGeometry(built: AutomotiveGeometry) {
+    disposeAutomotiveGroup(built.group); built.completeGeometry.dispose();
+}
+/** Snapshot the exact displayed solids before any async work; callers own the returned group. */
+export async function exportAutomotiveGeometry(built: AutomotiveGeometry, c: AutomotiveConfig) {
+    const group = new THREE.Group();
+    for(const [i,source] of (built.group.children as THREE.Mesh<THREE.BufferGeometry>[]).entries()) {
+        const color=filamentColors.find(v=>v.id===(i===0?c.body:c.accent));
+        if(!color)throw Error('Unknown color');
+        const mesh=new THREE.Mesh(source.geometry.clone(),new THREE.MeshStandardMaterial({color:color.hex}));
+        mesh.name=source.name; group.add(mesh);
+    }
+    try {
+        const complete=built.completeGeometry.clone();
+        let stl: DataView;
+        try { stl=new STLExporter().parse(new THREE.Mesh(complete),{binary:true}); }
+        finally { complete.dispose(); }
         const three=await exportTo3MF(group,{filament:'Generic PETG',printer_name:'Bambu Lab P2S',printerSettingsId:'Bambu Lab P2S 0.4 nozzle',printSettingsId:'0.16mm High Quality @BBL P2S'});
         const zip=await JSZip.loadAsync(await three.arrayBuffer());
         zip.file('Metadata/zenki-config.json',JSON.stringify(c));
         const model=await zip.generateAsync({type:'blob',compression:'DEFLATE',mimeType:'model/3mf'});
-        const stlMesh=new THREE.Mesh(geometry(complete));
-        const stl=new STLExporter().parse(stlMesh,{binary:true});stlMesh.geometry.dispose();
-        return {model,stl:new Blob([new Uint8Array(stl.buffer as ArrayBuffer)],{type:'model/stl'}),status:'client-generated Boolean solids; manufacturing review required',group,
-          solidChecks:{kernel:'Manifold 3.5.5',bodyVolume:body.volume(),accentVolume:accent.volume(),completeVolume:complete.volume(),materialOverlapVolume:overlap}};
-    } finally { for(const item of owned.reverse())item.delete(); }
+        return {model,stl:new Blob([new Uint8Array(stl.buffer as ArrayBuffer)],{type:'model/stl'}),status:built.status,group,solidChecks:built.solidChecks};
+    } catch(error) { disposeAutomotiveGroup(group); throw error; }
+}
+export async function generateAutomotive(c: AutomotiveConfig) {
+    const built=await buildAutomotiveGeometry(c);
+    if(!built)return null;
+    try { return await exportAutomotiveGeometry(built,c); }
+    finally { disposeAutomotiveGeometry(built); }
 }
